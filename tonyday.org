@@ -1,0 +1,637 @@
+#+TITLE: Emacs configuration file
+#+AUTHOR: Tony Day
+#+EMAIL: zygomega at gmail dot com
+#+OPTIONS: toc:2 num:nil ^:nil
+
+* Upfront
+:PROPERTIES:
+:OPEN: [2012-08-01 Wed 18:27]
+:LAST: TODO [2012-08-01 Wed 18:27]
+:END:
+#+begin_quote
+  business in the front, party in the back
+
+  -- [[http://en.wikipedia.org/wiki/The_Mullets_(TV_series)][The Mullets]]
+#+end_quote
+
+Under Development
+
+Called from [[file:starter-kit.org]]
+
+** tasks
+- [-] get to run stage
+  - [X] add in addzyg
+  - [X] sk lisp diff check
+  - [ ] complete package list
+  - [ ] src list
+  - [ ] copy local yas snippets
+- [ ] gather non-crit tasks
+
+
+** TODO purcell dotemacs
+:PROPERTIES:
+:OPEN: [2012-09-01 Sat 18:10]
+:LAST: [2012-09-01 Sat 18:10]
+:END:
+[[file:~/org/starter-kit-bindings.org]]
+https://github.com/purcell/emacs.d.git
+
+** TODO purcell dotemacs
+:PROPERTIES:
+:OPEN: [2012-09-01 Sat 18:10]
+:LAST: [2012-09-01 Sat 18:10]
+:END:
+[[file:~/org/starter-kit-bindings.org]]
+https://github.com/purcell/emacs.d.git
+
+* Introduction
+
+This is my personal emacs configuration, written in org and utilising emacs24
+and [[http://eschulte.me/emacs24-starter-kit/][starter-kit]].  The latest version of starter-kit is available in git [[https://github.com/eschulte/emacs24-starter-kit/][here]].
+
+Starter kit and this file represent a new way of configuring emacs
+using [[http://orgmode.org/][org-mode]] to produce [[http://en.wikipedia.org/wiki/Literate_programming][literate programs]]. A description of the
+particular manner adopted and some of the design consideration can be found [[id:f955f29d-1f32-49cb-bfca-125e64365849][here]].
+
+This file is a working file for R&D on setting up
+emacs, its various major modes and, especially, on configuration of
+org-mode.
+
+** Why move to starter-kit?
+
+I've spent many an hour wading through complicated and opaque init.el files looking at ways
+that emacs might be enhanced.  On opening the starter kit init.el,
+this is what I saw:
+
+#+begin_src emacs-lisp :eval no :tangle no
+;;; init.el --- Where all the magic begins
+;;
+;; Part of the Emacs Starter Kit
+;;
+;; This is the first thing to get loaded.
+;;
+
+;; remember this directory
+(setq starter-kit-dir
+      (file-name-directory (or load-file-name (buffer-file-name))))
+
+;; load up the starter kit
+(org-babel-load-file (expand-file-name "starter-kit.org" starter-kit-dir))
+
+;;; init.el ends here
+#+end_src
+
+It:
+1. remembers a directory, then
+2. opens an org file
+
+- [ ] I can remember a directory.
+- [ ] I can open an org file
+- [ ] I already have an org file with my init stuff in there
+
+Bingo!
+
+** DONE installing emacs and starter-kit
+:LOGBOOK:
+CLOCK: [2012-07-22 Sun 15:55]--[2012-07-22 Sun 16:17] =>  0:22
+:END:
+:PROPERTIES:
+:OPEN: [2012-07-22 Sun 15:55]
+:LAST: DONE [2012-07-22 Sun 19:21]
+:CLOSE: [2012-07-22 Sun 19:21]
+:END:
+
+With a radically new config and packaging system, comes a radically
+eas(ier) emacs installation and configuration experience.
+
+Here's my steps as a windows user:
+1. Download and unzip emacs24 windows binaries.  I grabbed mine from the [[http://ftp.gnu.org/pub/gnu/emacs/windows/emacs-24.1-bin-i386.zip][official gnu site]].
+2. Windows users should read and deal with [[http://ftp.gnu.org/pub/gnu/emacs/windows/README][this]] if they need image support.
+3. Read the [[http://eschulte.me/emacs24-starter-kit/][starter kit intro.]]
+4. Clone and branch the starter kit [[http://github.com/eschulte/emacs24-starter-kit.git][git repository]], checking out [[http://www.kernel.org/pub/software/scm/git/docs/gittutorial.html][git]]
+   and [[http://zagadka.vm.bytemark.co.uk/magit/magit.html][magit]] if you didn't know what clone and branch were like me.
+5. Start looking through the new packages system, and install what you
+   need and want.
+6. Start on an org file like this called ~/.emacs.d/USERNAME.org to customise.
+
+
+** References
+*** starter kit
+
+Eric's starter-kit blurb
+
+http://eschulte.me/emacs24-starter-kit/
+
+Latest git
+
+https://github.com/eschulte/emacs24-starter-kit/
+
+*** norang
+	 :LOGBOOK:
+	 CLOCK: [2012-07-17 Tue 10:01]--[2012-07-17 Tue 10:16] =>  0:15
+	 CLOCK: [2012-07-17 Tue 09:55]--[2012-07-17 Tue 10:01] =>  0:06
+	 CLOCK: [2012-07-17 Tue 09:09]--[2012-07-17 Tue 09:55] =>  0:46
+	 :END:
+
+The http://doc.norang.ca/ site is the best I know for an introduction
+to what can be achieved through the use of org-mode, and how to go
+about the task. My initial inspiration to start playing around with
+and eventually adopting an org style of working came from pouring
+through this site. Much of the actual code used to set up org-mode
+is a cut and paste from http://doc.norang.ca/org-mode.html.
+
+If you are looking for a more general introduction to org-mode, then
+norang is a much better spot to start. This is especially true for the
+org time and project management material - Bernt's code is so good I
+pretty much dropped his init file in and it all worked out of the box.
+
+I have spent some time using the org productivity tools and all I can
+do is quote Douglas Adams.
+
+#+BEGIN_QUOTE
+I love deadlines. I like the whooshing sound they make as they fly by.
+-- Douglas Adams
+#+END_QUOTE
+
+This file is more about documenting the code and environment needed to
+reproduce [[scarecapital.com][my]] research.
+
+*** TODO other dot emacs files
+	 :LOGBOOK:  
+	 CLOCK: [2012-04-12 Thu 23:14]--[2012-04-12 Thu 23:16] =>  0:02
+	 CLOCK: [2012-04-12 Thu 22:43]--[2012-04-12 Thu 22:57] =>  0:14
+	 :END:      
+
+- [ ] add new ones
+
+There are many, many dot files out there and anyone who has used emacs
+before emacs24 has spent time looking for themselves.  Some
+recommended reading:
+
+[[info:emacs#Init%20File][info:emacs#Init File]]
+http://www.emacswiki.org/emacs/RobertAdesamConfig
+http://robert-adesam.blogspot.com.au/2011/01/emacsclient-setup-on-windows-7-starter.html
+http://www.emacswiki.org/emacs/EmacsInitFileOfSylecn
+http://a-nickels-worth.blogspot.com.au/2007/11/effective-emacs.html
+
+*** TODO local copies                                              :noexport:
+
+[[file:~/projects/learning_org/RA-init.el::%3B%3B%3B][file:~/projects/learning_org/RA-init.el]]
+[[file:~/projects/learning_org/EmacsInitFileOfSylecn.txt]]
+
+
+* Implementation
+:PROPERTIES:
+:tangle: yes
+:END:
+
+
+** TODO Load path
+- [ ] overrides
+- [ ] check when load path matters
+
+
+** TODO Starter Kit Modifications
+:PROPERTIES:
+:OPEN: [2012-07-23 Mon 10:34]
+:LAST: TODO [2012-07-23 Mon 10:34]
+:END:
+
+- [ ] zero modification to base kit
+- [ ] org from norang
+- [ ] jw innovations
+- [ ] spell
+
+The orginal starter kit files have been modified in several areas:
+
+- shift-select-mode turned on (my brain is hardwired like
+  that) and a add few other personal tweaks
+- I am trying out hunspell as a replacement for Aspell
+- added some lisp dependencies
+  - clojure-mode
+  - slime (?)
+- modified ido (not sure whether this was actually necessary)
+- added this file to registers
+- added to bindings
+
+** Installs
+
+- Package Installs
+
+Just because I can, I list out all the packages I currently like
+having (or resent having to have).
+
+- Being split into relevant file deps
+| package              | note                            |
+|----------------------+---------------------------------|
+| auctex               | defer                           |
+| clojure-mode         | add to sk lisp                  |
+| elisp-slime-nav      | add to sklisp                   |
+| find-file-in-project | delay                           |
+| idle-highlight-...   | incomplete                      |
+| ido-ubiquitous       | package add elsewhere           |
+| js-comint            |                                 |
+| js2-mode             |                                 |
+| json                 |                                 |
+| magit                | added already                   |
+| magithub             | learn                           |
+| org                  | override from org-mode.org site |
+| org-magit            |                                 |
+| org2blog             |                                 |
+| paredit              | package add                     |
+| slime                | check                           |
+| smex                 |                                 |
+| xml-rpc              | dep for org2blog                |
+| yaml-mode            | check                           |
+| yasnippet-bundle     | sk added already                |
+| zenburn-theme        | check how themes are added      |
+|                      |                                 |
+
+
+
+
+
+#+begin_src emacs-lisp  :tangle no
+  (defvar starter-kit-packages-extra
+        '(clojure-mode 
+                elisp-slime-nav
+                js-comint
+                js2-mode
+                json
+                magithub
+                org-magit
+                org2blog
+                paredit
+                slime
+                smex
+                xml-rpc
+                yaml-mode
+                zenburn-theme)
+        "Libraries that should be installed beyond the defaults.")
+#+end_src
+
+#+RESULTS:
+: starter-kit-packages-extra
+
+
+
+#+begin_src emacs-lisp
+(unless package-archive-contents
+  (package-refresh-contents))
+(dolist (package '(clojure-mode 
+                   elisp-slime-nav
+                   js-comint
+                   js2-mode
+                   json
+                   magithub
+                   org-magit
+                   org2blog
+                   paredit
+                   slime
+                   smex
+                   xml-rpc
+                   yaml-mode
+                   zenburn-theme))
+  (unless (package-installed-p package)
+    (package-install package)))
+#+end_src
+
+- Starter Kit Loads
+  #+begin_src emacs-lisp
+    (starter-kit-load "eshell")
+    (starter-kit-load "lisp")
+    (starter-kit-load "misc-recommended")
+  #+end_src
+
+- Theme Loads
+  - [ ] not sure how custom path gets modified
+
+  #+begin_src emacs-lisp
+    ;;(add-to-list 'custom-theme-load-path
+    ;;           (concat package-user-dir
+    ;;           '"/github-theme-0.0.3/"))
+    (load-theme 'zenburn t)
+    ;(load-theme 'github t)
+  #+end_src
+
+
+
+  
+** TODO src loads
+Non-package stuff in ~/.emacs.d/src
+- [ ] icicles
+
+
+
+
+
+** NEXT Personal Loads
+:PROPERTIES:
+:OPEN: [2012-07-23 Mon 08:56]
+:LAST:     NEXT [2012-09-01 Sat 16:44]
+:END:
+
+The following files contain categories not covered by starter kit.
+
+- Zyg Org in [[file:starter-kit-zyg-org.org][starter-kit-zyg-org]]
+  - [ ] contrib section of org
+  - [ ] publishing part ripped out
+  - [ ] info docs
+  - [ ] git commit method
+  #+begin_src emacs-lisp
+  (starter-kit-load "starter-kit-tonyday-org.org")
+  #+end_src
+
+- Org function definitions in [[file:starter-kit-zyg-defuns-org.org][starter-kit-zyg-defuns-org]]
+  - [ ] stored link broken
+  #+begin_src emacs-lisp
+  (starter-kit-load "starter-kit-tonyday-defuns-org.org")
+  #+end_src
+
+- Octave [[file:starter-kit-octave.org][starter-kit-octave]]
+  #+begin_src emacs-lisp
+  (starter-kit-load "starter-kit-octave.org")
+  #+end_src
+
+*** icicles
+:LOGBOOK:
+- State "TODO"       from ""           [2012-07-19 Thu 22:27]
+:END:
+:PROPERTIES:
+:OPEN: [2012-07-23 Mon 10:44]
+:LAST:     DONE [2012-09-04 Tue 09:20]
+:CLOSE:    [2012-09-04 Tue 09:20]
+:END:
+
+I'm undecided about icicles. It was very useful in the first few days
+of learning new stuff in emacs. After I'd learnt the basics, however,
+it started to feel like a productivity drain - there were just too
+many options and I'd spend my hours scrolling through the eleventy
+billion possible commands at every point. And it stuffs up the whole
+completion/default thing (the thing that I have in my mind rather than
+some error in its logic). So I leave it off by default and M-x icy when I
+introduce a new major mode or something big like that.
+
+- no package yet
+- [X] move git local repository to ~/.emacs.d/src/icicles
+- [ ] work out src usage convention
+- [ ] icicles and ido - can they play nice?
+
+#+begin_src emacs-lisp :tangle no
+  (require 'icicles)
+  ;;(icy-mode 1)
+#+end_src
+
+
+
+* TODO dev code snippets
+:PROPERTIES:
+:OPEN: [2012-08-01 Wed 22:29]
+:LAST: TODO [2012-08-01 Wed 22:29]
+:ID: 50603d6b-021f-47bf-9a5e-22827e5932e8
+:END:
+- [ ] to be properly placed in starter-kit heirarchy
+
+
+- yegges binding suggestions
+  #+begin_src emacs-lisp
+  (global-set-key "\C-x\C-m" 'execute-extended-command)
+  (global-set-key "\C-c\C-m" 'execute-extended-command)
+  #+end_src
+
+- backward kill word binding
+  #+begin_src emacs-lisp
+    (global-set-key "\C-w" 'backward-kill-word)
+    (global-set-key "\C-x\C-k" 'kill-region)
+    (global-set-key "\C-c\C-k" 'kill-region)
+    (global-set-key [f4] 'call-last-kbd-macro)
+  #+end_src
+
+- saveplace
+  #+begin_src emacs-lisp :tangle no 
+    (setq-default save-place t)
+  #+end_src
+
+- transpose-windows
+  #+begin_src emacs-lisp
+    (defun transpose-windows (arg)
+      "Transpose the buffers shown in two windows."
+      (interactive "p")
+      (let ((selector (if (>= arg 0) 'next-window 'previous-window)))
+        (while (/= arg 0)
+          (let ((this-win (window-buffer))
+                (next-win (window-buffer (funcall selector))))
+            (set-window-buffer (selected-window) next-win)
+            (set-window-buffer (funcall selector) this-win)
+            (select-window (funcall selector)))
+          (setq arg (if (plusp arg) (1- arg) (1+ arg))))))
+    (define-key ctl-x-4-map (kbd "t") 'transpose-windows)
+  #+end_src
+
+  #+results:
+  : transpose-windows
+
+- babel bindings
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "<f11> s") 'org-babel-execute-subtree)
+    (global-set-key (kbd "<f11> b") 'org-babel-execute-buffer)
+    (global-set-key (kbd "<f11> t") 'org-table-recalculate-buffer-tables)
+  #+end_src
+- ido completion for yasnippet insertion
+  #+begin_src emacs-lisp
+    (setq yas/prompt-functions '(yas/ido-prompt yas/dropdown-prompt
+                                                yas/completing-prompt yas/x-prompt yas/no-prompt))
+  #+end_src
+
+- yas/insert bound to f9-y
+  #+begin_src emacs-lisp 
+    (global-set-key (kbd "<f9> y") 'yas/insert-snippet)
+  #+end_src
+
+- kbd macro bindings
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "<C-f4>") 'start-kbd-macro)
+    (global-set-key (kbd "<S-f4>") 'end-kbd-macro)
+  #+end_src
+
+  #+results:
+  : end-kbd-macro
+
+- occur within isearch
+  #+begin_src emacs-lisp
+  ;; Activate occur easily inside isearch
+  (define-key isearch-mode-map (kbd "C-o") 'isearch-occur)
+  #+end_src
+
+
+
+
+* clipboard
+
+** TODO nxhtml
+  #+begin_src emacs-lisp 
+    ;;(load (concat starter-kit-dir "src/nxhtml/autostart.el"))
+  #+end_src
+
+
+** TODO magit info
+  #+begin_src emacs-lisp :tangle no
+    (add-to-list 'Info-default-directory-list "~/.emacs.d/git/magit")
+  #+end_src
+
+** simple bookmarks
+:PROPERTIES:
+:OPEN: [2012-07-23 Mon 10:49]
+:LAST: TODO [2012-07-23 Mon 10:49]
+:END:
+
+#+begin_src emacs-lisp 
+  (global-set-key (kbd "<C-f6>") 
+                  '(lambda () (interactive) (bookmark-set "SAVED")))
+  (global-set-key (kbd "<f6>")
+                  '(lambda () (interactive) (bookmark-jump "SAVED")))
+#+end_src
+
+** buffer cycling
+
+#+begin_src emacs-lisp 
+  (global-set-key (kbd "C-<f9>") 'previous-buffer)
+  (global-set-key (kbd "C-<f10>") 'next-buffer)
+#+end_src
+
+** tabify
+
+#+begin_src emacs-lisp 
+  (global-set-key (kbd "<f9> T") 'tabify)
+  (global-set-key (kbd "<f9> U") 'untabify)
+#+end_src
+
+** TODO Scratch
+:PROPERTIES:
+:OPEN: [2012-07-23 Mon 12:12]
+:LAST: TODO [2012-07-23 Mon 12:12]
+:END:
+All this scratching is making me itch.
+- [ ] test these
+- [ ] find out how/where *scratch*
+- [ ] make a *escratch*
+#+begin_src emacs-lisp 
+  (global-set-key (kbd "<f9> o") 'make-org-scratch)
+  (global-set-key (kbd "<f9> s") 'switch-to-org-scratch)
+  (global-set-key (kbd "<f9> e") 'make-elisp-scratch)
+  (global-set-key (kbd "<f9> z") 'switch-to-elisp-scratch)
+#+end_src
+
+Defuns
+#+begin_src emacs-lisp 
+(defun make-org-scratch ()
+  (interactive)
+  (find-file "~/.emacs.d/tmp/scratch.org")
+  (ido-make-directory "~/.emacs.d/tmp"))  
+(defun make-elisp-scratch ()
+  (interactive)
+  (find-file "~/.emacs.d/tmp/scratch.el")
+  (ido-make-directory "~/.emacs.d/tmp"))  
+(defun switch-to-org-scratch ()
+  (interactive)
+  (switch-to-buffer "*scratch*"))
+(defun switch-to-elisp-scratch ()
+  (interactive)
+  (switch-to-buffer "*escratch*"))
+#+end_src
+
+
+** TODO org capture
+
+Capturing tasks
+#+begin_src emacs-lisp 
+  (define-key global-map "\C-cc" 'org-capture)
+#+end_src
+
+** TODO miscellaneous and overrides
+
+#+begin_src emacs-lisp 
+(setq shift-select-mode t)
+(setq display-time-format " %I:%M%p %a %d %b ")
+(display-time-mode)
+(setq delete-selection-mode t)
+(setq ido-file-extensions-order '(".org"))
+(setq sentence-end-double-space nil)  
+#+end_src
+
+** A Column Number is always handy.
+#+begin_src emacs-lisp
+(column-number-mode t)
+#+end_src
+
+
+** register (off)
+
+#+begin_example
+ (?z (file . ,(concat starter-kit-dir "zygomega.org")))
+#+end_example
+
+** hunspell (off)
+:PROPERTIES:
+:OPEN: [2012-07-23 Mon 09:24]
+:LAST:  [2012-08-03 Fri 15:21]
+:CLOSE: [2012-08-03 Fri 15:21]
+:tangle: no
+:END:
+Installing in windows involved a lot of tweaking, but hunspell is the
+future.
+
+*** Installing hunspell on Windows
+It was a chore.  I had to:
+- build hunspell from source (in Visual Studio 10)
+- added a new directory (~/bin) to path to house it
+- copied the hunspell.exe it over to ~/bin
+
+http://sourceforge.net/projects/hunspell/
+
+http://www.mail-archive.com/gnu-emacs-sources@gnu.org/msg01709.html
+
+http://www.emacswiki.org/emacs/InteractiveSpell
+
+personal dictionary is at ~/.personal_dicitionary
+
+*** Packages and Settings
+
+Why there are 3 packages, idk.
+#+begin_src emacs-lisp
+  (dolist (package '(rw-hunspell rw-ispell
+                rw-language-and-country-codes))
+    (unless (package-installed-p package)
+      (package-install package)))
+#+end_src
+
+#+begin_src emacs-lisp 
+  (require 'rw-hunspell)
+  (require 'rw-ispell)
+  (require 'rw-language-and-country-codes)
+  (setq ispell-program-name "hunspell") 
+  (setq ispell-dictionary "en_US_hunspell") ;the _suffix is the same as the name of the final dicpath directory
+  ;; uses your home directory by default
+  (setq ispell-process-directory (expand-file-name "~/.emacs.d/"))
+  (setq rw-hunspell-dicpath-list '("~/hunspell")) ;spaces or special characters may be problematic
+  (setq rw-hunspell-make-dictionary-menu t)
+  (setq rw-hunspell-use-rw-ispell t)
+  ;;(setq ispell-personal-dictionary (expand-file-name "~/.hunspell_en_US"))
+#+end_src
+
+
+
+** git folder list
+
+#+begin_src emacs-lisp
+      
+        (setq magit-repo-dirs '("~/.emacs.d" 
+                                "~/stuff"
+                                "~/dotemacs-mashup"
+                                "~/emfx"))
+      
+#+end_src
+
+#+results:
+| ~/.emacs.d | ~/stuff | ~/dotemacs-mashup | ~/emfx |
+

@@ -1,0 +1,1219 @@
+#+TITLE: Zygomega Starter Kit Org
+#+OPTIONS: toc:nil num:nil ^:nil
+
+This is part of [[file:zygomega.org][my personal configuration]].
+
+
+* Introduction
+I don't load [[file:starter-kit-org][starter-kit-org]].
+
+A great source of ideas about org and inspiration for literate
+programming is Brent Hansen's org-mode.org which can be found [[http://doc.norang.ca/org-mode.html][here]].
+
+For more information on org-mode check out [[http://orgmode.org/worg/][worg]], a large Org-mode wiki
+which is also *implemented using* Org-mode and [[http://git-scm.com/][git]].
+
+Defuns for org can be found in [[file:starter-kit-zyg-defuns-org.org][Starter Kit Defuns Org]].
+
+
+* Org                                                              :org:
+:LOGBOOK:
+- State "TODO"       from ""           [2012-07-19 Thu 09:49]
+:END:
+:PROPERTIES:
+		:ID:       29d70d42-d144-4fe0-b28b-0edfa6cf91cc
+                :OPEN:     [2012-07-21 Sat 20:51]
+:LAST: TODO [2012-07-23 Mon 11:27]
+		:END:
+
+** Standard Settings
+I start with Org mode
+#+begin_src emacs-lisp 
+  (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
+  (add-hook 'org-mode-hook 'auto-fill-mode)
+  (setq initial-major-mode (quote org-mode))
+#+end_src
+
+#+results:
+: org-mode
+
+** TODO Org is everywhere
+:PROPERTIES:
+:OPEN: [2012-07-23 Mon 11:45]
+:LAST: TODO [2012-07-23 Mon 11:45]
+:END:
+So why do I need an org directory?
+#+begin_src emacs-lisp 
+  ;(setq org-directory "~/org/")
+#+end_src
+
+#+results:
+
+
+** Miscellaneous Settings
+#+begin_src emacs-lisp 
+  ;; shift-select
+  (setq org-support-shift-select t)
+  ;; keeps links so we can reuse/paste them again
+  (setq org-keep-stored-link-after-insertion t)
+  
+#+end_src
+
+#+results:
+: t
+
+** Starter Kit Keybindings
+   :PROPERTIES:
+   :CUSTOM_ID: keybindings
+   :END:
+- global key bindings are in my [[file:starter-kit-bindings.org][starter kit bindings]]
+- [ ] toggle iimage not worging
+#+begin_src emacs-lisp
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (local-set-key "\M-\C-n" 'outline-next-visible-heading)
+              (local-set-key "\M-\C-p" 'outline-previous-visible-heading)
+              (local-set-key "\M-\C-u" 'outline-up-heading)
+              ;; table
+              (local-set-key "\M-\C-w" 'org-table-copy-region)
+              (local-set-key "\M-\C-y" 'org-table-paste-rectangle)
+              (local-set-key "\M-\C-l" 'org-table-sort-lines)
+              ;; display images
+              (local-set-key "\M-I" 'org-toggle-iimage-in-org)))
+#+end_src
+
+#+results:
+| #[nil \300\301\302\303\304$\207 [add-hook before-save-hook org-encrypt-entries nil t] 5] | #[nil \300\301\302\303\304$\207 [org-add-hook change-major-mode-hook org-show-block-all append local] 5] | (lambda nil (local-set-key \216 (quote outline-next-visible-heading)) (local-set-key \220 (quote outline-previous-visible-heading)) (local-set-key \225 (quote outline-up-heading)) (local-set-key \227 (quote org-table-copy-region)) (local-set-key \231 (quote org-table-paste-rectangle)) (local-set-key \214 (quote org-table-sort-lines)) (local-set-key \311 (quote org-toggle-iimage-in-org))) | auto-fill-mode | #[nil \300\301\302\303\304$\207 [org-add-hook change-major-mode-hook org-babel-show-result-all append local] 5] | org-babel-result-hide-spec | org-babel-hide-all-hashes |
+
+** TODO remaining key bindings
+:PROPERTIES:
+			:ID:       c0914200-d73d-4205-aba1-6cca8b2dd8f1
+			:Effort:   0:15
+                        :OPEN:     [2012-07-23 Mon 12:22]
+                        :LAST:     TODO [2012-07-23 Mon 12:22]
+			:END:
+
+- [ ] still to rip and test
+- [ ] switch to locally set???
+#+begin_src emacs-lisp 
+(global-set-key (kbd "<f5>") 'bh/org-todo)
+(global-set-key (kbd "<S-f5>") 'bh/widen)
+(global-set-key (kbd "<f7>") 'bh/set-truncate-lines)
+(global-set-key (kbd "<f9> c") 'org-cycle-agenda-files)
+(global-set-key (kbd "<f9> <f9>") 'bh/show-org-agenda)
+(global-set-key (kbd "<f9> h") 'bh/hide-other)
+(global-set-key (kbd "<f9> n") 'org-narrow-to-subtree)
+(global-set-key (kbd "<f9> w") 'widen)
+(global-set-key (kbd "<f9> u") 'bh/narrow-up-one-level)
+(global-set-key (kbd "<f9> t") 'bh/insert-inactive-timestamp)
+(global-set-key (kbd "<f9> v") 'visible-mode)
+(global-set-key (kbd "<f9> p") 'org-publish-current-project)
+(global-set-key (kbd "<f9> l") 'org-insert-last-link)
+(global-set-key (kbd "M-<f9>") 'org-toggle-inline-images)
+(global-set-key (kbd "C-x n r") 'narrow-to-region)
+(global-set-key (kbd "C-c s") 'org-insert-subheading)
+#+end_src
+
+#+results:
+: org-insert-subheading
+
+** Encryption within Org
+#+begin_src emacs-lisp 
+(require 'org-crypt)
+; Encrypt all entries before saving
+(org-crypt-use-before-save-magic)
+(setq org-tags-exclude-from-inheritance (quote ("crypt")))
+; GPG key to use for encryption
+(setq org-crypt-key nil)
+(setq org-crypt-disable-auto-save nil)
+#+end_src
+
+#+results:
+
+
+
+** TODO MobileOrg
+:PROPERTIES:
+:OPEN: [2012-07-23 Mon 11:48]
+:LAST: TODO [2012-07-23 Mon 11:48]
+:END:
+
+MobileOrg via Dropbox
+#+begin_src emacs-lisp 
+  (setq org-default-notes-file "~/org/refile.org")
+  ;; Set to the name of the file where new notes will be stored
+  (setq org-mobile-inbox-for-pull "~/org/refile.org")
+  ;; Set to <your Dropbox root directory>/MobileOrg.
+  (setq org-mobile-directory "~/Dropbox/MobileOrg")
+#+end_src
+
+#+results:
+: ~/Dropbox/MobileOrg
+
+
+Character encoding
+- [ ] I think the character coding is already set ok by starter kit (but need to check)
+#+begin_src emacs-lisp :tangle no
+(if (eq system-type 'darwin)
+    (progn
+      (prefer-coding-system 'utf-8-unix)
+      (set-default-coding-systems 'utf-8-unix)
+      (if (< emacs-major-version 23)
+          (set-keyboard-coding-system 'utf-8))
+      (set-clipboard-coding-system 'utf-8)
+      (set-terminal-coding-system 'utf-8)))
+(if (or (eq system-type 'gnu/linux)
+        (eq system-type 'windows-nt))
+    (progn
+      (prefer-coding-system 'utf-8-unix)
+      (load-library "iso-transl")))
+(define-coding-system-alias 'utf-8-emacs 'utf-8) ; needed by bbdb...
+#+end_src
+
+#+results:
+
+** Clocking into drawers
+#+begin_src emacs-lisp 
+;; Separate drawers for clocking and logs
+(setq org-drawers (quote ("PROPERTIES" "LOGBOOK")))
+;; Save clock data and state changes and notes in the LOGBOOK drawer
+(setq org-clock-into-drawer t)
+#+end_src
+
+#+results:
+: t
+
+
+** State and Change
+:PROPERTIES:
+:OPEN: [2012-07-23 Mon 19:44]
+:LAST:  [2012-07-23 Mon 20:24]
+:CLOSE: [2012-07-23 Mon 20:24]
+:END:
+- I use a customised state change hook to record when state changes occur.
+#+begin_src emacs-lisp 
+(setq org-log-done nil)
+(setq org-log-into-drawer t)
+(setq org-todo-keywords
+      (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)"))))
+(setq org-use-fast-todo-selection t)
+(setq org-treat-S-cursor-todo-selection-as-state-change t)
+(setq org-todo-state-tags-triggers nil)
+(add-hook 'org-after-todo-state-change-hook 'zyg/log-state-change)
+#+end_src
+
+#+results:
+| org-clock-out-if-current | org-checklist | zyg/log-state-change |
+
+- It's frustrating, but org is usually correct
+#+begin_src emacs-lisp 
+(setq org-enforce-todo-dependencies t)
+#+end_src
+
+#+results:
+: t
+
+  
+** TODO Plain Lists
+
+
+- Demotion
+  #+begin_src emacs-lisp 
+  (setq org-list-demote-modify-bullet (quote (("+" . "-")
+                                              ("*" . "-")
+                                              ("1." . "-")
+                                              ("1)" . "-"))))
+  #+end_src
+
+  #+results:
+  | (+ . -) | (* . -) | (1. . -) | (1) . -) |
+
+- Reset Repeater Checklist
+  Repeater checklists saved my career.
+  http://orgmode.org/worg/org-contrib/org-checklist.html
+  - [ ] use modern load method
+  #+begin_src emacs-lisp 
+  (add-to-list 'load-path (expand-file-name "~/git/org-mode/contrib/lisp"))
+  (require 'org-checklist)
+  #+end_src
+
+  #+results:
+  : org-checklist
+
+- Use cycle for plain lists
+  #+begin_src emacs-lisp 
+  (setq org-cycle-include-plain-lists t)
+  #+end_src
+
+  #+results:
+  : t
+
+
+
+** Priority
+
+Using priorities kills the ability to ever use S-down to select
+regions.  Can't bring myself to do it - instead I use an urgent tag.
+
+#+begin_src emacs-lisp 
+  (setq org-enable-priority-commands nil)
+#+end_src
+
+#+results:
+
+
+** Capture
+:LOGBOOK:
+CLOCK: [2012-08-23 Thu 20:49]--[2012-08-24 Fri 10:02] => 13:13
+- Note taken on [2012-07-21 Sat 21:09] \\
+  edited to account for timestamp stuff
+:END:
+:PROPERTIES:
+:ID:       e79ecad1-2428-452a-b9d6-9fdd3ef8a174
+:END:
+
+#+begin_src emacs-lisp 
+  
+  (setq org-capture-templates
+        (quote (("t" "todo (with link)" entry (file "~/Dropbox/org/refile.org")
+                 "* TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%a\n")
+                ("j" "Journal" entry (file+datetree "~/Dropbox/org/diary.org")
+                 "* %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n")
+                ("u" "urgent todo" entry (file "~/Dropbox/org/refile.org")
+                 "* TODO %? :urgent:\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n")
+                ("n" "note" entry (file "~/Dropbox/org/refile.org")
+                 "* %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n")
+                ("z" "bugz" entry (file+headline "~/Dropbox/org/bugz.org" "incoming")
+                 "* TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST:%U\n:END:\n%a\n")
+                ("i" "instadev" entry (file+headline "~/Dropbox/projects/sys/sys.org" "instadev")
+                 "* [ ] %c\n")
+                ("s" "snipz")  
+                ("sr" "snipz request" entry (file+headline "~/Dropbox/org/snipz.org" "incoming")
+                 "* TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST:%U\n:END:\n%a\n")
+                ("sn" "snipz note" entry (file+headline "~/Dropbox/org/snipz.org" "incoming")
+                 "* %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%c\n")
+                ("k" "kill ring")  
+                ("kb" "kill ring body" entry (file "~/Dropbox/org/refile.org")
+                 "* %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%c")
+                ("kh" "kill ring head" entry (file "~/Dropbox/org/refile.org")
+                 "* TODO %c\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%?"))))
+  
+#+end_src
+
+#+results:
+| t  | todo (with link) | entry | (file ~/org/refile.org)                         | * TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%a\n      |
+| j  | Journal          | entry | (file+datetree ~/org/diary.org)                 | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n               |
+| u  | urgent todo      | entry | (file ~/org/refile.org)                         | * TODO %? :urgent:\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n |
+| n  | note             | entry | (file ~/org/refile.org)                         | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n               |
+| z  | bugz             | entry | (file+headline ~/org/bugz.org incoming)         | * TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST:%U\n:END:\n%a\n       |
+| i  | instadev         | entry | (file+headline ~/projects/sys/sys.org instadev) | * [ ] %c\n                                                      |
+| s  | snipz            |       |                                                 |                                                                 |
+| sr | snipz request    | entry | (file+headline ~/org/snipz.org incoming)        | * TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST:%U\n:END:\n%a\n       |
+| sn | snipz note       | entry | (file+headline ~/org/snipz.org incoming)        | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%c\n           |
+| k  | kill ring        |       |                                                 |                                                                 |
+| kb | kill ring body   | entry | (file ~/org/refile.org)                         | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%c             |
+| kh | kill ring head   | entry | (file ~/org/refile.org)                         | * TODO %c\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%?        |
+
+
+
+
+** Refiling
+CLOSED: [2012-07-20 Fri 00:20]
+:LOGBOOK:
+- State "DONE"       from "NEXT"       [2012-07-20 Fri 00:20]
+- State "NEXT"       from "TODO"       [2012-07-20 Fri 00:20]
+- State "TODO"       from ""           [2012-07-19 Thu 22:43]
+:END:
+
+#+begin_src emacs-lisp  
+; Targets include this file and any file contributing to the agenda - up to 4 levels deep
+(setq org-refile-targets (quote ((nil :maxlevel . 4)
+                                 (org-agenda-files :maxlevel . 4))))
+; Use full outline paths for refile targets - we file directly with IDO
+(setq org-refile-use-outline-path t)
+; Targets complete directly with IDO
+(setq org-outline-path-complete-in-steps nil)
+; Allow refile to create parent tasks with confirmation
+(setq org-refile-allow-creating-parent-nodes (quote confirm))
+; every header is a refile target
+(setq org-refile-target-verify-function nil)
+; use IDO
+(setq org-completion-use-ido t)
+
+#+end_src
+
+#+results:
+
+** Agenda view
+:PROPERTIES:
+		:Effort:   0.45
+:OPEN: [2012-07-23 Mon 19:45]
+:LAST:  [2012-07-23 Mon 20:24]
+:CLOSE: [2012-07-23 Mon 20:24]
+:ID: b6b3a794-7836-4259-8b9c-92ce0a35cd24
+		:END:
+
+- disable =C-c [=
+  I adopt the same system as =norang=.  It becomes difficult to
+  remember what's on and not on the agenda
+ #+begin_src emacs-lisp
+   ;; Disable C-c [ and C-c ] in org-mode
+   (add-hook 'org-mode-hook
+             (lambda ()
+               ;; Undefine C-c [ and C-c ] since this breaks my
+               ;; org-agenda files when directories are include It
+               ;; expands the files in the directories individually
+               (org-defkey org-mode-map "\C-c["    'undefined)
+               (org-defkey org-mode-map "\C-c]"    'undefined))
+             'append)
+  #+end_src
+
+- Agenda Files
+  #+begin_src emacs-lisp
+    ;; the entire directory (hand edit this)
+    (setq org-agenda-files (quote ("~/stuff/org/refile.org"
+                                   "~/stuff/org/org.org"
+                                   "~/stuff/org/bugz.org"
+                                   "~/stuff/org/snipz.org"
+                                   "~/stuff/biz/scarce.org"
+                                   "~/stuff/meta.org"
+                                   "~/stuff/content/life.org"
+                                   "~/stuff/content/writing.org"
+                                   "~/stuff/emacs/emacs.org"
+                                   "~/stuff/emacs/bindings.org"
+                                   "~/.emacs.d/tonyday.org"
+                                   "~/.emacs.d/starter-kit-tonyday-org.org"
+                                   "~/stuff/sys/sys.org"
+                                   "~/stuff/sys/migrate.org"
+                                   "~/stuff/site/scarcecapital.org"
+                                   "~/stuff/dev/webdev.org"
+                                   "~/stuff/sys/git.org"
+                                   "~/stuff/factor/momentum/qic.org"
+                                   "~/stuff/factor/emfx.org"
+                                   "~/stuff/factor/factor.org"
+                                   "~/emfx/emfx.org"
+                                   "~/dotemacs-mashup/README.org"
+                                   "~/stuff/dev/rdev.org"
+                                   "~/stuff/dev/jsdev.org"
+                                   "~/stuff/dev/webdev.org"
+                                   "~/stuff/content/quant.org"
+                                   "~/stuff/content/ideas.org")))
+    
+  #+end_src
+
+  #+results:
+  | ~/stuff/org/refile.org | ~/stuff/org/org.org | ~/stuff/org/bugz.org | ~/stuff/org/snipz.org | ~/stuff/biz/scarce.org | ~/stuff/meta.org | ~/stuff/content/life.org | ~/stuff/content/writing.org | ~/stuff/emacs/emacs.org | ~/stuff/emacs/bindings.org | ~/.emacs.d/tonyday.org | ~/.emacs.d/starter-kit-tonyday-org.org | ~/stuff/sys/sys.org | ~/stuff/sys/migrate.org | ~/stuff/site/scarcecapital.org | ~/stuff/dev/webdev.org | ~/stuff/sys/git.org | ~/stuff/factor/momentum/qic.org | ~/stuff/factor/emfx.org | ~/stuff/factor/factor.org | ~/emfx/emfx.org | ~/dotemacs-mashup/README.org | ~/stuff/dev/rdev.org | ~/stuff/dev/jsdev.org | ~/stuff/dev/webdev.org | ~/stuff/content/quant.org | ~/stuff/content/ideas.org |
+
+
+
+
+Standard settings
+#+begin_src emacs-lisp 
+  ;; Compact the block agenda view
+  (setq org-agenda-compact-blocks t)
+  
+  ;; Do not dim blocked tasks
+  (setq org-agenda-dim-blocked-tasks nil)
+  (setq org-agenda-span 'day)
+  (setq org-stuck-projects (quote ("" nil nil "")))
+
+#+end_src
+
+#+results:
+|   | nil | nil |   |
+
+- Custom agenda
+  This custom view is lidted straight from =norang=.  I have no idea
+  how it does what it does, nor what it actually does, but it works
+  for me.
+  #+begin_src emacs-lisp :tangle yes
+    ;; Custom agenda command definitions
+    (setq org-agenda-custom-commands
+          (quote (("N" "Notes" tags "NOTE"
+                   ((org-agenda-overriding-header "Notes")
+                    (org-tags-match-list-sublevels t)))
+                  ("h" "Habits" tags-todo "STYLE=\"habit\""
+                   ((org-agenda-overriding-header "Habits")
+                    (org-agenda-sorting-strategy
+                     '(todo-state-down effort-up category-keep))))
+                  (" " "Agenda"
+                   ((agenda "" nil)
+                    (tags "REFILE"
+                          ((org-agenda-overriding-header "Tasks to Refile")
+                           (org-tags-match-list-sublevels nil)))
+                    (tags-todo "-CANCELLED/!"
+                               ((org-agenda-overriding-header "Stuck Projects")
+                                (org-agenda-skip-function 'bh/skip-non-stuck-projects)))
+                    (tags-todo "-WAITING-CANCELLED/!NEXT"
+                               ((org-agenda-overriding-header "Next Tasks")
+                                (org-agenda-skip-function 'bh/skip-projects-and-habits-and-single-tasks)
+                                (org-agenda-todo-ignore-scheduled t)
+                                (org-agenda-todo-ignore-deadlines t)
+                                (org-tags-match-list-sublevels t)
+                                (org-agenda-sorting-strategy
+                                 '(todo-state-down effort-up category-keep))))
+                    (tags-todo "-REFILE-CANCELLED/!-HOLD-WAITING"
+                               ((org-agenda-overriding-header "Tasks")
+                                (org-agenda-skip-function 'bh/skip-project-tasks-maybe)
+                                (org-agenda-todo-ignore-scheduled t)
+                                (org-agenda-todo-ignore-deadlines t)
+                                (org-agenda-sorting-strategy
+                                 '(category-keep))))
+                    (tags-todo "-CANCELLED/!"
+                               ((org-agenda-overriding-header "Projects")
+                                (org-agenda-skip-function 'bh/skip-non-projects)
+                                (org-agenda-sorting-strategy
+                                 '(category-keep))))
+                    (tags-todo "-CANCELLED/!WAITING|HOLD"
+                               ((org-agenda-overriding-header "Waiting and Postponed Tasks")
+                                (org-tags-match-list-sublevels nil)
+                                (org-agenda-todo-ignore-scheduled 'future)
+                                (org-agenda-todo-ignore-deadlines 'future)))
+                    (tags "-REFILE/"
+                          ((org-agenda-overriding-header "Tasks to Archive")
+                           (org-agenda-skip-function 'bh/skip-non-archivable-tasks))))
+                   nil)
+                  ("r" "Tasks to Refile" tags "REFILE"
+                   ((org-agenda-overriding-header "Tasks to Refile")
+                    (org-tags-match-list-sublevels nil)))
+                  ("#" "Stuck Projects" tags-todo "-CANCELLED/!"
+                   ((org-agenda-overriding-header "Stuck Projects")
+                    (org-agenda-skip-function 'bh/skip-non-stuck-projects)))
+                  ("n" "Next Tasks" tags-todo "-WAITING-CANCELLED/!NEXT"
+                   ((org-agenda-overriding-header "Next Tasks")
+                    (org-agenda-skip-function 'bh/skip-projects-and-habits-and-single-tasks)
+                    (org-agenda-todo-ignore-scheduled t)
+                    (org-agenda-todo-ignore-deadlines t)
+                    (org-tags-match-list-sublevels t)
+                    (org-agenda-sorting-strategy
+                     '(todo-state-down effort-up category-keep))))
+                  ("R" "Tasks" tags-todo "-REFILE-CANCELLED/!-HOLD-WAITING"
+                   ((org-agenda-overriding-header "Tasks")
+                    (org-agenda-skip-function 'bh/skip-project-tasks-maybe)
+                    (org-agenda-sorting-strategy
+                     '(category-keep))))
+                  ("p" "Projects" tags-todo "-CANCELLED/!"
+                   ((org-agenda-overriding-header "Projects")
+                    (org-agenda-skip-function 'bh/skip-non-projects)
+                    (org-agenda-sorting-strategy
+                     '(category-keep))))
+                  ("w" "Waiting Tasks" tags-todo "-CANCELLED/!WAITING|HOLD"
+                   ((org-agenda-overriding-header "Waiting and Postponed tasks"))
+                   (org-tags-match-list-sublevels nil))
+                  ("A" "Tasks to Archive" tags "-REFILE/"
+                   ((org-agenda-overriding-header "Tasks to Archive")
+                    (org-agenda-skip-function 'bh/skip-non-archivable-tasks))))))
+  #+end_src
+
+  #+results:
+  | N | Notes            | tags                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | NOTE                                                                                                                                                                                                                                                                                                                                          | ((org-agenda-overriding-header Notes) (org-tags-match-list-sublevels t))                                                                                                                                                                                                                                                |                                                              |                                     |
+  | h | Habits           | tags-todo                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | STYLE="habit"                                                                                                                                                                                                                                                                                                                                 | ((org-agenda-overriding-header Habits) (org-agenda-sorting-strategy (quote (todo-state-down effort-up category-keep))))                                                                                                                                                                                                 |                                                              |                                     |
+  |   | Agenda           | ((agenda  nil) (tags REFILE ((org-agenda-overriding-header Tasks to Refile) (org-tags-match-list-sublevels nil))) (tags-todo -CANCELLED/! ((org-agenda-overriding-header Stuck Projects) (org-agenda-skip-function (quote bh/skip-non-stuck-projects)))) (tags-todo -WAITING-CANCELLED/!NEXT ((org-agenda-overriding-header Next Tasks) (org-agenda-skip-function (quote bh/skip-projects-and-habits-and-single-tasks)) (org-agenda-todo-ignore-scheduled t) (org-agenda-todo-ignore-deadlines t) (org-tags-match-list-sublevels t) (org-agenda-sorting-strategy (quote (todo-state-down effort-up category-keep))))) (tags-todo -REFILE-CANCELLED/!-HOLD-WAITING ((org-agenda-overriding-header Tasks) (org-agenda-skip-function (quote bh/skip-project-tasks-maybe)) (org-agenda-todo-ignore-scheduled t) (org-agenda-todo-ignore-deadlines t) (org-agenda-sorting-strategy (quote (category-keep))))) (tags-todo -CANCELLED/! ((org-agenda-overriding-header Projects) (org-agenda-skip-function (quote bh/skip-non-projects)) (org-agenda-sorting-strategy (quote (category-keep))))) (tags-todo -CANCELLED/!WAITING | HOLD ((org-agenda-overriding-header Waiting and Postponed Tasks) (org-tags-match-list-sublevels nil) (org-agenda-todo-ignore-scheduled (quote future)) (org-agenda-todo-ignore-deadlines (quote future)))) (tags -REFILE/ ((org-agenda-overriding-header Tasks to Archive) (org-agenda-skip-function (quote bh/skip-non-archivable-tasks))))) | nil                                                                                                                                                                                                                                                                                                                     |                                                              |                                     |
+  | r | Tasks to Refile  | tags                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | REFILE                                                                                                                                                                                                                                                                                                                                        | ((org-agenda-overriding-header Tasks to Refile) (org-tags-match-list-sublevels nil))                                                                                                                                                                                                                                    |                                                              |                                     |
+  | # | Stuck Projects   | tags-todo                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | -CANCELLED/!                                                                                                                                                                                                                                                                                                                                  | ((org-agenda-overriding-header Stuck Projects) (org-agenda-skip-function (quote bh/skip-non-stuck-projects)))                                                                                                                                                                                                           |                                                              |                                     |
+  | n | Next Tasks       | tags-todo                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | -WAITING-CANCELLED/!NEXT                                                                                                                                                                                                                                                                                                                      | ((org-agenda-overriding-header Next Tasks) (org-agenda-skip-function (quote bh/skip-projects-and-habits-and-single-tasks)) (org-agenda-todo-ignore-scheduled t) (org-agenda-todo-ignore-deadlines t) (org-tags-match-list-sublevels t) (org-agenda-sorting-strategy (quote (todo-state-down effort-up category-keep)))) |                                                              |                                     |
+  | R | Tasks            | tags-todo                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | -REFILE-CANCELLED/!-HOLD-WAITING                                                                                                                                                                                                                                                                                                              | ((org-agenda-overriding-header Tasks) (org-agenda-skip-function (quote bh/skip-project-tasks-maybe)) (org-agenda-sorting-strategy (quote (category-keep))))                                                                                                                                                             |                                                              |                                     |
+  | p | Projects         | tags-todo                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | -CANCELLED/!                                                                                                                                                                                                                                                                                                                                  | ((org-agenda-overriding-header Projects) (org-agenda-skip-function (quote bh/skip-non-projects)) (org-agenda-sorting-strategy (quote (category-keep))))                                                                                                                                                                 |                                                              |                                     |
+  | w | Waiting Tasks    | tags-todo                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | -CANCELLED/!WAITING                                                                                                                                                                                                                                                                                                                           | HOLD                                                                                                                                                                                                                                                                                                                    | ((org-agenda-overriding-header Waiting and Postponed tasks)) | (org-tags-match-list-sublevels nil) |
+  | A | Tasks to Archive | tags                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | -REFILE/                                                                                                                                                                                                                                                                                                                                      | ((org-agenda-overriding-header Tasks to Archive) (org-agenda-skip-function (quote bh/skip-non-archivable-tasks)))                                                                                                                                                                                                       |                                                              |                                     |
+
+
+
+
+** Agenda Keys
+:PROPERTIES:
+:OPEN: [2012-07-23 Mon 20:41]
+:LAST: NEXT [2012-08-01 Wed 15:08]
+:END:
+
+Most of these agenda commands are from =norang=.  The defuns are
+defined [[file:starter-kit-zyg-defuns-org.org::*%3Dnorang%3D%20defuns][here]].
+
+#+begin_src emacs-lisp 
+(add-hook 'org-agenda-mode-hook
+          (lambda ()
+            (define-key org-agenda-mode-map "q" 'bury-buffer))
+          'append)
+(add-hook 'org-agenda-mode-hook
+          '(lambda () (org-defkey org-agenda-mode-map "F" 'bh/restrict-to-file-or-follow))
+          'append)
+(add-hook 'org-agenda-mode-hook
+          '(lambda () (org-defkey org-agenda-mode-map "W" 'bh/widen))
+          'append)
+(add-hook 'org-agenda-mode-hook
+          '(lambda () (org-defkey org-agenda-mode-map "N" 'bh/narrow-to-subtree))
+          'append)
+(add-hook 'org-agenda-mode-hook
+          '(lambda () (org-defkey org-agenda-mode-map "P" 'bh/narrow-to-project))
+          'append)
+(add-hook 'org-agenda-mode-hook
+          '(lambda () (org-defkey org-agenda-mode-map "U" 'bh/narrow-up-one-level))
+          'append)
+(add-hook 'org-agenda-mode-hook
+          '(lambda () (org-defkey org-agenda-mode-map "\C-c\C-x<" 'bh/set-agenda-restriction-lock))
+          'append)
+#+end_src
+
+#+results:
+| lambda | nil | (define-key org-agenda-mode-map q (quote bury-buffer))                        |
+| lambda | nil | (org-defkey org-agenda-mode-map F (quote bh/restrict-to-file-or-follow))      |
+| lambda | nil | (org-defkey org-agenda-mode-map W (quote bh/widen))                           |
+| lambda | nil | (org-defkey org-agenda-mode-map N (quote bh/narrow-to-subtree))               |
+| lambda | nil | (org-defkey org-agenda-mode-map P (quote bh/narrow-to-project))               |
+| lambda | nil | (org-defkey org-agenda-mode-map U (quote bh/narrow-up-one-level))             |
+| lambda | nil | (org-defkey org-agenda-mode-map < (quote bh/set-agenda-restriction-lock)) |
+| lambda | nil | (hl-line-mode 1)                                                              |
+
+** Agenda Settings - Miscellaneous
+:PROPERTIES:
+:OPEN: [2012-08-01 Wed 13:57]
+:CLOSE: [2012-08-01 Wed 13:57]
+:LAST:  [2012-08-01 Wed 13:57]
+:END:
+
+These follow the =norang= suggestions  
+#+begin_src emacs-lisp 
+;; Always hilight the current agenda line
+(add-hook 'org-agenda-mode-hook
+          '(lambda () (hl-line-mode 1))
+          'append)
+
+;; Keep tasks with dates on the global todo lists
+(setq org-agenda-todo-ignore-with-date nil)
+
+;; Keep tasks with deadlines on the global todo lists
+(setq org-agenda-todo-ignore-deadlines nil)
+
+;; Keep tasks with scheduled dates on the global todo lists
+(setq org-agenda-todo-ignore-scheduled nil)
+
+;; Keep tasks with timestamps on the global todo lists
+(setq org-agenda-todo-ignore-timestamp nil)
+
+;; Remove completed deadline tasks from the agenda view
+(setq org-agenda-skip-deadline-if-done t)
+
+;; Remove completed scheduled tasks from the agenda view
+(setq org-agenda-skip-scheduled-if-done t)
+
+;; Remove completed items from search results
+(setq org-agenda-skip-timestamp-if-done t)
+
+(setq org-agenda-include-diary nil)
+(setq org-agenda-diary-file (expand-file-name "~/org/diary.org"))
+
+(setq org-agenda-insert-diary-extract-time t)
+
+;; Include agenda archive files when searching for things
+(setq org-agenda-text-search-extra-files (quote (agenda-archives)))
+
+;; Show all future entries for repeating tasks
+(setq org-agenda-repeating-timestamp-show-all t)
+
+;; Show all agenda dates - even if they are empty
+(setq org-agenda-show-all-dates t)
+
+;; Start the weekly agenda on Monday
+(setq org-agenda-start-on-weekday 1)
+
+;; Enable display of the time grid so we can see the marker for the current time
+(setq org-agenda-time-grid (quote ((daily today remove-match)
+                                   #("----------------" 0 16 (org-heading t))
+                                   (830 1000 1200 1300 1500 1700))))
+
+;; Display tags farther right
+(setq org-agenda-tags-column -102)
+
+;; Keep filters in place
+(setq org-agenda-persistent-filter t)
+
+
+
+
+#+end_src
+
+#+results:
+: t
+
+
+
+
+** Agenda sort from =norang=
+
+Defuns are defined [[file:starter-kit-zyg-defuns-org.org::*%3Dnorang%3D%20defuns][here]]. 
+#+begin_src emacs-lisp
+  
+  ;; Sorting order for tasks on the agenda
+  (setq org-agenda-sorting-strategy
+        (quote ((agenda habit-down time-up user-defined-up priority-down effort-up category-keep)
+                (todo category-up priority-down effort-up)
+                (tags category-up priority-down effort-up)
+                (search category-up))))
+  ;;
+  ;; Agenda sorting functions
+  ;;
+  (setq org-agenda-cmp-user-defined 'bh/agenda-sort)
+#+end_src
+
+#+results:
+: bh/agenda-sort
+
+** Tags
+
+#+begin_src emacs-lisp 
+
+; Tags with fast selection keys
+(setq org-tag-alist (quote (("urgent" . ?u)
+                            ("bill" . ?b)
+                            ("scarce" . ?s)
+                            ("crypt" . ?c)
+                            ("emacs" . ?e))))
+                            
+; Allow setting single tags without the menu
+(setq org-fast-tag-selection-single-key (quote expert))
+
+; For tag searches ignore tasks with scheduled and deadline dates
+(setq org-agenda-tags-todo-honor-ignore-options nil)
+
+#+end_src
+
+#+results:
+
+** Archiving
+:LOGBOOK:
+- State "DONE"       from "NEXT"       [2012-07-19 Thu 23:19]
+- State "NEXT"       from "TODO"       [2012-07-19 Thu 23:19]
+- State "TODO"       from ""           [2012-07-19 Thu 23:19]
+:END:
+
+Anything with a =DONE= todo tag is a valid archiving candidate.
+Though more often than not I'm going to set a section heading back to
+=""= once I'm done.
+
+#+begin_src emacs-lisp 
+(setq org-archive-mark-done nil)
+(setq org-archive-location "%s_archive::* Archived Tasks")
+#+end_src
+
+#+results:
+: %s_archive::* Archived Tasks
+
+** Code Blocks
+:PROPERTIES:
+:OPEN: [2012-07-23 Mon 19:52]
+:LAST: TODO [2012-07-23 Mon 19:52]
+:END:
+
+- lowercase results
+  #+begin_src emacs-lisp 
+  (setq org-babel-results-keyword "results")
+  #+end_src
+
+  #+results:
+  : results
+
+- languages used
+  #+begin_src emacs-lisp 
+      (org-babel-do-load-languages
+         (quote org-babel-load-languages)
+         (quote ((emacs-lisp . t)
+                 (sh . t)
+                 (gnuplot . t)
+                 (org . t)
+                 (octave . t)
+                 (js . t))))
+  #+end_src
+
+  #+results:
+  | (emacs-lisp . t) | (sh . t) | (gnuplot . t) | (org . t) | (octave . t) |
+
+- Don't cache me
+  #+begin_src emacs-lisp 
+    (setq org-babel-default-header-args
+    (cons '(:cache . "no")
+    (assq-delete-all :cache org-babel-default-header-args)))
+  #+end_src
+
+  #+results:
+  | (:cache . no) | (:session . *Inferior Octave*) | (:results . value) | (:results . replace) | (:exports . code) | (:noweb . no) | (:hlines . no) | (:tangle . no) | (:padnewline . yes) |
+
+- Don't prompt me
+  #+begin_src emacs-lisp 
+  (setq org-confirm-babel-evaluate nil)
+  #+end_src
+
+  #+results:
+
+- do not re-evaluate on export
+  #+begin_src emacs-lisp 
+  (setq org-export-babel-evaluate nil)
+  #+end_src
+
+  #+results:
+
+- Use the current window for C-c ' source editing
+  #+begin_src emacs-lisp 
+  (setq org-src-window-setup 'current-window)
+  #+end_src
+
+  #+results:
+  : current-window
+
+- Always look your best
+  #+begin_src emacs-lisp 
+  (setq org-src-fontify-natively t)
+  #+end_src
+
+  #+results:
+  : t
+
+- I wish I'd known about this before.
+  #+begin_src emacs-lisp 
+  (setq org-src-tab-acts-natively t)
+  #+end_src
+
+  #+results:
+  : t
+
+  
+
+** Setting to get Octave Working
+:PROPERTIES:
+:ID: b142296d-b21d-4f4b-a462-3404ff6b4c57
+:END:
+
+- Results are value (needed for octave)
+  #+begin_src emacs-lisp 
+  (setq org-babel-default-header-args
+       (cons '(:results . "value") org-babel-default-header-args)) 
+  #+end_src
+
+  #+results:
+  | (:results . value) | (:cache . no) | (:session . *Inferior Octave*) | (:results . value) | (:results . replace) | (:exports . code) | (:noweb . no) | (:hlines . no) | (:tangle . no) | (:padnewline . yes) |
+
+- [ ] inline images break my windows emacs 
+  #+begin_src emacs-lisp 
+  (setq org-startup-with-inline-images nil)
+  #+end_src
+
+  #+results:
+
+- Single session for Octave
+  - [ ] breaks other languages of course as it's a global variable
+  - turning this off
+  #+begin_src emacs-lisp :tangle no
+  ; Run octave in the same session.  Without this set, octave opens
+  ; and closes on every evaluation.
+  (setq org-babel-default-header-args
+         (cons '(:session . "*Inferior Octave*")
+         (assq-delete-all :session org-babel-default-header-args)))
+  #+end_src
+
+  #+results:
+  | (:session . *Inferior Octave*) | (:results . value) | (:cache . no) | (:results . value) | (:results . replace) | (:exports . code) | (:noweb . no) | (:hlines . no) | (:tangle . no) | (:padnewline . yes) |
+
+- tangle octave files with a .m suffix
+  #+begin_src emacs-lisp 
+  (add-to-list 'org-babel-tangle-lang-exts '("octave" . "m"))
+  #+end_src
+
+  #+results:
+  | (octave . m) | (emacs-lisp . el) |
+
+- sub-scripts might mess with octave
+  #+begin_src emacs-lisp 
+  (setq org-use-sub-superscripts nil)
+  #+end_src
+
+  #+results:
+
+
+** Export settings
+:LOGBOOK:
+		 - State "DONE"       from "TODO"       [2012-05-29 Tue 09:10]
+		 :END:
+:PROPERTIES:
+:Effort: 5:00
+:ID: 85ec9756-18b2-4240-a021-7cfa8e6f718b
+:END:
+
+HTML exported using org looks so clean and stylish.
+
+- no post-amble thanks
+  #+begin_src emacs-lisp 
+  (setq org-export-html-postamble nil)
+  #+end_src
+
+  #+results:
+
+  
+- Inline images in HTML instead of producting links to the image
+  #+begin_src emacs-lisp 
+  (setq org-export-html-inline-images t)
+  #+end_src
+
+  #+results:
+  : t
+
+  
+- Using an external style file
+  #+begin_src emacs-lisp 
+    (setq org-export-html-style "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\"/>")
+    (setq org-export-html-style-include-default nil)
+  #+end_src
+
+  #+results:
+
+
+- Do not generate internal css formatting for HTML exports
+  - [ ] try this out M-x org-export-htmlize-generate-css
+  #+begin_src emacs-lisp 
+  (setq org-export-htmlize-output-type (quote css))
+  #+end_src
+
+  #+results:
+  : css
+
+- Export with LaTeX fragments
+  - [ ] dollar dollar bug
+  #+begin_src emacs-lisp 
+  (setq org-export-with-LaTeX-fragments t)
+  #+end_src
+
+  #+results:
+  : t
+
+- html decl
+  #+begin_src emacs-lisp 
+  (setq org-export-html-xml-declaration (quote (("html" . "")
+                                                ("was-html" . "<?xml version=\"1.0\" encoding=\"%s\"?>")
+                                                ("php" . "<?php echo \"<?xml version=\\\"1.0\\\" encoding=\\\"%s\\\" ?>\"; ?>"))))
+  #+end_src
+
+  #+results:
+  | (html . ) | (was-html . <?xml version="1.0" encoding="%s"?>) | (php . <?php echo "<?xml version=\"1.0\" encoding=\"%s\" ?>"; ?>) |
+
+- allow BIND to do its thing
+  #+begin_src emacs-lisp 
+  (setq org-export-allow-BIND t)
+  #+end_src
+
+  #+results:
+  : t
+
+- timestamps outside drawers are evil.
+  #+begin_src emacs-lisp 
+  (setq org-export-with-timestamps nil)
+  #+end_src
+
+  #+results:
+
+
+** TODO Publishing
+:PROPERTIES:
+:OPEN: [2012-07-23 Mon 20:14]
+:LAST: TODO [2012-07-23 Mon 20:14]
+:END:
+- [ ] look at the starter kit publishing file
+- [ ] edit down to two
+  - mom
+  - tmp
+
+This is still in test mode.
+
+#+begin_src emacs-lisp 
+  ;tmp - http://www.scarcecapital.com/qic
+  (setq org-publish-project-alist
+        ; mom-org are the org-files that generate the content
+        ; mom-extra are images and css files that need to be included
+        ; mom is the top-level project that gets published
+        (quote (("mom-report-org"
+                 :base-directory "~/projects/qic/momentum/draft"
+                 :publishing-directory "~/pub/report"
+                 ; :publishing-directory "/ssh:www-data@www:~/www.scarcecapital.com/tmp"
+                 :recursive t
+                 :section-numbers nil
+                 :table-of-contents nil
+                 :base-extension "org"
+                 :publishing-function (org-publish-org-to-html org-publish-org-to-org)
+                 :style "<link rel=\"stylesheet\" href=\"scarce.css\" type=\"text/css\" />"
+                 :plain-source t
+                 :htmlized-source t
+                 :style-include-default nil
+                 :auto-sitemap t
+                 :sitemap-filename "index.html"
+                 :sitemap-title "Momentum Report"
+                 :sitemap-style "tree"
+                 :author-info t
+                 :creator-info t)
+                ("mom-report-extra"
+                 :base-directory "~/projects/qic/momentum/draft"
+                 :publishing-directory "~/pub/report"
+                 :base-extension "css\\|pdf\\|png\\|jpg\\|gif"
+                 :publishing-function org-publish-attachment
+                 :recursive t
+                 :author nil)
+                ("mom-report"
+                 :components ("mom-report-org" "mom-report-extra"))
+                ; tmp for quick testing
+                ("tmp-org"
+                 :base-directory "~/tmp/publish"
+                 :publishing-directory "~/pub/tmp"
+                 ; :publishing-directory "/ssh:www-data@www:~/www.scarcecapital.com/tmp"
+                 :recursive t
+                 :section-numbers nil
+                 :table-of-contents nil
+                 :base-extension "org"
+                 :publishing-function (org-publish-org-to-html org-publish-org-to-org)
+                 ;:style "<link rel=\"stylesheet\" href=\"http://scarcecapital.com/tmp/org.css\" type=\"text/css\" />"
+                 ; I assume you can then just put the stylesheet in the directory (tmp) and all is cool
+                 :style "<link rel=\"stylesheet\" href=\"org.css\" type=\"text/css\" />"
+                 :plain-source t
+                 :htmlized-source t
+                 :style-include-default nil
+                 :auto-sitemap t
+                 :sitemap-filename "index.html"
+                 :sitemap-title "Test Publishing Environment"
+                 :sitemap-style "tree"
+                 :author-info t
+                 :creator-info t)
+                ("tmp-extra"
+                 :base-directory "~/tmp/publish/"
+                 :publishing-directory "~/pub/tmp"
+                 :base-extension "css\\|pdf\\|png\\|jpg\\|gif\\|el"
+                 :publishing-function org-publish-attachment
+                 :recursive t
+                 :author nil)
+                ("tmp"
+                 :components ("tmp-org" "tmp-extra"))
+                ; mom-dev is a testing version
+                ("mom-dev-org"
+                 :base-directory "~/projects/momentum/dev"
+                 :publishing-directory "~/pub/dev"
+                 ; :publishing-directory "/ssh:www-data@www:~/www.scarcecapital.com/tmp"
+                 :recursive t
+                 :section-numbers nil
+                 :table-of-contents nil
+                 :base-extension "org"
+                 :publishing-function (org-publish-org-to-html org-publish-org-to-org)
+                 :style "<link rel=\"stylesheet\" href=\"http://scarcecapital.com/tmp/org.css\" type=\"text/css\" />"
+                 :plain-source t
+                 :htmlized-source t
+                 :style-include-default nil
+                 :auto-sitemap t
+                 :sitemap-filename "index.html"
+                 :sitemap-title "Momemtum Development"
+                 :sitemap-style "tree"
+                 :author-info t
+                 :creator-info t)
+                ("mom-dev-extra"
+                 :base-directory "~/projects/momentum/dev"
+                 :publishing-directory "~/pub/dev"
+                 :base-extension "css\\|pdf\\|png\\|jpg\\|gif"
+                 :publishing-function org-publish-attachment
+                 :recursive t
+                 :author nil)
+                ("mom-dev"
+                 :components ("mom-dev-org" "mom-dev-extra")))))
+
+#+end_src
+
+#+results:
+| mom-report-org   | :base-directory | ~/projects/qic/momentum/draft     | :publishing-directory | ~/pub/report | :recursive      | t    | :section-numbers | nil  | :table-of-contents | nil  | :base-extension      | org                    | :publishing-function   | (org-publish-org-to-html org-publish-org-to-org) | :style  | <link rel="stylesheet" href="scarce.css" type="text/css" />                           | :plain-source | t | :htmlized-source | t | :style-include-default | nil | :auto-sitemap | t | :sitemap-filename | index.html | :sitemap-title | Momentum Report             | :sitemap-style | tree | :author-info | t | :creator-info | t |
+| mom-report-extra | :base-directory | ~/projects/qic/momentum/draft     | :publishing-directory | ~/pub/report | :base-extension | css\ | pdf\             | png\ | jpg\               | gif  | :publishing-function | org-publish-attachment | :recursive             | t                                                | :author | nil                                                                                   |               |   |                  |   |                        |     |               |   |                   |            |                |                             |                |      |              |   |               |   |
+| mom-report       | :components     | (mom-report-org mom-report-extra) |                       |              |                 |      |                  |      |                    |      |                      |                        |                        |                                                  |         |                                                                                       |               |   |                  |   |                        |     |               |   |                   |            |                |                             |                |      |              |   |               |   |
+| tmp-org          | :base-directory | ~/tmp/publish                     | :publishing-directory | ~/pub/tmp    | :recursive      | t    | :section-numbers | nil  | :table-of-contents | nil  | :base-extension      | org                    | :publishing-function   | (org-publish-org-to-html org-publish-org-to-org) | :style  | <link rel="stylesheet" href="org.css" type="text/css" />                              | :plain-source | t | :htmlized-source | t | :style-include-default | nil | :auto-sitemap | t | :sitemap-filename | index.html | :sitemap-title | Test Publishing Environment | :sitemap-style | tree | :author-info | t | :creator-info | t |
+| tmp-extra        | :base-directory | ~/tmp/publish/                    | :publishing-directory | ~/pub/tmp    | :base-extension | css\ | pdf\             | png\ | jpg\               | gif\ | el                   | :publishing-function   | org-publish-attachment | :recursive                                       | t       | :author                                                                               | nil           |   |                  |   |                        |     |               |   |                   |            |                |                             |                |      |              |   |               |   |
+| tmp              | :components     | (tmp-org tmp-extra)               |                       |              |                 |      |                  |      |                    |      |                      |                        |                        |                                                  |         |                                                                                       |               |   |                  |   |                        |     |               |   |                   |            |                |                             |                |      |              |   |               |   |
+| mom-dev-org      | :base-directory | ~/projects/momentum/dev           | :publishing-directory | ~/pub/dev    | :recursive      | t    | :section-numbers | nil  | :table-of-contents | nil  | :base-extension      | org                    | :publishing-function   | (org-publish-org-to-html org-publish-org-to-org) | :style  | <link rel="stylesheet" href="http://scarcecapital.com/tmp/org.css" type="text/css" /> | :plain-source | t | :htmlized-source | t | :style-include-default | nil | :auto-sitemap | t | :sitemap-filename | index.html | :sitemap-title | Momemtum Development        | :sitemap-style | tree | :author-info | t | :creator-info | t |
+| mom-dev-extra    | :base-directory | ~/projects/momentum/dev           | :publishing-directory | ~/pub/dev    | :base-extension | css\ | pdf\             | png\ | jpg\               | gif  | :publishing-function | org-publish-attachment | :recursive             | t                                                | :author | nil                                                                                   |               |   |                  |   |                        |     |               |   |                   |            |                |                             |                |      |              |   |               |   |
+| mom-dev          | :components     | (mom-dev-org mom-dev-extra)       |                       |              |                 |      |                  |      |                    |      |                      |                        |                        |                                                  |         |                                                                                       |               |   |                  |   |                        |     |               |   |                   |            |                |                             |                |      |              |   |               |   |
+
+
+** Visuals
+
+Various visual stylistic choices 
+#+begin_src emacs-lisp 
+  (setq org-hide-leading-stars nil)
+  (setq org-startup-indented t)
+  (setq org-cycle-separator-lines 0)
+  (setq org-blank-before-new-entry (quote ((heading)
+                                           (plain-list-item . auto))))
+
+  (setq org-emphasis-alist (quote (("*" bold "<b>" "</b>")
+                                   ("/" italic "<i>" "</i>")
+                                   ("_" underline "<span style=\"text-decoration:underline;\">" "</span>")
+                                   ("=" org-code "<code>" "</code>" verbatim)
+                                   ("~" org-verbatim "<code>" "</code>" verbatim))))
+  
+#+end_src
+
+#+results:
+| * | bold         | <b>                                       | </b>    |          |
+| / | italic       | <i>                                       | </i>    |          |
+| _ | underline    | <span style="text-decoration:underline;"> | </span> |          |
+| = | org-code     | <code>                                    | </code> | verbatim |
+| ~ | org-verbatim | <code>                                    | </code> | verbatim |
+
+** Action Modification
+
+Various stylistic choices 
+#+begin_src emacs-lisp 
+(setq org-return-follows-link t)
+#+end_src
+
+#+results:
+: t
+
+
+** TODO Info docs
+:PROPERTIES:
+:OPEN: [2012-08-01 Wed 14:05]
+:LAST: TODO [2012-08-01 Wed 14:05]
+:END:
+
+- [ ] locate new spot
+#+begin_src emacs-lisp 
+(add-to-list 'Info-default-directory-list "~/git/org-mode/doc")
+#+end_src
+
+#+results:
+| ~/git/org-mode/doc | c:/emacs/info/ | /usr/local/share/info/ | /usr/local/info/ | /usr/local/gnu/info/ | /usr/local/gnu/lib/info/ | /usr/local/gnu/lib/emacs/info/ | /usr/local/emacs/info/ | /usr/local/lib/info/ | /usr/local/lib/emacs/info/ | c:/Users/zygomega/projects/emacs/emacs-24.1-bin-i386/emacs-24.1/info/ |
+
+** Special Key
+
+#+begin_src emacs-lisp :tangle yes
+  (setq org-special-ctrl-a/e 'reversed)
+  (setq org-special-ctrl-k t)
+  (setq org-yank-adjusted-subtrees t)
+#+end_src
+
+#+results:
+: t
+
+ 
+** Speed keys
+:PROPERTIES:
+:CUSTOM_ID: speed-keys
+:END:
+Speed commands enable single-letter commands in Org-mode files when
+the point is at the beginning of a headline, or at the beginning of a
+code block.
+
+See the =org-speed-commands-default= variable for a list of the keys
+and commands enabled at the beginning of headlines.  All code blocks
+are available at the beginning of a code block, the following key
+sequence =C-c C-v h= (bound to `=org-babel-describe-bindings=') will
+display a list of the code blocks commands and their related keys.
+
+#+begin_src emacs-lisp
+(setq org-use-speed-commands t)
+(setq org-speed-commands-user (quote (("0" . ignore)
+                                        ("1" . ignore)
+                                        ("2" . ignore)
+                                        ("3" . ignore)
+                                        ("4" . ignore)
+                                        ("5" . ignore)
+                                        ("6" . ignore)
+                                        ("7" . ignore)
+                                        ("8" . ignore)
+                                        ("9" . ignore)
+  
+                                        ("a" . ignore)
+                                        ("d" . ignore)
+                                        ("h" . bh/hide-other)
+                                        ("i" progn
+                                         (forward-char 1)
+                                         (call-interactively 'org-insert-heading-respect-content))
+                                        ("k" . org-kill-note-or-show-branches)
+                                        ("l" . ignore)
+                                        ("m" . ignore)
+                                        ("q" . bh/show-org-agenda)
+                                        ("r" . ignore)
+                                        ("s" . org-save-all-org-buffers)
+                                        ("w" . org-refile)
+                                        ("x" . ignore)
+                                        ("y" . ignore)
+                                        ("z" . org-add-note)
+  
+                                        ("A" . ignore)
+                                        ("B" . ignore)
+                                        ("E" . ignore)
+                                        ("F" . bh/restrict-to-file-or-follow)
+                                        ("G" . ignore)
+                                        ("H" . ignore)
+                                        ("J" . org-clock-goto)
+                                        ("K" . ignore)
+                                        ("L" . ignore)
+                                        ("M" . ignore)
+                                        ("N" . bh/narrow-to-subtree)
+                                        ("P" . bh/narrow-to-project)
+                                        ("Q" . ignore)
+                                        ("R" . ignore)
+                                        ("S" . ignore)
+                                        ("T" . bh/org-todo)
+                                        ("U" . bh/narrow-up-one-level)
+                                        ("V" . ignore)
+                                        ("W" . bh/widen)
+                                        ("X" . ignore)
+                                        ("Y" . ignore)
+                                        ("Z" . ignore))))
+
+
+#+end_src
+
+#+results:
+: t
+
+
+** TODO Auto Save and Revert
+
+- [ ] combine this with an automatic git commit as per the =norang=
+  recommended pattern 
+#+begin_src emacs-lisp
+(run-at-time "00:59" 3600 'org-save-all-org-buffers)
+(global-auto-revert-mode t)
+#+end_src
+
+#+results:
+: t
+
+  
+
+
+** clipboard
+
+#+begin_src emacs-lisp
+  (setq org-cycle-global-at-bob t)
+#+end_src
+
+
+#+begin_src emacs-lisp
+  ; Enable habit tracking (and a bunch of other modules)
+  (setq org-modules (quote (org-bbdb
+                            org-bibtex
+                            org-crypt
+                            org-gnus
+                            org-id
+                            org-info
+                            org-jsinfo
+                            org-habit
+                            org-inlinetask
+                            org-irc
+                            org-mew
+                            org-mhe
+                            org-protocol
+                            org-rmail
+                            org-vm
+                            org-wl
+                            org-w3m)))
+  
+  ; position the habit graph on the agenda to the right of the default
+  (setq org-habit-graph-column 50)
+  (require 'org-habit)
+  
+#+end_src
+
+#+results:
+: 50
+
