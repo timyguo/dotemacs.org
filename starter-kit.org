@@ -1,5 +1,6 @@
 #+TITLE: Emacs Starter Kit
 #+OPTIONS: toc:2 num:nil ^:nil
+#+PROPERTY: results silent
 
 #+begin_quote
   Emacs outshines all other editing software in approximately the same

@@ -36,14 +36,6 @@ Called from [[file:starter-kit.org]]
 [[file:~/org/starter-kit-bindings.org]]
 https://github.com/purcell/emacs.d.git
 
-** TODO purcell dotemacs
-:PROPERTIES:
-:OPEN: [2012-09-01 Sat 18:10]
-:LAST: [2012-09-01 Sat 18:10]
-:END:
-[[file:~/org/starter-kit-bindings.org]]
-https://github.com/purcell/emacs.d.git
-
 * Introduction
 
 This is my personal emacs configuration, written in org and utilising emacs24
@@ -353,7 +345,7 @@ The following files contain categories not covered by starter kit.
   (starter-kit-load "starter-kit-octave.org")
   #+end_src
 
-*** icicles
+*** icicles (off)
 :LOGBOOK:
 - State "TODO"       from ""           [2012-07-19 Thu 22:27]
 :END:
@@ -474,7 +466,7 @@ introduce a new major mode or something big like that.
   #+end_src
 
 
-** TODO magit info
+** magit info
   #+begin_src emacs-lisp :tangle no
     (add-to-list 'Info-default-directory-list "~/.emacs.d/git/magit")
   #+end_src

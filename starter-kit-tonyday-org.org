@@ -140,9 +140,9 @@ So why do I need an org directory?
 
 MobileOrg via Dropbox
 #+begin_src emacs-lisp 
-  (setq org-default-notes-file "~/org/refile.org")
+  (setq org-default-notes-file "~/stuff/org/refile.org")
   ;; Set to the name of the file where new notes will be stored
-  (setq org-mobile-inbox-for-pull "~/org/refile.org")
+  (setq org-mobile-inbox-for-pull "~/stuff/org/refile.org")
   ;; Set to <your Dropbox root directory>/MobileOrg.
   (setq org-mobile-directory "~/Dropbox/MobileOrg")
 #+end_src
@@ -214,7 +214,7 @@ Character encoding
 : t
 
   
-** TODO Plain Lists
+** Plain Lists
 
 
 - Demotion
@@ -231,9 +231,7 @@ Character encoding
 - Reset Repeater Checklist
   Repeater checklists saved my career.
   http://orgmode.org/worg/org-contrib/org-checklist.html
-  - [ ] use modern load method
   #+begin_src emacs-lisp 
-  (add-to-list 'load-path (expand-file-name "~/git/org-mode/contrib/lisp"))
   (require 'org-checklist)
   #+end_src
 
@@ -275,44 +273,44 @@ CLOCK: [2012-08-23 Thu 20:49]--[2012-08-24 Fri 10:02] => 13:13
 #+begin_src emacs-lisp 
   
   (setq org-capture-templates
-        (quote (("t" "todo (with link)" entry (file "~/Dropbox/org/refile.org")
+        (quote (("t" "todo (with link)" entry (file "~/stuff/org/refile.org")
                  "* TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%a\n")
-                ("j" "Journal" entry (file+datetree "~/Dropbox/org/diary.org")
+                ("j" "Journal" entry (file+datetree "~/stuff/org/diary.org")
                  "* %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n")
-                ("u" "urgent todo" entry (file "~/Dropbox/org/refile.org")
+                ("u" "urgent todo" entry (file "~/stuff/org/refile.org")
                  "* TODO %? :urgent:\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n")
-                ("n" "note" entry (file "~/Dropbox/org/refile.org")
+                ("n" "note" entry (file "~/stuff/org/refile.org")
                  "* %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n")
-                ("z" "bugz" entry (file+headline "~/Dropbox/org/bugz.org" "incoming")
+                ("z" "bugz" entry (file+headline "~/stuff/org/bugz.org" "incoming")
                  "* TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST:%U\n:END:\n%a\n")
-                ("i" "instadev" entry (file+headline "~/Dropbox/projects/sys/sys.org" "instadev")
+                ("i" "instadev" entry (file+headline "~/stuff/sys/sys.org" "instadev")
                  "* [ ] %c\n")
                 ("s" "snipz")  
-                ("sr" "snipz request" entry (file+headline "~/Dropbox/org/snipz.org" "incoming")
+                ("sr" "snipz request" entry (file+headline "~/stuff/org/snipz.org" "incoming")
                  "* TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST:%U\n:END:\n%a\n")
-                ("sn" "snipz note" entry (file+headline "~/Dropbox/org/snipz.org" "incoming")
+                ("sn" "snipz note" entry (file+headline "~/stuff/org/snipz.org" "incoming")
                  "* %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%c\n")
-                ("k" "kill ring")  
-                ("kb" "kill ring body" entry (file "~/Dropbox/org/refile.org")
+                ("k" "kill ring")
+                ("kb" "kill ring body" entry (file "~/stuff/org/refile.org")
                  "* %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%c")
-                ("kh" "kill ring head" entry (file "~/Dropbox/org/refile.org")
+                ("kh" "kill ring head" entry (file "~/stuff/org/refile.org")
                  "* TODO %c\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%?"))))
   
 #+end_src
 
 #+results:
-| t  | todo (with link) | entry | (file ~/org/refile.org)                         | * TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%a\n      |
-| j  | Journal          | entry | (file+datetree ~/org/diary.org)                 | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n               |
-| u  | urgent todo      | entry | (file ~/org/refile.org)                         | * TODO %? :urgent:\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n |
-| n  | note             | entry | (file ~/org/refile.org)                         | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n               |
-| z  | bugz             | entry | (file+headline ~/org/bugz.org incoming)         | * TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST:%U\n:END:\n%a\n       |
-| i  | instadev         | entry | (file+headline ~/projects/sys/sys.org instadev) | * [ ] %c\n                                                      |
-| s  | snipz            |       |                                                 |                                                                 |
-| sr | snipz request    | entry | (file+headline ~/org/snipz.org incoming)        | * TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST:%U\n:END:\n%a\n       |
-| sn | snipz note       | entry | (file+headline ~/org/snipz.org incoming)        | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%c\n           |
-| k  | kill ring        |       |                                                 |                                                                 |
-| kb | kill ring body   | entry | (file ~/org/refile.org)                         | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%c             |
-| kh | kill ring head   | entry | (file ~/org/refile.org)                         | * TODO %c\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%?        |
+| t  | todo (with link) | entry | (file ~/stuff/org/refile.org)                  | * TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%a\n      |
+| j  | Journal          | entry | (file+datetree ~/stuff/org/diary.org)          | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n               |
+| u  | urgent todo      | entry | (file ~/stuff/org/refile.org)                  | * TODO %? :urgent:\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n |
+| n  | note             | entry | (file ~/stuff/org/refile.org)                  | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n               |
+| z  | bugz             | entry | (file+headline ~/stuff/org/bugz.org incoming)  | * TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST:%U\n:END:\n%a\n       |
+| i  | instadev         | entry | (file+headline ~/stuff/sys/sys.org instadev)   | * [ ] %c\n                                                      |
+| s  | snipz            |       |                                                |                                                                 |
+| sr | snipz request    | entry | (file+headline ~/stuff/org/snipz.org incoming) | * TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST:%U\n:END:\n%a\n       |
+| sn | snipz note       | entry | (file+headline ~/stuff/org/snipz.org incoming) | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%c\n           |
+| k  | kill ring        |       |                                                |                                                                 |
+| kb | kill ring body   | entry | (file ~/stuff/org/refile.org)                  | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%c             |
+| kh | kill ring head   | entry | (file ~/stuff/org/refile.org)                  | * TODO %c\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%?        |
 
 
 
@@ -353,23 +351,63 @@ CLOSED: [2012-07-20 Fri 00:20]
 :ID: b6b3a794-7836-4259-8b9c-92ce0a35cd24
 		:END:
 
-- disable =C-c [=
-  I adopt the same system as =norang=.  It becomes difficult to
-  remember what's on and not on the agenda
- #+begin_src emacs-lisp
-   ;; Disable C-c [ and C-c ] in org-mode
-   (add-hook 'org-mode-hook
-             (lambda ()
-               ;; Undefine C-c [ and C-c ] since this breaks my
-               ;; org-agenda files when directories are include It
-               ;; expands the files in the directories individually
-               (org-defkey org-mode-map "\C-c["    'undefined)
-               (org-defkey org-mode-map "\C-c]"    'undefined))
-             'append)
+Startup should take this table and create the org-agenda-files list.
+
+#+TBLNAME: agenda-files-table
+| stuff           | meta.org                    |                   |
+| .emacs.d        | tonyday.org                 |                   |
+| .emacs.d        | starter-kit-tonyday-org.org |                   |
+| stuff           | org                         | refile.org        |
+| stuff           | org                         | bugz.org          |
+| stuff           | org                         | snipz.org         |
+| stuff           | org                         | org.org           |
+| stuff           | emacs                       | emacs.org         |
+| stuff           | sys                         | sys.org           |
+| stuff           | biz                         | scarce.org        |
+| stuff           | site                        | scarcecapital.org |
+| stuff           | content                     | life.org          |
+| stuff           | content                     | writing.org       |
+| stuff           | dev                         | webdev.org        |
+| stuff           | emacs                       | bindings.org      |
+| stuff           | sys                         | migrate.org       |
+| stuff           | sys                         | git.org           |
+| stuff           | factor/momentum             | qic.org           |
+| stuff           | factor                      | emfx.org          |
+| stuff           | factor                      | factor.org        |
+| stuff           | dev                         | rdev.org          |
+| stuff           | dev                         | jsdev.org         |
+| stuff           | content                     | quant.org         |
+| stuff           | content                     | ideas.org         |
+| emfx            | emfx.org                    |                   |
+| dotemacs-mashup | README.org                  |                   |
+|                 |                             |                   |
+|                 |                             |                   |
+
+- function to reset org-agenda-files based on the above table of directories
+  and files
+  #+begin_src emacs-lisp :var table=agenda-files-table
+    (setq clean-table
+          (delete nil  
+                  (loop for line in table
+                        collect 
+                        (delete "" (delete-dups line)))))
+    
+    (setq org-agenda-files 
+          (mapcar
+           (lambda (x) 
+             (concat "~/"
+                     (mapconcat
+                      'eval x "/")))
+           clean-table))
   #+end_src
 
-- Agenda Files
-  #+begin_src emacs-lisp
+  #+results:
+  | ~/stuff/meta.org | ~/.emacs.d/tonyday.org | ~/.emacs.d/starter-kit-tonyday-org.org | ~/stuff/org/refile.org | ~/stuff/org/bugz.org | ~/stuff/org/snipz.org | ~/stuff/org/org.org | ~/stuff/emacs/emacs.org | ~/stuff/sys/sys.org | ~/stuff/biz/scarce.org | ~/stuff/site/scarcecapital.org | ~/stuff/content/life.org | ~/stuff/content/writing.org | ~/stuff/dev/webdev.org | ~/stuff/emacs/bindings.org | ~/stuff/sys/migrate.org | ~/stuff/sys/git.org | ~/stuff/factor/momentum/qic.org | ~/stuff/factor/emfx.org | ~/stuff/factor/factor.org | ~/stuff/dev/rdev.org | ~/stuff/dev/jsdev.org | ~/stuff/content/quant.org | ~/stuff/content/ideas.org | ~/emfx/emfx.org | ~/dotemacs-mashup/README.org |
+
+
+
+- (Manual) Agenda Files (turned off)
+  #+begin_src emacs-lisp :tangle no
     ;; the entire directory (hand edit this)
     (setq org-agenda-files (quote ("~/stuff/org/refile.org"
                                    "~/stuff/org/org.org"
@@ -403,6 +441,21 @@ CLOSED: [2012-07-20 Fri 00:20]
 
   #+results:
   | ~/stuff/org/refile.org | ~/stuff/org/org.org | ~/stuff/org/bugz.org | ~/stuff/org/snipz.org | ~/stuff/biz/scarce.org | ~/stuff/meta.org | ~/stuff/content/life.org | ~/stuff/content/writing.org | ~/stuff/emacs/emacs.org | ~/stuff/emacs/bindings.org | ~/.emacs.d/tonyday.org | ~/.emacs.d/starter-kit-tonyday-org.org | ~/stuff/sys/sys.org | ~/stuff/sys/migrate.org | ~/stuff/site/scarcecapital.org | ~/stuff/dev/webdev.org | ~/stuff/sys/git.org | ~/stuff/factor/momentum/qic.org | ~/stuff/factor/emfx.org | ~/stuff/factor/factor.org | ~/emfx/emfx.org | ~/dotemacs-mashup/README.org | ~/stuff/dev/rdev.org | ~/stuff/dev/jsdev.org | ~/stuff/dev/webdev.org | ~/stuff/content/quant.org | ~/stuff/content/ideas.org |
+
+- disable =C-c [=
+  I adopt the same system as =norang=.  It becomes difficult to
+  remember what's on and not on the agenda
+ #+begin_src emacs-lisp
+   ;; Disable C-c [ and C-c ] in org-mode
+   (add-hook 'org-mode-hook
+             (lambda ()
+               ;; Undefine C-c [ and C-c ] since this breaks my
+               ;; org-agenda files when directories are include It
+               ;; expands the files in the directories individually
+               (org-defkey org-mode-map "\C-c["    'undefined)
+               (org-defkey org-mode-map "\C-c]"    'undefined))
+             'append)
+  #+end_src
 
 
 
@@ -1066,14 +1119,14 @@ Various stylistic choices
 : t
 
 
-** TODO Info docs
+** Info docs
 :PROPERTIES:
 :OPEN: [2012-08-01 Wed 14:05]
-:LAST: TODO [2012-08-01 Wed 14:05]
+:LAST:  [2012-09-07 Fri 17:45]
+:CLOSE: [2012-09-07 Fri 17:45]
 :END:
 
-- [ ] locate new spot
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp :tangle no
 (add-to-list 'Info-default-directory-list "~/git/org-mode/doc")
 #+end_src
 
@@ -1166,10 +1219,8 @@ display a list of the code blocks commands and their related keys.
 : t
 
 
-** TODO Auto Save and Revert
+** Auto Save and Revert
 
-- [ ] combine this with an automatic git commit as per the =norang=
-  recommended pattern 
 #+begin_src emacs-lisp
 (run-at-time "00:59" 3600 'org-save-all-org-buffers)
 (global-auto-revert-mode t)
@@ -1178,7 +1229,42 @@ display a list of the code blocks commands and their related keys.
 #+results:
 : t
 
-  
+** org2blog
+:LOGBOOK:
+CLOCK: [2012-08-20 Mon 18:29]--[2012-08-20 Mon 18:29] =>  0:00
+:END:
+:PROPERTIES:
+:OPEN: [2012-08-19 Sun 11:51]
+:LAST:  [2012-09-09 Sun 12:30]
+:CLOSE: [2012-09-09 Sun 12:30]
+:END:
+
+#+begin_src emacs-lisp
+(require 'org2blog-autoloads)
+#+end_src
+
+#+results:
+: org2blog-autoloads
+
+#+begin_src emacs-lisp
+  (setq org2blog/wp-blog-alist
+       '(("scarce"
+          :url "http://scarcecapital.com/wordpress/xmlrpc.php"
+          :username "Tony Day")
+         ("dev"
+          :url "http://127.0.0.1:4001/wpdev/xmlrpc.php"
+          :username "Tony Day"
+          :default-title "test title (production)"
+          :default-categories ("quant" "org" "emacs")
+          :tags-as-categories nil)))
+#+end_src
+
+#+results:
+| scarce | :url | http://scarcecapital.com/wordpress/xmlrpc.php | :username | Tony Day |                |                         |                     |                   |                     |     |
+| dev    | :url | http://127.0.0.1:4001/wpdev/xmlrpc.php        | :username | Tony Day | :default-title | test title (production) | :default-categories | (quant org emacs) | :tags-as-categories | nil |
+
+
+
 
 
 ** clipboard

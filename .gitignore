@@ -51,3 +51,6 @@ secret.org
 .emacs.desktop*
 .*~
 agent/*
+/tmp/#scratch.el#
+/tmp/#scratch.org#
+/bookmarks
