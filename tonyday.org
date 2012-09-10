@@ -18,7 +18,13 @@ Under Development
 
 Called from [[file:starter-kit.org]]
 
-** tasks
+** TODO .emacs tasks
+SCHEDULED: <2012-09-10 Mon>
+:PROPERTIES:
+:OPEN: [2012-09-10 Mon 09:34]
+:LAST: TODO [2012-09-10 Mon 09:34]
+:END:
+- [ ] transfer to mashup
 - [-] get to run stage
   - [X] add in addzyg
   - [X] sk lisp diff check
@@ -626,4 +632,17 @@ Why there are 3 packages, idk.
 
 #+results:
 | ~/.emacs.d | ~/stuff | ~/dotemacs-mashup | ~/emfx |
+
+
+
+
+* sunrise commander
+
+- M-x customize-group <RET> sunrise <RET> 
+- M-x sunrise
+- M-x sunrise-cd
+#+begin_src emacs-lisp
+  (require 'sunrise-commander)
+  (add-to-list 'auto-mode-alist '("\\.srvm\\'" . sr-virtual-mode))
+#+end_src
 

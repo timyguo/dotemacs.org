@@ -37,19 +37,6 @@ I start with Org mode
 #+results:
 : org-mode
 
-** TODO Org is everywhere
-:PROPERTIES:
-:OPEN: [2012-07-23 Mon 11:45]
-:LAST: TODO [2012-07-23 Mon 11:45]
-:END:
-So why do I need an org directory?
-#+begin_src emacs-lisp 
-  ;(setq org-directory "~/org/")
-#+end_src
-
-#+results:
-
-
 ** Miscellaneous Settings
 #+begin_src emacs-lisp 
   ;; shift-select
@@ -86,6 +73,7 @@ So why do I need an org directory?
 | #[nil \300\301\302\303\304$\207 [add-hook before-save-hook org-encrypt-entries nil t] 5] | #[nil \300\301\302\303\304$\207 [org-add-hook change-major-mode-hook org-show-block-all append local] 5] | (lambda nil (local-set-key \216 (quote outline-next-visible-heading)) (local-set-key \220 (quote outline-previous-visible-heading)) (local-set-key \225 (quote outline-up-heading)) (local-set-key \227 (quote org-table-copy-region)) (local-set-key \231 (quote org-table-paste-rectangle)) (local-set-key \214 (quote org-table-sort-lines)) (local-set-key \311 (quote org-toggle-iimage-in-org))) | auto-fill-mode | #[nil \300\301\302\303\304$\207 [org-add-hook change-major-mode-hook org-babel-show-result-all append local] 5] | org-babel-result-hide-spec | org-babel-hide-all-hashes |
 
 ** TODO remaining key bindings
+SCHEDULED: <2012-09-10 Mon>
 :PROPERTIES:
 			:ID:       c0914200-d73d-4205-aba1-6cca8b2dd8f1
 			:Effort:   0:15
@@ -133,6 +121,7 @@ So why do I need an org directory?
 
 
 ** TODO MobileOrg
+SCHEDULED: <2012-09-10 Mon>
 :PROPERTIES:
 :OPEN: [2012-07-23 Mon 11:48]
 :LAST: TODO [2012-07-23 Mon 11:48]
