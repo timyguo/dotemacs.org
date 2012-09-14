@@ -1262,8 +1262,18 @@ CLOCK: [2012-08-20 Mon 18:29]--[2012-08-20 Mon 18:29] =>  0:00
   (setq org-cycle-global-at-bob t)
 #+end_src
 
-
 #+begin_src emacs-lisp
+(message "%s" "features")
+(message "%s" features)
+(message "%s" (locate-library "org-compat"))
+  (load "org-compat")
+  (require 'org-jsinfo)
+#+end_src
+
+#+results:
+: org-compat
+
+#+begin_src emacs-lisp :tangle no
   ; Enable habit tracking (and a bunch of other modules)
   (setq org-modules (quote (org-bbdb
                             org-bibtex
@@ -1271,7 +1281,6 @@ CLOCK: [2012-08-20 Mon 18:29]--[2012-08-20 Mon 18:29] =>  0:00
                             org-gnus
                             org-id
                             org-info
-                            org-jsinfo
                             org-habit
                             org-inlinetask
                             org-irc
@@ -1292,3 +1301,27 @@ CLOCK: [2012-08-20 Mon 18:29]--[2012-08-20 Mon 18:29] =>  0:00
 #+results:
 : 50
 
+
+
+
+#+begin_src emacs-lisp :tangle no
+  (require 'org-jsinfo)
+
+(require 'org-compat)
+
+(library-path "org-compat")
+
+(load "org-compat.elc")
+
+  (locate-library "org-compat")
+
+(load "org-compat")
+
+#+end_src
+** MobileOrg hack
+
+#+begin_src emacs-lisp
+  (setq org-mobile-force-id-on-agenda-items nil)
+  (setq org-directory "~")
+(require 'org-habit)
+#+end_src
