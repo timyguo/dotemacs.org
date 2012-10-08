@@ -53,3 +53,7 @@ agent/*
 /tmp/#scratch.el#
 /tmp/#scratch.org#
 /bookmarks
+/data/persistent-scratch
+/data/recentf
+/data/session
+/tmp/scratch.org
