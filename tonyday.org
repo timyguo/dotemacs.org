@@ -18,30 +18,15 @@ Under Development
 
 Called from [[file:starter-kit.org]]
 
-** TODO .emacs tasks
-SCHEDULED: <2012-09-10 Mon>
+
+
+** TODO pull (local) org-mode to .emacs.d
+SCHEDULED: <2012-09-16 Sun>
 :PROPERTIES:
-:OPEN: [2012-09-10 Mon 09:34]
-:LAST: TODO [2012-09-10 Mon 09:34]
+:OPEN: [2012-09-15 Sat 17:39]
+:LAST: [2012-09-15 Sat 17:39]
 :END:
-- [ ] transfer to mashup
-- [-] get to run stage
-  - [X] add in addzyg
-  - [X] sk lisp diff check
-  - [ ] complete package list
-  - [ ] src list
-  - [ ] copy local yas snippets
-- [ ] gather non-crit tasks
-
-
-** TODO purcell dotemacs
-:PROPERTIES:
-:OPEN: [2012-09-01 Sat 18:10]
-:LAST: [2012-09-01 Sat 18:10]
-:END:
-[[file:~/org/starter-kit-bindings.org]]
-https://github.com/purcell/emacs.d.git
-
+[[file:~/stuff/org/bugz.org::*ido%20completion%20for%20insert%20link][ido completion for insert link]]
 * Introduction
 
 This is my personal emacs configuration, written in org and utilising emacs24
@@ -154,51 +139,19 @@ I love deadlines. I like the whooshing sound they make as they fly by.
 This file is more about documenting the code and environment needed to
 reproduce [[scarecapital.com][my]] research.
 
-*** TODO other dot emacs files
-	 :LOGBOOK:  
-	 CLOCK: [2012-04-12 Thu 23:14]--[2012-04-12 Thu 23:16] =>  0:02
-	 CLOCK: [2012-04-12 Thu 22:43]--[2012-04-12 Thu 22:57] =>  0:14
-	 :END:      
-
-- [ ] add new ones
-
-There are many, many dot files out there and anyone who has used emacs
-before emacs24 has spent time looking for themselves.  Some
-recommended reading:
-
-[[info:emacs#Init%20File][info:emacs#Init File]]
-http://www.emacswiki.org/emacs/RobertAdesamConfig
-http://robert-adesam.blogspot.com.au/2011/01/emacsclient-setup-on-windows-7-starter.html
-http://www.emacswiki.org/emacs/EmacsInitFileOfSylecn
-http://a-nickels-worth.blogspot.com.au/2007/11/effective-emacs.html
-
-*** TODO local copies                                              :noexport:
-
-[[file:~/projects/learning_org/RA-init.el::%3B%3B%3B][file:~/projects/learning_org/RA-init.el]]
-[[file:~/projects/learning_org/EmacsInitFileOfSylecn.txt]]
-
-
 * Implementation
 :PROPERTIES:
 :tangle: yes
 :END:
 
 
-** TODO Load path
-- [ ] overrides
-- [ ] check when load path matters
-
-
-** TODO Starter Kit Modifications
+** Starter Kit Modifications
 :PROPERTIES:
 :OPEN: [2012-07-23 Mon 10:34]
-:LAST: TODO [2012-07-23 Mon 10:34]
+:LAST:     [2012-09-15 Sat 22:07]
+:CLOSE:    [2012-09-15 Sat 22:07]
 :END:
 
-- [ ] zero modification to base kit
-- [ ] org from norang
-- [ ] jw innovations
-- [ ] spell
 
 The orginal starter kit files have been modified in several areas:
 
@@ -311,17 +264,6 @@ having (or resent having to have).
     (load-theme 'zenburn t)
     ;(load-theme 'github t)
   #+end_src
-
-
-
-  
-** TODO src loads
-Non-package stuff in ~/.emacs.d/src
-- [ ] icicles
-
-
-
-
 
 ** NEXT Personal Loads
 :PROPERTIES:
@@ -539,14 +481,24 @@ Defuns
 #+end_src
 
 
-** TODO org capture
+** org capture
+:PROPERTIES:
+:OPEN:     [2012-09-17 Mon 10:12]
+:CLOSE:    [2012-09-17 Mon 10:12]
+:LAST:     [2012-09-17 Mon 10:12]
+:END:
 
 Capturing tasks
 #+begin_src emacs-lisp 
   (define-key global-map "\C-cc" 'org-capture)
 #+end_src
 
-** TODO miscellaneous and overrides
+** miscellaneous and overrides
+:PROPERTIES:
+:OPEN:     [2012-09-17 Mon 10:13]
+:CLOSE:    [2012-09-17 Mon 10:13]
+:LAST:     [2012-09-17 Mon 10:13]
+:END:
 
 #+begin_src emacs-lisp 
 (setq shift-select-mode t)
@@ -641,8 +593,13 @@ Why there are 3 packages, idk.
 - M-x customize-group <RET> sunrise <RET> 
 - M-x sunrise
 - M-x sunrise-cd
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (require 'sunrise-commander)
   (add-to-list 'auto-mode-alist '("\\.srvm\\'" . sr-virtual-mode))
 #+end_src
 
+* R
+#+begin_src emacs-lisp
+  (setq-default inferior-R-program-name "R")
+(require 'ess-site)
+#+end_src

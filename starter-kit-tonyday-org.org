@@ -105,6 +105,23 @@ SCHEDULED: <2012-09-10 Mon>
 #+results:
 : org-insert-subheading
 
+** search
+ #+begin_src emacs-lisp  
+(setq org-link-abbrev-alist
+       '(("bugzilla"  . "http://10.1.2.9/bugzilla/show_bug.cgi?id=")
+         ("url-to-ja" . "http://translate.google.fr/translate?sl=en&tl=ja&u=%h")
+         ("google"    . "http://www.google.com/search?q=")
+         ("gmap"      . "http://maps.google.com/maps?q=%s")
+         ("omap"      . "http://nominatim.openstreetmap.org/search?q=%s&polygon=1")
+         ("ads"       .
+         "http://adsabs.harvard.edu/cgi-bin/nph-abs_connect?author=%s&db_key=AST")))
+#+end_src
+
+ #+results:
+ | (bugzilla . http://10.1.2.9/bugzilla/show_bug.cgi?id=) | (url-to-ja . http://translate.google.fr/translate?sl=en&tl=ja&u=%h) | (google . http://www.google.com/search?q=) | (gmap . http://maps.google.com/maps?q=%s) | (omap . http://nominatim.openstreetmap.org/search?q=%s&polygon=1) | (ads . http://adsabs.harvard.edu/cgi-bin/nph-abs_connect?author=%s&db_key=AST) |
+
+[[google:goofy]]
+
 ** Encryption within Org
 #+begin_src emacs-lisp 
 (require 'org-crypt)
@@ -120,11 +137,11 @@ SCHEDULED: <2012-09-10 Mon>
 
 
 
-** TODO MobileOrg
-SCHEDULED: <2012-09-10 Mon>
+** MobileOrg
 :PROPERTIES:
 :OPEN: [2012-07-23 Mon 11:48]
-:LAST: TODO [2012-07-23 Mon 11:48]
+:LAST:     [2012-09-16 Sun 09:11]
+:CLOSE:    [2012-09-16 Sun 09:11]
 :END:
 
 MobileOrg via Dropbox
@@ -279,6 +296,8 @@ CLOCK: [2012-08-23 Thu 20:49]--[2012-08-24 Fri 10:02] => 13:13
                  "* TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST:%U\n:END:\n%a\n")
                 ("sn" "snipz note" entry (file+headline "~/stuff/org/snipz.org" "incoming")
                  "* %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%c\n")
+                ("b" "binding" entry (file+headline "~/stuff/org/snipz.org" "bindings")
+                 "* %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:")
                 ("k" "kill ring")
                 ("kb" "kill ring body" entry (file "~/stuff/org/refile.org")
                  "* %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%c")
@@ -297,6 +316,7 @@ CLOCK: [2012-08-23 Thu 20:49]--[2012-08-24 Fri 10:02] => 13:13
 | s  | snipz            |       |                                                |                                                                 |
 | sr | snipz request    | entry | (file+headline ~/stuff/org/snipz.org incoming) | * TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST:%U\n:END:\n%a\n       |
 | sn | snipz note       | entry | (file+headline ~/stuff/org/snipz.org incoming) | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%c\n           |
+| b  | binding          | entry | (file+headline ~/stuff/org/snipz.org bindings) | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:                 |
 | k  | kill ring        |       |                                                |                                                                 |
 | kb | kill ring body   | entry | (file ~/stuff/org/refile.org)                  | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%c             |
 | kh | kill ring head   | entry | (file ~/stuff/org/refile.org)                  | * TODO %c\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%?        |
@@ -358,18 +378,17 @@ Startup should take this table and create the org-agenda-files list.
 | stuff           | content                     | writing.org       |
 | stuff           | dev                         | webdev.org        |
 | stuff           | emacs                       | bindings.org      |
-| stuff           | sys                         | migrate.org       |
 | stuff           | sys                         | git.org           |
-| stuff           | factor/momentum             | qic.org           |
 | stuff           | factor                      | emfx.org          |
 | stuff           | factor                      | factor.org        |
-| stuff           | dev                         | rdev.org          |
 | stuff           | dev                         | jsdev.org         |
 | stuff           | content                     | quant.org         |
 | stuff           | content                     | ideas.org         |
 | emfx            | emfx.org                    |                   |
+| emfx            |                             | rdev.org          |
 | dotemacs-mashup | README.org                  |                   |
-|                 |                             |                   |
+| git             | emfx_R                      | volatility.org    |
+| git             | emfx_R                      | xkcd.org          |
 |                 |                             |                   |
 
 - function to reset org-agenda-files based on the above table of directories
@@ -756,14 +775,15 @@ Though more often than not I'm going to set a section heading back to
 
 - languages used
   #+begin_src emacs-lisp 
-      (org-babel-do-load-languages
-         (quote org-babel-load-languages)
-         (quote ((emacs-lisp . t)
-                 (sh . t)
-                 (gnuplot . t)
-                 (org . t)
-                 (octave . t)
-                 (js . t))))
+    (org-babel-do-load-languages
+       (quote org-babel-load-languages)
+       (quote ((emacs-lisp . t)
+               (sh . t)
+               (gnuplot . t)
+               (org . t)
+               (octave . t)
+               (js . t)
+               (R . t))))
   #+end_src
 
   #+results:
@@ -897,6 +917,13 @@ HTML exported using org looks so clean and stylish.
   #+results:
   : t
 
+
+*** TODO set css properly                                          :urgent:
+SCHEDULED: <2012-09-17 Mon>
+:PROPERTIES:
+:OPEN:     [2012-09-17 Mon 11:38]
+:LAST:     TODO [2012-09-17 Mon 11:38]
+:END:
   
 - Using an external style file
   #+begin_src emacs-lisp 
@@ -1115,12 +1142,17 @@ Various stylistic choices
 :CLOSE: [2012-09-07 Fri 17:45]
 :END:
 
-#+begin_src emacs-lisp :tangle no
-(add-to-list 'Info-default-directory-list "~/git/org-mode/doc")
+#+begin_src emacs-lisp
+(add-to-list 'Info-default-directory-list "/Users/tonyday/.emacs.d/src/org-mode/doc/")
 #+end_src
 
+#+begin_src emacs-lisp
+(add-to-list 'Info-directory-list "/Users/tonyday/.emacs.d/src/org-mode/doc/")
+#+end_src
+
+
 #+results:
-| ~/git/org-mode/doc | c:/emacs/info/ | /usr/local/share/info/ | /usr/local/info/ | /usr/local/gnu/info/ | /usr/local/gnu/lib/info/ | /usr/local/gnu/lib/emacs/info/ | /usr/local/emacs/info/ | /usr/local/lib/info/ | /usr/local/lib/emacs/info/ | c:/Users/zygomega/projects/emacs/emacs-24.1-bin-i386/emacs-24.1/info/ |
+| /Users/tonyday/.emacs.d/src/org-mode/doc/ | /Users/tonyday/.emacs.d/elpa/auctex-11.86 | /usr/share/info/ |
 
 ** Special Key
 

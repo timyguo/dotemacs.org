@@ -21,6 +21,9 @@ doc/*
 elpa/*
 themes/*
 url/*
+data/*
+src/nethack*
+tmp/*
 
 ## exported and encrypted files
 *gpg
