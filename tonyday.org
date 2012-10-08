@@ -18,6 +18,7 @@ Under Development
 
 Called from [[file:starter-kit.org]]
 
+<<<<<<< HEAD
 ** TODO .emacs tasks
 SCHEDULED: <2012-09-10 Mon>
 :PROPERTIES:
@@ -42,6 +43,17 @@ SCHEDULED: <2012-09-10 Mon>
 [[file:~/org/starter-kit-bindings.org]]
 https://github.com/purcell/emacs.d.git
 
+=======
+
+
+** TODO pull (local) org-mode to .emacs.d
+SCHEDULED: <2012-09-16 Sun>
+:PROPERTIES:
+:OPEN: [2012-09-15 Sat 17:39]
+:LAST: [2012-09-15 Sat 17:39]
+:END:
+[[file:~/stuff/org/bugz.org::*ido%20completion%20for%20insert%20link][ido completion for insert link]]
+>>>>>>> fixing-org
 * Introduction
 
 This is my personal emacs configuration, written in org and utilising emacs24
@@ -154,6 +166,7 @@ I love deadlines. I like the whooshing sound they make as they fly by.
 This file is more about documenting the code and environment needed to
 reproduce [[scarecapital.com][my]] research.
 
+<<<<<<< HEAD
 *** TODO other dot emacs files
 	 :LOGBOOK:  
 	 CLOCK: [2012-04-12 Thu 23:14]--[2012-04-12 Thu 23:16] =>  0:02
@@ -178,12 +191,15 @@ http://a-nickels-worth.blogspot.com.au/2007/11/effective-emacs.html
 [[file:~/projects/learning_org/EmacsInitFileOfSylecn.txt]]
 
 
+=======
+>>>>>>> fixing-org
 * Implementation
 :PROPERTIES:
 :tangle: yes
 :END:
 
 
+<<<<<<< HEAD
 ** TODO Load path
 - [ ] overrides
 - [ ] check when load path matters
@@ -199,6 +215,15 @@ http://a-nickels-worth.blogspot.com.au/2007/11/effective-emacs.html
 - [ ] org from norang
 - [ ] jw innovations
 - [ ] spell
+=======
+** Starter Kit Modifications
+:PROPERTIES:
+:OPEN: [2012-07-23 Mon 10:34]
+:LAST:     [2012-09-15 Sat 22:07]
+:CLOSE:    [2012-09-15 Sat 22:07]
+:END:
+
+>>>>>>> fixing-org
 
 The orginal starter kit files have been modified in several areas:
 
@@ -312,6 +337,7 @@ having (or resent having to have).
     ;(load-theme 'github t)
   #+end_src
 
+<<<<<<< HEAD
 
 
   
@@ -323,6 +349,8 @@ Non-package stuff in ~/.emacs.d/src
 
 
 
+=======
+>>>>>>> fixing-org
 ** NEXT Personal Loads
 :PROPERTIES:
 :OPEN: [2012-07-23 Mon 08:56]
@@ -539,14 +567,32 @@ Defuns
 #+end_src
 
 
+<<<<<<< HEAD
 ** TODO org capture
+=======
+** org capture
+:PROPERTIES:
+:OPEN:     [2012-09-17 Mon 10:12]
+:CLOSE:    [2012-09-17 Mon 10:12]
+:LAST:     [2012-09-17 Mon 10:12]
+:END:
+>>>>>>> fixing-org
 
 Capturing tasks
 #+begin_src emacs-lisp 
   (define-key global-map "\C-cc" 'org-capture)
 #+end_src
 
+<<<<<<< HEAD
 ** TODO miscellaneous and overrides
+=======
+** miscellaneous and overrides
+:PROPERTIES:
+:OPEN:     [2012-09-17 Mon 10:13]
+:CLOSE:    [2012-09-17 Mon 10:13]
+:LAST:     [2012-09-17 Mon 10:13]
+:END:
+>>>>>>> fixing-org
 
 #+begin_src emacs-lisp 
 (setq shift-select-mode t)
@@ -641,8 +687,20 @@ Why there are 3 packages, idk.
 - M-x customize-group <RET> sunrise <RET> 
 - M-x sunrise
 - M-x sunrise-cd
+<<<<<<< HEAD
 #+begin_src emacs-lisp
+=======
+#+begin_src emacs-lisp :tangle no
+>>>>>>> fixing-org
   (require 'sunrise-commander)
   (add-to-list 'auto-mode-alist '("\\.srvm\\'" . sr-virtual-mode))
 #+end_src
 
+<<<<<<< HEAD
+=======
+* R
+#+begin_src emacs-lisp
+  (setq-default inferior-R-program-name "R")
+(require 'ess-site)
+#+end_src
+>>>>>>> fixing-org

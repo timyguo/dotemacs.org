@@ -21,6 +21,9 @@ doc/*
 elpa/*
 themes/*
 url/*
+data/*
+src/nethack*
+tmp/*
 
 ## exported and encrypted files
 *gpg
@@ -53,7 +56,12 @@ agent/*
 /tmp/#scratch.el#
 /tmp/#scratch.org#
 /bookmarks
+<<<<<<< HEAD
 /data/persistent-scratch
 /data/recentf
 /data/session
 /tmp/scratch.org
+=======
+/src/org2blog/
+/src/org-mode/
+>>>>>>> fixing-org
