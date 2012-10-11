@@ -20,7 +20,7 @@ Called from [[file:starter-kit.org]]
 
 <<<<<<< HEAD
 ** TODO .emacs tasks
-SCHEDULED: <2012-09-10 Mon>
+SCHEDULED: <2012-10-11 Thu>
 :PROPERTIES:
 :OPEN: [2012-09-10 Mon 09:34]
 :LAST: TODO [2012-09-10 Mon 09:34]
@@ -33,12 +33,23 @@ SCHEDULED: <2012-09-10 Mon>
   - [ ] src list
   - [ ] copy local yas snippets
 - [ ] gather non-crit tasks
+- [ ] purcell
+- [ ] zero modification to base kit
+- [ ] org from norang
+- [ ] jw innovations
+- [ ] spell
+- [ ] overrides
+- [ ] check when load path matters
+- [ ] look at the starter kit publishing file
+  - mom
+  - tmp
 
 
-** TODO purcell dotemacs
+** purcell dotemacs
 :PROPERTIES:
 :OPEN: [2012-09-01 Sat 18:10]
-:LAST: [2012-09-01 Sat 18:10]
+:LAST:     [2012-10-11 Thu 13:18]
+:CLOSE:    [2012-10-11 Thu 13:18]
 :END:
 [[file:~/org/starter-kit-bindings.org]]
 https://github.com/purcell/emacs.d.git
@@ -46,14 +57,14 @@ https://github.com/purcell/emacs.d.git
 =======
 
 
-** TODO pull (local) org-mode to .emacs.d
+** DONE pull (local) org-mode to .emacs.d
 SCHEDULED: <2012-09-16 Sun>
 :PROPERTIES:
 :OPEN: [2012-09-15 Sat 17:39]
-:LAST: [2012-09-15 Sat 17:39]
+:LAST:     DONE [2012-10-11 Thu 13:00]
+:CLOSE:    [2012-10-11 Thu 13:00]
 :END:
-[[file:~/stuff/org/bugz.org::*ido%20completion%20for%20insert%20link][ido completion for insert link]]
->>>>>>> fixing-org
+
 * Introduction
 
 This is my personal emacs configuration, written in org and utilising emacs24
@@ -101,30 +112,6 @@ It:
 
 Bingo!
 
-** DONE installing emacs and starter-kit
-:LOGBOOK:
-CLOCK: [2012-07-22 Sun 15:55]--[2012-07-22 Sun 16:17] =>  0:22
-:END:
-:PROPERTIES:
-:OPEN: [2012-07-22 Sun 15:55]
-:LAST: DONE [2012-07-22 Sun 19:21]
-:CLOSE: [2012-07-22 Sun 19:21]
-:END:
-
-With a radically new config and packaging system, comes a radically
-eas(ier) emacs installation and configuration experience.
-
-Here's my steps as a windows user:
-1. Download and unzip emacs24 windows binaries.  I grabbed mine from the [[http://ftp.gnu.org/pub/gnu/emacs/windows/emacs-24.1-bin-i386.zip][official gnu site]].
-2. Windows users should read and deal with [[http://ftp.gnu.org/pub/gnu/emacs/windows/README][this]] if they need image support.
-3. Read the [[http://eschulte.me/emacs24-starter-kit/][starter kit intro.]]
-4. Clone and branch the starter kit [[http://github.com/eschulte/emacs24-starter-kit.git][git repository]], checking out [[http://www.kernel.org/pub/software/scm/git/docs/gittutorial.html][git]]
-   and [[http://zagadka.vm.bytemark.co.uk/magit/magit.html][magit]] if you didn't know what clone and branch were like me.
-5. Start looking through the new packages system, and install what you
-   need and want.
-6. Start on an org file like this called ~/.emacs.d/USERNAME.org to customise.
-
-
 ** References
 *** starter kit
 
@@ -167,7 +154,7 @@ This file is more about documenting the code and environment needed to
 reproduce [[scarecapital.com][my]] research.
 
 <<<<<<< HEAD
-*** TODO other dot emacs files
+*** other dot emacs files
 	 :LOGBOOK:  
 	 CLOCK: [2012-04-12 Thu 23:14]--[2012-04-12 Thu 23:16] =>  0:02
 	 CLOCK: [2012-04-12 Thu 22:43]--[2012-04-12 Thu 22:57] =>  0:14
@@ -185,7 +172,7 @@ http://robert-adesam.blogspot.com.au/2011/01/emacsclient-setup-on-windows-7-star
 http://www.emacswiki.org/emacs/EmacsInitFileOfSylecn
 http://a-nickels-worth.blogspot.com.au/2007/11/effective-emacs.html
 
-*** TODO local copies                                              :noexport:
+*** local copies                                                   :noexport:
 
 [[file:~/projects/learning_org/RA-init.el::%3B%3B%3B][file:~/projects/learning_org/RA-init.el]]
 [[file:~/projects/learning_org/EmacsInitFileOfSylecn.txt]]
@@ -200,30 +187,14 @@ http://a-nickels-worth.blogspot.com.au/2007/11/effective-emacs.html
 
 
 <<<<<<< HEAD
-** TODO Load path
-- [ ] overrides
-- [ ] check when load path matters
-
-
-** TODO Starter Kit Modifications
+** Load path
 :PROPERTIES:
-:OPEN: [2012-07-23 Mon 10:34]
-:LAST: TODO [2012-07-23 Mon 10:34]
+:OPEN:     [2012-10-11 Thu 13:19]
+:LAST:     [2012-10-11 Thu 13:19]
+:CLOSE:    [2012-10-11 Thu 13:19]
 :END:
 
-- [ ] zero modification to base kit
-- [ ] org from norang
-- [ ] jw innovations
-- [ ] spell
-=======
 ** Starter Kit Modifications
-:PROPERTIES:
-:OPEN: [2012-07-23 Mon 10:34]
-:LAST:     [2012-09-15 Sat 22:07]
-:CLOSE:    [2012-09-15 Sat 22:07]
-:END:
-
->>>>>>> fixing-org
 
 The orginal starter kit files have been modified in several areas:
 
@@ -341,20 +312,11 @@ having (or resent having to have).
 
 
   
-** TODO src loads
-Non-package stuff in ~/.emacs.d/src
-- [ ] icicles
-
-
-
-
-
-=======
->>>>>>> fixing-org
-** NEXT Personal Loads
+** Personal Loads
 :PROPERTIES:
 :OPEN: [2012-07-23 Mon 08:56]
-:LAST:     NEXT [2012-09-01 Sat 16:44]
+:LAST:     [2012-10-11 Thu 13:27]
+:CLOSE:    [2012-10-11 Thu 13:27]
 :END:
 
 The following files contain categories not covered by starter kit.
@@ -379,45 +341,13 @@ The following files contain categories not covered by starter kit.
   (starter-kit-load "starter-kit-octave.org")
   #+end_src
 
-*** icicles (off)
-:LOGBOOK:
-- State "TODO"       from ""           [2012-07-19 Thu 22:27]
-:END:
-:PROPERTIES:
-:OPEN: [2012-07-23 Mon 10:44]
-:LAST:     DONE [2012-09-04 Tue 09:20]
-:CLOSE:    [2012-09-04 Tue 09:20]
-:END:
-
-I'm undecided about icicles. It was very useful in the first few days
-of learning new stuff in emacs. After I'd learnt the basics, however,
-it started to feel like a productivity drain - there were just too
-many options and I'd spend my hours scrolling through the eleventy
-billion possible commands at every point. And it stuffs up the whole
-completion/default thing (the thing that I have in my mind rather than
-some error in its logic). So I leave it off by default and M-x icy when I
-introduce a new major mode or something big like that.
-
-- no package yet
-- [X] move git local repository to ~/.emacs.d/src/icicles
-- [ ] work out src usage convention
-- [ ] icicles and ido - can they play nice?
-
-#+begin_src emacs-lisp :tangle no
-  (require 'icicles)
-  ;;(icy-mode 1)
-#+end_src
-
-
-
-* TODO dev code snippets
+* clipboard
+** dev code snippets
 :PROPERTIES:
 :OPEN: [2012-08-01 Wed 22:29]
 :LAST: TODO [2012-08-01 Wed 22:29]
 :ID: 50603d6b-021f-47bf-9a5e-22827e5932e8
 :END:
-- [ ] to be properly placed in starter-kit heirarchy
-
 
 - yegges binding suggestions
   #+begin_src emacs-lisp
@@ -492,9 +422,12 @@ introduce a new major mode or something big like that.
 
 
 
-* clipboard
-
-** TODO nxhtml
+** nxhtml
+:PROPERTIES:
+:OPEN:     [2012-10-11 Thu 13:28]
+:CLOSE:    [2012-10-11 Thu 13:28]
+:LAST:     [2012-10-11 Thu 13:28]
+:END:
   #+begin_src emacs-lisp 
     ;;(load (concat starter-kit-dir "src/nxhtml/autostart.el"))
   #+end_src
@@ -532,10 +465,11 @@ introduce a new major mode or something big like that.
   (global-set-key (kbd "<f9> U") 'untabify)
 #+end_src
 
-** TODO Scratch
+** Scratch
 :PROPERTIES:
 :OPEN: [2012-07-23 Mon 12:12]
-:LAST: TODO [2012-07-23 Mon 12:12]
+:LAST:     [2012-10-11 Thu 13:28]
+:CLOSE:    [2012-10-11 Thu 13:28]
 :END:
 All this scratching is making me itch.
 - [ ] test these
@@ -568,31 +502,12 @@ Defuns
 
 
 <<<<<<< HEAD
-** TODO org capture
-=======
-** org capture
-:PROPERTIES:
-:OPEN:     [2012-09-17 Mon 10:12]
-:CLOSE:    [2012-09-17 Mon 10:12]
-:LAST:     [2012-09-17 Mon 10:12]
-:END:
->>>>>>> fixing-org
-
-Capturing tasks
-#+begin_src emacs-lisp 
-  (define-key global-map "\C-cc" 'org-capture)
-#+end_src
-
-<<<<<<< HEAD
-** TODO miscellaneous and overrides
-=======
 ** miscellaneous and overrides
 :PROPERTIES:
 :OPEN:     [2012-09-17 Mon 10:13]
 :CLOSE:    [2012-09-17 Mon 10:13]
 :LAST:     [2012-09-17 Mon 10:13]
 :END:
->>>>>>> fixing-org
 
 #+begin_src emacs-lisp 
 (setq shift-select-mode t)
@@ -682,25 +597,19 @@ Why there are 3 packages, idk.
 
 
 
-* sunrise commander
+** sunrise commander
 
 - M-x customize-group <RET> sunrise <RET> 
 - M-x sunrise
 - M-x sunrise-cd
-<<<<<<< HEAD
-#+begin_src emacs-lisp
-=======
+
 #+begin_src emacs-lisp :tangle no
->>>>>>> fixing-org
   (require 'sunrise-commander)
   (add-to-list 'auto-mode-alist '("\\.srvm\\'" . sr-virtual-mode))
 #+end_src
 
-<<<<<<< HEAD
-=======
-* R
+** R
 #+begin_src emacs-lisp
   (setq-default inferior-R-program-name "R")
-(require 'ess-site)
+  (require 'ess-site)
 #+end_src
->>>>>>> fixing-org
