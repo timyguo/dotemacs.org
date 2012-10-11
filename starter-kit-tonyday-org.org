@@ -72,13 +72,13 @@ I start with Org mode
 #+results:
 | #[nil \300\301\302\303\304$\207 [add-hook before-save-hook org-encrypt-entries nil t] 5] | #[nil \300\301\302\303\304$\207 [org-add-hook change-major-mode-hook org-show-block-all append local] 5] | (lambda nil (local-set-key \216 (quote outline-next-visible-heading)) (local-set-key \220 (quote outline-previous-visible-heading)) (local-set-key \225 (quote outline-up-heading)) (local-set-key \227 (quote org-table-copy-region)) (local-set-key \231 (quote org-table-paste-rectangle)) (local-set-key \214 (quote org-table-sort-lines)) (local-set-key \311 (quote org-toggle-iimage-in-org))) | auto-fill-mode | #[nil \300\301\302\303\304$\207 [org-add-hook change-major-mode-hook org-babel-show-result-all append local] 5] | org-babel-result-hide-spec | org-babel-hide-all-hashes |
 
-** TODO remaining key bindings
-SCHEDULED: <2012-09-10 Mon>
+** remaining key bindings
 :PROPERTIES:
 			:ID:       c0914200-d73d-4205-aba1-6cca8b2dd8f1
 			:Effort:   0:15
                         :OPEN:     [2012-07-23 Mon 12:22]
-                        :LAST:     TODO [2012-07-23 Mon 12:22]
+:LAST:     [2012-10-11 Thu 13:11]
+:CLOSE:    [2012-10-11 Thu 13:11]
 			:END:
 
 - [ ] still to rip and test
@@ -289,8 +289,8 @@ CLOCK: [2012-08-23 Thu 20:49]--[2012-08-24 Fri 10:02] => 13:13
                  "* %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n")
                 ("z" "bugz" entry (file+headline "~/stuff/org/bugz.org" "incoming")
                  "* TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST:%U\n:END:\n%a\n")
-                ("i" "instadev" entry (file+headline "~/stuff/sys/sys.org" "instadev")
-                 "* [ ] %c\n")
+                ("i" "instadev" entry (file+headline "~/stuff/content/ideas.org" "instadev")
+                 "* %c\n")
                 ("s" "snipz")  
                 ("sr" "snipz request" entry (file+headline "~/stuff/org/snipz.org" "incoming")
                  "* TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST:%U\n:END:\n%a\n")
@@ -307,19 +307,19 @@ CLOCK: [2012-08-23 Thu 20:49]--[2012-08-24 Fri 10:02] => 13:13
 #+end_src
 
 #+results:
-| t  | todo (with link) | entry | (file ~/stuff/org/refile.org)                  | * TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%a\n      |
-| j  | Journal          | entry | (file+datetree ~/stuff/org/diary.org)          | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n               |
-| u  | urgent todo      | entry | (file ~/stuff/org/refile.org)                  | * TODO %? :urgent:\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n |
-| n  | note             | entry | (file ~/stuff/org/refile.org)                  | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n               |
-| z  | bugz             | entry | (file+headline ~/stuff/org/bugz.org incoming)  | * TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST:%U\n:END:\n%a\n       |
-| i  | instadev         | entry | (file+headline ~/stuff/sys/sys.org instadev)   | * [ ] %c\n                                                      |
-| s  | snipz            |       |                                                |                                                                 |
-| sr | snipz request    | entry | (file+headline ~/stuff/org/snipz.org incoming) | * TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST:%U\n:END:\n%a\n       |
-| sn | snipz note       | entry | (file+headline ~/stuff/org/snipz.org incoming) | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%c\n           |
-| b  | binding          | entry | (file+headline ~/stuff/org/snipz.org bindings) | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:                 |
-| k  | kill ring        |       |                                                |                                                                 |
-| kb | kill ring body   | entry | (file ~/stuff/org/refile.org)                  | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%c             |
-| kh | kill ring head   | entry | (file ~/stuff/org/refile.org)                  | * TODO %c\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%?        |
+| t  | todo (with link) | entry | (file ~/stuff/org/refile.org)                      | * TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%a\n      |
+| j  | Journal          | entry | (file+datetree ~/stuff/org/diary.org)              | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n               |
+| u  | urgent todo      | entry | (file ~/stuff/org/refile.org)                      | * TODO %? :urgent:\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n |
+| n  | note             | entry | (file ~/stuff/org/refile.org)                      | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n               |
+| z  | bugz             | entry | (file+headline ~/stuff/org/bugz.org incoming)      | * TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST:%U\n:END:\n%a\n       |
+| i  | instadev         | entry | (file+headline ~/stuff/content/ideas.org instadev) | * %c\n                                                          |
+| s  | snipz            |       |                                                    |                                                                 |
+| sr | snipz request    | entry | (file+headline ~/stuff/org/snipz.org incoming)     | * TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST:%U\n:END:\n%a\n       |
+| sn | snipz note       | entry | (file+headline ~/stuff/org/snipz.org incoming)     | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%c\n           |
+| b  | binding          | entry | (file+headline ~/stuff/org/snipz.org bindings)     | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:                 |
+| k  | kill ring        |       |                                                    |                                                                 |
+| kb | kill ring body   | entry | (file ~/stuff/org/refile.org)                      | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%c             |
+| kh | kill ring head   | entry | (file ~/stuff/org/refile.org)                      | * TODO %c\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%?        |
 
 
 
@@ -373,23 +373,22 @@ Startup should take this table and create the org-agenda-files list.
 | stuff           | emacs                       | emacs.org         |
 | stuff           | sys                         | sys.org           |
 | stuff           | biz                         | scarce.org        |
+| stuff           | site                        | landing.org       |
 | stuff           | site                        | scarcecapital.org |
 | stuff           | content                     | life.org          |
 | stuff           | content                     | writing.org       |
 | stuff           | dev                         | webdev.org        |
 | stuff           | emacs                       | bindings.org      |
 | stuff           | sys                         | git.org           |
-| stuff           | factor                      | emfx.org          |
 | stuff           | factor                      | factor.org        |
 | stuff           | dev                         | jsdev.org         |
-| stuff           | content                     | quant.org         |
 | stuff           | content                     | ideas.org         |
-| emfx            | emfx.org                    |                   |
-| emfx            |                             | rdev.org          |
-| dotemacs-mashup | README.org                  |                   |
+| git             | emfx_R                      | emfx.org          |
 | git             | emfx_R                      | volatility.org    |
+| git             | emfx_R                      | rdev.org          |
 | git             | emfx_R                      | xkcd.org          |
-|                 |                             |                   |
+| emfx            | README.org                  |                   |
+| dotemacs-mashup | README.org                  |                   |
 
 - function to reset org-agenda-files based on the above table of directories
   and files
@@ -410,7 +409,7 @@ Startup should take this table and create the org-agenda-files list.
   #+end_src
 
   #+results:
-  | ~/stuff/meta.org | ~/.emacs.d/tonyday.org | ~/.emacs.d/starter-kit-tonyday-org.org | ~/stuff/org/refile.org | ~/stuff/org/bugz.org | ~/stuff/org/snipz.org | ~/stuff/org/org.org | ~/stuff/emacs/emacs.org | ~/stuff/sys/sys.org | ~/stuff/biz/scarce.org | ~/stuff/site/scarcecapital.org | ~/stuff/content/life.org | ~/stuff/content/writing.org | ~/stuff/dev/webdev.org | ~/stuff/emacs/bindings.org | ~/stuff/sys/migrate.org | ~/stuff/sys/git.org | ~/stuff/factor/momentum/qic.org | ~/stuff/factor/emfx.org | ~/stuff/factor/factor.org | ~/stuff/dev/rdev.org | ~/stuff/dev/jsdev.org | ~/stuff/content/quant.org | ~/stuff/content/ideas.org | ~/emfx/emfx.org | ~/dotemacs-mashup/README.org |
+  | ~/stuff/meta.org | ~/.emacs.d/tonyday.org | ~/.emacs.d/starter-kit-tonyday-org.org | ~/stuff/org/refile.org | ~/stuff/org/bugz.org | ~/stuff/org/snipz.org | ~/stuff/org/org.org | ~/stuff/emacs/emacs.org | ~/stuff/sys/sys.org | ~/stuff/biz/scarce.org | ~/stuff/site/landing.org | ~/stuff/site/scarcecapital.org | ~/stuff/content/life.org | ~/stuff/content/writing.org | ~/stuff/dev/webdev.org | ~/stuff/emacs/bindings.org | ~/stuff/sys/git.org | ~/stuff/factor/factor.org | ~/stuff/dev/jsdev.org | ~/stuff/content/ideas.org | ~/git/emfx_R/emfx.org | ~/git/emfx_R/volatility.org | ~/git/emfx_R/rdev.org | ~/git/emfx_R/xkcd.org | ~/emfx/README.org | ~/dotemacs-mashup/README.org |
 
 
 
@@ -917,14 +916,6 @@ HTML exported using org looks so clean and stylish.
   #+results:
   : t
 
-
-*** TODO set css properly                                          :urgent:
-SCHEDULED: <2012-09-17 Mon>
-:PROPERTIES:
-:OPEN:     [2012-09-17 Mon 11:38]
-:LAST:     TODO [2012-09-17 Mon 11:38]
-:END:
-  
 - Using an external style file
   #+begin_src emacs-lisp 
     (setq org-export-html-style "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\"/>")
@@ -932,7 +923,6 @@ SCHEDULED: <2012-09-17 Mon>
   #+end_src
 
   #+results:
-
 
 - Do not generate internal css formatting for HTML exports
   - [ ] try this out M-x org-export-htmlize-generate-css
@@ -978,15 +968,12 @@ SCHEDULED: <2012-09-17 Mon>
   #+results:
 
 
-** TODO Publishing
+** Publishing
 :PROPERTIES:
 :OPEN: [2012-07-23 Mon 20:14]
-:LAST: TODO [2012-07-23 Mon 20:14]
+:LAST:     [2012-10-11 Thu 13:31]
+:CLOSE:    [2012-10-11 Thu 13:31]
 :END:
-- [ ] look at the starter kit publishing file
-- [ ] edit down to two
-  - mom
-  - tmp
 
 This is still in test mode.
 

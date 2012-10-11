@@ -4,7 +4,6 @@
 ## misc
 loaddefs.el*
 auto-save-list
-custom.el
 places
 .svn
 .DS_Store
@@ -22,8 +21,15 @@ elpa/*
 themes/*
 url/*
 data/*
-src/nethack*
 tmp/*
+src/nethack/*
+src/nethack*
+bookmarks/*
+
+## directory and contents
+src/org-mode
+src/org2blog
+
 
 ## exported and encrypted files
 *gpg
@@ -53,15 +59,3 @@ secret.org
 .emacs.desktop*
 .*~
 agent/*
-/tmp/#scratch.el#
-/tmp/#scratch.org#
-/bookmarks
-<<<<<<< HEAD
-/data/persistent-scratch
-/data/recentf
-/data/session
-/tmp/scratch.org
-=======
-/src/org2blog/
-/src/org-mode/
->>>>>>> fixing-org
