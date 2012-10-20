@@ -276,6 +276,8 @@ CLOCK: [2012-08-23 Thu 20:49]--[2012-08-24 Fri 10:02] => 13:13
 :ID:       e79ecad1-2428-452a-b9d6-9fdd3ef8a174
 :END:
 
+
+
 #+begin_src emacs-lisp 
   
   (setq org-capture-templates
@@ -364,8 +366,7 @@ Startup should take this table and create the org-agenda-files list.
 
 #+TBLNAME: agenda-files-table
 | stuff           | meta.org                    |                   |
-| .emacs.d        | tonyday.org                 |                   |
-| .emacs.d        | starter-kit-tonyday-org.org |                   |
+| .emacs.d        | README.org                  |                   |
 | stuff           | org                         | refile.org        |
 | stuff           | org                         | bugz.org          |
 | stuff           | org                         | snipz.org         |
@@ -388,7 +389,6 @@ Startup should take this table and create the org-agenda-files list.
 | git             | emfx_R                      | rdev.org          |
 | git             | emfx_R                      | xkcd.org          |
 | emfx            | README.org                  |                   |
-| dotemacs-mashup | README.org                  |                   |
 
 - function to reset org-agenda-files based on the above table of directories
   and files
@@ -409,7 +409,7 @@ Startup should take this table and create the org-agenda-files list.
   #+end_src
 
   #+results:
-  | ~/stuff/meta.org | ~/.emacs.d/tonyday.org | ~/.emacs.d/starter-kit-tonyday-org.org | ~/stuff/org/refile.org | ~/stuff/org/bugz.org | ~/stuff/org/snipz.org | ~/stuff/org/org.org | ~/stuff/emacs/emacs.org | ~/stuff/sys/sys.org | ~/stuff/biz/scarce.org | ~/stuff/site/landing.org | ~/stuff/site/scarcecapital.org | ~/stuff/content/life.org | ~/stuff/content/writing.org | ~/stuff/dev/webdev.org | ~/stuff/emacs/bindings.org | ~/stuff/sys/git.org | ~/stuff/factor/factor.org | ~/stuff/dev/jsdev.org | ~/stuff/content/ideas.org | ~/git/emfx_R/emfx.org | ~/git/emfx_R/volatility.org | ~/git/emfx_R/rdev.org | ~/git/emfx_R/xkcd.org | ~/emfx/README.org | ~/dotemacs-mashup/README.org |
+  | ~/stuff/meta.org | ~/.emacs.d/README.org | ~/stuff/org/refile.org | ~/stuff/org/bugz.org | ~/stuff/org/snipz.org | ~/stuff/org/org.org | ~/stuff/emacs/emacs.org | ~/stuff/sys/sys.org | ~/stuff/biz/scarce.org | ~/stuff/site/landing.org | ~/stuff/site/scarcecapital.org | ~/stuff/content/life.org | ~/stuff/content/writing.org | ~/stuff/dev/webdev.org | ~/stuff/emacs/bindings.org | ~/stuff/sys/git.org | ~/stuff/factor/factor.org | ~/stuff/dev/jsdev.org | ~/stuff/content/ideas.org | ~/git/emfx_R/emfx.org | ~/git/emfx_R/volatility.org | ~/git/emfx_R/rdev.org | ~/git/emfx_R/xkcd.org | ~/emfx/README.org |
 
 
 
@@ -633,63 +633,63 @@ defined [[file:starter-kit-zyg-defuns-org.org::*%3Dnorang%3D%20defuns][here]].
 
 These follow the =norang= suggestions  
 #+begin_src emacs-lisp 
-;; Always hilight the current agenda line
-(add-hook 'org-agenda-mode-hook
-          '(lambda () (hl-line-mode 1))
-          'append)
-
-;; Keep tasks with dates on the global todo lists
-(setq org-agenda-todo-ignore-with-date nil)
-
-;; Keep tasks with deadlines on the global todo lists
-(setq org-agenda-todo-ignore-deadlines nil)
-
-;; Keep tasks with scheduled dates on the global todo lists
-(setq org-agenda-todo-ignore-scheduled nil)
-
-;; Keep tasks with timestamps on the global todo lists
-(setq org-agenda-todo-ignore-timestamp nil)
-
-;; Remove completed deadline tasks from the agenda view
-(setq org-agenda-skip-deadline-if-done t)
-
-;; Remove completed scheduled tasks from the agenda view
-(setq org-agenda-skip-scheduled-if-done t)
-
-;; Remove completed items from search results
-(setq org-agenda-skip-timestamp-if-done t)
-
-(setq org-agenda-include-diary nil)
-(setq org-agenda-diary-file (expand-file-name "~/org/diary.org"))
-
-(setq org-agenda-insert-diary-extract-time t)
-
-;; Include agenda archive files when searching for things
-(setq org-agenda-text-search-extra-files (quote (agenda-archives)))
-
-;; Show all future entries for repeating tasks
-(setq org-agenda-repeating-timestamp-show-all t)
-
-;; Show all agenda dates - even if they are empty
-(setq org-agenda-show-all-dates t)
-
-;; Start the weekly agenda on Monday
-(setq org-agenda-start-on-weekday 1)
-
-;; Enable display of the time grid so we can see the marker for the current time
-(setq org-agenda-time-grid (quote ((daily today remove-match)
-                                   #("----------------" 0 16 (org-heading t))
-                                   (830 1000 1200 1300 1500 1700))))
-
-;; Display tags farther right
-(setq org-agenda-tags-column -102)
-
-;; Keep filters in place
-(setq org-agenda-persistent-filter t)
-
-
-
-
+  ;; Always hilight the current agenda line
+  (add-hook 'org-agenda-mode-hook
+            '(lambda () (hl-line-mode 1))
+            'append)
+  
+  ;; Keep tasks with dates on the global todo lists
+  (setq org-agenda-todo-ignore-with-date nil)
+  
+  ;; Keep tasks with deadlines on the global todo lists
+  (setq org-agenda-todo-ignore-deadlines nil)
+  
+  ;; Keep tasks with scheduled dates on the global todo lists
+  (setq org-agenda-todo-ignore-scheduled nil)
+  
+  ;; Keep tasks with timestamps on the global todo lists
+  (setq org-agenda-todo-ignore-timestamp nil)
+  
+  ;; Remove completed deadline tasks from the agenda view
+  (setq org-agenda-skip-deadline-if-done t)
+  
+  ;; Remove completed scheduled tasks from the agenda view
+  (setq org-agenda-skip-scheduled-if-done t)
+  
+  ;; Remove completed items from search results
+  (setq org-agenda-skip-timestamp-if-done t)
+  
+  (setq org-agenda-include-diary nil)
+  (setq org-agenda-diary-file (expand-file-name "~/org/diary.org"))
+  
+  (setq org-agenda-insert-diary-extract-time t)
+  
+  ;; Include agenda archive files when searching for things
+  (setq org-agenda-text-search-extra-files (quote (agenda-archives)))
+  
+  ;; Show all future entries for repeating tasks
+  (setq org-agenda-repeating-timestamp-show-all t)
+  
+  ;; Show all agenda dates - even if they are empty
+  (setq org-agenda-show-all-dates t)
+  
+  ;; Start the weekly agenda on Monday
+  (setq org-agenda-start-on-weekday 1)
+  
+  ;; Enable display of the time grid so we can see the marker for the current time
+  (setq org-agenda-time-grid (quote ((daily today remove-match)
+                                     #("----------------" 0 16 (org-heading t))
+                                     (830 1000 1200 1300 1500 1700))))
+  
+  ;; Display tags farther right
+  (setq org-agenda-tags-column -102)
+  
+  ;; Keep filters in place
+  (setq org-agenda-persistent-filter t)
+  
+  
+  
+  
 #+end_src
 
 #+results:
@@ -1281,7 +1281,7 @@ CLOCK: [2012-08-20 Mon 18:29]--[2012-08-20 Mon 18:29] =>  0:00
   (setq org-cycle-global-at-bob t)
 #+end_src
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (message "%s" "features")
 (message "%s" features)
 (message "%s" (locate-library "org-compat"))
@@ -1344,3 +1344,530 @@ CLOCK: [2012-08-20 Mon 18:29]--[2012-08-20 Mon 18:29] =>  0:00
   (setq org-directory "~")
 (require 'org-habit)
 #+end_src
+
+** org defuns
+*** TODO Insert the last stored link
+:PROPERTIES:
+:OPEN: [2012-07-23 Mon 20:53]
+:LAST: TODO [2012-07-23 Mon 20:53]
+:ID:       56629caf-21e0-42c2-a6ac-69d78ff00993
+:END:
+
+- saving a button press
+- [ ] broken
+#+begin_src emacs-lisp
+(defun org-insert-last-link()
+  (interactive)
+  (insert (concat "[[" 
+        (plist-get org-store-link-plist :link)
+        "]["
+        (plist-get org-store-link-plist :description)
+        "]]")))
+#+end_src
+
+#+results:
+: org-insert-last-link
+
+
+*** Get Timestamp as String
+Return a timestamp string for use in my logging process.
+#+begin_src emacs-lisp 
+(defun org-string-timestamp (time &optional with-hm inactive pre post extra)
+  "return a string for the date given by the internal TIME.
+WITH-HM means use the stamp format that includes the time of the day.
+INACTIVE means use square brackets instead of angular ones, so that the
+stamp will not contribute to the agenda.
+PRE and POST are optional strings to be inserted before and after the
+stamp.
+The command returns the time stamp as a string.
+This is the same as org-insert-time-stamp without the insert.
+"
+  (let ((fmt (funcall (if with-hm 'cdr 'car) org-time-stamp-formats))
+          stamp)
+      (if inactive (setq fmt (concat "[" (substring fmt 1 -1) "]")))
+      (when (listp extra)
+        (setq extra (car extra))
+        (if (and (stringp extra)
+                 (string-match "\\([0-9]+\\):\\([0-9]+\\)" extra))
+            (setq extra (format "-%02d:%02d"
+                                (string-to-number (match-string 1 extra))
+                                (string-to-number (match-string 2 extra))))
+          (setq extra nil)))
+      (when extra
+        (setq fmt (concat (substring fmt 0 -1) extra (substring fmt -1))))
+      (setq stamp (format-time-string fmt time))
+      ))
+#+end_src
+
+#+results:
+: org-string-timestamp
+
+*** Log State Change
+#+begin_src emacs-lisp 
+  (defun zyg/log-state-change ()
+    "logs timestamps in PROPERTIES for any todo-tag state change (LASTTOUCH),
+      first state change (OPENED), and when last entered a done state
+      (CLOSE).
+  "
+    (interactive)
+    (save-excursion 
+      (let* ((has-opened (org-entry-get nil "OPEN"))
+             (stamp (org-string-timestamp nil t t nil nil nil)))
+        (if (not has-opened)
+            (org-set-property "OPEN" stamp))
+        (if (or (equal org-state nil)
+                (equal org-state "DONE"))
+            (org-set-property "CLOSE" stamp))
+        (if (or (equal org-state "TODO")
+                (equal org-state "NEXT"))
+            (org-entry-delete nil "CLOSE"))
+        (org-set-property "LAST" (concatenate 'string org-state " " stamp)))))
+#+end_src
+
+#+results:
+: zyg/log-state-change
+
+
+*** =norang= general defuns
+:PROPERTIES:
+:OPEN: [2012-07-23 Mon 20:50]
+:LAST:  [2012-08-01 Wed 13:54]
+:CLOSE: [2012-08-01 Wed 13:54]
+:END:
+
+
+#+begin_src emacs-lisp 
+(defun bh/show-org-agenda ()
+    (interactive)
+    (switch-to-buffer "*Org Agenda*")
+    (delete-other-windows))
+
+(defun bh/hide-other ()
+  (interactive)
+  (save-excursion
+    (org-back-to-heading 'invisible-ok)
+    (hide-other)
+    (org-cycle)
+    (org-cycle)
+    (org-cycle)))
+
+(defun bh/set-truncate-lines ()
+  "Toggle value of truncate-lines and refresh window display."
+  (interactive)
+  (setq truncate-lines (not truncate-lines))
+  ;; now refresh window display (an idiom from simple.el):
+  (save-excursion
+    (set-window-start (selected-window)
+                      (window-start (selected-window)))))
+
+(defun bh/org-todo (arg)
+  (interactive "p")
+  (if (equal arg 4)
+      (save-restriction
+        (widen)
+        (org-narrow-to-subtree)
+        (org-show-todo-tree nil))
+    (widen)
+    (org-narrow-to-subtree)
+    (org-show-todo-tree nil)))
+
+(defun bh/widen ()
+  (interactive)
+  (widen)
+  (org-agenda-remove-restriction-lock))
+
+(defun bh/restrict-to-file-or-follow (arg)
+  "Set agenda restriction to 'file or with argument invoke follow mode.
+I don't use follow mode very often but I restrict to file all the time
+so change the default 'F' binding in the agenda to allow both"
+  (interactive "p")
+  (if (equal arg 4)
+      (org-agenda-follow-mode)
+    (if (equal major-mode 'org-agenda-mode)
+        (bh/set-agenda-restriction-lock 4)
+      (widen))))
+
+(defun bh/narrow-to-org-subtree ()
+  (widen)
+  (org-narrow-to-subtree)
+  (save-restriction
+    (org-agenda-set-restriction-lock)))
+
+(defun bh/narrow-to-subtree ()
+  (interactive)
+  (if (equal major-mode 'org-agenda-mode)
+      (org-with-point-at (org-get-at-bol 'org-hd-marker)
+        (bh/narrow-to-org-subtree))
+    (bh/narrow-to-org-subtree)))
+
+(defun bh/narrow-up-one-org-level ()
+  (widen)
+  (save-excursion
+    (outline-up-heading 1 'invisible-ok)
+    (bh/narrow-to-org-subtree)))
+
+(defun bh/narrow-up-one-level ()
+  (interactive)
+  (if (equal major-mode 'org-agenda-mode)
+      (org-with-point-at (org-get-at-bol 'org-hd-marker)
+        (bh/narrow-up-one-org-level))
+    (bh/narrow-up-one-org-level)))
+
+(defun bh/narrow-to-org-project ()
+  (widen)
+  (save-excursion
+    (bh/find-project-task)
+    (bh/narrow-to-org-subtree)))
+
+(defun bh/narrow-to-project ()
+  (interactive)
+  (if (equal major-mode 'org-agenda-mode)
+      (org-with-point-at (org-get-at-bol 'org-hd-marker)
+        (bh/narrow-to-org-project))
+    (bh/narrow-to-org-project)))
+
+(defun bh/set-agenda-restriction-lock (arg)
+  "Set restriction lock to current task subtree or file if prefix is specified"
+  (interactive "p")
+  (let* ((pom (or (org-get-at-bol 'org-hd-marker)
+                  org-agenda-restrict-begin))
+         (tags (org-with-point-at pom (org-get-tags-at))))
+    (let ((restriction-type (if (equal arg 4) 'file 'subtree)))
+      (save-restriction
+        (cond
+         ((equal major-mode 'org-agenda-mode)
+          (org-with-point-at pom
+            (org-agenda-set-restriction-lock restriction-type)))
+         ((and (equal major-mode 'org-mode) (org-before-first-heading-p))
+          (org-agenda-set-restriction-lock 'file))
+         (t
+          (org-with-point-at pom
+            (org-agenda-set-restriction-lock restriction-type))))))))
+
+(defun bh/find-project-task ()
+  "Move point to the parent (project) task if any"
+  (save-restriction
+    (widen)
+    (let ((parent-task (save-excursion (org-back-to-heading 'invisible-ok) (point))))
+      (while (org-up-heading-safe)
+        (when (member (nth 2 (org-heading-components)) org-todo-keywords-1)
+          (setq parent-task (point))))
+      (goto-char parent-task)
+      parent-task)))
+
+(defun bh/show-org-agenda ()
+    (interactive)
+    (switch-to-buffer "*Org Agenda*")
+    (delete-other-windows))
+
+
+
+
+#+end_src
+
+#+results:
+: bh/show-org-agenda
+
+
+*** =norang= agenda helper defuns
+
+#+begin_src emacs-lisp 
+    (defun bh/is-project-p ()
+      "Any task with a todo keyword subtask"
+      (save-restriction
+        (widen)
+        (let ((has-subtask)
+              (subtree-end (save-excursion (org-end-of-subtree t)))
+              (is-a-task (member (nth 2 (org-heading-components)) org-todo-keywords-1)))
+          (save-excursion
+            (forward-line 1)
+            (while (and (not has-subtask)
+                        (< (point) subtree-end)
+                        (re-search-forward "^\*+ " subtree-end t))
+              (when (member (org-get-todo-state) org-todo-keywords-1)
+                (setq has-subtask t))))
+          (and is-a-task has-subtask))))
+    
+    (defun bh/is-project-subtree-p ()
+      "Any task with a todo keyword that is in a project subtree.
+    Callers of this function already widen the buffer view."
+      (let ((task (save-excursion (org-back-to-heading 'invisible-ok)
+                                  (point))))
+        (save-excursion
+          (bh/find-project-task)
+          (if (equal (point) task)
+              nil
+            t))))
+    
+    (defun bh/is-task-p ()
+      "Any task with a todo keyword and no subtask"
+      (save-restriction
+        (widen)
+        (let ((has-subtask)
+              (subtree-end (save-excursion (org-end-of-subtree t)))
+              (is-a-task (member (nth 2 (org-heading-components)) org-todo-keywords-1)))
+          (save-excursion
+            (forward-line 1)
+            (while (and (not has-subtask)
+                        (< (point) subtree-end)
+                        (re-search-forward "^\*+ " subtree-end t))
+              (when (member (org-get-todo-state) org-todo-keywords-1)
+                (setq has-subtask t))))
+          (and is-a-task (not has-subtask)))))
+    
+    (defun bh/is-subproject-p ()
+      "Any task which is a subtask of another project"
+      (let ((is-subproject)
+            (is-a-task (member (nth 2 (org-heading-components)) org-todo-keywords-1)))
+        (save-excursion
+          (while (and (not is-subproject) (org-up-heading-safe))
+            (when (member (nth 2 (org-heading-components)) org-todo-keywords-1)
+              (setq is-subproject t))))
+        (and is-a-task is-subproject)))
+    
+    (defun bh/list-sublevels-for-projects-indented ()
+      "Set org-tags-match-list-sublevels so when restricted to a subtree we list all subtasks.
+      This is normally used by skipping functions where this variable is already local to the agenda."
+      (if (marker-buffer org-agenda-restrict-begin)
+          (setq org-tags-match-list-sublevels 'indented)
+        (setq org-tags-match-list-sublevels nil))
+      nil)
+    
+    (defun bh/list-sublevels-for-projects ()
+      "Set org-tags-match-list-sublevels so when restricted to a subtree we list all subtasks.
+      This is normally used by skipping functions where this variable is already local to the agenda."
+      (if (marker-buffer org-agenda-restrict-begin)
+          (setq org-tags-match-list-sublevels t)
+        (setq org-tags-match-list-sublevels nil))
+      nil)
+    
+    (defun bh/skip-non-stuck-projects ()
+      "Skip trees that are not stuck projects"
+      (bh/list-sublevels-for-projects-indented)
+      (save-restriction
+        (widen)
+        (let ((next-headline (save-excursion (or (outline-next-heading) (point-max)))))
+          (if (bh/is-project-p)
+              (let* ((subtree-end (save-excursion (org-end-of-subtree t)))
+                     (has-next (save-excursion
+                                 (forward-line 1)
+                                 (and (< (point) subtree-end)
+                                      (re-search-forward "^\\*+ \\(NEXT\\) " subtree-end t)))))
+                (if has-next
+                    next-headline
+                  nil)) ; a stuck project, has subtasks but no next task
+            next-headline))))
+    
+    (defun bh/skip-non-projects ()
+      "Skip trees that are not projects"
+      (bh/list-sublevels-for-projects-indented)
+      (if (save-excursion (bh/skip-non-stuck-projects))
+          (save-restriction
+            (widen)
+            (let ((subtree-end (save-excursion (org-end-of-subtree t))))
+              (if (bh/is-project-p)
+                  nil
+                subtree-end)))
+        (org-end-of-subtree t)))
+    
+    (defun bh/skip-project-trees-and-habits ()
+      "Skip trees that are projects"
+      (save-restriction
+        (widen)
+        (let ((subtree-end (save-excursion (org-end-of-subtree t))))
+          (cond
+           ((bh/is-project-p)
+            subtree-end)
+           ((org-is-habit-p)
+            subtree-end)
+           (t
+            nil)))))
+    
+    (defun bh/skip-projects-and-habits-and-single-tasks ()
+      "Skip trees that are projects, tasks that are habits, single non-project tasks"
+      (save-restriction
+        (widen)
+        (let ((next-headline (save-excursion (or (outline-next-heading) (point-max)))))
+          (cond
+           ((org-is-habit-p)
+            next-headline)
+           ((bh/is-project-p)
+            next-headline)
+           ((and (bh/is-task-p) (not (bh/is-project-subtree-p)))
+            next-headline)
+           (t
+            nil)))))
+    
+    (defun bh/skip-project-tasks-maybe ()
+      "Show tasks related to the current restriction.
+    When restricted to a project, skip project and sub project tasks, habits, NEXT tasks, and loose tasks.
+    When not restricted, skip project and sub-project tasks, habits, and project related tasks."
+      (save-restriction
+        (widen)
+        (let* ((subtree-end (save-excursion (org-end-of-subtree t)))
+               (next-headline (save-excursion (or (outline-next-heading) (point-max))))
+               (limit-to-project (marker-buffer org-agenda-restrict-begin)))
+          (cond
+           ((bh/is-project-p)
+            next-headline)
+           ((org-is-habit-p)
+            subtree-end)
+           ((and (not limit-to-project)
+                 (bh/is-project-subtree-p))
+            subtree-end)
+           ((and limit-to-project
+                 (bh/is-project-subtree-p)
+                 (member (org-get-todo-state) (list "NEXT")))
+            subtree-end)
+           (t
+            nil)))))
+    
+    (defun bh/skip-projects-and-habits ()
+      "Skip trees that are projects and tasks that are habits"
+      (save-restriction
+        (widen)
+        (let ((subtree-end (save-excursion (org-end-of-subtree t))))
+          (cond
+           ((bh/is-project-p)
+            subtree-end)
+           ((org-is-habit-p)
+            subtree-end)
+           (t
+            nil)))))
+    
+    (defun bh/skip-non-subprojects ()
+      "Skip trees that are not projects"
+      (let ((next-headline (save-excursion (outline-next-heading))))
+        (if (bh/is-subproject-p)
+            nil
+          next-headline)))
+    
+  (defun bh/skip-non-archivable-tasks ()
+      "Skip trees that are not available for archiving"
+      (save-restriction
+        (widen)
+        (let ((next-headline (save-excursion (or (outline-next-heading) (point-max)))))
+          ;; Consider only tasks with done todo headings as archivable candidates
+          (if (member (org-get-todo-state) org-done-keywords)
+              (let* ((subtree-end (save-excursion (org-end-of-subtree t)))
+                     (daynr (string-to-int (format-time-string "%d" (current-time))))
+                     (a-month-ago (* 60 60 24 (+ daynr 1)))
+                     (last-month (format-time-string "%Y-%m-" (time-subtract (current-time) (seconds-to-time a-month-ago))))
+                     (this-month (format-time-string "%Y-%m-" (current-time)))
+                     (subtree-is-current (save-excursion
+                                           (forward-line 1)
+                                           (and (< (point) subtree-end)
+                                                (re-search-forward (concat last-month "\\|" this-month) subtree-end t)))))
+                (if subtree-is-current
+                    next-headline ; Has a date in this month or last month, skip it
+                  nil))  ; available to archive
+            (or next-headline (point-max))))))
+  
+#+end_src
+
+#+results:
+: bh/skip-non-archivable-tasks
+
+
+
+
+
+*** =norang= agenda sort
+
+#+begin_src emacs-lisp
+  (defun bh/agenda-sort (a b)
+    "Sorting strategy for agenda items.
+  Late deadlines first, then scheduled, then non-late deadlines"
+    (let (result num-a num-b)
+      (cond
+       ; time specific items are already sorted first by org-agenda-sorting-strategy
+  
+       ; non-deadline and non-scheduled items next
+       ((bh/agenda-sort-test 'bh/is-not-scheduled-or-deadline a b))
+  
+       ; deadlines for today next
+       ((bh/agenda-sort-test 'bh/is-due-deadline a b))
+  
+       ; late deadlines next
+       ((bh/agenda-sort-test-num 'bh/is-late-deadline '< a b))
+  
+       ; scheduled items for today next
+       ((bh/agenda-sort-test 'bh/is-scheduled-today a b))
+  
+       ; late scheduled items next
+       ((bh/agenda-sort-test-num 'bh/is-scheduled-late '> a b))
+  
+       ; pending deadlines last
+       ((bh/agenda-sort-test-num 'bh/is-pending-deadline '< a b))
+  
+       ; finally default to unsorted
+       (t (setq result nil)))
+      result))
+  
+  (defmacro bh/agenda-sort-test (fn a b)
+    "Test for agenda sort"
+    `(cond
+      ; if both match leave them unsorted
+      ((and (apply ,fn (list ,a))
+            (apply ,fn (list ,b)))
+       (setq result nil))
+      ; if a matches put a first
+      ((apply ,fn (list ,a))
+       (setq result -1))
+      ; otherwise if b matches put b first
+      ((apply ,fn (list ,b))
+       (setq result 1))
+      ; if none match leave them unsorted
+      (t nil)))
+  
+  (defmacro bh/agenda-sort-test-num (fn compfn a b)
+    `(cond
+      ((apply ,fn (list ,a))
+       (setq num-a (string-to-number (match-string 1 ,a)))
+       (if (apply ,fn (list ,b))
+           (progn
+             (setq num-b (string-to-number (match-string 1 ,b)))
+             (setq result (if (apply ,compfn (list num-a num-b))
+                              -1
+                            1)))
+         (setq result -1)))
+      ((apply ,fn (list ,b))
+       (setq result 1))
+      (t nil)))
+  
+  (defun bh/is-not-scheduled-or-deadline (date-str)
+    (and (not (bh/is-deadline date-str))
+         (not (bh/is-scheduled date-str))))
+  
+  (defun bh/is-due-deadline (date-str)
+    (string-match "Deadline:" date-str))
+  
+  (defun bh/is-late-deadline (date-str)
+    (string-match "In *\\(-.*\\)d\.:" date-str))
+  
+  (defun bh/is-pending-deadline (date-str)
+    (string-match "In \\([^-]*\\)d\.:" date-str))
+  
+  (defun bh/is-deadline (date-str)
+    (or (bh/is-due-deadline date-str)
+        (bh/is-late-deadline date-str)
+        (bh/is-pending-deadline date-str)))
+  
+  (defun bh/is-scheduled (date-str)
+    (or (bh/is-scheduled-today date-str)
+        (bh/is-scheduled-late date-str)))
+  
+  (defun bh/is-scheduled-today (date-str)
+    (string-match "Scheduled:" date-str))
+  
+  (defun bh/is-scheduled-late (date-str)
+    (string-match "Sched\.\\(.*\\)x:" date-str))
+#+end_src
+
+#+results:
+: bh/is-scheduled-late
+
+
+
+
+

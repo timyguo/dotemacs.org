@@ -1,6 +1,0 @@
-[submodule "src/sunrise-commander"]
-	path = src/sunrise-commander
-	url = git://github.com/escherdragon/sunrise-commander.git
-[submodule "src/org-mode"]
-	path = src/org-mode
-	url = /Users/tonyday/git/org-mode

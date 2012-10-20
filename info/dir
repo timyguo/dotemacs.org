@@ -1,0 +1,17 @@
+This is my personal info/dir, which contains the
+topmost node of the Info hierarchy, called (dir)Top.
+
+There are two dir files in my config, which get squished together by emacs.
+
+The first time you invoke Info you start off looking at this node.
+
+File: dir,	Node: Top	This is the top of the INFO tree
+
+  "q" exits, "?" lists all Info commands, "d" returns here,
+  "h" gives a primer, "mEmacs<Return>" visits the Emacs manual, etc.
+
+* Menu:
+
+Stuff
+* org: (/Users/tonyday/.emacs.d/src/org-mode/doc/org).      Org
+* magit: (/Users/tonyday/.emacs.d/elpa/magit-1.1.1/magit).    Magit
