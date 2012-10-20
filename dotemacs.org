@@ -1,7 +1,8 @@
-#+TITLE: Emacs configuration file
+#+TITLE: dotemacs
 #+AUTHOR: Tony Day
-#+EMAIL: zygomega at gmail dot com
-#+OPTIONS: toc:2 num:nil ^:nil
+#+EMAIL: tonyday567 at gmail dot com
+#+COLUMNS: %25ITEM %30tangle
+#+PROPERTIES: tangle yes
 
 * Upfront
 :PROPERTIES:
@@ -14,18 +15,29 @@
   -- [[http://en.wikipedia.org/wiki/The_Mullets_(TV_series)][The Mullets]]
 #+end_quote
 
-Emergency status hack-attack city
+Emergency status hack-attack city.
 
-- take all the starter-kit guff and place it here
-- init.el should be placed here too
+- [ ] take all the starter-kit guff and place it here
+- [X] init.el should be placed here too
 
+
+order of events
+- init.el loads
+- org-init.org loads
+- bootup
+  - load-paths
+  - usebind
+  - package checks/loads
+- package tweaks (alphabetical)
+- other files (alphabetical)
+  - gnus
+  - org
+  - functionality to select current directory contents
+- end game
 
 
 
 * init.el
-:PROPERTIES:
-:tangle:   init.el
-:END:
 
 The init.el file is the only file in the startup of emacs
 that *needs* to be a .el file.  If you update it here and don't
@@ -54,11 +66,11 @@ There are exactly three things that init.el does:
   there is a more recent org-mode installed in which case usage of
   babel before loading the path will result in a mixed install.  Not
   fun debugging that.    
-- loads the /real/ init code, which i have called org-init and which
+- loads the /real/ init code, which i have called dotemacs and which
   is contained here.
 
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle init.el
   ;; see org-init.org for documentation
   
   ;; remember this directory
@@ -71,7 +83,7 @@ There are exactly three things that init.el does:
       (add-to-list 'load-path org-dir))
    
   ;; load up the org-init file
-  (org-babel-load-file (expand-file-name "org-init.org" starter-kit-dir))
+  (org-babel-load-file (expand-file-name "dotemacs.org" working-dir))
 #+end_src
 
 
@@ -83,125 +95,517 @@ SCHEDULED: <2012-09-16 Sun>
 :CLOSE:    [2012-10-11 Thu 13:00]
 :END:
 
-* Introduction
 
-This is my personal emacs configuration, written in org and utilising emacs24
-and [[http://eschulte.me/emacs24-starter-kit/][starter-kit]].  The latest version of starter-kit is available in git [[https://github.com/eschulte/emacs24-starter-kit/][here]].
 
-Starter kit and this file represent a new way of configuring emacs
-using [[http://orgmode.org/][org-mode]] to produce [[http://en.wikipedia.org/wiki/Literate_programming][literate programs]]. A description of the
-particular manner adopted and some of the design consideration can be found [[id:f955f29d-1f32-49cb-bfca-125e64365849][here]].
+* load-path
+  :PROPERTIES:
+  :tangle:   yes
+  :END:
 
-This file is a working file for R&D on setting up
-emacs, its various major modes and, especially, on configuration of
-org-mode.
-
-** Why move to starter-kit?
-
-I've spent many an hour wading through complicated and opaque init.el files looking at ways
-that emacs might be enhanced.  On opening the starter kit init.el,
-this is what I saw:
-
-#+begin_src emacs-lisp :eval no :tangle no
-;;; init.el --- Where all the magic begins
-;;
-;; Part of the Emacs Starter Kit
-;;
-;; This is the first thing to get loaded.
-;;
-
-;; remember this directory
-(setq starter-kit-dir
-      (file-name-directory (or load-file-name (buffer-file-name))))
-
-;; load up the starter kit
-(org-babel-load-file (expand-file-name "starter-kit.org" starter-kit-dir))
-
-;;; init.el ends here
+#+begin_src emacs-lisp
+    (setq src-dir (expand-file-name "src" working-dir))
+    ;; add the src directory to the load path
+    (add-to-list 'load-path src-dir working-dir)
+    ;; load all subdirectories
+      (when (file-exists-p src-dir)
+        (let ((default-directory src-dir))
+          (normal-top-level-add-subdirs-to-load-path)))
 #+end_src
 
-It:
-1. remembers a directory, then
-2. opens an org file
+* starter-kits
+  :PROPERTIES:
+  :tangle:   yes
+  :END:
+** core
+  :PROPERTIES:
+  :CUSTOM_ID: implementation
+  :END:
 
-- [ ] I can remember a directory.
-- [ ] I can open an org file
-- [ ] I already have an org file with my init stuff in there
+This section contains all code implementing the Emacs Starter Kit.  It
+is probably safe to stop reading at this point unless you are
+interested in the actual code implementing the starter kit.
 
-Bingo!
+*** Starter kit basics
+- Load path etc.
+  #+name: starter-kit-load-paths
+  #+begin_src emacs-lisp
+    (add-to-list 'load-path working-dir)
+    (setq autoload-file (concat working-dir "loaddefs.el"))
+    (setq package-user-dir (concat working-dir "elpa"))
+    (setq custom-file (concat working-dir "custom.el"))
+  #+end_src
 
-** References
-*** starter kit
+- Ubiquitous Packages which should be loaded on startup rather than
+  autoloaded on demand since they are likely to be used in every
+  session.
+  #+name: starter-kit-load-on-startup
+  #+begin_src emacs-lisp
+    (require 'cl)
+    (require 'saveplace)
+    (require 'ffap)
+    (require 'uniquify)
+    (require 'ansi-color)
+    (require 'recentf)
+  #+end_src
 
-Eric's starter-kit blurb
+- ELPA archive repositories and two packages to install by default.
+  #+begin_src emacs-lisp
+    (setq package-archives
+          '(("original"    . "http://tromey.com/elpa/")
+            ("gnu"         . "http://elpa.gnu.org/packages/")
+            ("marmalade"   . "http://marmalade-repo.org/packages/")))
+    (package-initialize)
+    
+    (defvar starter-kit-packages
+      (list 'yasnippet-bundle)
+      "Libraries that should be installed by default.")
+    
+    (unless package-archive-contents
+      (package-refresh-contents))
+    (dolist (package starter-kit-packages)
+      (unless (package-installed-p package)
+        (package-install package)))
+  #+end_src
 
-http://eschulte.me/emacs24-starter-kit/
+- Work around a bug on OS X where system-name is FQDN.
+  #+name: starter-kit-osX-workaround
+  #+begin_src emacs-lisp
+    (if (eq system-type 'darwin)
+        (setq system-name (car (split-string system-name "\\."))))
+  #+end_src
 
-Latest git
+- [[http://code.google.com/p/yasnippet/][yasnippet]] is yet another snippet expansion system for Emacs.  It is
+  inspired by TextMate's templating syntax.
+  - watch the [[http://www.youtube.com/watch?v=vOj7btx3ATg][video on YouTube]]
+  - see the [[http://yasnippet.googlecode.com/svn/trunk/doc/index.html][intro and tutorial]]
 
-https://github.com/eschulte/emacs24-starter-kit/
+  load the yasnippet bundle
+  #+begin_src emacs-lisp
+    (require 'yasnippet)
+    (yas/initialize)
+  #+end_src
 
-*** norang
-	 :LOGBOOK:
-	 CLOCK: [2012-07-17 Tue 10:01]--[2012-07-17 Tue 10:16] =>  0:15
-	 CLOCK: [2012-07-17 Tue 09:55]--[2012-07-17 Tue 10:01] =>  0:06
-	 CLOCK: [2012-07-17 Tue 09:09]--[2012-07-17 Tue 09:55] =>  0:46
-	 :END:
+  load the snippets defined in the =./snippets/= directory
+  #+begin_src emacs-lisp
+    (yas/load-directory (expand-file-name "snippets" working-dir))
+  #+end_src
 
-The http://doc.norang.ca/ site is the best I know for an introduction
-to what can be achieved through the use of org-mode, and how to go
-about the task. My initial inspiration to start playing around with
-and eventually adopting an org style of working came from pouring
-through this site. Much of the actual code used to set up org-mode
-is a cut and paste from http://doc.norang.ca/org-mode.html.
-
-If you are looking for a more general introduction to org-mode, then
-norang is a much better spot to start. This is especially true for the
-org time and project management material - Bernt's code is so good I
-pretty much dropped his init file in and it all worked out of the box.
-
-I have spent some time using the org productivity tools and all I can
-do is quote Douglas Adams.
-
-#+BEGIN_QUOTE
-I love deadlines. I like the whooshing sound they make as they fly by.
--- Douglas Adams
-#+END_QUOTE
-
-This file is more about documenting the code and environment needed to
-reproduce [[scarecapital.com][my]] research.
-
-<<<<<<< HEAD
-*** other dot emacs files
-	 :LOGBOOK:  
-	 CLOCK: [2012-04-12 Thu 23:14]--[2012-04-12 Thu 23:16] =>  0:02
-	 CLOCK: [2012-04-12 Thu 22:43]--[2012-04-12 Thu 22:57] =>  0:14
-	 :END:      
-
-- [ ] add new ones
-
-There are many, many dot files out there and anyone who has used emacs
-before emacs24 has spent time looking for themselves.  Some
-recommended reading:
-
-[[info:emacs#Init%20File][info:emacs#Init File]]
-http://www.emacswiki.org/emacs/RobertAdesamConfig
-http://robert-adesam.blogspot.com.au/2011/01/emacsclient-setup-on-windows-7-starter.html
-http://www.emacswiki.org/emacs/EmacsInitFileOfSylecn
-http://a-nickels-worth.blogspot.com.au/2007/11/effective-emacs.html
-
-*** local copies                                                   :noexport:
-
-[[file:~/projects/learning_org/RA-init.el::%3B%3B%3B][file:~/projects/learning_org/RA-init.el]]
-[[file:~/projects/learning_org/EmacsInitFileOfSylecn.txt]]
+  The latest version of yasnippets doesn't play well with Org-mode, the
+  following function allows these two to play nicely together.
+  #+begin_src emacs-lisp
+    (defun yas/org-very-safe-expand ()
+      (let ((yas/fallback-behavior 'return-nil)) (yas/expand)))
+    
+    (defun yas/org-setup ()
+      ;; yasnippet (using the new org-cycle hooks)
+      (make-variable-buffer-local 'yas/trigger-key)
+      (setq yas/trigger-key [tab])
+      (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
+      (define-key yas/keymap [tab] 'yas/next-field))
+    
+    (add-hook 'org-mode-hook #'yas/org-setup)
+  #+end_src
 
 
-=======
->>>>>>> fixing-org
+**** Settings from M-x customize
+#+name: m-x-customize-customizations
+#+begin_src emacs-lisp
+  (load custom-file 'noerror)
+#+end_src
+
+
+* other starters
+  :PROPERTIES:
+  :tangle:   yes
+  :END:
+** The starter-kit-coding-hook:
+A single hook holding those functions which should be run in *every*
+code buffer.
+
+We have a number of turn-on-* functions since it's advised that lambda
+functions not go in hooks. Repeatedly evaling an add-to-list with a
+hook value will repeatedly add it since there's no way to ensure that
+a lambda doesn't already exist in the list.
+
+#+name: starter-kit-hook-functions
+#+begin_src emacs-lisp
+(defun starter-kit-local-column-number-mode ()
+  (make-local-variable 'column-number-mode)
+  (column-number-mode t))
+
+(defun starter-kit-local-comment-auto-fill ()
+  (set (make-local-variable 'comment-auto-fill-only-comments) t)
+  (auto-fill-mode t))
+
+(defun starter-kit-turn-on-save-place-mode ()
+  (setq save-place t))
+
+(defun starter-kit-turn-on-whitespace ()
+  (whitespace-mode t))
+#+end_src
+
+#+name: starter-kit-add-local-column-number-mode
+#+begin_src emacs-lisp
+(add-hook 'starter-kit-coding-hook 'starter-kit-local-column-number-mode)
+#+end_src
+
+#+name: start-kit-add-local-comment-auto-fill
+#+begin_src emacs-lisp
+(add-hook 'starter-kit-coding-hook 'starter-kit-local-comment-auto-fill)
+#+end_src
+
+#+name: starter-kit-add-pretty-lambdas
+#+begin_src emacs-lisp
+  (when (window-system)
+    (add-hook 'starter-kit-coding-hook 'starter-kit-pretty-lambdas))
+#+end_src
+
+#+name: starter-kit-run-starter-kit-coding-hook
+#+begin_src emacs-lisp
+(defun run-starter-kit-coding-hook ()
+  "Enable things that are convenient across all coding buffers."
+  (run-hooks 'starter-kit-coding-hook))
+#+end_src
+
+#+srcname: starter-kit-recentf-ido-find-file
+#+begin_src emacs-lisp 
+  (defun recentf-ido-find-file () 
+    "Find a recent file using Ido." 
+    (interactive) 
+    (let* ((file-assoc-list 
+            (mapcar (lambda (x) 
+                      (cons (file-name-nondirectory x) 
+                            x)) 
+                    recentf-list)) 
+           (filename-list 
+            (remove-duplicates (mapcar #'car file-assoc-list) 
+                               :test #'string=)) 
+           (filename (ido-completing-read "Choose recent file: " 
+                                          filename-list 
+                                          nil 
+                                          t))) 
+      (when filename 
+        (find-file (cdr (assoc filename 
+                               file-assoc-list)))))) 
+ #+end_src 
+
+
+
+
+
+** Starter Kit Misc
+Things that don't fit anywhere else.
+
+*** Check Dependencies
+
+Determine whether required packages are installed. If not, use ELPA to
+install them. Other dependencies are provided by Emacs 24.
+#+begin_src emacs-lisp
+  (dolist (package '(magit))
+    (unless (package-installed-p package)
+      (package-install package)))
+#+end_src
+
+*** Color Themes
+Emacs24 has build in support for saving and loading themes.
+
+A Theme builder is available at http://elpa.gnu.org/themes/ along with
+a list of pre-built themes at http://elpa.gnu.org/themes/view.html and
+themes are available through ELPA.
+
+Downloaded themes may be saved to the =themes/= directory in the base
+of the starter kit which ignored by git.  Once downloaded and
+evaluated a theme is activated using the =load-theme= function.
+
+*** Window systems
+#+srcname: starter-kit-window-view-stuff
+#+begin_src emacs-lisp 
+(when window-system
+  (setq frame-title-format '(buffer-file-name "%f" ("%b")))
+  (blink-cursor-mode -1))
+
+(mouse-wheel-mode t)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+
+(setq visible-bell t
+      echo-keystrokes 0.1
+      font-lock-maximum-decoration t
+      inhibit-startup-message t
+      transient-mark-mode t
+      color-theme-is-global t
+      delete-by-moving-to-trash t
+      shift-select-mode nil
+      truncate-partial-width-windows nil
+      uniquify-buffer-name-style 'forward
+      whitespace-style '(trailing lines space-before-tab
+                                  indentation space-after-tab)
+      whitespace-line-column 100
+      ediff-window-setup-function 'ediff-setup-windows-plain
+      oddmuse-directory (concat working-dir "oddmuse")
+      xterm-mouse-mode t
+      save-place-file (concat working-dir "places"))
+#+end_src
+
+*** Transparently open compressed files
+#+begin_src emacs-lisp
+(auto-compression-mode t)
+#+end_src
+
+*** Save a list of recent files visited.
+#+begin_src emacs-lisp 
+(recentf-mode 1)
+#+end_src emacs-lisp
+
+*** Highlight matching parentheses when the point is on them.
+#+srcname: starter-kit-match-parens
+#+begin_src emacs-lisp 
+(show-paren-mode 1)
+#+end_src
+
+*** ido mode
+ido-mode is like magic pixie dust!
+#+srcname: starter-kit-loves-ido-mode
+#+begin_src emacs-lisp 
+(when (> emacs-major-version 21)
+  (ido-mode t)
+  (setq ido-enable-prefix nil
+        ido-enable-flex-matching t
+        ido-create-new-buffer 'always
+        ido-use-filename-at-point t
+        ido-max-prospects 10))
+#+end_src
+
+*** Other, spell checking, tabs, imenu and a coding hook
+#+begin_src emacs-lisp 
+  (set-default 'indent-tabs-mode nil)
+  (set-default 'indicate-empty-lines t)
+  (set-default 'imenu-auto-rescan t)
+  
+  (add-hook 'text-mode-hook 'turn-on-auto-fill)
+  ;;(add-hook 'text-mode-hook 'turn-on-flyspell)
+  
+  (defvar starter-kit-coding-hook nil
+    "Hook that gets run on activation of any programming mode.")
+  
+  (defalias 'yes-or-no-p 'y-or-n-p)
+  ;; Seed the random-number generator
+  (random t)
+#+end_src
+
+**** functions for prettier source code
+#+begin_src emacs-lisp
+(defun starter-kit-pretty-lambdas ()
+  (font-lock-add-keywords
+   nil `(("(\\(lambda\\>\\)"
+          (0 (progn (compose-region (match-beginning 1) (match-end 1)
+                                    ,(make-char 'greek-iso8859-7 107))
+                    nil))))))
+#+end_src
+
+**** possible issues/resolutions with flyspell
+Most of the solution came from [[http://www.emacswiki.org/emacs/FlySpell][EmacsWiki-FlySpell]].  Here is one
+possible fix.
+
+***** Emacs set path to aspell
+it's possible aspell isn't in your path
+#+begin_src emacs-lisp :tangle no
+   (setq exec-path (append exec-path '("/opt/local/bin")))
+#+end_src
+
+***** Emacs specify spelling program
+- This didn't work at first, possibly because cocoAspell was
+  building its dictionary.  Now it seems to work fine.
+#+begin_src emacs-lisp :tangle no
+  (setq ispell-program-name "aspell"
+        ispell-dictionary "english"
+        ispell-dictionary-alist
+        (let ((default '("[A-Za-z]" "[^A-Za-z]" "[']" nil
+                         ("-B" "-d" "english" "--dict-dir"
+                          "/Library/Application Support/cocoAspell/aspell6-en-6.0-0")
+                         nil iso-8859-1)))
+          `((nil ,@default)
+            ("english" ,@default))))
+#+end_src
+
+*** Hippie expand: at times perhaps too hip
+#+begin_src emacs-lisp
+(delete 'try-expand-line hippie-expand-try-functions-list)
+(delete 'try-expand-list hippie-expand-try-functions-list)
+#+end_src
+
+*** Don't clutter up directories with files~
+Rather than saving backup files scattered all over the file system,
+let them live in the =backups/= directory inside of the starter kit.
+#+begin_src emacs-lisp
+(setq backup-directory-alist `(("." . ,(expand-file-name
+                                        (concat working-dir "backups")))))
+#+end_src
+
+*** Default to unified diffs
+#+begin_src emacs-lisp
+(setq diff-switches "-u")
+#+end_src
+
+*** Cosmetics
+
+#+begin_src emacs-lisp
+(eval-after-load 'diff-mode
+  '(progn
+     (set-face-foreground 'diff-added "green4")
+     (set-face-foreground 'diff-removed "red3")))
+
+(eval-after-load 'magit
+  '(progn
+     (set-face-foreground 'magit-diff-add "green3")
+     (set-face-foreground 'magit-diff-del "red3")))
+#+end_src
+
+
+
+** Starter Kit Bindings
+
+Key Bindings.
+
+*** You know, like Readline.
+#+begin_src emacs-lisp 
+(global-set-key (kbd "C-M-h") 'backward-kill-word)
+#+end_src
+
+*** Align your code in a pretty way.
+#+begin_src emacs-lisp 
+(global-set-key (kbd "C-x \\") 'align-regexp)
+#+end_src
+
+*** Completion that uses many different methods to find options.
+#+begin_src emacs-lisp 
+(global-set-key (kbd "M-/") 'hippie-expand)
+#+end_src
+
+*** Turn on the menu bar for exploring new modes
+#+begin_src emacs-lisp 
+(global-set-key [f1] 'menu-bar-mode)
+#+end_src
+
+*** Font size
+#+begin_src emacs-lisp 
+(define-key global-map (kbd "C-+") 'text-scale-increase)
+(define-key global-map (kbd "C--") 'text-scale-decrease)
+#+end_src
+
+*** Use regex searches by default.
+#+begin_src emacs-lisp 
+(global-set-key (kbd "C-s") 'isearch-forward-regexp)
+(global-set-key (kbd "\C-r") 'isearch-backward-regexp)
+(global-set-key (kbd "C-M-s") 'isearch-forward)
+(global-set-key (kbd "C-M-r") 'isearch-backward)
+#+end_src
+
+*** File finding
+#+begin_src emacs-lisp 
+  (global-set-key (kbd "C-x M-f") 'ido-find-file-other-window)
+  (global-set-key (kbd "C-x C-p") 'find-file-at-point)
+  (global-set-key (kbd "C-c y") 'bury-buffer)
+  (global-set-key (kbd "C-c r") 'revert-buffer)
+  (global-set-key (kbd "M-`") 'file-cache-minibuffer-complete)
+  (global-set-key (kbd "C-x C-b") 'ibuffer)
+  (global-set-key (kbd "C-x f") 'recentf-ido-find-file)  
+#+end_src
+
+*** Window switching. (C-x o goes to the next window)
+#+begin_src emacs-lisp 
+;;(windmove-default-keybindings) ;; Shift+direction
+(global-set-key (kbd "C-x O") (lambda () (interactive) (other-window -1))) ;; back one
+(global-set-key (kbd "C-x C-o") (lambda () (interactive) (other-window 2))) ;; forward two
+#+end_src
+
+*** Indentation help
+#+begin_src emacs-lisp 
+(global-set-key (kbd "C-x ^") 'join-line)
+#+end_src
+
+*** If you want to be able to M-x without meta
+#+begin_src emacs-lisp 
+(global-set-key (kbd "C-x C-m") 'execute-extended-command)
+#+end_src
+
+*** Help should search more than just commands
+#+begin_src emacs-lisp 
+  (global-set-key (kbd "C-h a") 'apropos)
+#+end_src
+
+*** Activate occur easily inside isearch
+#+begin_src emacs-lisp 
+  (define-key isearch-mode-map (kbd "C-o")
+    (lambda () (interactive)
+      (let ((case-fold-search isearch-case-fold-search))
+        (occur (if isearch-regexp
+                   isearch-string
+                 (regexp-quote isearch-string))))))
+#+end_src
+
+*** Org-mode
+Two global binding for Org-mode (see [[file:starter-kit-org.org][starter-kit-org]])
+
+The [[http://orgmode.org/manual/Agenda-Views.html#Agenda-Views][Org-mode agenda]] is good to have close at hand
+#+begin_src emacs-lisp
+  (define-key global-map "\C-ca" 'org-agenda)
+#+end_src
+
+Org-mode supports [[http://orgmode.org/manual/Hyperlinks.html#Hyperlinks][links]], this command allows you to store links
+globally for later insertion into an Org-mode buffer.  See
+[[http://orgmode.org/manual/Handling-links.html#Handling-links][Handling-links]] in the Org-mode manual.
+#+begin_src emacs-lisp
+  (define-key global-map "\C-cl" 'org-store-link)
+#+end_src
+
+*** Rgrep
+Rgrep is infinitely useful in multi-file projects.
+
+(see [[elisp:(describe-function 'rgrep)]])
+
+#+begin_src emacs-lisp
+  (define-key global-map "\C-x\C-r" 'rgrep)
+#+end_src
+
+
+** Starter Kit Registers
+Registers allow you to jump to a file or other location quickly. Use
+=C-x r j= followed by the letter of the register (i for =init.el=, r
+for this file) to jump to it.
+
+You should add registers here for the files you edit most often.
+
+#+name: starter-kit-registers
+#+begin_src emacs-lisp :results silent
+  (dolist
+      (r `((?i (file . ,(concat working-dir "init.el")))
+           (?I (file . ,(let* ((user user-login-name)
+                               (org (expand-file-name (concat user ".org") working-dir))
+                               (el  (expand-file-name (concat user ".el") working-dir))
+                               (dir (expand-file-name user working-dir)))
+                          (cond
+                           ((file-exists-p org) org)
+                           ((file-exists-p el)  el)
+                           (t dir)))))
+           (?s (file . ,(concat working-dir "starter-kit.org")))
+           (?r (file . ,(concat working-dir "starter-kit-registers.org")))))
+    (set-register (car r) (cadr r)))
+#+end_src
+
+
+
+
+
+
+
+
 * Starting guff
 :PROPERTIES:
-:tangle: yes
+:tangle:   yes
 :END:
+
 ** Load path
 :PROPERTIES:
 :OPEN:     [2012-10-11 Thu 13:19]
@@ -257,9 +661,6 @@ having (or resent having to have).
 |                      |                                 |
 
 
-
-
-
 #+begin_src emacs-lisp  :tangle no
   (defvar starter-kit-packages-extra
         '(clojure-mode 
@@ -307,9 +708,9 @@ having (or resent having to have).
 
 - Starter Kit Loads
   #+begin_src emacs-lisp
-    (starter-kit-load "eshell")
-    (starter-kit-load "lisp")
-    (starter-kit-load "misc-recommended")
+    (org-babel-load-file (expand-file-name "starter-kit-eshell.org" working-dir))
+    (org-babel-load-file (expand-file-name "starter-kit-lisp.org" working-dir))
+    (org-babel-load-file (expand-file-name "starter-kit-misc-recommended.org" working-dir))
   #+end_src
 
 - Theme Loads
@@ -326,6 +727,9 @@ having (or resent having to have).
   
 
 * personal loads
+  :PROPERTIES:
+  :tangle:   yes
+  :END:
 ** Org                                                                 :org:
 :LOGBOOK:
 - State "TODO"       from ""           [2012-07-19 Thu 09:49]
@@ -2189,6 +2593,9 @@ so change the default 'F' binding in the agenda to allow both"
 
 
 * snippets
+  :PROPERTIES:
+  :tangle:   yes
+  :END:
 ** dev code snippets
 :PROPERTIES:
 :OPEN: [2012-08-01 Wed 22:29]
@@ -2285,7 +2692,7 @@ so change the default 'F' binding in the agenda to allow both"
 :LAST:     [2012-10-11 Thu 13:28]
 :END:
   #+begin_src emacs-lisp 
-    ;;(load (concat starter-kit-dir "src/nxhtml/autostart.el"))
+    ;;(load (concat working-dir "src/nxhtml/autostart.el"))
   #+end_src
 
 
@@ -2384,7 +2791,7 @@ Defuns
 ** register (off)
 
 #+begin_example
- (?z (file . ,(concat starter-kit-dir "zygomega.org")))
+ (?z (file . ,(concat working-dir "zygomega.org")))
 #+end_example
 
 ** hunspell (off)
@@ -2643,5 +3050,231 @@ So,
 
 ** elnode
 #+begin_src emacs-lisp
-  (require 'elnode)
+  ;;(require 'elnode)
 #+end_src
+
+* debug
+:PROPERTIES:
+:tangle:   no
+:END:
+
+
+** current message bugz
+
+- prints out
+  (table (quote (("stuff" "meta.org" "") (".emacs.d" "README.org" "") ("stuff" "org" "refile.org") ("stuff" "org" "bugz.org") ("stuff" "org" "snipz.org") ("stuff" "org" "org.org") ("stuff" "emacs" "emacs.org") ("stuff" "sys" "sys.org") ("stuff" "biz" "scarce.org") ("stuff" "site" "landing.org") ("stuff" "site" "scarcecapital.org") ("stuff" "content" "life.org") ("stuff" "content" "writing.org") ("stuff" "dev" "webdev.org") ("stuff" "emacs" "bindings.org") ("stuff" "sys" "git.org") ("stuff" "factor" "factor.org") ("stuff" "dev" "jsdev.org") ("stuff" "content" "ideas.org") ("git" "emfx_R" "emfx.org") ("git" "emfx_R" "volatility.org") ("git" "emfx_R" "rdev.org") ("git" "emfx_R" "xkcd.org") ("emfx" "README.org" ""))))
+
+  (table (quote (("/Users/tonyday/.emacs.d/info") ("/usr/share/info/"))))
+
+  at misc
+  (yaml-mode clojure-mode ido paren anything-autoloads auctex-autoloads
+  tex-site info cloj
+
+
+
+#+begin_src emacs-lisp
+  (print (loop for f in load-path
+               collect
+               (list f)))
+#+end_src
+
+#+RESULTS:
+| src                                                                                        |
+| /Users/tonyday/.emacs.d/elpa/ess-5.14/                                                     |
+| /Users/tonyday/.emacs.d/src/yasnippet                                                      |
+| /Users/tonyday/.emacs.d/elpa/anything-1.287                                                |
+| /Users/tonyday/.emacs.d/elpa/auctex-11.86/                                                 |
+| /Users/tonyday/.emacs.d/elpa/auctex-11.86                                                  |
+| /Users/tonyday/.emacs.d/elpa/clojure-mode-1.11.5                                           |
+| /Users/tonyday/.emacs.d/elpa/elisp-slime-nav-0.2                                           |
+| /Users/tonyday/.emacs.d/elpa/ess-5.14                                                      |
+| /Users/tonyday/.emacs.d/elpa/ess-smart-underscore-0.73                                     |
+| /Users/tonyday/.emacs.d/elpa/find-file-in-project-3.2                                      |
+| /Users/tonyday/.emacs.d/elpa/htmlize-1.39                                                  |
+| /Users/tonyday/.emacs.d/elpa/js-comint-0.0.1                                               |
+| /Users/tonyday/.emacs.d/elpa/js2-mode-20090814                                             |
+| /Users/tonyday/.emacs.d/elpa/magithub-0.2                                                  |
+| /Users/tonyday/.emacs.d/elpa/json-1.2                                                      |
+| /Users/tonyday/.emacs.d/elpa/org-magit-0.2.0                                               |
+| /Users/tonyday/.emacs.d/elpa/magit-1.1.1                                                   |
+| /Users/tonyday/.emacs.d/elpa/org2blog-0.5                                                  |
+| /Users/tonyday/.emacs.d/elpa/paredit-22                                                    |
+| /Users/tonyday/.emacs.d/elpa/slime-20100404.1                                              |
+| /Users/tonyday/.emacs.d/elpa/smex-1.1.4                                                    |
+| /Users/tonyday/.emacs.d/elpa/xml-rpc-1.6.8                                                 |
+| /Users/tonyday/.emacs.d/elpa/yaml-mode-0.0.7                                               |
+| /Users/tonyday/.emacs.d/elpa/yasnippet-bundle-0.6.1                                        |
+| /Users/tonyday/.emacs.d/elpa/zenburn-theme-1.5                                             |
+| /Users/tonyday/.emacs.d/                                                                   |
+| /Users/tonyday/.emacs.d/src                                                                |
+| /Users/tonyday/.emacs.d/src/elnode                                                         |
+| /Users/tonyday/.emacs.d/src/o-blog                                                         |
+| /Users/tonyday/.emacs.d/src/org-ehtml                                                      |
+| /Users/tonyday/.emacs.d/src/org-mac-protocol                                               |
+| /Users/tonyday/.emacs.d/src/org-mode                                                       |
+| /Users/tonyday/.emacs.d/src/org2blog                                                       |
+| /Users/tonyday/.emacs.d/src/elnode/examples                                                |
+| /Users/tonyday/.emacs.d/src/elnode/test_docroot                                            |
+| /Users/tonyday/.emacs.d/src/o-blog/Font-Awesome                                            |
+| /Users/tonyday/.emacs.d/src/o-blog/bootstrap                                               |
+| /Users/tonyday/.emacs.d/src/o-blog/example                                                 |
+| /Users/tonyday/.emacs.d/src/o-blog/less.js                                                 |
+| /Users/tonyday/.emacs.d/src/o-blog/templates                                               |
+| /Users/tonyday/.emacs.d/src/org-ehtml/src                                                  |
+| /Users/tonyday/.emacs.d/src/org-ehtml/test                                                 |
+| /Users/tonyday/.emacs.d/src/org-mac-protocol/orgQSLib                                      |
+| /Users/tonyday/.emacs.d/src/org-mode/contrib                                               |
+| /Users/tonyday/.emacs.d/src/org-mode/etc                                                   |
+| /Users/tonyday/.emacs.d/src/org-mode/lisp                                                  |
+| /Users/tonyday/.emacs.d/src/org-mode/mk                                                    |
+| /Users/tonyday/.emacs.d/src/org-mode/testing                                               |
+| /Users/tonyday/.emacs.d/src/o-blog/example/assets                                          |
+| /Users/tonyday/.emacs.d/src/o-blog/example/out                                             |
+| /Users/tonyday/.emacs.d/src/o-blog/templates/style                                         |
+| /Users/tonyday/.emacs.d/src/org-ehtml/test/examples                                        |
+| /Users/tonyday/.emacs.d/src/org-ehtml/test/lisp                                            |
+| /Users/tonyday/.emacs.d/src/org-mode/contrib/babel                                         |
+| /Users/tonyday/.emacs.d/src/org-mode/contrib/lisp                                          |
+| /Users/tonyday/.emacs.d/src/org-mode/contrib/scripts                                       |
+| /Users/tonyday/.emacs.d/src/org-mode/etc/schema                                            |
+| /Users/tonyday/.emacs.d/src/org-mode/etc/styles                                            |
+| /Users/tonyday/.emacs.d/src/org-mode/testing/examples                                      |
+| /Users/tonyday/.emacs.d/src/org-mode/testing/jump                                          |
+| /Users/tonyday/.emacs.d/src/org-mode/testing/lisp                                          |
+| /Users/tonyday/.emacs.d/src/o-blog/example/out/assets                                      |
+| /Users/tonyday/.emacs.d/src/o-blog/example/out/content                                     |
+| /Users/tonyday/.emacs.d/src/o-blog/example/out/style                                       |
+| /Users/tonyday/.emacs.d/src/o-blog/example/out/tags                                        |
+| /Users/tonyday/.emacs.d/src/o-blog/example/out/tips                                        |
+| /Users/tonyday/.emacs.d/src/o-blog/templates/style/Font-Awesome                            |
+| /Users/tonyday/.emacs.d/src/o-blog/templates/style/bootstrap                               |
+| /Users/tonyday/.emacs.d/src/o-blog/templates/style/font                                    |
+| /Users/tonyday/.emacs.d/src/o-blog/templates/style/js                                      |
+| /Users/tonyday/.emacs.d/src/o-blog/templates/style/less                                    |
+| /Users/tonyday/.emacs.d/src/org-mode/contrib/babel/langs                                   |
+| /Users/tonyday/.emacs.d/src/org-mode/contrib/scripts/staticmathjax                         |
+| /Users/tonyday/.emacs.d/src/o-blog/example/out/content/2012                                |
+| /Users/tonyday/.emacs.d/src/o-blog/example/out/style/Font-Awesome                          |
+| /Users/tonyday/.emacs.d/src/o-blog/example/out/style/bootstrap                             |
+| /Users/tonyday/.emacs.d/src/o-blog/example/out/style/font                                  |
+| /Users/tonyday/.emacs.d/src/o-blog/example/out/style/js                                    |
+| /Users/tonyday/.emacs.d/src/o-blog/example/out/style/less                                  |
+| /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012                                   |
+| /Users/tonyday/.emacs.d/src/o-blog/templates/style/Font-Awesome/font                       |
+| /Users/tonyday/.emacs.d/src/o-blog/templates/style/Font-Awesome/less                       |
+| /Users/tonyday/.emacs.d/src/o-blog/templates/style/bootstrap/img                           |
+| /Users/tonyday/.emacs.d/src/o-blog/templates/style/bootstrap/js                            |
+| /Users/tonyday/.emacs.d/src/o-blog/templates/style/bootstrap/less                          |
+| /Users/tonyday/.emacs.d/src/org-mode/contrib/scripts/staticmathjax/chrome                  |
+| /Users/tonyday/.emacs.d/src/org-mode/contrib/scripts/staticmathjax/defaults                |
+| /Users/tonyday/.emacs.d/src/o-blog/example/out/content/2012/10                             |
+| /Users/tonyday/.emacs.d/src/o-blog/example/out/style/Font-Awesome/font                     |
+| /Users/tonyday/.emacs.d/src/o-blog/example/out/style/Font-Awesome/less                     |
+| /Users/tonyday/.emacs.d/src/o-blog/example/out/style/bootstrap/img                         |
+| /Users/tonyday/.emacs.d/src/o-blog/example/out/style/bootstrap/js                          |
+| /Users/tonyday/.emacs.d/src/o-blog/example/out/style/bootstrap/less                        |
+| /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012/01                                |
+| /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012/02                                |
+| /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012/05                                |
+| /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012/08                                |
+| /Users/tonyday/.emacs.d/src/org-mode/contrib/scripts/staticmathjax/chrome/content          |
+| /Users/tonyday/.emacs.d/src/org-mode/contrib/scripts/staticmathjax/defaults/preferences    |
+| /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012/01/07_example-of-some-org-syntax  |
+| /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012/08/21_adding-an-image-into-a-post |
+| /Users/tonyday/.emacs.d/src/org-mode/lisp                                                  |
+| /usr/local/share/emacs/site-lisp                                                           |
+| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp                                      |
+| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/vc                                   |
+| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/url                                  |
+| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/textmodes                            |
+| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/progmodes                            |
+| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/play                                 |
+| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/org                                  |
+| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/nxml                                 |
+| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/net                                  |
+| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/mh-e                                 |
+| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/mail                                 |
+| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/language                             |
+| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/international                        |
+| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/gnus                                 |
+| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/eshell                               |
+| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/erc                                  |
+| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/emulation                            |
+| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/emacs-lisp                           |
+| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/cedet                                |
+| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/calendar                             |
+| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/calc                                 |
+| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/obsolete                             |
+| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/leim                                      |
+
+
+
+** test funct
+
+#+begin_src emacs-lisp
+  (defun test-funk ()
+    (setq src-dir (expand-file-name "src" working-dir))
+    ;; add the src directory to the load path
+    (add-to-list 'load-path src-dir working-dir)
+    ;; load all subdirectories
+      (when (file-exists-p src-dir)
+        (let ((default-directory src-dir))
+          (normal-top-level-add-subdirs-to-load-path))))
+#+end_src
+
+#+results:
+: test-funk
+
+#+begin_src emacs-lisp
+  (defun test-funk ()
+    (setq src-dir (expand-file-name "src" working-dir))
+     (when (file-exists-p src-dir)
+        (add-to-list 'load-path src-dir)
+        (mapc #'sk-load
+              (remove-duplicates
+               (mapcar #'remove-extension
+                       (directory-files user-dir t ".*\.\\(org\\|el\\)\\(\\.gpg\\)?$"))
+               :test #'string=))))))
+#+end_src
+
+
+
+
+#+results:
+: test-funk
+
+#+begin_src emacs-lisp
+  (test-funk)
+#+end_src
+
+#+results:
+| /Users/tonyday/.emacs.d/src/elnode | /Users/tonyday/.emacs.d/src/o-blog | /Users/tonyday/.emacs.d/src/org-ehtml | /Users/tonyday/.emacs.d/src/org-mac-protocol | /Users/tonyday/.emacs.d/src/org-mode | /Users/tonyday/.emacs.d/src/org2blog | /Users/tonyday/.emacs.d/src/elnode/examples | /Users/tonyday/.emacs.d/src/elnode/test_docroot | /Users/tonyday/.emacs.d/src/o-blog/Font-Awesome | /Users/tonyday/.emacs.d/src/o-blog/bootstrap | /Users/tonyday/.emacs.d/src/o-blog/example | /Users/tonyday/.emacs.d/src/o-blog/less.js | /Users/tonyday/.emacs.d/src/o-blog/templates | /Users/tonyday/.emacs.d/src/org-ehtml/src | /Users/tonyday/.emacs.d/src/org-ehtml/test | /Users/tonyday/.emacs.d/src/org-mac-protocol/orgQSLib | /Users/tonyday/.emacs.d/src/org-mode/contrib | /Users/tonyday/.emacs.d/src/org-mode/etc | /Users/tonyday/.emacs.d/src/org-mode/lisp | /Users/tonyday/.emacs.d/src/org-mode/mk | /Users/tonyday/.emacs.d/src/org-mode/testing | /Users/tonyday/.emacs.d/src/o-blog/example/assets | /Users/tonyday/.emacs.d/src/o-blog/example/out | /Users/tonyday/.emacs.d/src/o-blog/templates/style | /Users/tonyday/.emacs.d/src/org-ehtml/test/examples | /Users/tonyday/.emacs.d/src/org-ehtml/test/lisp | /Users/tonyday/.emacs.d/src/org-mode/contrib/babel | /Users/tonyday/.emacs.d/src/org-mode/contrib/lisp | /Users/tonyday/.emacs.d/src/org-mode/contrib/scripts | /Users/tonyday/.emacs.d/src/org-mode/etc/schema | /Users/tonyday/.emacs.d/src/org-mode/etc/styles | /Users/tonyday/.emacs.d/src/org-mode/testing/examples | /Users/tonyday/.emacs.d/src/org-mode/testing/jump | /Users/tonyday/.emacs.d/src/org-mode/testing/lisp | /Users/tonyday/.emacs.d/src/o-blog/example/out/assets | /Users/tonyday/.emacs.d/src/o-blog/example/out/content | /Users/tonyday/.emacs.d/src/o-blog/example/out/style | /Users/tonyday/.emacs.d/src/o-blog/example/out/tags | /Users/tonyday/.emacs.d/src/o-blog/example/out/tips | /Users/tonyday/.emacs.d/src/o-blog/templates/style/Font-Awesome | /Users/tonyday/.emacs.d/src/o-blog/templates/style/bootstrap | /Users/tonyday/.emacs.d/src/o-blog/templates/style/font | /Users/tonyday/.emacs.d/src/o-blog/templates/style/js | /Users/tonyday/.emacs.d/src/o-blog/templates/style/less | /Users/tonyday/.emacs.d/src/org-mode/contrib/babel/langs | /Users/tonyday/.emacs.d/src/org-mode/contrib/scripts/staticmathjax | /Users/tonyday/.emacs.d/src/o-blog/example/out/content/2012 | /Users/tonyday/.emacs.d/src/o-blog/example/out/style/Font-Awesome | /Users/tonyday/.emacs.d/src/o-blog/example/out/style/bootstrap | /Users/tonyday/.emacs.d/src/o-blog/example/out/style/font | /Users/tonyday/.emacs.d/src/o-blog/example/out/style/js | /Users/tonyday/.emacs.d/src/o-blog/example/out/style/less | /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012 | /Users/tonyday/.emacs.d/src/o-blog/templates/style/Font-Awesome/font | /Users/tonyday/.emacs.d/src/o-blog/templates/style/Font-Awesome/less | /Users/tonyday/.emacs.d/src/o-blog/templates/style/bootstrap/img | /Users/tonyday/.emacs.d/src/o-blog/templates/style/bootstrap/js | /Users/tonyday/.emacs.d/src/o-blog/templates/style/bootstrap/less | /Users/tonyday/.emacs.d/src/org-mode/contrib/scripts/staticmathjax/chrome | /Users/tonyday/.emacs.d/src/org-mode/contrib/scripts/staticmathjax/defaults | /Users/tonyday/.emacs.d/src/o-blog/example/out/content/2012/10 | /Users/tonyday/.emacs.d/src/o-blog/example/out/style/Font-Awesome/font | /Users/tonyday/.emacs.d/src/o-blog/example/out/style/Font-Awesome/less | /Users/tonyday/.emacs.d/src/o-blog/example/out/style/bootstrap/img | /Users/tonyday/.emacs.d/src/o-blog/example/out/style/bootstrap/js | /Users/tonyday/.emacs.d/src/o-blog/example/out/style/bootstrap/less | /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012/01 | /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012/02 | /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012/05 | /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012/08 | /Users/tonyday/.emacs.d/src/org-mode/contrib/scripts/staticmathjax/chrome/content | /Users/tonyday/.emacs.d/src/org-mode/contrib/scripts/staticmathjax/defaults/preferences | /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012/01/07_example-of-some-org-syntax | /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012/08/21_adding-an-image-into-a-post | /Users/tonyday/.emacs.d/src/org-mode/lisp | /usr/local/share/emacs/site-lisp | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/vc | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/url | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/textmodes | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/progmodes | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/play | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/org | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/nxml | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/net | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/mh-e | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/mail | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/language | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/international | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/gnus | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/eshell | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/erc | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/emulation | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/emacs-lisp | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/cedet | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/calendar | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/calc | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/obsolete | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/leim |
+
+
+** test table quote etc
+
+#+TBLNAME: test-table
+| /Users/tonyday/.emacs.d/info                   |
+| /usr/share/info/                               |
+
+
+  #+begin_src emacs-lisp :var test-incoming-table=test-table
+     (setq test-list
+           (delete nil  
+                   (loop for line in test-incoming-table
+                         collect 
+                         (delete "" (delete-dups line)))))
+  #+end_src
+
+  #+results:
+  | /Users/tonyday/.emacs.d/info |
+  | /usr/share/info/             |
+
+
+#+begin_src emacs-lisp
+  (load "t1test")
+#+end_src
+
+#+results:
+: t
+
