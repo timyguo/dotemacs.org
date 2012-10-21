@@ -176,6 +176,80 @@ Ubiquitous Packages which should be loaded on startup rather than
         (package-install package)))
 #+end_src
 
+** all packages
+- [ ] hook table up 
+
+| package              | note                            |
+|----------------------+---------------------------------|
+| auctex               | defer                           |
+| clojure-mode         | add to sk lisp                  |
+| elisp-slime-nav      | add to sklisp                   |
+| find-file-in-project | delay                           |
+| idle-highlight-...   | incomplete                      |
+| ido-ubiquitous       | package add elsewhere           |
+| js-comint            |                                 |
+| js2-mode             |                                 |
+| json                 |                                 |
+| magit                | added already                   |
+| magithub             | learn                           |
+| org                  | override from org-mode.org site |
+| org-magit            |                                 |
+| org2blog             |                                 |
+| paredit              | package add                     |
+| slime                | check                           |
+| smex                 |                                 |
+| xml-rpc              | dep for org2blog                |
+| yaml-mode            | check                           |
+| yasnippet-bundle     | sk added already                |
+| zenburn-theme        | check how themes are added      |
+|                      |                                 |
+
+
+#+begin_src emacs-lisp  :tangle no
+  (defvar starter-kit-packages-extra
+        '(clojure-mode 
+                elisp-slime-nav
+                js-comint
+                js2-mode
+                json
+                magithub
+                org-magit
+                org2blog
+                paredit
+                slime
+                smex
+                xml-rpc
+                yaml-mode
+                zenburn-theme)
+        "Libraries that should be installed beyond the defaults.")
+#+end_src
+
+#+RESULTS:
+: starter-kit-packages-extra
+
+#+begin_src emacs-lisp
+(unless package-archive-contents
+  (package-refresh-contents))
+(dolist (package '(clojure-mode 
+                   elisp-slime-nav
+                   js-comint
+                   js2-mode
+                   json
+                   magithub
+                   org-magit
+                   org2blog
+                   paredit
+                   slime
+                   smex
+                   xml-rpc
+                   yaml-mode
+                   zenburn-theme))
+  (unless (package-installed-p package)
+    (package-install package)))
+#+end_src
+
+
+
 ** Work around a bug on OS X where system-name is FQDN.
   #+begin_src emacs-lisp
     (if (eq system-type 'darwin)
@@ -204,8 +278,21 @@ Ubiquitous Packages which should be loaded on startup rather than
 (starter-kit-pretty-lambdas)
 #+end_src
 
+** Theme Loads
+  - [ ] not sure how custom path gets modified
+
+  #+begin_src emacs-lisp
+    ;;(add-to-list 'custom-theme-load-path
+    ;;           (concat package-user-dir
+    ;;           '"/github-theme-0.0.3/"))
+    (load-theme 'zenburn t)
+    ;(load-theme 'github t)
+  #+end_src
+
+
 
 * guff
+** starterkit guff
 *** Window systems
 #+srcname: starter-kit-window-view-stuff
 #+begin_src emacs-lisp 
@@ -325,97 +412,221 @@ let them live in the =backups/= directory inside of the starter kit.
 
 
 
-* packages
-** yasnippet
-[[http://code.google.com/p/yasnippet/][yasnippet]] is yet another snippet expansion system for Emacs.  It is
-  inspired by TextMate's templating syntax.
-  - watch the [[http://www.youtube.com/watch?v=vOj7btx3ATg][video on YouTube]]
-  - see the [[http://yasnippet.googlecode.com/svn/trunk/doc/index.html][intro and tutorial]]
+** Starter Kit Registers
+Registers allow you to jump to a file or other location quickly. Use
+=C-x r j= followed by the letter of the register (i for =init.el=, r
+for this file) to jump to it.
 
-*** load the yasnippet bundle
-  #+begin_src emacs-lisp
-    (require 'yasnippet)
-    (yas/initialize)
-  #+end_src
+You should add registers here for the files you edit most often.
 
-*** load the snippets defined in the =./snippets/= directory
-  #+begin_src emacs-lisp
-    (yas/load-directory (expand-file-name "snippets" working-dir))
-  #+end_src
-
-*** org yas play nicely
-
-  The latest version of yasnippets doesn't play well with Org-mode, the
-  following function allows these two to play nicely together.
-  #+begin_src emacs-lisp
-    (defun yas/org-very-safe-expand ()
-      (let ((yas/fallback-behavior 'return-nil)) (yas/expand)))
-    
-    (defun yas/org-setup ()
-      ;; yasnippet (using the new org-cycle hooks)
-      (make-variable-buffer-local 'yas/trigger-key)
-      (setq yas/trigger-key [tab])
-      (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
-      (define-key yas/keymap [tab] 'yas/next-field))
-    
-    (add-hook 'org-mode-hook #'yas/org-setup)
-  #+end_src
-
-** ido
-*** ido mode
-ido-mode is like magic pixie dust!
-#+srcname: starter-kit-loves-ido-mode
-#+begin_src emacs-lisp 
-(when (> emacs-major-version 21)
-  (ido-mode t)
-  (setq ido-enable-prefix nil
-        ido-enable-flex-matching t
-        ido-create-new-buffer 'always
-        ido-use-filename-at-point t
-        ido-max-prospects 10))
+#+name: starter-kit-registers
+#+begin_src emacs-lisp :results silent
+  (dolist
+      (r `((?i (file . ,(concat working-dir "init.el")))
+           (?I (file . ,(let* ((user user-login-name)
+                               (org (expand-file-name (concat user ".org") working-dir))
+                               (el  (expand-file-name (concat user ".el") working-dir))
+                               (dir (expand-file-name user working-dir)))
+                          (cond
+                           ((file-exists-p org) org)
+                           ((file-exists-p el)  el)
+                           (t dir)))))
+           (?s (file . ,(concat working-dir "starter-kit.org")))
+           (?r (file . ,(concat working-dir "starter-kit-registers.org")))))
+    (set-register (car r) (cadr r)))
 #+end_src
 
-*** recent-ido-find-file
+
+
+
+
+
+
+
+
+** dev code snippets
+:PROPERTIES:
+:OPEN: [2012-08-01 Wed 22:29]
+:LAST: TODO [2012-08-01 Wed 22:29]
+:ID: 50603d6b-021f-47bf-9a5e-22827e5932e8
+:END:
+- standard org bindings
+  #+begin_src emacs-lisp
+  (global-set-key "\C-ca" 'org-agenda)
+  (global-set-key "\C-cc" 'org-capture)
+  #+end_src
+
+  #+results:
+  : org-capture
+
+
+- yegges binding suggestions
+  #+begin_src emacs-lisp
+  (global-set-key "\C-x\C-m" 'execute-extended-command)
+  (global-set-key "\C-c\C-m" 'execute-extended-command)
+  #+end_src
+
+- backward kill word binding
+  #+begin_src emacs-lisp
+    (global-set-key "\C-w" 'backward-kill-word)
+    (global-set-key "\C-x\C-k" 'kill-region)
+    (global-set-key "\C-c\C-k" 'kill-region)
+    (global-set-key [f4] 'call-last-kbd-macro)
+  #+end_src
+
+- saveplace
+  #+begin_src emacs-lisp :tangle no 
+    (setq-default save-place t)
+  #+end_src
+
+- transpose-windows
+  #+begin_src emacs-lisp
+    (defun transpose-windows (arg)
+      "Transpose the buffers shown in two windows."
+      (interactive "p")
+      (let ((selector (if (>= arg 0) 'next-window 'previous-window)))
+        (while (/= arg 0)
+          (let ((this-win (window-buffer))
+                (next-win (window-buffer (funcall selector))))
+            (set-window-buffer (selected-window) next-win)
+            (set-window-buffer (funcall selector) this-win)
+            (select-window (funcall selector)))
+          (setq arg (if (plusp arg) (1- arg) (1+ arg))))))
+    (define-key ctl-x-4-map (kbd "t") 'transpose-windows)
+  #+end_src
+
+  #+results:
+  : transpose-windows
+
+- babel bindings
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "<f11> s") 'org-babel-execute-subtree)
+    (global-set-key (kbd "<f11> b") 'org-babel-execute-buffer)
+    (global-set-key (kbd "<f11> t") 'org-table-recalculate-buffer-tables)
+  #+end_src
+- ido completion for yasnippet insertion
+  #+begin_src emacs-lisp
+    (setq yas/prompt-functions '(yas/ido-prompt yas/dropdown-prompt
+                                                yas/completing-prompt yas/x-prompt yas/no-prompt))
+  #+end_src
+
+- yas/insert bound to f9-y
+  #+begin_src emacs-lisp 
+    (global-set-key (kbd "<f9> y") 'yas/insert-snippet)
+  #+end_src
+
+- kbd macro bindings
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "<C-f4>") 'start-kbd-macro)
+    (global-set-key (kbd "<S-f4>") 'end-kbd-macro)
+  #+end_src
+
+  #+results:
+  : end-kbd-macro
+
+- occur within isearch
+  #+begin_src emacs-lisp
+  ;; Activate occur easily inside isearch
+  (define-key isearch-mode-map (kbd "C-o") 'isearch-occur)
+  #+end_src
+
+
+
+
+
+
+
+** bookmarks
+:PROPERTIES:
+:OPEN: [2012-07-23 Mon 10:49]
+:LAST: TODO [2012-07-23 Mon 10:49]
+:END:
+
 #+begin_src emacs-lisp 
-  (defun recentf-ido-find-file () 
-    "Find a recent file using Ido." 
-    (interactive) 
-    (let* ((file-assoc-list 
-            (mapcar (lambda (x) 
-                      (cons (file-name-nondirectory x) 
-                            x)) 
-                    recentf-list)) 
-           (filename-list 
-            (remove-duplicates (mapcar #'car file-assoc-list) 
-                               :test #'string=)) 
-           (filename (ido-completing-read "Choose recent file: " 
-                                          filename-list 
-                                          nil 
-                                          t))) 
-      (when filename 
-        (find-file (cdr (assoc filename 
-                               file-assoc-list)))))) 
- #+end_src 
+  (global-set-key (kbd "<C-f6>") 
+                  '(lambda () (interactive) (bookmark-set "SAVED")))
+  (global-set-key (kbd "<f6>")
+                  '(lambda () (interactive) (bookmark-jump "SAVED")))
+#+end_src
 
 
 
 
-* files
 
 
-* endboot
 
-** custom file
+** buffer cycling
+
+#+begin_src emacs-lisp 
+  (global-set-key (kbd "C-<f9>") 'previous-buffer)
+  (global-set-key (kbd "C-<f10>") 'next-buffer)
+#+end_src
+
+** tabify
+
+#+begin_src emacs-lisp 
+  (global-set-key (kbd "<f9> T") 'tabify)
+  (global-set-key (kbd "<f9> U") 'untabify)
+#+end_src
+
+** Scratch
+:PROPERTIES:
+:OPEN: [2012-07-23 Mon 12:12]
+:LAST:     [2012-10-11 Thu 13:28]
+:CLOSE:    [2012-10-11 Thu 13:28]
+:END:
+All this scratching is making me itch.
+- [ ] test these
+- [ ] find out how/where *scratch*
+- [ ] make a *escratch*
+#+begin_src emacs-lisp 
+  (global-set-key (kbd "<f9> o") 'make-org-scratch)
+  (global-set-key (kbd "<f9> s") 'switch-to-org-scratch)
+  (global-set-key (kbd "<f9> e") 'make-elisp-scratch)
+  (global-set-key (kbd "<f9> z") 'switch-to-elisp-scratch)
+#+end_src
+
+Defuns
+#+begin_src emacs-lisp 
+(defun make-org-scratch ()
+  (interactive)
+  (find-file "~/.emacs.d/tmp/scratch.org")
+  (ido-make-directory "~/.emacs.d/tmp"))  
+(defun make-elisp-scratch ()
+  (interactive)
+  (find-file "~/.emacs.d/tmp/scratch.el")
+  (ido-make-directory "~/.emacs.d/tmp"))  
+(defun switch-to-org-scratch ()
+  (interactive)
+  (switch-to-buffer "*scratch*"))
+(defun switch-to-elisp-scratch ()
+  (interactive)
+  (switch-to-buffer "*escratch*"))
+#+end_src
+
+
+** miscellaneous and overrides
+:PROPERTIES:
+:OPEN:     [2012-09-17 Mon 10:13]
+:CLOSE:    [2012-09-17 Mon 10:13]
+:LAST:     [2012-09-17 Mon 10:13]
+:END:
+
+#+begin_src emacs-lisp 
+(setq shift-select-mode t)
+(setq display-time-format " %I:%M%p %a %d %b ")
+(display-time-mode)
+(delete-selection-mode)
+(setq ido-file-extensions-order '(".org"))
+(setq sentence-end-double-space nil)  
+#+end_src
+
+#+results:
+
+** A Column Number is always handy.
 #+begin_src emacs-lisp
-  (load "custom.el" 'noerror)
+(column-number-mode t)
 #+end_src
-
-
-
-
-
-
-
 
 ** Starter Kit Bindings
 
@@ -523,166 +734,220 @@ Rgrep is infinitely useful in multi-file projects.
 #+end_src
 
 
-** Starter Kit Registers
-Registers allow you to jump to a file or other location quickly. Use
-=C-x r j= followed by the letter of the register (i for =init.el=, r
-for this file) to jump to it.
 
-You should add registers here for the files you edit most often.
-
-#+name: starter-kit-registers
-#+begin_src emacs-lisp :results silent
-  (dolist
-      (r `((?i (file . ,(concat working-dir "init.el")))
-           (?I (file . ,(let* ((user user-login-name)
-                               (org (expand-file-name (concat user ".org") working-dir))
-                               (el  (expand-file-name (concat user ".el") working-dir))
-                               (dir (expand-file-name user working-dir)))
-                          (cond
-                           ((file-exists-p org) org)
-                           ((file-exists-p el)  el)
-                           (t dir)))))
-           (?s (file . ,(concat working-dir "starter-kit.org")))
-           (?r (file . ,(concat working-dir "starter-kit-registers.org")))))
-    (set-register (car r) (cadr r)))
-#+end_src
-
-
-
-
-
-
-
-
-* Starting guff
-:PROPERTIES:
-:tangle:   yes
-:END:
-
-** Load path
-:PROPERTIES:
-:OPEN:     [2012-10-11 Thu 13:19]
-:LAST:     [2012-10-11 Thu 13:19]
-:CLOSE:    [2012-10-11 Thu 13:19]
-:END:
-
-** Starter Kit Modifications
-
-The orginal starter kit files have been modified in several areas:
-
-- shift-select-mode turned on (my brain is hardwired like
-  that) and a add few other personal tweaks
-- I am trying out hunspell as a replacement for Aspell
-- added some lisp dependencies
-  - clojure-mode
-  - slime (?)
-- modified ido (not sure whether this was actually necessary)
-- added this file to registers
-- added to bindings
-
-** Installs
-
-- Package Installs
-
-Just because I can, I list out all the packages I currently like
-having (or resent having to have).
-
-- Being split into relevant file deps
-| package              | note                            |
-|----------------------+---------------------------------|
-| auctex               | defer                           |
-| clojure-mode         | add to sk lisp                  |
-| elisp-slime-nav      | add to sklisp                   |
-| find-file-in-project | delay                           |
-| idle-highlight-...   | incomplete                      |
-| ido-ubiquitous       | package add elsewhere           |
-| js-comint            |                                 |
-| js2-mode             |                                 |
-| json                 |                                 |
-| magit                | added already                   |
-| magithub             | learn                           |
-| org                  | override from org-mode.org site |
-| org-magit            |                                 |
-| org2blog             |                                 |
-| paredit              | package add                     |
-| slime                | check                           |
-| smex                 |                                 |
-| xml-rpc              | dep for org2blog                |
-| yaml-mode            | check                           |
-| yasnippet-bundle     | sk added already                |
-| zenburn-theme        | check how themes are added      |
-|                      |                                 |
-
-
-#+begin_src emacs-lisp  :tangle no
-  (defvar starter-kit-packages-extra
-        '(clojure-mode 
-                elisp-slime-nav
-                js-comint
-                js2-mode
-                json
-                magithub
-                org-magit
-                org2blog
-                paredit
-                slime
-                smex
-                xml-rpc
-                yaml-mode
-                zenburn-theme)
-        "Libraries that should be installed beyond the defaults.")
-#+end_src
-
-#+RESULTS:
-: starter-kit-packages-extra
-
-
-
+** plainlistify-paragraph
 #+begin_src emacs-lisp
-(unless package-archive-contents
-  (package-refresh-contents))
-(dolist (package '(clojure-mode 
-                   elisp-slime-nav
-                   js-comint
-                   js2-mode
-                   json
-                   magithub
-                   org-magit
-                   org2blog
-                   paredit
-                   slime
-                   smex
-                   xml-rpc
-                   yaml-mode
-                   zenburn-theme))
-  (unless (package-installed-p package)
-    (package-install package)))
+  (defun unfill-region (beg end)
+      "Unfill the region, joining text paragraphs into a single
+    logical line.  This is useful, e.g., for use with
+    `visual-line-mode'."
+      (interactive "*r")
+      (let ((fill-column (point-max)))
+        (fill-region beg end)))
+    
+    ;; Handy key definition
+    (define-key global-map "\C-\M-Q" 'unfill-region)
+
+  (defun unfill-paragraph ()
+      "Takes a multi-line paragraph and makes it into a single line of text."
+      (interactive)
+      (let ((fill-column (point-max)))
+        (fill-paragraph nil)))
+    ;; Handy key definition
+    (define-key global-map "\M-Q" 'unfill-paragraph)
+
 #+end_src
 
-- Starter Kit Loads
-  #+begin_src emacs-lisp
-    (org-babel-load-file (expand-file-name "starter-kit-eshell.org" working-dir))
-    (org-babel-load-file (expand-file-name "starter-kit-lisp.org" working-dir))
-    (org-babel-load-file (expand-file-name "starter-kit-misc-recommended.org" working-dir))
-  #+end_src
+#+results:
+: unfill-paragraph
 
-- Theme Loads
-  - [ ] not sure how custom path gets modified
 
-  #+begin_src emacs-lisp
-    ;;(add-to-list 'custom-theme-load-path
-    ;;           (concat package-user-dir
-    ;;           '"/github-theme-0.0.3/"))
-    (load-theme 'zenburn t)
-    ;(load-theme 'github t)
-  #+end_src
 
+
+
+
+
+** temporary key bindings
+#+begin_src emacs-lisp
+  (global-unset-key (kbd "<f10>"))
+  (global-set-key (kbd "<f10> y") 'yas/new-snippet)
+  (global-set-key (kbd "<f10> p") 'org-publish-blog)
+  (global-set-key (kbd "<f10> d") 'scarce-to-dev)
   
+#+end_src
 
-* personal loads
-  :PROPERTIES:
-  :tangle:   yes
-  :END:
+#+results:
+: scarce-to-dev
+
+
+
+** Info docs
+:PROPERTIES:
+:OPEN: [2012-08-01 Wed 14:05]
+:LAST:  [2012-09-07 Fri 17:45]
+:CLOSE: [2012-09-07 Fri 17:45]
+:END:
+
+There's various snafu's happening:
+
+- Auctex seems to add to info-directory not default and this clobbers
+  the default usage (cellar link). 
+- ess adds elpa/doc/info (which doesnt exist)
+
+So,
+- using the table below
+- change both info and default variables to the list
+- first directory is my own with customised dir file there
+
+#+TBLNAME: info-dirs
+| /Users/tonyday/.emacs.d/info                   |
+| /usr/share/info/                               |
+
+
+
+| /usr/local/Cellar/emacs/HEAD/share/info/emacs/ |
+| /Users/tonyday/.emacs.d/elpa/magit-1.1.1       |
+| /Users/tonyday/.emacs.d/elpa/auctex-11.86      |
+
+
+
+- function to reset org-agenda-files based on the above table of directories
+  and files
+  #+begin_src emacs-lisp :var table=info-dirs
+     (setq clean-table
+           (delete nil  
+                   (loop for line in table
+                         collect 
+                         (delete "" (delete-dups line)))))
+    (setq Info-default-directory-list (apply #'append clean-table))
+    (setq Info-directory-list Info-default-directory-list)
+  #+end_src
+
+  #+results:
+  | /Users/tonyday/.emacs.d/info | /usr/share/info/ |
+
+
+#+begin_src emacs-lisp :tangle no
+(add-to-list 'Info-default-directory-list "/Users/tonyday/.emacs.d/src/org-mode/doc/")
+#+end_src
+
+#+begin_src emacs-lisp :tangle no
+  (add-to-list 'Info-directory-list "/Users/tonyday/.emacs.d/src/org-mode/doc/")
+#+end_src
+
+#+results:
+| /Users/tonyday/.emacs.d/src/org-mode/doc/ | /Users/tonyday/.emacs.d/elpa/auctex-11.86 | /usr/share/info/ |
+
+
+#+begin_src emacs-lisp :tangle no
+  (getenv "INFOPATH")
+#+end_src
+
+#+begin_src emacs-lisp :tangle no
+  (print (loop for f in Info-default-directory-list
+               collect
+               (list f)))
+#+end_src
+
+#+results:
+| /Users/tonyday/.emacs.d/elpa/doc/info/         |
+| /Users/tonyday/.emacs.d/src/org-mode/doc/      |
+| /usr/local/Cellar/emacs/HEAD/share/info/emacs/ |
+| /usr/share/info/                               |
+
+#+begin_src emacs-lisp :tangle no
+  (print (loop for f in Info-directory-list
+               collect
+               (car f)))
+#+end_src
+
+#+results:
+| /Users/tonyday/.emacs.d/src/org-mode/doc/ |
+| /Users/tonyday/.emacs.d/elpa/auctex-11.86 |
+| /usr/share/info/                          |
+
+
+*** elnode
+#+begin_src emacs-lisp
+  ;;(require 'elnode)
+#+end_src
+
+
+* packages
+** yasnippet
+[[http://code.google.com/p/yasnippet/][yasnippet]] is yet another snippet expansion system for Emacs.  It is
+  inspired by TextMate's templating syntax.
+  - watch the [[http://www.youtube.com/watch?v=vOj7btx3ATg][video on YouTube]]
+  - see the [[http://yasnippet.googlecode.com/svn/trunk/doc/index.html][intro and tutorial]]
+
+*** load the yasnippet bundle
+  #+begin_src emacs-lisp
+    (require 'yasnippet)
+    (yas/initialize)
+  #+end_src
+
+*** load the snippets defined in the =./snippets/= directory
+  #+begin_src emacs-lisp
+    (yas/load-directory (expand-file-name "snippets" working-dir))
+  #+end_src
+
+*** org yas play nicely
+
+  The latest version of yasnippets doesn't play well with Org-mode, the
+  following function allows these two to play nicely together.
+  #+begin_src emacs-lisp
+    (defun yas/org-very-safe-expand ()
+      (let ((yas/fallback-behavior 'return-nil)) (yas/expand)))
+    
+    (defun yas/org-setup ()
+      ;; yasnippet (using the new org-cycle hooks)
+      (make-variable-buffer-local 'yas/trigger-key)
+      (setq yas/trigger-key [tab])
+      (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
+      (define-key yas/keymap [tab] 'yas/next-field))
+    
+    (add-hook 'org-mode-hook #'yas/org-setup)
+  #+end_src
+
+** ido
+*** ido mode
+ido-mode is like magic pixie dust!
+#+srcname: starter-kit-loves-ido-mode
+#+begin_src emacs-lisp 
+(when (> emacs-major-version 21)
+  (ido-mode t)
+  (setq ido-enable-prefix nil
+        ido-enable-flex-matching t
+        ido-create-new-buffer 'always
+        ido-use-filename-at-point t
+        ido-max-prospects 10))
+#+end_src
+
+*** recent-ido-find-file
+#+begin_src emacs-lisp 
+  (defun recentf-ido-find-file () 
+    "Find a recent file using Ido." 
+    (interactive) 
+    (let* ((file-assoc-list 
+            (mapcar (lambda (x) 
+                      (cons (file-name-nondirectory x) 
+                            x)) 
+                    recentf-list)) 
+           (filename-list 
+            (remove-duplicates (mapcar #'car file-assoc-list) 
+                               :test #'string=)) 
+           (filename (ido-completing-read "Choose recent file: " 
+                                          filename-list 
+                                          nil 
+                                          t))) 
+      (when filename 
+        (find-file (cdr (assoc filename 
+                               file-assoc-list)))))) 
+ #+end_src 
+
+
+
+
 ** Org                                                                 :org:
 :LOGBOOK:
 - State "TODO"       from ""           [2012-07-19 Thu 09:49]
@@ -2521,6 +2786,20 @@ so change the default 'F' binding in the agenda to allow both"
 
 
 
+
+
+*** org-clock
+:PROPERTIES:
+:OPEN: [2012-10-13 Sat 13:15]
+:LAST: [2012-10-13 Sat 13:15]
+:END:
+#+begin_src emacs-lisp
+  (require 'org-clock)
+  (require 'org-colview)
+
+#+end_src
+
+
 ** Octave
 #+begin_src emacs-lisp 
   (autoload 'octave-mode "octave-mod" nil t)
@@ -2545,97 +2824,6 @@ so change the default 'F' binding in the agenda to allow both"
 
 
 
-* snippets
-  :PROPERTIES:
-  :tangle:   yes
-  :END:
-** dev code snippets
-:PROPERTIES:
-:OPEN: [2012-08-01 Wed 22:29]
-:LAST: TODO [2012-08-01 Wed 22:29]
-:ID: 50603d6b-021f-47bf-9a5e-22827e5932e8
-:END:
-- standard org bindings
-  #+begin_src emacs-lisp
-  (global-set-key "\C-ca" 'org-agenda)
-  (global-set-key "\C-cc" 'org-capture)
-  #+end_src
-
-  #+results:
-  : org-capture
-
-
-- yegges binding suggestions
-  #+begin_src emacs-lisp
-  (global-set-key "\C-x\C-m" 'execute-extended-command)
-  (global-set-key "\C-c\C-m" 'execute-extended-command)
-  #+end_src
-
-- backward kill word binding
-  #+begin_src emacs-lisp
-    (global-set-key "\C-w" 'backward-kill-word)
-    (global-set-key "\C-x\C-k" 'kill-region)
-    (global-set-key "\C-c\C-k" 'kill-region)
-    (global-set-key [f4] 'call-last-kbd-macro)
-  #+end_src
-
-- saveplace
-  #+begin_src emacs-lisp :tangle no 
-    (setq-default save-place t)
-  #+end_src
-
-- transpose-windows
-  #+begin_src emacs-lisp
-    (defun transpose-windows (arg)
-      "Transpose the buffers shown in two windows."
-      (interactive "p")
-      (let ((selector (if (>= arg 0) 'next-window 'previous-window)))
-        (while (/= arg 0)
-          (let ((this-win (window-buffer))
-                (next-win (window-buffer (funcall selector))))
-            (set-window-buffer (selected-window) next-win)
-            (set-window-buffer (funcall selector) this-win)
-            (select-window (funcall selector)))
-          (setq arg (if (plusp arg) (1- arg) (1+ arg))))))
-    (define-key ctl-x-4-map (kbd "t") 'transpose-windows)
-  #+end_src
-
-  #+results:
-  : transpose-windows
-
-- babel bindings
-  #+begin_src emacs-lisp
-    (global-set-key (kbd "<f11> s") 'org-babel-execute-subtree)
-    (global-set-key (kbd "<f11> b") 'org-babel-execute-buffer)
-    (global-set-key (kbd "<f11> t") 'org-table-recalculate-buffer-tables)
-  #+end_src
-- ido completion for yasnippet insertion
-  #+begin_src emacs-lisp
-    (setq yas/prompt-functions '(yas/ido-prompt yas/dropdown-prompt
-                                                yas/completing-prompt yas/x-prompt yas/no-prompt))
-  #+end_src
-
-- yas/insert bound to f9-y
-  #+begin_src emacs-lisp 
-    (global-set-key (kbd "<f9> y") 'yas/insert-snippet)
-  #+end_src
-
-- kbd macro bindings
-  #+begin_src emacs-lisp
-    (global-set-key (kbd "<C-f4>") 'start-kbd-macro)
-    (global-set-key (kbd "<S-f4>") 'end-kbd-macro)
-  #+end_src
-
-  #+results:
-  : end-kbd-macro
-
-- occur within isearch
-  #+begin_src emacs-lisp
-  ;; Activate occur easily inside isearch
-  (define-key isearch-mode-map (kbd "C-o") 'isearch-occur)
-  #+end_src
-
-
 
 
 ** nxhtml
@@ -2649,103 +2837,6 @@ so change the default 'F' binding in the agenda to allow both"
   #+end_src
 
 
-** magit info
-  #+begin_src emacs-lisp :tangle no
-    (add-to-list 'Info-default-directory-list "~/.emacs.d/git/magit")
-  #+end_src
-
-** simple bookmarks
-:PROPERTIES:
-:OPEN: [2012-07-23 Mon 10:49]
-:LAST: TODO [2012-07-23 Mon 10:49]
-:END:
-
-#+begin_src emacs-lisp 
-  (global-set-key (kbd "<C-f6>") 
-                  '(lambda () (interactive) (bookmark-set "SAVED")))
-  (global-set-key (kbd "<f6>")
-                  '(lambda () (interactive) (bookmark-jump "SAVED")))
-#+end_src
-
-** buffer cycling
-
-#+begin_src emacs-lisp 
-  (global-set-key (kbd "C-<f9>") 'previous-buffer)
-  (global-set-key (kbd "C-<f10>") 'next-buffer)
-#+end_src
-
-** tabify
-
-#+begin_src emacs-lisp 
-  (global-set-key (kbd "<f9> T") 'tabify)
-  (global-set-key (kbd "<f9> U") 'untabify)
-#+end_src
-
-** Scratch
-:PROPERTIES:
-:OPEN: [2012-07-23 Mon 12:12]
-:LAST:     [2012-10-11 Thu 13:28]
-:CLOSE:    [2012-10-11 Thu 13:28]
-:END:
-All this scratching is making me itch.
-- [ ] test these
-- [ ] find out how/where *scratch*
-- [ ] make a *escratch*
-#+begin_src emacs-lisp 
-  (global-set-key (kbd "<f9> o") 'make-org-scratch)
-  (global-set-key (kbd "<f9> s") 'switch-to-org-scratch)
-  (global-set-key (kbd "<f9> e") 'make-elisp-scratch)
-  (global-set-key (kbd "<f9> z") 'switch-to-elisp-scratch)
-#+end_src
-
-Defuns
-#+begin_src emacs-lisp 
-(defun make-org-scratch ()
-  (interactive)
-  (find-file "~/.emacs.d/tmp/scratch.org")
-  (ido-make-directory "~/.emacs.d/tmp"))  
-(defun make-elisp-scratch ()
-  (interactive)
-  (find-file "~/.emacs.d/tmp/scratch.el")
-  (ido-make-directory "~/.emacs.d/tmp"))  
-(defun switch-to-org-scratch ()
-  (interactive)
-  (switch-to-buffer "*scratch*"))
-(defun switch-to-elisp-scratch ()
-  (interactive)
-  (switch-to-buffer "*escratch*"))
-#+end_src
-
-
-** miscellaneous and overrides
-:PROPERTIES:
-:OPEN:     [2012-09-17 Mon 10:13]
-:CLOSE:    [2012-09-17 Mon 10:13]
-:LAST:     [2012-09-17 Mon 10:13]
-:END:
-
-#+begin_src emacs-lisp 
-(setq shift-select-mode t)
-(setq display-time-format " %I:%M%p %a %d %b ")
-(display-time-mode)
-(delete-selection-mode)
-(setq ido-file-extensions-order '(".org"))
-(setq sentence-end-double-space nil)  
-#+end_src
-
-#+results:
-
-** A Column Number is always handy.
-#+begin_src emacs-lisp
-(column-number-mode t)
-#+end_src
-
-
-** register (off)
-
-#+begin_example
- (?z (file . ,(concat working-dir "zygomega.org")))
-#+end_example
 
 ** hunspell (off)
 :PROPERTIES:
@@ -2797,7 +2888,9 @@ Why there are 3 packages, idk.
 
 
 
-** git folder list
+
+
+** magit
 
 #+begin_src emacs-lisp
       
@@ -2810,6 +2903,8 @@ Why there are 3 packages, idk.
 
 #+results:
 | ~/.emacs.d | ~/stuff | ~/dotemacs-mashup | ~/emfx |
+
+
 
 
 
@@ -2841,59 +2936,6 @@ Why there are 3 packages, idk.
 
 
 
-** plainlistify-paragraph
-#+begin_src emacs-lisp
-  (defun unfill-region (beg end)
-      "Unfill the region, joining text paragraphs into a single
-    logical line.  This is useful, e.g., for use with
-    `visual-line-mode'."
-      (interactive "*r")
-      (let ((fill-column (point-max)))
-        (fill-region beg end)))
-    
-    ;; Handy key definition
-    (define-key global-map "\C-\M-Q" 'unfill-region)
-
-  (defun unfill-paragraph ()
-      "Takes a multi-line paragraph and makes it into a single line of text."
-      (interactive)
-      (let ((fill-column (point-max)))
-        (fill-paragraph nil)))
-    ;; Handy key definition
-    (define-key global-map "\M-Q" 'unfill-paragraph)
-
-#+end_src
-
-#+results:
-: unfill-paragraph
-
-
-
-
-
-** org-clock
-:PROPERTIES:
-:OPEN: [2012-10-13 Sat 13:15]
-:LAST: [2012-10-13 Sat 13:15]
-:END:
-#+begin_src emacs-lisp
-  (require 'org-clock)
-  (require 'org-colview)
-
-#+end_src
-** temporary key bindings
-#+begin_src emacs-lisp
-  (global-unset-key (kbd "<f10>"))
-  (global-set-key (kbd "<f10> y") 'yas/new-snippet)
-  (global-set-key (kbd "<f10> p") 'org-publish-blog)
-  (global-set-key (kbd "<f10> d") 'scarce-to-dev)
-  
-#+end_src
-
-#+results:
-: scarce-to-dev
-
-
 ** ruby
 
 #+begin_src emacs-lisp
@@ -2915,103 +2957,36 @@ Why there are 3 packages, idk.
 : find-file-in-project
 
 
-** Info docs
-:PROPERTIES:
-:OPEN: [2012-08-01 Wed 14:05]
-:LAST:  [2012-09-07 Fri 17:45]
-:CLOSE: [2012-09-07 Fri 17:45]
-:END:
-
-There's various snafu's happening:
-
-- Auctex seems to add to info-directory not default and this clobbers
-  the default usage (cellar link). 
-- ess adds elpa/doc/info (which doesnt exist)
-
-So,
-- using the table below
-- change both info and default variables to the list
-- first directory is my own with customised dir file there
-
-#+TBLNAME: info-dirs
-| /Users/tonyday/.emacs.d/info                   |
-| /usr/share/info/                               |
-
-
-
-| /usr/local/Cellar/emacs/HEAD/share/info/emacs/ |
-| /Users/tonyday/.emacs.d/elpa/magit-1.1.1       |
-| /Users/tonyday/.emacs.d/elpa/auctex-11.86      |
-
-
-
-- function to reset org-agenda-files based on the above table of directories
-  and files
-  #+begin_src emacs-lisp :var table=info-dirs
-     (setq clean-table
-           (delete nil  
-                   (loop for line in table
-                         collect 
-                         (delete "" (delete-dups line)))))
-    (setq Info-default-directory-list (apply #'append clean-table))
-    (setq Info-directory-list Info-default-directory-list)
+* files
+- [ ] set a table up
+- Starter Kit Loads
+  #+begin_src emacs-lisp
+    (org-babel-load-file (expand-file-name "starter-kit-eshell.org" working-dir))
+    (org-babel-load-file (expand-file-name "starter-kit-lisp.org" working-dir))
+    (org-babel-load-file (expand-file-name "starter-kit-misc-recommended.org" working-dir))
   #+end_src
 
-  #+results:
-  | /Users/tonyday/.emacs.d/info | /usr/share/info/ |
-
-
-#+begin_src emacs-lisp :tangle no
-(add-to-list 'Info-default-directory-list "/Users/tonyday/.emacs.d/src/org-mode/doc/")
-#+end_src
-
-#+begin_src emacs-lisp :tangle no
-  (add-to-list 'Info-directory-list "/Users/tonyday/.emacs.d/src/org-mode/doc/")
-#+end_src
-
-#+results:
-| /Users/tonyday/.emacs.d/src/org-mode/doc/ | /Users/tonyday/.emacs.d/elpa/auctex-11.86 | /usr/share/info/ |
-
-
-#+begin_src emacs-lisp :tangle no
-  (getenv "INFOPATH")
-#+end_src
-
-#+begin_src emacs-lisp :tangle no
-  (print (loop for f in Info-default-directory-list
-               collect
-               (list f)))
-#+end_src
-
-#+results:
-| /Users/tonyday/.emacs.d/elpa/doc/info/         |
-| /Users/tonyday/.emacs.d/src/org-mode/doc/      |
-| /usr/local/Cellar/emacs/HEAD/share/info/emacs/ |
-| /usr/share/info/                               |
-
-#+begin_src emacs-lisp :tangle no
-  (print (loop for f in Info-directory-list
-               collect
-               (car f)))
-#+end_src
-
-#+results:
-| /Users/tonyday/.emacs.d/src/org-mode/doc/ |
-| /Users/tonyday/.emacs.d/elpa/auctex-11.86 |
-| /usr/share/info/                          |
-
-
-** elnode
+* endboot
+** custom file
 #+begin_src emacs-lisp
-  ;;(require 'elnode)
+  (load "custom.el" 'noerror)
 #+end_src
 
-* debug
+
+
+
+
+
+
+
+
+
+  
+
+* debugs and tools
 :PROPERTIES:
 :tangle:   no
 :END:
-
-
 ** current message bugz
 
 - prints out
