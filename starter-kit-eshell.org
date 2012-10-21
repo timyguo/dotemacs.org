@@ -40,6 +40,6 @@ is pre-populated with some generally applicable aliases.
 
 #+begin_src emacs-lisp
   (setq eshell-directory-name
-        (expand-file-name "./" (expand-file-name "eshell" working-dir)))
+        (expand-file-name "./" (expand-file-name "eshell" user-emacs-directory)))
 #+end_src
 

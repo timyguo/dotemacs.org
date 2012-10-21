@@ -44,8 +44,6 @@ Other sites
 - http://www.emacswiki.org/emacs/CategoryDotEmacs
 
 
-
-
 * TODO .emacs.d tasks
 SCHEDULED: <2012-10-12 Fri>
 :LOGBOOK:
@@ -73,8 +71,8 @@ CLOCK: [2012-10-12 Fri 09:07]--[2012-10-12 Fri 17:03] =>  7:56
         git submodule add git://github.com/zygomega/dot-emacs.git jwiegley
         git submodule add git://github.com/zygomega/emacs.d.git purcell
       #+end_src
-- [ ] hack n slash
-  - [ ] zero modification to base kit
+- [-] hack n slash
+  - [X] zero modification to base kit
   - [ ] org from norang
   - [ ] jw innovations
   - [ ] spell

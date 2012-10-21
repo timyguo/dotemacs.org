@@ -23,6 +23,7 @@ themes/*
 url/*
 data/*
 tmp/*
+repos/*
 
 ## directory and contents
 src/org-mode
@@ -61,3 +62,8 @@ agent/*
 /src/o-blog
 /src/org-mac-protocol/
 /tonyday.org_archive
+/#README.org#
+/#dotemacs.org#
+/#init.el#
+/.#README.org
+/.#dotemacs.org
