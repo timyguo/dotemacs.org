@@ -13,8 +13,8 @@
  (rear-context-string . "ll-paragraph\n\n\n\n")
  (position . 6506))
 ("org-capture-last-stored"
- (filename . "~/stuff/org/refile.org")
- (front-context-string . "* TODO http://st")
- (rear-context-string . "-designing.html\n")
- (position . 1480))
+ (filename . "~/stuff/content/ideas.org")
+ (front-context-string . "** http://www.mi")
+ (rear-context-string . "ract_id=2130609\n")
+ (position . 8127))
 )

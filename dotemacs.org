@@ -17,24 +17,9 @@
 
 Emergency status hack-attack city.
 
-- [ ] take all the starter-kit guff and place it here
+- [X] take all the starter-kit guff and place it here
 - [X] init.el should be placed here too
-
-
-order of events
-- init.el loads
-- org-init.org loads
-- bootup
-  - load-paths
-  - usebind
-  - package checks/loads
-- package tweaks (alphabetical)
-- other files (alphabetical)
-  - gnus
-  - org
-  - functionality to select current directory contents
-- end game
-
+- [ ] clean up/triage 
 
 
 * init.el
@@ -46,8 +31,8 @@ automatically next restart.
 
 Not much we can do about that.
 
-There are exactly three things that init.el does:
-- finds out where it is. This means that it can start anywhere if
+It weighs in at a muscular 3 lines and does exactly 3 things.
+1. finds out where it is. This means that it can start anywhere if
   pointed to with:
   
   #+begin_src sh :tangle no
@@ -62,47 +47,59 @@ There are exactly three things that init.el does:
   
   The other way to test outside of your regular ~/.emacs.d is to set
   $HOME=~/fakehome and place init.el in ~/fakehome/.emacs.d.  
-- loads the org directory (if it exists).  This is needed in case
+2. loads the org directory (if it exists).  This is needed in case
   there is a more recent org-mode installed in which case usage of
   babel before loading the path will result in a mixed install.  Not
   fun debugging that.    
-- loads the /real/ init code, which i have called dotemacs and which
-  is contained here.
-
+3. loads the /real/ init code, which i have called dotemacs and which
+   is contained in this file.
 
 #+begin_src emacs-lisp :tangle init.el
   ;; see org-init.org for documentation
-  
-  ;; remember this directory
   (setq working-dir
         (file-name-directory (or load-file-name (buffer-file-name))))
-  
-  ;; put the org dir on the path if it exists
   (let ((org-dir (expand-file-name "src/org-mode/lisp" working-dir)))
-      ;; add the src directory to the load path
-      (add-to-list 'load-path org-dir))
-   
-  ;; load up the org-init file
+    (add-to-list 'load-path org-dir))
   (org-babel-load-file (expand-file-name "dotemacs.org" working-dir))
 #+end_src
 
+* structure
 
-** DONE pull (local) org-mode to .emacs.d
-SCHEDULED: <2012-09-16 Sun>
-:PROPERTIES:
-:OPEN: [2012-09-15 Sat 17:39]
-:LAST:     DONE [2012-10-11 Thu 13:00]
-:CLOSE:    [2012-10-11 Thu 13:00]
-:END:
+Event and code order/structure.
+- init.el loads
+- dotemacs.org loads
 
+There are some important sectioning that happens
+- bootstrap. stuff that absolutely has to go at the front and load before
+  everything else.
+- guff. code that is not associated with packages but where ordering
+  is unimportant.
+- packages. packages loads that can be put most anywhere and can be
+  put in alphabetical order.
+- files. file loads that are files just for convenience (and can be loaded
+  in alphabetical order).
+- endboot. stuff that has to go at the end.
 
+* bootstrap
 
-* load-path
+** load-path
   :PROPERTIES:
   :tangle:   yes
   :END:
+- [ ] work out reverse direction stuff
+- [ ] necessity of overrides?
+- [ ] intro to table->list technology
+- [ ] wrap all dir technology
+- [ ] protect default-directory
 
-#+begin_src emacs-lisp
+*** src subdirs
+
+Borrowing from starter-kit, src is the place to dump your lisp code
+and packages which dont come on down the elpa channel (~/.emacs.d/src)
+
+I tend to keep git repos in ~/git and ln -s them to src.
+
+  #+begin_src emacs-lisp
     (setq src-dir (expand-file-name "src" working-dir))
     ;; add the src directory to the load path
     (add-to-list 'load-path src-dir working-dir)
@@ -110,24 +107,11 @@ SCHEDULED: <2012-09-16 Sun>
       (when (file-exists-p src-dir)
         (let ((default-directory src-dir))
           (normal-top-level-add-subdirs-to-load-path)))
-#+end_src
+  #+end_src
 
-* starter-kits
-  :PROPERTIES:
-  :tangle:   yes
-  :END:
-** core
-  :PROPERTIES:
-  :CUSTOM_ID: implementation
-  :END:
 
-This section contains all code implementing the Emacs Starter Kit.  It
-is probably safe to stop reading at this point unless you are
-interested in the actual code implementing the starter kit.
-
-*** Starter kit basics
+*** specific directories
 - Load path etc.
-  #+name: starter-kit-load-paths
   #+begin_src emacs-lisp
     (add-to-list 'load-path working-dir)
     (setq autoload-file (concat working-dir "loaddefs.el"))
@@ -135,10 +119,13 @@ interested in the actual code implementing the starter kit.
     (setq custom-file (concat working-dir "custom.el"))
   #+end_src
 
-- Ubiquitous Packages which should be loaded on startup rather than
+
+
+** ubiquitous and core requires
+
+Ubiquitous Packages which should be loaded on startup rather than
   autoloaded on demand since they are likely to be used in every
   session.
-  #+name: starter-kit-load-on-startup
   #+begin_src emacs-lisp
     (require 'cl)
     (require 'saveplace)
@@ -148,175 +135,77 @@ interested in the actual code implementing the starter kit.
     (require 'recentf)
   #+end_src
 
-- ELPA archive repositories and two packages to install by default.
+** elpa
+
+- Initialise ELPA archive repositories
   #+begin_src emacs-lisp
     (setq package-archives
           '(("original"    . "http://tromey.com/elpa/")
             ("gnu"         . "http://elpa.gnu.org/packages/")
             ("marmalade"   . "http://marmalade-repo.org/packages/")))
     (package-initialize)
-    
-    (defvar starter-kit-packages
+   #+end_src
+  
+
+** package installs
+
+- [ ] make essential orgtable
+
+  (dolist (package '(magit))
+    (unless (package-installed-p package)
+      (package-install package)))
+
+#+TBLNAME: table-packages
+| package   | essential |
+|-----------+-----------|
+| magit     | yes       |
+| yasnippet | yes       |
+|           |           |
+
+
+
+#+begin_src emacs-lisp      
+    (defvar essential-packages
       (list 'yasnippet-bundle)
-      "Libraries that should be installed by default.")
+      "Libraries that are essential and should always be installed.")
     
     (unless package-archive-contents
       (package-refresh-contents))
-    (dolist (package starter-kit-packages)
+    (dolist (package essential-packages)
       (unless (package-installed-p package)
         (package-install package)))
-  #+end_src
+#+end_src
 
-- Work around a bug on OS X where system-name is FQDN.
-  #+name: starter-kit-osX-workaround
+** Work around a bug on OS X where system-name is FQDN.
   #+begin_src emacs-lisp
     (if (eq system-type 'darwin)
         (setq system-name (car (split-string system-name "\\."))))
   #+end_src
 
-- [[http://code.google.com/p/yasnippet/][yasnippet]] is yet another snippet expansion system for Emacs.  It is
-  inspired by TextMate's templating syntax.
-  - watch the [[http://www.youtube.com/watch?v=vOj7btx3ATg][video on YouTube]]
-  - see the [[http://yasnippet.googlecode.com/svn/trunk/doc/index.html][intro and tutorial]]
 
-  load the yasnippet bundle
-  #+begin_src emacs-lisp
-    (require 'yasnippet)
-    (yas/initialize)
-  #+end_src
+** ubiquotous and loved settings
+ #+begin_src emacs-lisp
+   (whitespace-mode t)  
+   (setq save-place t)
+   (auto-fill-mode t)
+   (column-number-mode t)
+ #+end_src
 
-  load the snippets defined in the =./snippets/= directory
-  #+begin_src emacs-lisp
-    (yas/load-directory (expand-file-name "snippets" working-dir))
-  #+end_src
+** loved functions
 
-  The latest version of yasnippets doesn't play well with Org-mode, the
-  following function allows these two to play nicely together.
-  #+begin_src emacs-lisp
-    (defun yas/org-very-safe-expand ()
-      (let ((yas/fallback-behavior 'return-nil)) (yas/expand)))
-    
-    (defun yas/org-setup ()
-      ;; yasnippet (using the new org-cycle hooks)
-      (make-variable-buffer-local 'yas/trigger-key)
-      (setq yas/trigger-key [tab])
-      (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
-      (define-key yas/keymap [tab] 'yas/next-field))
-    
-    (add-hook 'org-mode-hook #'yas/org-setup)
-  #+end_src
-
-
-**** Settings from M-x customize
-#+name: m-x-customize-customizations
+*** starter-kit-pretty-lambdas
 #+begin_src emacs-lisp
-  (load custom-file 'noerror)
+(defun starter-kit-pretty-lambdas ()
+  (font-lock-add-keywords
+   nil `(("(\\(lambda\\>\\)"
+          (0 (progn (compose-region (match-beginning 1) (match-end 1)
+                                    ,(make-char 'greek-iso8859-7 107))
+                    nil))))))
+(starter-kit-pretty-lambdas)
 #+end_src
 
 
-* other starters
-  :PROPERTIES:
-  :tangle:   yes
-  :END:
-** The starter-kit-coding-hook:
-A single hook holding those functions which should be run in *every*
-code buffer.
-
-We have a number of turn-on-* functions since it's advised that lambda
-functions not go in hooks. Repeatedly evaling an add-to-list with a
-hook value will repeatedly add it since there's no way to ensure that
-a lambda doesn't already exist in the list.
-
-#+name: starter-kit-hook-functions
-#+begin_src emacs-lisp
-(defun starter-kit-local-column-number-mode ()
-  (make-local-variable 'column-number-mode)
-  (column-number-mode t))
-
-(defun starter-kit-local-comment-auto-fill ()
-  (set (make-local-variable 'comment-auto-fill-only-comments) t)
-  (auto-fill-mode t))
-
-(defun starter-kit-turn-on-save-place-mode ()
-  (setq save-place t))
-
-(defun starter-kit-turn-on-whitespace ()
-  (whitespace-mode t))
-#+end_src
-
-#+name: starter-kit-add-local-column-number-mode
-#+begin_src emacs-lisp
-(add-hook 'starter-kit-coding-hook 'starter-kit-local-column-number-mode)
-#+end_src
-
-#+name: start-kit-add-local-comment-auto-fill
-#+begin_src emacs-lisp
-(add-hook 'starter-kit-coding-hook 'starter-kit-local-comment-auto-fill)
-#+end_src
-
-#+name: starter-kit-add-pretty-lambdas
-#+begin_src emacs-lisp
-  (when (window-system)
-    (add-hook 'starter-kit-coding-hook 'starter-kit-pretty-lambdas))
-#+end_src
-
-#+name: starter-kit-run-starter-kit-coding-hook
-#+begin_src emacs-lisp
-(defun run-starter-kit-coding-hook ()
-  "Enable things that are convenient across all coding buffers."
-  (run-hooks 'starter-kit-coding-hook))
-#+end_src
-
-#+srcname: starter-kit-recentf-ido-find-file
-#+begin_src emacs-lisp 
-  (defun recentf-ido-find-file () 
-    "Find a recent file using Ido." 
-    (interactive) 
-    (let* ((file-assoc-list 
-            (mapcar (lambda (x) 
-                      (cons (file-name-nondirectory x) 
-                            x)) 
-                    recentf-list)) 
-           (filename-list 
-            (remove-duplicates (mapcar #'car file-assoc-list) 
-                               :test #'string=)) 
-           (filename (ido-completing-read "Choose recent file: " 
-                                          filename-list 
-                                          nil 
-                                          t))) 
-      (when filename 
-        (find-file (cdr (assoc filename 
-                               file-assoc-list)))))) 
- #+end_src 
-
-
-
-
-
-** Starter Kit Misc
-Things that don't fit anywhere else.
-
-*** Check Dependencies
-
-Determine whether required packages are installed. If not, use ELPA to
-install them. Other dependencies are provided by Emacs 24.
-#+begin_src emacs-lisp
-  (dolist (package '(magit))
-    (unless (package-installed-p package)
-      (package-install package)))
-#+end_src
-
-*** Color Themes
-Emacs24 has build in support for saving and loading themes.
-
-A Theme builder is available at http://elpa.gnu.org/themes/ along with
-a list of pre-built themes at http://elpa.gnu.org/themes/view.html and
-themes are available through ELPA.
-
-Downloaded themes may be saved to the =themes/= directory in the base
-of the starter kit which ignored by git.  Once downloaded and
-evaluated a theme is activated using the =load-theme= function.
-
+* guff
 *** Window systems
 #+srcname: starter-kit-window-view-stuff
 #+begin_src emacs-lisp 
@@ -364,44 +253,16 @@ evaluated a theme is activated using the =load-theme= function.
 (show-paren-mode 1)
 #+end_src
 
-*** ido mode
-ido-mode is like magic pixie dust!
-#+srcname: starter-kit-loves-ido-mode
-#+begin_src emacs-lisp 
-(when (> emacs-major-version 21)
-  (ido-mode t)
-  (setq ido-enable-prefix nil
-        ido-enable-flex-matching t
-        ido-create-new-buffer 'always
-        ido-use-filename-at-point t
-        ido-max-prospects 10))
-#+end_src
-
 *** Other, spell checking, tabs, imenu and a coding hook
 #+begin_src emacs-lisp 
   (set-default 'indent-tabs-mode nil)
   (set-default 'indicate-empty-lines t)
   (set-default 'imenu-auto-rescan t)
-  
   (add-hook 'text-mode-hook 'turn-on-auto-fill)
-  ;;(add-hook 'text-mode-hook 'turn-on-flyspell)
-  
-  (defvar starter-kit-coding-hook nil
-    "Hook that gets run on activation of any programming mode.")
-  
+  ;;(add-hook 'text-mode-hook 'turn-on-flyspell)  
   (defalias 'yes-or-no-p 'y-or-n-p)
   ;; Seed the random-number generator
   (random t)
-#+end_src
-
-**** functions for prettier source code
-#+begin_src emacs-lisp
-(defun starter-kit-pretty-lambdas ()
-  (font-lock-add-keywords
-   nil `(("(\\(lambda\\>\\)"
-          (0 (progn (compose-region (match-beginning 1) (match-end 1)
-                                    ,(make-char 'greek-iso8859-7 107))
-                    nil))))))
 #+end_src
 
 **** possible issues/resolutions with flyspell
@@ -461,6 +322,98 @@ let them live in the =backups/= directory inside of the starter kit.
      (set-face-foreground 'magit-diff-add "green3")
      (set-face-foreground 'magit-diff-del "red3")))
 #+end_src
+
+
+
+* packages
+** yasnippet
+[[http://code.google.com/p/yasnippet/][yasnippet]] is yet another snippet expansion system for Emacs.  It is
+  inspired by TextMate's templating syntax.
+  - watch the [[http://www.youtube.com/watch?v=vOj7btx3ATg][video on YouTube]]
+  - see the [[http://yasnippet.googlecode.com/svn/trunk/doc/index.html][intro and tutorial]]
+
+*** load the yasnippet bundle
+  #+begin_src emacs-lisp
+    (require 'yasnippet)
+    (yas/initialize)
+  #+end_src
+
+*** load the snippets defined in the =./snippets/= directory
+  #+begin_src emacs-lisp
+    (yas/load-directory (expand-file-name "snippets" working-dir))
+  #+end_src
+
+*** org yas play nicely
+
+  The latest version of yasnippets doesn't play well with Org-mode, the
+  following function allows these two to play nicely together.
+  #+begin_src emacs-lisp
+    (defun yas/org-very-safe-expand ()
+      (let ((yas/fallback-behavior 'return-nil)) (yas/expand)))
+    
+    (defun yas/org-setup ()
+      ;; yasnippet (using the new org-cycle hooks)
+      (make-variable-buffer-local 'yas/trigger-key)
+      (setq yas/trigger-key [tab])
+      (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
+      (define-key yas/keymap [tab] 'yas/next-field))
+    
+    (add-hook 'org-mode-hook #'yas/org-setup)
+  #+end_src
+
+** ido
+*** ido mode
+ido-mode is like magic pixie dust!
+#+srcname: starter-kit-loves-ido-mode
+#+begin_src emacs-lisp 
+(when (> emacs-major-version 21)
+  (ido-mode t)
+  (setq ido-enable-prefix nil
+        ido-enable-flex-matching t
+        ido-create-new-buffer 'always
+        ido-use-filename-at-point t
+        ido-max-prospects 10))
+#+end_src
+
+*** recent-ido-find-file
+#+begin_src emacs-lisp 
+  (defun recentf-ido-find-file () 
+    "Find a recent file using Ido." 
+    (interactive) 
+    (let* ((file-assoc-list 
+            (mapcar (lambda (x) 
+                      (cons (file-name-nondirectory x) 
+                            x)) 
+                    recentf-list)) 
+           (filename-list 
+            (remove-duplicates (mapcar #'car file-assoc-list) 
+                               :test #'string=)) 
+           (filename (ido-completing-read "Choose recent file: " 
+                                          filename-list 
+                                          nil 
+                                          t))) 
+      (when filename 
+        (find-file (cdr (assoc filename 
+                               file-assoc-list)))))) 
+ #+end_src 
+
+
+
+
+* files
+
+
+* endboot
+
+** custom file
+#+begin_src emacs-lisp
+  (load "custom.el" 'noerror)
+#+end_src
+
+
+
+
+
 
 
 
@@ -3039,7 +2992,7 @@ So,
 #+begin_src emacs-lisp :tangle no
   (print (loop for f in Info-directory-list
                collect
-               (list f)))
+               (car f)))
 #+end_src
 
 #+results:
@@ -3277,4 +3230,25 @@ So,
 
 #+results:
 : t
+
+
+
+** test table with header
+
+#+TBLNAME: table-with-header
+| package   | essential |
+|-----------+-----------|
+| magit     | yes       |
+| yasnippet | yes       |
+|           |           |
+
+  #+begin_src emacs-lisp :var test-incoming-table=table-with-header :results output
+    (print test-incoming-table) 
+ #+end_src
+
+  #+results:
+  : 
+  : (("package" "essential") hline ("magit" "yes") ("yasnippet" "yes") ("" ""))
+
+
 
