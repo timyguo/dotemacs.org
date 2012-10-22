@@ -209,7 +209,7 @@ Grouped means that every sub-directory is also added to the path.
 | directory                | toggle |
 |--------------------------+--------|
 | src                      | t      |
-| repos/jwiegley/site-lisp | t      |
+| jwiegley/site-lisp       | t      |
 | elpa                     | t      |
 
 And here's where we start taking advantage of using org on startup.

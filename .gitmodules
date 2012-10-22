@@ -1,0 +1,3 @@
+[submodule "jwiegley"]
+	path = jwiegley
+	url = https://github.com/jwiegley/dot-emacs.git

@@ -35,7 +35,7 @@ load-path)))
         (add-to-load-path (car entry)
                           (expand-file-name path user-emacs-directory)))))
 
-(let ((table (quote (("directory" "toggle") hline ("src" "t") ("repos/jwiegley/site-lisp" "t") ("elpa" "t")))))
+(let ((table (quote (("directory" "toggle") hline ("src" "t") ("jwiegley/site-lisp" "t") ("elpa" "t")))))
 (defvar group-load-directories
       (list "src")
       "directory that should have their subdirectories added 
