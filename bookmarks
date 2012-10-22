@@ -8,10 +8,10 @@
  (rear-context-string . "ll-paragraph\n\n\n\n")
  (position . 6506))
 ("org-refile-last-stored"
- (filename . "~/.emacs.d/README.org")
- (front-context-string . "** org-clock\n:PR")
- (rear-context-string . "ll-paragraph\n\n\n\n")
- (position . 6506))
+ (filename . "~/.emacs.d/dotemacs.org")
+ (front-context-string . "** Keybindings\n:")
+ (rear-context-string . "work\n\n#+end_src\n")
+ (position . 27820))
 ("org-capture-last-stored"
  (filename . "~/stuff/content/ideas.org")
  (front-context-string . "** http://www.mi")
