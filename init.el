@@ -1,13 +1,8 @@
-;;; init.el --- Where all the magic begins
-;;
-;; Part of the Emacs Starter Kit
-;;
-;; This is the first thing to get loaded.
-;;
 
-;; remember this directory
-(setq starter-kit-dir
+;; see org-init.org for documentation
+(setq user-emacs-directory
       (file-name-directory (or load-file-name (buffer-file-name))))
+<<<<<<< HEAD
 
 (let ((elisp-dir (expand-file-name "src" starter-kit-dir)))
     ;; add the src directory to the load path
@@ -19,3 +14,8 @@
  
 ;; load up the starter kit
 (org-babel-load-file (expand-file-name "starter-kit.org" starter-kit-dir))
+=======
+(let ((org-dir (expand-file-name "src/org-mode/lisp" user-emacs-directory)))
+  (add-to-list 'load-path org-dir))
+(org-babel-load-file (expand-file-name "dotemacs.org" user-emacs-directory))
+>>>>>>> flatten

@@ -8,8 +8,9 @@ places
 .svn
 .DS_Store
 tramp
+bookmarks
 
-## directories
+## directory contents
 backups/*
 thumbs/*
 oddmuse/*
@@ -22,9 +23,13 @@ themes/*
 url/*
 data/*
 tmp/*
+<<<<<<< HEAD
 src/nethack/*
 src/nethack*
 bookmarks/*
+=======
+repos/*
+>>>>>>> flatten
 
 ## directory and contents
 src/org-mode
@@ -59,3 +64,14 @@ secret.org
 .emacs.desktop*
 .*~
 agent/*
+<<<<<<< HEAD
+=======
+/src/elnode
+/src/o-blog
+/src/org-mac-protocol/
+/#README.org#
+/#dotemacs.org#
+/#init.el#
+/.#README.org
+/.#dotemacs.org
+>>>>>>> flatten

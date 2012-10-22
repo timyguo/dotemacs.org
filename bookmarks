@@ -3,6 +3,7 @@
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored-marker"
+<<<<<<< HEAD
  (filename . "~/stuff/sys/sys.org")
  (front-context-string . "** TODO irc note")
  (rear-context-string . "le slide]]\n\n\n\n\n\n")
@@ -17,4 +18,20 @@
  (front-context-string . "** http://papers")
  (rear-context-string . "cally-1005.html\n")
  (position . 7419))
+=======
+ (filename . "~/.emacs.d/README.org")
+ (front-context-string . "** org-clock\n:PR")
+ (rear-context-string . "ll-paragraph\n\n\n\n")
+ (position . 6506))
+("org-refile-last-stored"
+ (filename . "~/.emacs.d/dotemacs.org")
+ (front-context-string . "** Keybindings\n:")
+ (rear-context-string . "work\n\n#+end_src\n")
+ (position . 27820))
+("org-capture-last-stored"
+ (filename . "~/stuff/content/ideas.org")
+ (front-context-string . "** http://www.mi")
+ (rear-context-string . "ract_id=2130609\n")
+ (position . 8127))
+>>>>>>> flatten
 )
