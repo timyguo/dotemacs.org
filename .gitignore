@@ -61,7 +61,6 @@ agent/*
 /src/elnode
 /src/o-blog
 /src/org-mac-protocol/
-/tonyday.org_archive
 /#README.org#
 /#dotemacs.org#
 /#init.el#
