@@ -1,89 +1,36 @@
-Here lies my dotemacs, a mashup of styles from various sources,
-highly correlated to my skills as a well-organised coder focused on my
-own needs.  You have been warned.  
+Playing around with your emacs config is all about trying out new
+stuff, adding new packages, tweaking bindings and deleting old stuff
+you no longer need.  
 
-I make use of submodules.  The main riff comes from two
-forks sourced from:
+This repo aims to be all about that and is used as a bit of an
+emacs laboratory.
 
-| directory name      | http                                            | fork                                            |
-|---------------------+-------------------------------------------------+-------------------------------------------------|
-| emacs24-starter-kit | https://github.com/eschulte/emacs24-starter-kit | https://github.com/zygomega/emacs24-starter-kit |
-| jwiegley            | https://github.com/jwiegley/dot-emacs           | https://github.com/zygomega/dot-emacs           |
+The use of org-mode as the lab is what separates this
+dotemacs from other (perhaps more rigorous) patterns.  Org-mode is used:
++ as a literate programming environment
++ for its ease of header manipulation, its column view and tangling ability. If you haven'n tried it
+  yet, go to the top of the file and hit C-c C-x C-c. Turning on and
+  off, adding and subtracting code requires a simple edit of the
+  tangle property.
++ for org-tables. The init.el file is data and much of this data
+  belongs in a table. Where it makes sense, we place data in a table,
+  often with a toggle to again turn things on and off. Babel then
+  takes care of turning the table into code.  Simple as C-c C-v t.  
 
+Right at this commit, dotemacs.org is a collision of three very
+different influences:
+  - the inspirational Eric Schulte org'ified starter-kit
+  - the awesome personal dots of John Wiegley
 
-- [ ] install commands
-
-
-
-| directory name      | http                                             | fork                                            | works out of box | notes                  |   |   |   |
-|---------------------+--------------------------------------------------+-------------------------------------------------+------------------+------------------------+---+---+---|
-| emacs24-starter-kit | https://github.com/eschulte/emacs24-starter-kit  | https://github.com/zygomega/emacs24-starter-kit | yes              | best base found so far |   |   |   |
-| jwiegley            | https://github.com/jwiegley/dot-emacs            | https://github.com/zygomega/dot-emacs           |                  |                        |   |   |   |
-| prelude             | https://github.com/bbatsov/prelude               | https://github.com/zygomega/prelude             |                  |                        |   |   |   |
-| emacs-live          | https://github.com/overtone/emacs-live           | https://github.com/zygomega/emacs-live          |                  |                        |   |   |   |
-| defunkt             | https://github.com/defunkt/emacs                 |                                                 |                  |                        |   |   |   |
-| mathiasbynens       | https://github.com/mathiasbynens/dotfiles        | https://github.com/zygomega/dotfiles-2          |                  |                        |   |   |   |
-| cabbage             | https://github.com/senny/cabbage                 | https://github.com/zygomega/cabbage             |                  |                        |   |   |   |
-| purcell             | https://github.com/purcell/emacs.d               | https://github.com/zygomega/emacs.d             |                  |                        |   |   |   |
-| magnars             | https://github.com/magnars/.emacs.d              | https://github.com/zygomega/.emacs.d-1          |                  |                        |   |   |   |
-| ghoseb              | https://github.com/ghoseb/dotemacs               | https://github.com/zygomega/dotemacs            |                  |                        |   |   |   |
-| rmm5t               | https://github.com/rmm5t/dotfiles                | https://github.com/zygomega/dotfiles            |                  |                        |   |   |   |
-| garybernhardt       | https://github.com/garybernhardt/dotfiles        | https://github.com/zygomega/dotfiles-1          |                  |                        |   |   |   |
-| alexott             | https://github.com/alexott/emacs-configs         |                                                 |                  |                        |   |   |   |
-| starter-kit         | https://github.com/technomancy/emacs-starter-kit |                                                 | yes              | access via emacs24     |   |   |   |
-|                     |                                                  |                                                 |                  |                        |   |   |   |
-|                     |                                                  |                                                 |                  |                        |   |   |   |
-|                     |                                                  |                                                 |                  |                        |   |   |   |
-|                     |                                                  |                                                 |                  |                        |   |   |   |
+| directory name      | http                                            |
+|---------------------+-------------------------------------------------|
+| emacs24-starter-kit | https://github.com/eschulte/emacs24-starter-kit |
+| jwiegley            | https://github.com/jwiegley/dot-emacs           |
 
 
-Other sites
-- [[info:emacs#Init%20File][info:emacs#Init File]]
-- http://www.emacswiki.org/emacs/RobertAdesamConfig
-- http://www.emacswiki.org/emacs/EmacsInitFileOfSylecn
-- http://www.emacswiki.org/emacs/CategoryDotEmacs
+If you make it as far as looking through the repo, can I suggest you
+start with dotemacs.org, which contains everything. Run it in column
+mode (C-c C-x C-c) and you'll see how I'm using the file.
 
-
-* TODO .emacs.d tasks
-SCHEDULED: <2012-10-12 Fri>
-:LOGBOOK:
-CLOCK: [2012-10-12 Fri 09:07]--[2012-10-12 Fri 17:03] =>  7:56
-:END:
-:PROPERTIES:
-:OPEN:     [2012-10-12 Fri 08:54]
-:LAST:     TODO [2012-10-12 Fri 08:54]
-:END:
- 
-- [ ] wipe submodules
-- [ ] cut n paste org-mode (and .ignore)
-- [ ] listmania 
-  - [ ] package list
-  - [ ] src list
-  - [ ] dotemacs flow
-    - load-path
-  - [ ] dotemacs stack
-    - [ ] org-agenda
-      [[file:starter-kit-tonyday-org.org::*Agenda%20view][Agenda view]]     
-    - [ ] info-path
-    - [ ] yas snippets
-    - [ ] think about submodule R&D strategy
-      #+begin_src
-        git submodule add git://github.com/zygomega/dot-emacs.git jwiegley
-        git submodule add git://github.com/zygomega/emacs.d.git purcell
-      #+end_src
-- [-] hack n slash
-  - [X] zero modification to base kit
-  - [ ] org from norang
-  - [ ] jw innovations
-  - [ ] spell
-  - [ ] check when load path matters
-  - [ ] look at the starter kit publishing file
-    - mom
-    - tmp
-  - [ ] write up jwiegley deconstruction
-
-  - [ ] jw binding solution applied
-     [[file:~/stuff/emacs/bindings.org::*key%20bindings%20org][key bindings org]]
-
-
+It might just work out of the box if elpa is turned on.
 
