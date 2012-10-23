@@ -46,7 +46,7 @@ to the load-path.")
           (nreverse group-load-directories))
 )
 
-(let ((table (quote (("directory" "toggle") hline ("~/.emacs.d" "t") ("" "")))))
+(let ((table (quote (("directory" "toggle") hline ("~/.emacs.d" "t") ("~/.emacs.d/src/org-mode/contrib/lisp" "t")))))
 (defvar path-directories
       (list "~/.emacs.d")
       "Directories that should be added to load-path.")

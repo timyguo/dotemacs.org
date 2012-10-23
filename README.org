@@ -21,6 +21,8 @@ Right at this commit, dotemacs.org is a collision of three very
 different influences:
   - the inspirational Eric Schulte org'ified starter-kit
   - the awesome personal dots of John Wiegley
+  - the haphazard and largely newbish way I have gathered together my
+    personal dots (but no more!) 
 
 | directory name      | http                                            |
 |---------------------+-------------------------------------------------|

@@ -1,8 +1,16 @@
-#+TITLE: dotemacs
+#+TITLE: dotemacs boiler plate
 #+AUTHOR: Tony Day
 #+EMAIL: tonyday567 at gmail dot com
 #+COLUMNS: %25ITEM %30tangle
 #+PROPERTIES: tangle yes
+
+A simplified version.  Especially useful for early stage bootstrap
+testing.
+
+- standard emacs
+- standard org
+- elpa
+- no bind, use-package
 
 * upfront
 :PROPERTIES:
@@ -99,12 +107,8 @@ It weighs in at a muscular 3 lines and does exactly 3 things.
  
 ** init.el
 
-  #+results:
-  : init-debug-wrap
-
-
 #+Begin_src emacs-lisp :tangle init.el :var dotemacs-org-file=(buffer-file-name)
-  ;; see dotemacs.org for documentation
+  ;; see org-init.org for documentation
   (setq user-emacs-directory
         (file-name-directory (or load-file-name (buffer-file-name))))
   (let ((org-dir (expand-file-name "src/org-mode/lisp" user-emacs-directory)))
@@ -192,7 +196,7 @@ Grouped means that every sub-directory is also added to the path.
 | directory                | toggle |
 |--------------------------+--------|
 | src                      | t      |
-| jwiegley/site-lisp       | t      |
+| jwiegley/site-lisp       |        |
 | elpa                     | t      |
 
 And here's where we start taking advantage of using org on startup.
@@ -232,7 +236,7 @@ Any other directories needed to be loaded onto the path go here:
 | directory                            | toggle |
 |--------------------------------------+--------|
 | ~/.emacs.d                           | t      |
-| ~/.emacs.d/src/org-mode/contrib/lisp | t      |
+| ~/.emacs.d/src/org-mode/contrib/lisp |        |
 
 #+begin_src emacs-lisp :var table=load-path-table
 (defvar path-directories
@@ -268,9 +272,30 @@ variable, or you can just C-c C-c the block in org-mode after the event.
 #+end_src
 
 #+RESULTS:
-| /Users/tonyday/.emacs.d/elpa/ess-5.14/                              |
+| /Users/tonyday/.emacs.d/elpa/anything-1.287                         |
+| /Users/tonyday/.emacs.d/elpa/auctex-11.86/                          |
+| /Users/tonyday/.emacs.d/elpa/auctex-11.86                           |
+| /Users/tonyday/.emacs.d/elpa/clojure-mode-1.11.5                    |
+| /Users/tonyday/.emacs.d/elpa/elisp-slime-nav-0.2                    |
+| /Users/tonyday/.emacs.d/elpa/ess-5.14                               |
+| /Users/tonyday/.emacs.d/elpa/ess-smart-underscore-0.73              |
+| /Users/tonyday/.emacs.d/elpa/find-file-in-project-3.2               |
+| /Users/tonyday/.emacs.d/elpa/htmlize-1.39                           |
+| /Users/tonyday/.emacs.d/elpa/js-comint-0.0.1                        |
+| /Users/tonyday/.emacs.d/elpa/js2-mode-20090814                      |
+| /Users/tonyday/.emacs.d/elpa/magithub-0.2                           |
+| /Users/tonyday/.emacs.d/elpa/json-1.2                               |
+| /Users/tonyday/.emacs.d/elpa/org-magit-0.2.0                        |
+| /Users/tonyday/.emacs.d/elpa/magit-1.1.1                            |
+| /Users/tonyday/.emacs.d/elpa/org2blog-0.5                           |
+| /Users/tonyday/.emacs.d/elpa/paredit-22                             |
+| /Users/tonyday/.emacs.d/elpa/slime-20100404.1                       |
+| /Users/tonyday/.emacs.d/elpa/smex-1.1.4                             |
+| /Users/tonyday/.emacs.d/elpa/xml-rpc-1.6.8                          |
+| /Users/tonyday/.emacs.d/elpa/yaml-mode-0.0.7                        |
+| /Users/tonyday/.emacs.d/elpa/yasnippet-bundle-0.6.1                 |
+| /Users/tonyday/.emacs.d/elpa/zenburn-theme-1.5                      |
 | /Users/tonyday/.emacs.d                                             |
-| /Users/tonyday/.emacs.d/src/org-mode/contrib/lisp                   |
 | /Users/tonyday/.emacs.d/src/elnode                                  |
 | /Users/tonyday/.emacs.d/src/o-blog                                  |
 | /Users/tonyday/.emacs.d/src/org-ehtml                               |
@@ -278,64 +303,6 @@ variable, or you can just C-c C-c the block in org-mode after the event.
 | /Users/tonyday/.emacs.d/src/org-mode                                |
 | /Users/tonyday/.emacs.d/src/use-package                             |
 | /Users/tonyday/.emacs.d/src                                         |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/ac                       |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/ace-jump-mode            |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/asynk                    |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/auctex                   |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/auto-overlays            |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/autopair                 |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/bm                       |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/bookmark-plus            |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/boxquote                 |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/command-log-mode         |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/debbugs                  |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/deft                     |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/dired-sync               |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/doxymacs                 |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/dvc                      |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/el-get                   |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/el-mock                  |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/elisp-depend             |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/elisp-slime-nav          |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/elnode                   |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/emacs-edbi               |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/emacs-quickrun           |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/emacs-w3m                |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/emms                     |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/ess                      |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/eval-expr                |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/ghc-mod                  |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/gist                     |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/git-commit-mode          |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/haskell-mode             |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/helm                     |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/helm-descbinds           |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/hpaste                   |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/hsenv.el                 |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/ido-hacks                |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/info-lookmore            |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/ipa-el                   |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/lua-mode                 |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/lusty-emacs              |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/macrostep                |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/magit                    |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/markdown-mode            |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/melpa                    |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/org-magit                |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/org-merge-driver         |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/python-mode              |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/ruby-mode                |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/session                  |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/slime                    |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/sunrise-commander        |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/swank-js                 |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/workgroups               |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/wrap-region              |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/yaml-mode                |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/yari-with-buttons        |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/yasnippet                |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/zencoding-mode           |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp                          |
 | /Users/tonyday/.emacs.d/elpa/anything-1.287                         |
 | /Users/tonyday/.emacs.d/elpa/archives                               |
 | /Users/tonyday/.emacs.d/elpa/auctex-11.86                           |
@@ -398,7 +365,7 @@ variable, or you can just C-c C-c the block in org-mode after the event.
    :END:
 *** turn elpa package load off
     :PROPERTIES:
-    :tangle:   yes
+    :tangle:   no
     :END:
 
 #+begin_src emacs-lisp
@@ -412,12 +379,12 @@ variable, or you can just C-c C-c the block in org-mode after the event.
     :END:
 
 #+begin_src emacs-lisp
-    (setq package-enable-at-startup nil)
-    (setq package-archives
-          '(("melpa" . "http://melpa.milkbox.net/packages/")
-            ("gnu"         . "http://elpa.gnu.org/packages/")
-            ("marmalade"   . "http://marmalade-repo.org/packages/")))
-    (package-initialize)
+  (setq package-enable-at-startup nil)
+  (setq package-archives
+        '(("marmalade"   . "http://marmalade-repo.org/packages/")
+          ("melpa" . "http://melpa.milkbox.net/packages/")
+          ("gnu"         . "http://elpa.gnu.org/packages/")))
+  (package-initialize)
  #+end_src
 
 #+RESULTS:
@@ -473,7 +440,7 @@ variable, or you can just C-c C-c the block in org-mode after the event.
 
 ** use-package
    :PROPERTIES:
-   :tangle: 
+   :tangle:   no
    :END:
 #+begin_src emacs-lisp
 (require 'use-package)
@@ -482,6 +449,9 @@ variable, or you can just C-c C-c the block in org-mode after the event.
 #+end_src
 
 ** Read system environment
+:PROPERTIES:
+:tangle:   no
+:END:
 #+begin_src emacs-lisp
 ;;;_ , Read system environment
 
@@ -502,6 +472,9 @@ variable, or you can just C-c C-c the block in org-mode after the event.
 
 #+end_src
 ** Load customization settings
+:PROPERTIES:
+:tangle:   no
+:END:
 #+begin_src emacs-lisp
 ;;;_ , Load customization settings
 
@@ -540,7 +513,7 @@ variable, or you can just C-c C-c the block in org-mode after the event.
 #+end_src
 * guff
 :PROPERTIES:
-:tangle:   yes
+:tangle:   no
 :END:
 ** Window systems
 #+srcname: starter-kit-window-view-stuff
@@ -618,6 +591,9 @@ So,
 | /Users/tonyday/.emacs.d/elpa/auctex-11.86      |
 
 
+
+- function to reset org-agenda-files based on the above table of directories
+  and files
   #+begin_src emacs-lisp :var table=info-dirs
      (setq clean-table
            (delete nil  
@@ -1511,7 +1487,7 @@ $\\|P.+\\\\\n\\)" nil t)
 #+end_src
 * packages
 :PROPERTIES:
-:tangle:   yes
+:tangle:   no
 :END:
 ** scratch
 :PROPERTIES:
@@ -2027,34 +2003,30 @@ CLOSED: [2012-07-20 Fri 00:20]
 Startup should take this table and create the org-agenda-files list.
 
 #+TBLNAME: agenda-files-table
-| stuff    |         | stuff.org         |
-| .emacs.d |         | README.org        |
-| .emacs.d |         | dotemacs.org      |
-| stuff    | org     | refile.org        |
-| stuff    | org     | bugz.org          |
-| stuff    | org     | snipz.org         |
-| stuff    | org     | org.org           |
-| stuff    | emacs   | emacs.org         |
-| stuff    | emacs   | bindings.org      |
-| stuff    | sys     | sys.org           |
-| stuff    | biz     | scarce.org        |
-| stuff    | content | life.org          |
-| stuff    | content | writing.org       |
-| stuff    | dev     | webdev.org        |
-| stuff    | dev     | sandpit.org       |
-| stuff    | dev     | jsdev.org         |
-| stuff    | factor  | factor.org        |
-| stuff    | content | ideas.org         |
-| stuff    | factor  | parity.org        |
-| stuff    | quant   | rdev.org          |
-| stuff    | quant   | volatility.org    |
-| stuff    | quant   | da.org            |
-| stuff    | quant   | emfx.org          |
-| stuff    | sys     | git.org           |
-| git      | scarce  | scarce.org        |
-| git      | scarce  | mindev.org        |
-| git      | scarce  | sitedev.org       |
-
+| stuff           | meta.org                    |                   |
+| .emacs.d        | README.org                  |                   |
+| stuff           | org                         | refile.org        |
+| stuff           | org                         | bugz.org          |
+| stuff           | org                         | snipz.org         |
+| stuff           | org                         | org.org           |
+| stuff           | emacs                       | emacs.org         |
+| stuff           | sys                         | sys.org           |
+| stuff           | biz                         | scarce.org        |
+| stuff           | site                        | landing.org       |
+| stuff           | site                        | scarcecapital.org |
+| stuff           | content                     | life.org          |
+| stuff           | content                     | writing.org       |
+| stuff           | dev                         | webdev.org        |
+| stuff           | emacs                       | bindings.org      |
+| stuff           | sys                         | git.org           |
+| stuff           | factor                      | factor.org        |
+| stuff           | dev                         | jsdev.org         |
+| stuff           | content                     | ideas.org         |
+| git             | emfx_R                      | emfx.org          |
+| git             | emfx_R                      | volatility.org    |
+| git             | emfx_R                      | rdev.org          |
+| git             | emfx_R                      | xkcd.org          |
+| emfx            | README.org                  |                   |
 
 - function to reset org-agenda-files based on the above table of directories
   and files
@@ -2075,7 +2047,61 @@ Startup should take this table and create the org-agenda-files list.
   #+end_src
 
   #+results:
-  | ~/stuff/stuff.org | ~/.emacs.d/README.org | ~/.emacs.d/dotemacs.org | ~/stuff/org/refile.org | ~/stuff/org/bugz.org | ~/stuff/org/snipz.org | ~/stuff/org/org.org | ~/stuff/emacs/emacs.org | ~/stuff/emacs/bindings.org | ~/stuff/sys/sys.org | ~/stuff/biz/scarce.org | ~/stuff/content/life.org | ~/stuff/content/writing.org | ~/stuff/dev/webdev.org | ~/stuff/dev/sandpit.org | ~/stuff/dev/jsdev.org | ~/stuff/factor/factor.org | ~/stuff/content/ideas.org | ~/stuff/factor/parity.org | ~/stuff/quant/rdev.org | ~/stuff/quant/volatility.org | ~/stuff/quant/da.org | ~/stuff/quant/emfx.org | ~/git/scarce/scarce.org | ~/git/scarce/mindev.org | ~/git/scarce/sitedev.org | ~/stuff/sys/git.org |
+  | ~/stuff/meta.org | ~/.emacs.d/README.org | ~/stuff/org/refile.org | ~/stuff/org/bugz.org | ~/stuff/org/snipz.org | ~/stuff/org/org.org | ~/stuff/emacs/emacs.org | ~/stuff/sys/sys.org | ~/stuff/biz/scarce.org | ~/stuff/site/landing.org | ~/stuff/site/scarcecapital.org | ~/stuff/content/life.org | ~/stuff/content/writing.org | ~/stuff/dev/webdev.org | ~/stuff/emacs/bindings.org | ~/stuff/sys/git.org | ~/stuff/factor/factor.org | ~/stuff/dev/jsdev.org | ~/stuff/content/ideas.org | ~/git/emfx_R/emfx.org | ~/git/emfx_R/volatility.org | ~/git/emfx_R/rdev.org | ~/git/emfx_R/xkcd.org | ~/emfx/README.org |
+
+
+
+- (Manual) Agenda Files (turned off)
+  #+begin_src emacs-lisp :tangle no
+    ;; the entire directory (hand edit this)
+    (setq org-agenda-files (quote ("~/stuff/org/refile.org"
+                                   "~/stuff/org/org.org"
+                                   "~/stuff/org/bugz.org"
+                                   "~/stuff/org/snipz.org"
+                                   "~/stuff/biz/scarce.org"
+                                   "~/stuff/meta.org"
+                                   "~/stuff/content/life.org"
+                                   "~/stuff/content/writing.org"
+                                   "~/stuff/emacs/emacs.org"
+                                   "~/stuff/emacs/bindings.org"
+                                   "~/.emacs.d/tonyday.org"
+                                   "~/.emacs.d/starter-kit-tonyday-org.org"
+                                   "~/stuff/sys/sys.org"
+                                   "~/stuff/sys/migrate.org"
+                                   "~/stuff/site/scarcecapital.org"
+                                   "~/stuff/dev/webdev.org"
+                                   "~/stuff/sys/git.org"
+                                   "~/stuff/factor/momentum/qic.org"
+                                   "~/stuff/factor/emfx.org"
+                                   "~/stuff/factor/factor.org"
+                                   "~/emfx/emfx.org"
+                                   "~/dotemacs-mashup/README.org"
+                                   "~/stuff/dev/rdev.org"
+                                   "~/stuff/dev/jsdev.org"
+                                   "~/stuff/dev/webdev.org"
+                                   "~/stuff/content/quant.org"
+                                   "~/stuff/content/ideas.org")))
+    
+  #+end_src
+
+  #+results:
+  | ~/stuff/org/refile.org | ~/stuff/org/org.org | ~/stuff/org/bugz.org | ~/stuff/org/snipz.org | ~/stuff/biz/scarce.org | ~/stuff/meta.org | ~/stuff/content/life.org | ~/stuff/content/writing.org | ~/stuff/emacs/emacs.org | ~/stuff/emacs/bindings.org | ~/.emacs.d/tonyday.org | ~/.emacs.d/starter-kit-tonyday-org.org | ~/stuff/sys/sys.org | ~/stuff/sys/migrate.org | ~/stuff/site/scarcecapital.org | ~/stuff/dev/webdev.org | ~/stuff/sys/git.org | ~/stuff/factor/momentum/qic.org | ~/stuff/factor/emfx.org | ~/stuff/factor/factor.org | ~/emfx/emfx.org | ~/dotemacs-mashup/README.org | ~/stuff/dev/rdev.org | ~/stuff/dev/jsdev.org | ~/stuff/dev/webdev.org | ~/stuff/content/quant.org | ~/stuff/content/ideas.org |
+
+- disable =C-c [=
+  I adopt the same system as =norang=.  It becomes difficult to
+  remember what's on and not on the agenda
+ #+begin_src emacs-lisp
+   ;; Disable C-c [ and C-c ] in org-mode
+   (add-hook 'org-mode-hook
+             (lambda ()
+               ;; Undefine C-c [ and C-c ] since this breaks my
+               ;; org-agenda files when directories are include It
+               ;; expands the files in the directories individually
+               (org-defkey org-mode-map "\C-c["    'undefined)
+               (org-defkey org-mode-map "\C-c]"    'undefined))
+             'append)
+  #+end_src
+
 
 
 
@@ -3523,7 +3549,7 @@ so change the default 'F' binding in the agenda to allow both"
  (flyspell-mode)))
 
  (require 'magit-topgit)
- (require 'rebase-mode)
+ ;;(require 'rebase-mode)
 
  (defun start-git-monitor ()
  (interactive)
@@ -3537,28 +3563,13 @@ so change the default 'F' binding in the agenda to allow both"
 #+results:
 :t
 
-** TODO hook git table up
-
-#+name: git-repos
-| ~/git/scarce |
-| ~/stuff      |
-| ~/.emacs.d   |
-| ~/git/o-blog |
-| ~/git/emfx_R |
-
-
-#+begin_src emacs-lisp :var table=git-repos
-   
-  
-     (setq magit-repo-dirs
-           (loop for file in table
-                     collect (car file)))
-   ;;(setq magit-repo-dirs '("~/.emacs.d" 
-   ;;"~/stuff"))
+#+begin_src emacs-lisp
+ (setq magit-repo-dirs '("~/.emacs.d" 
+ "~/stuff"))
 #+end_src
 
 #+results:
-| ~/git/scarce | ~/stuff | ~/.emacs.d | ~/git/o-blog | ~/git/emfx_R |
+| ~/.emacs.d | ~/stuff |
 
 
 
@@ -8435,241 +8446,10 @@ Mark set
  '(whitespace-line ((t (:background "lemon chiffon" :foreground "dark violet")))))
 
 #+end_src
-** Avoiding weasel words
-    #+begin_src emacs-lisp
-      (use-package artbollocks-mode
-        :init
-        (progn
-          (setq artbollocks-weasel-words-regex
-                (concat "\\b" (regexp-opt
-                               '("one of the"
-                                 "should"
-                                 "just"
-                                 "sort of"
-                                 "a lot"
-                                 "probably"
-                                 "maybe"
-                                 "perhaps"
-                                 "I think"
-                                 "really"
-                                 "pretty"
-                                 "maybe"
-                                 "nice"
-                                 "action"
-                                 "utilize"
-                                 "leverage") t) "\\b"))
-          ;; Don't show the art critic words, or at least until I figure
-          ;; out my own jargon
-          (setq artbollocks-jargon nil)))
-#+end_src
-
-** ideaz
-
-(global-set-key (kbd "RET") 'newline-and-indent)
-
-*** Searching based on the current word
-This lets me search up and down.
-
-#+begin_src emacs-lisp
-(defun sacha/search-word-backward ()
-  "Find the previous occurrence of the current word."
-  (interactive)
-  (let ((cur (point)))
-    (skip-syntax-backward "w_")
-    (goto-char
-     (if (re-search-backward (concat "\\_<" (current-word) "\\_>") nil t)
-	 (match-beginning 0)
-       cur))))
-
-(defun sacha/search-word-forward ()
-  "Find the next occurrence of the current word."
-  (interactive)
-  (let ((cur (point)))
-    (skip-syntax-forward "w_")
-    (goto-char
-     (if (re-search-forward (concat "\\_<" (current-word) "\\_>") nil t)
-	 (match-beginning 0)
-       cur))))
-(global-set-key '[M-up] 'sacha/search-word-backward)
-(global-set-key '[M-down] 'sacha/search-word-forward)
-(defadvice search-for-keyword (around sacha activate)
-  "Match in a case-insensitive way."
-  (let ((case-fold-search t))
-    ad-do-it))
-#+end_src
-
-
-
-
-
-*** Ido-mode: Show recent files
-Ido-mode is awesome. Let's make it awesomer. I usually want to go to
-recently-opened files first.
-
-#+begin_src emacs-lisp
-  (ido-mode 1)
-  (setq ido-default-buffer-method 'selected-window)
-  (add-hook 'ido-make-file-list-hook 'ido-sort-mtime)
-  (add-hook 'ido-make-dir-list-hook 'ido-sort-mtime)
-  (defun ido-sort-mtime ()
-    (setq ido-temp-list
-          (sort ido-temp-list 
-                (lambda (a b)
-                  (let ((ta (nth 5 (file-attributes (concat ido-current-directory a))))
-                        (tb (nth 5 (file-attributes (concat ido-current-directory b)))))
-                    (if (= (nth 0 ta) (nth 0 tb))
-                        (> (nth 1 ta) (nth 1 tb))
-                      (> (nth 0 ta) (nth 0 tb)))))))
-    (ido-to-end  ;; move . files to end (again)
-     (delq nil (mapcar
-                (lambda (x) (if (string-equal (substring x 0 1) ".") x))
-                ido-temp-list))))
-
-#+end_src
-
-
-
-*** Minibuffer editing
-    Sometimes you want to be able to do fancy things with the text
-    that you're entering into the minibuffer. This binds =C-M-e= in a
-    minibuffer) so that you can edit the contents of the minibuffer
-    before submitting it.
-
-#+begin_src emacs-lisp
-  (use-package miniedit
-    :commands minibuffer-edit
-    :init
-    (progn
-      (bind-key "\M-\C-e" 'miniedit minibuffer-local-map)
-      (bind-key "\M-\C-e" 'miniedit minibuffer-local-ns-map)
-      (bind-key "\M-\C-e" 'miniedit minibuffer-local-completion-map)
-      (bind-key "\M-\C-e" 'miniedit minibuffer-local-must-match-map)))
-#+end_src
-
-
-
-*** Frequently-accessed files
-Registers allow you to jump to a file or other location quickly. To
-jump to a register, use =C-x r j= followed by the letter of the
-register.
-
-#+begin_src emacs-lisp :results silent
-  (dolist
-      (r `((?i (file . ,(expand-file-name (concat user-login-name ".org") starter-kit-dir)))
-           (?o (file . "~/personal/organizer.org"))
-           (?b (file . "~/personal/business.org"))
-           ))
-    (set-register (car r) (cadr r)))
-#+end_src
-
-
-
-*** Kill-ring management
-
-#+begin_src emacs-lisp
-  (sacha/package-install 'browse-kill-ring)
-  (use-package browse-kill-ring
-    :init 
-    (progn 
-      (browse-kill-ring-default-keybindings)
-      (setq browse-kill-ring-quit-action 'save-and-restore)))      
-#+end_src
-
-
-
-
-*** Better undo
-#+begin_src emacs-lisp
-  (use-package undo-tree
-    :init (global-undo-tree-mode))
-#+end_src
-*** Quantified Emacs!
-
-#+begin_src emacs-lisp
-  (use-package keyfreq
-    :init
-    (progn
-      (keyfreq-mode 1)
-      (keyfreq-autosave-mode 1)))
-#+end_src
-
-
-*** Finding files
-*** Don't show whitespace in diff, but show context
-    #+begin_src emacs-lisp
-    (setq vc-diff-switches '("-b" "-B" "-u"))
-#+end_src
-*** Expand region
-#+begin_src emacs-lisp
-  (sacha/package-install 'expand-region)
-  (use-package expand-region
-    :bind ("C-=" . er/expand-region))
-#+end_src
-
-    I don't want to think about directory structures, I just want to
-    open files. 
-
-    #+begin_src emacs-lisp
-      (require 'filecache)
-      (require 'ido)
-      (defun file-cache-ido-find-file (file)
-        "Using ido, interactively open file from file cache'.
-      First select a file, matched using ido-switch-buffer against the contents
-      in `file-cache-alist'. If the file exist in more than one
-      directory, select directory. Lastly the file is opened."
-        (interactive (list (file-cache-ido-read "File: "
-                                                (mapcar
-                                                 (lambda (x)
-                                                   (car x))
-                                                 file-cache-alist))))
-        (let* ((record (assoc file file-cache-alist)))
-          (find-file
-           (expand-file-name
-            file
-            (if (= (length record) 2)
-                (car (cdr record))
-              (file-cache-ido-read
-               (format "Find %s in dir: " file) (cdr record)))))))
-      
-      (defun file-cache-ido-read (prompt choices)
-        (let ((ido-make-buffer-list-hook
-               (lambda ()
-                 (setq ido-temp-list choices))))
-          (ido-read-buffer prompt)))
-      (add-to-list 'file-cache-filter-regexps "docs/html")
-      (add-to-list 'file-cache-filter-regexps "\\.svn-base$")
-      (add-to-list 'file-cache-filter-regexps "\\.dump$")
-    #+end_src     
-
-    To use this code, I add something like
-    
-    #+begin_src emacs-lisp :tangle no
-      (sacha/file-cache-setup-tree "sacha/proj1" "C-c d"
-                                   '("/dir1"
-                                     "/dir2"))
-    #+end_src
-    to my config. Then =C-c d= (or whatever keyboard shortcut I use)
-    searches for files within the specified directories.
-    
-
-*** Internet Relay Chat
-
-    IRC is a great way to hang out with other Emacs geeks.
-    #+begin_src emacs-lisp
-      (use-package erc
-        :config
-        (setq erc-autojoin-channels-alist '(("freenode.net"
-                                             "#org-mode"
-                                             "#emacs"))
-              erc-server "irc.freenode.net"
-              erc-nick "sachac"))
-    #+end_src
-
-
-
-
-
 * R&D
+:PROPERTIES:
+:tangle:   no
+:END:
 
 
 | directory name      | http                                             | fork                                            | works out of box | notes                  |   |   |   |

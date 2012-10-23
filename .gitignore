@@ -13,3 +13,5 @@ src/*
 tmp/*
 url/*
 
+/#init.el#
+/dotemacs-boilerplate.org~
