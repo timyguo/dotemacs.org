@@ -6,8 +6,6 @@
 
 * upfront
 :PROPERTIES:
-:OPEN: [2012-08-01 Wed 18:27]
-:LAST: TODO [2012-08-01 Wed 18:27]
 :tangle:   no
 :END:
 #+begin_quote
@@ -38,6 +36,14 @@ The main sections are (in order)
 - files. file loads that are files just for convenience (and can be loaded
   in alphabetical order).
 - endboot. stuff that has to go at the end.
+
+
+
+** random tasks
+- [X] remove properties folders
+- [ ] separate org stuff
+- [ ] settings helper
+
 
 * init.el
 :PROPERTIES:
@@ -99,10 +105,7 @@ It weighs in at a muscular 3 lines and does exactly 3 things.
  
 ** init.el
 
-  #+results:
-  : init-debug-wrap
-
-
+  
 #+Begin_src emacs-lisp :tangle init.el :var dotemacs-org-file=(buffer-file-name)
   ;; see dotemacs.org for documentation
   (setq user-emacs-directory
@@ -132,9 +135,6 @@ It weighs in at a muscular 3 lines and does exactly 3 things.
   (message "Loading %s..." load-file-name))
 
 #+end_src
-
-#+RESULTS:
-: Loading nil...
 
 ** using org tables in the startup process
 
@@ -211,9 +211,6 @@ to the load-path.")
           (nreverse group-load-directories))
 #+end_src
 
-#+results:
-| src |
-
 *** debug group load-path add
 :PROPERTIES:
 :tangle:   no
@@ -247,9 +244,6 @@ Any other directories needed to be loaded onto the path go here:
 (require 'cus-load nil t)
 #+end_src
 
-#+results:
-: cus-load
-
 *** load-path check
     :PROPERTIES:
     :tangle:   no
@@ -266,125 +260,6 @@ variable, or you can just C-c C-c the block in org-mode after the event.
                collect
                (list f)))
 #+end_src
-
-#+RESULTS:
-| /Users/tonyday/.emacs.d/elpa/ess-5.14/                              |
-| /Users/tonyday/.emacs.d                                             |
-| /Users/tonyday/.emacs.d/src/org-mode/contrib/lisp                   |
-| /Users/tonyday/.emacs.d/src/elnode                                  |
-| /Users/tonyday/.emacs.d/src/o-blog                                  |
-| /Users/tonyday/.emacs.d/src/org-ehtml                               |
-| /Users/tonyday/.emacs.d/src/org-mac-protocol                        |
-| /Users/tonyday/.emacs.d/src/org-mode                                |
-| /Users/tonyday/.emacs.d/src/use-package                             |
-| /Users/tonyday/.emacs.d/src                                         |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/ac                       |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/ace-jump-mode            |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/asynk                    |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/auctex                   |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/auto-overlays            |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/autopair                 |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/bm                       |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/bookmark-plus            |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/boxquote                 |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/command-log-mode         |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/debbugs                  |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/deft                     |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/dired-sync               |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/doxymacs                 |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/dvc                      |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/el-get                   |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/el-mock                  |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/elisp-depend             |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/elisp-slime-nav          |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/elnode                   |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/emacs-edbi               |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/emacs-quickrun           |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/emacs-w3m                |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/emms                     |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/ess                      |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/eval-expr                |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/ghc-mod                  |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/gist                     |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/git-commit-mode          |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/haskell-mode             |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/helm                     |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/helm-descbinds           |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/hpaste                   |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/hsenv.el                 |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/ido-hacks                |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/info-lookmore            |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/ipa-el                   |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/lua-mode                 |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/lusty-emacs              |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/macrostep                |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/magit                    |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/markdown-mode            |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/melpa                    |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/org-magit                |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/org-merge-driver         |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/python-mode              |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/ruby-mode                |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/session                  |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/slime                    |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/sunrise-commander        |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/swank-js                 |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/workgroups               |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/wrap-region              |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/yaml-mode                |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/yari-with-buttons        |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/yasnippet                |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp/zencoding-mode           |
-| /Users/tonyday/.emacs.d/jwiegley/site-lisp                          |
-| /Users/tonyday/.emacs.d/elpa/anything-1.287                         |
-| /Users/tonyday/.emacs.d/elpa/archives                               |
-| /Users/tonyday/.emacs.d/elpa/auctex-11.86                           |
-| /Users/tonyday/.emacs.d/elpa/clojure-mode-1.11.5                    |
-| /Users/tonyday/.emacs.d/elpa/elisp-slime-nav-0.2                    |
-| /Users/tonyday/.emacs.d/elpa/ess-5.14                               |
-| /Users/tonyday/.emacs.d/elpa/ess-smart-underscore-0.73              |
-| /Users/tonyday/.emacs.d/elpa/find-file-in-project-3.2               |
-| /Users/tonyday/.emacs.d/elpa/htmlize-1.39                           |
-| /Users/tonyday/.emacs.d/elpa/js-comint-0.0.1                        |
-| /Users/tonyday/.emacs.d/elpa/js2-mode-20090814                      |
-| /Users/tonyday/.emacs.d/elpa/json-1.2                               |
-| /Users/tonyday/.emacs.d/elpa/magit-1.1.1                            |
-| /Users/tonyday/.emacs.d/elpa/magithub-0.2                           |
-| /Users/tonyday/.emacs.d/elpa/org-magit-0.2.0                        |
-| /Users/tonyday/.emacs.d/elpa/org2blog-0.5                           |
-| /Users/tonyday/.emacs.d/elpa/paredit-22                             |
-| /Users/tonyday/.emacs.d/elpa/slime-20100404.1                       |
-| /Users/tonyday/.emacs.d/elpa/smex-1.1.4                             |
-| /Users/tonyday/.emacs.d/elpa/xml-rpc-1.6.8                          |
-| /Users/tonyday/.emacs.d/elpa/yaml-mode-0.0.7                        |
-| /Users/tonyday/.emacs.d/elpa/yasnippet-bundle-0.6.1                 |
-| /Users/tonyday/.emacs.d/elpa/zenburn-theme-1.5                      |
-| /Users/tonyday/.emacs.d/elpa                                        |
-| /Users/tonyday/.emacs.d/src/org-mode/lisp                           |
-| /usr/local/share/emacs/site-lisp                                    |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp               |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/vc            |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/url           |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/textmodes     |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/progmodes     |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/play          |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/org           |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/nxml          |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/net           |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/mh-e          |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/mail          |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/language      |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/international |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/gnus          |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/eshell        |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/erc           |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/emulation     |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/emacs-lisp    |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/cedet         |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/calendar      |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/calc          |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/obsolete      |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/leim               |
 
 ** simple custom
    #+begin_src emacs-lisp
@@ -419,9 +294,6 @@ variable, or you can just C-c C-c the block in org-mode after the event.
             ("marmalade"   . "http://marmalade-repo.org/packages/")))
     (package-initialize)
  #+end_src
-
-#+RESULTS:
-: t
 
 *** dependency checks
 
@@ -468,10 +340,7 @@ variable, or you can just C-c C-c the block in org-mode after the event.
     (load-theme 'zenburn t)
   #+end_src
 
-  #+RESULTS:
-  : t
-
-** use-package
+  ** use-package
    :PROPERTIES:
    :tangle: 
    :END:
@@ -590,11 +459,6 @@ variable, or you can just C-c C-c the block in org-mode after the event.
 
 
 ** info docs
-:PROPERTIES:
-:OPEN: [2012-08-01 Wed 14:05]
-:LAST:  [2012-09-07 Fri 17:45]
-:CLOSE: [2012-09-07 Fri 17:45]
-:END:
 
 There's various snafu's happening:
 
@@ -628,10 +492,7 @@ So,
     (setq Info-directory-list Info-default-directory-list)
   #+end_src
 
-  #+results:
-  | /Users/tonyday/.emacs.d/info | /usr/share/info/ |
-
-
+  
 #+begin_src emacs-lisp :tangle no
 (add-to-list 'Info-default-directory-list "/Users/tonyday/.emacs.d/src/org-mode/doc/")
 #+end_src
@@ -639,9 +500,6 @@ So,
 #+begin_src emacs-lisp :tangle no
   (add-to-list 'Info-directory-list "/Users/tonyday/.emacs.d/src/org-mode/doc/")
 #+end_src
-
-#+results:
-| /Users/tonyday/.emacs.d/src/org-mode/doc/ | /Users/tonyday/.emacs.d/elpa/auctex-11.86 | /usr/share/info/ |
 
 
 #+begin_src emacs-lisp :tangle no
@@ -654,22 +512,11 @@ So,
                (list f)))
 #+end_src
 
-#+results:
-| /Users/tonyday/.emacs.d/elpa/doc/info/         |
-| /Users/tonyday/.emacs.d/src/org-mode/doc/      |
-| /usr/local/Cellar/emacs/HEAD/share/info/emacs/ |
-| /usr/share/info/                               |
-
 #+begin_src emacs-lisp :tangle no
   (print (loop for f in Info-directory-list
                collect
                (car f)))
 #+end_src
-
-#+results:
-| /Users/tonyday/.emacs.d/src/org-mode/doc/ |
-| /Users/tonyday/.emacs.d/elpa/auctex-11.86 |
-| /usr/share/info/                          |
 
 ** window switching
 #+begin_src emacs-lisp 
@@ -792,9 +639,6 @@ So,
     (define-key global-map "\M-Q" 'unfill-paragraph)
 
 #+end_src
-
-#+results:
-: unfill-paragraph
 
 
 
@@ -1416,6 +1260,11 @@ $\\|P.+\\\\\n\\)" nil t)
 (bind-key "C-. C-i" 'indent-rigidly)
 
 #+end_src
+**** C-. C-c
+#+begin_src emacs-lisp
+(bind-key "C-. C-c" 'org-indent-indent-buffer)
+#+end_src
+
 *** help-map
 #+begin_src emacs-lisp
 ;;;_ , help-map
@@ -1514,11 +1363,6 @@ $\\|P.+\\\\\n\\)" nil t)
 :tangle:   yes
 :END:
 ** scratch
-:PROPERTIES:
-:OPEN: [2012-07-23 Mon 12:12]
-:LAST:     [2012-10-11 Thu 13:28]
-:CLOSE:    [2012-10-11 Thu 13:28]
-:END:
 All this scratching is making me itch.
 - [ ] test these
 - [ ] find out how/where *scratch*
@@ -1676,14 +1520,6 @@ ido-mode is like magic pixie dust!
 
 
 ** org-mode                                                             :org:
-:LOGBOOK:
-- State "TODO"       from ""           [2012-07-19 Thu 09:49]
-:END:
-:PROPERTIES:
-		:ID:       29d70d42-d144-4fe0-b28b-0edfa6cf91cc
-                :OPEN:     [2012-07-21 Sat 20:51]
-:LAST: TODO [2012-07-23 Mon 11:27]
-		:END:
 *** Standard Settings
 I start with Org mode
 
@@ -1696,9 +1532,6 @@ I start with Org mode
   (define-key global-map "\C-ca" 'org-agenda)
 #+end_src
 
-#+results:
-: org-mode
-
 *** Miscellaneous Settings
 #+begin_src emacs-lisp 
   ;; shift-select
@@ -1707,9 +1540,6 @@ I start with Org mode
   (setq org-keep-stored-link-after-insertion t)
   
 #+end_src
-
-#+results:
-: t
 
 *** Starter Kit Keybindings
    :PROPERTIES:
@@ -1731,17 +1561,11 @@ I start with Org mode
               (local-set-key "\M-I" 'org-toggle-iimage-in-org)))
 #+end_src
 
-#+results:
-| #[nil \300\301\302\303\304$\207 [add-hook before-save-hook org-encrypt-entries nil t] 5] | #[nil \300\301\302\303\304$\207 [org-add-hook change-major-mode-hook org-show-block-all append local] 5] | (lambda nil (local-set-key \216 (quote outline-next-visible-heading)) (local-set-key \220 (quote outline-previous-visible-heading)) (local-set-key \225 (quote outline-up-heading)) (local-set-key \227 (quote org-table-copy-region)) (local-set-key \231 (quote org-table-paste-rectangle)) (local-set-key \214 (quote org-table-sort-lines)) (local-set-key \311 (quote org-toggle-iimage-in-org))) | auto-fill-mode | #[nil \300\301\302\303\304$\207 [org-add-hook change-major-mode-hook org-babel-show-result-all append local] 5] | org-babel-result-hide-spec | org-babel-hide-all-hashes |
-
 *** remaining key bindings
 :PROPERTIES:
 			:ID:       c0914200-d73d-4205-aba1-6cca8b2dd8f1
 			:Effort:   0:15
-                        :OPEN:     [2012-07-23 Mon 12:22]
-:LAST:     [2012-10-11 Thu 13:11]
-:CLOSE:    [2012-10-11 Thu 13:11]
-			:END:
+                        			:END:
 
 - [ ] still to rip and test
 - [ ] switch to locally set???
@@ -1764,9 +1588,6 @@ I start with Org mode
 (global-set-key (kbd "C-c s") 'org-insert-subheading)
 #+end_src
 
-#+results:
-: org-insert-subheading
-
 *** search
  #+begin_src emacs-lisp  
 (setq org-link-abbrev-alist
@@ -1779,10 +1600,7 @@ I start with Org mode
          "http://adsabs.harvard.edu/cgi-bin/nph-abs_connect?author=%s&db_key=AST")))
 #+end_src
 
- #+results:
- | (bugzilla . http://10.1.2.9/bugzilla/show_bug.cgi?id=) | (url-to-ja . http://translate.google.fr/translate?sl=en&tl=ja&u=%h) | (google . http://www.google.com/search?q=) | (gmap . http://maps.google.com/maps?q=%s) | (omap . http://nominatim.openstreetmap.org/search?q=%s&polygon=1) | (ads . http://adsabs.harvard.edu/cgi-bin/nph-abs_connect?author=%s&db_key=AST) |
-
-[[google:goofy]]
+ [[google:goofy]]
 
 *** Encryption within Org
 #+begin_src emacs-lisp 
@@ -1795,16 +1613,9 @@ I start with Org mode
 (setq org-crypt-disable-auto-save nil)
 #+end_src
 
-#+results:
-
 
 
 *** MobileOrg
-:PROPERTIES:
-:OPEN: [2012-07-23 Mon 11:48]
-:LAST:     [2012-09-16 Sun 09:11]
-:CLOSE:    [2012-09-16 Sun 09:11]
-:END:
 
 MobileOrg via Dropbox
 #+begin_src emacs-lisp 
@@ -1814,9 +1625,6 @@ MobileOrg via Dropbox
   ;; Set to <your Dropbox root directory>/MobileOrg.
   (setq org-mobile-directory "~/Dropbox/MobileOrg")
 #+end_src
-
-#+results:
-: ~/Dropbox/MobileOrg
 
 
 Character encoding
@@ -1838,8 +1646,6 @@ Character encoding
 (define-coding-system-alias 'utf-8-emacs 'utf-8) ; needed by bbdb...
 #+end_src
 
-#+results:
-
 *** Clocking into drawers
 #+begin_src emacs-lisp 
 ;; Separate drawers for clocking and logs
@@ -1848,16 +1654,8 @@ Character encoding
 (setq org-clock-into-drawer t)
 #+end_src
 
-#+results:
-: t
-
 
 *** State and Change
-:PROPERTIES:
-:OPEN: [2012-07-23 Mon 19:44]
-:LAST:  [2012-07-23 Mon 20:24]
-:CLOSE: [2012-07-23 Mon 20:24]
-:END:
 - I use a customised state change hook to record when state changes occur.
 #+begin_src emacs-lisp 
 (setq org-log-done nil)
@@ -1870,16 +1668,10 @@ Character encoding
 ;;(add-hook 'org-after-todo-state-change-hook 'zyg/log-state-change)
 #+end_src
 
-#+results:
-| org-clock-out-if-current | org-checklist | zyg/log-state-change |
-
 - It's frustrating, but org is usually correct
 #+begin_src emacs-lisp 
 (setq org-enforce-todo-dependencies t)
 #+end_src
-
-#+results:
-: t
 
   
 *** Plain Lists
@@ -1893,28 +1685,19 @@ Character encoding
                                               ("1)" . "-"))))
   #+end_src
 
-  #+results:
-  | (+ . -) | (* . -) | (1. . -) | (1) . -) |
-
-- Reset Repeater Checklist
+  - Reset Repeater Checklist
   Repeater checklists saved my career.
   http://orgmode.org/worg/org-contrib/org-checklist.html
   #+begin_src emacs-lisp 
   (require 'org-checklist)
   #+end_src
 
-  #+results:
-  : org-checklist
-
-- Use cycle for plain lists
+  - Use cycle for plain lists
   #+begin_src emacs-lisp 
   (setq org-cycle-include-plain-lists t)
   #+end_src
 
-  #+results:
-  : t
-
-
+  
 
 *** Priority
 
@@ -1925,81 +1708,61 @@ regions.  Can't bring myself to do it - instead I use an urgent tag.
   (setq org-enable-priority-commands nil)
 #+end_src
 
-#+results:
-
 
 *** Capture
-:LOGBOOK:
-CLOCK: [2012-08-23 Thu 20:49]--[2012-08-24 Fri 10:02] => 13:13
-- Note taken on [2012-07-21 Sat 21:09] \\
-  edited to account for timestamp stuff
-:END:
 :PROPERTIES:
 :ID:       e79ecad1-2428-452a-b9d6-9fdd3ef8a174
 :END:
 
+#+name: capture-table
+| key | desc           | type       | target type   | target path                | target header | template                                             |
+|-----+----------------+------------+---------------+----------------------------+---------------+------------------------------------------------------|
+| ,   | ,,             | entry      | file          | ~/stuff/org/refile.org     |               | * %?\n                                               |
+| t   | todo           |            |               |                            |               |                                                      |
+| tu  | urgent todo    | entry      | file          | ~/stuff/org/refile.org     |               | * NEXT %? :urgent:\n:PROPERTIES:\n:OPEN: %U\n:END:\n |
+| tl  | linked todo    | entry      | file          | ~/stuff/org/refile.org     |               | * TODO %?\n%a\n                                      |
+| tn  | next todo      | entry      | file          | ~/stuff/org/refile.org     |               | * NEXT %?\n                                          |
+| tt  | todo todo      | entry      | file          | ~/stuff/org/refile.org     |               | * TODO %?\n                                          |
+| tb  | yank body      | entry      | file          | ~/stuff/org/refile.org     |               | * TODO %?\n%c\n                                      |
+| th  | yank header    | entry      | file          | ~/stuff/org/refile.org     |               | * TODO %c\n%?\n                                      |
+| i   | idea           |            |               |                            |               |                                                      |
+| ii  | idea           | entry      | file+headline | ~/stuff/content/ideas.org  | incoming      | * %? \n                                              |
+| il  | idea link      | entry      | file+headline | ~/stuff/content/ideas.org  | links         | * %a \n %?                                           |
+| iy  | idea yank      | entry      | file+headline | ~/stuff/content/ideas.org  | incoming      | * %?%c \n                                            |
+| z   | bugz           | entry      | file+headline | ~/stuff/org/bugz.org       | incoming      | * TODO %?\n%a                                        |
+| s   | snipz          |            |               |                            |               |                                                      |
+| sr  | snipz request  | entry      | file+headline | ~/stuff/org/snipz.org      | incoming      | * TODO %?\n%a\n                                      |
+| sn  | snipz note     | entry      | file+headline | ~/stuff/org/snipz.org      | incoming      | * %?\n%c\n                                           |
+| b   | binding        | table-line | file+headline | ~/stuff/emacs/bindings.org | incoming      | %?                                                   |
+| k   | kill ring      |            |               |                            |               |                                                      |
+| kb  | kill ring body | entry      | file          | ~/stuff/org/refile.org     |               | * %?\n%c\n                                           |
+| kh  | kill ring head | entry      | file          | ~/stuff/org/refile.org     |               | * %c\n%?\n                                           |
 
 
-#+begin_src emacs-lisp 
+#+begin_src emacs-lisp :var table=capture-table 
+  (defun org-table-remove-header (table)
+    "turns an org-table into a list"                                       
+    (if (eq (cadr table) 'hline) 
+        (setq table (cddr table))))
+      
+  (setq capture-data (org-table-remove-header table))  
   
-  (setq org-capture-templates
-        (quote (("t" "todo (with link)" entry (file "~/stuff/org/refile.org")
-                 "* TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%a\n")
-                ("j" "Journal" entry (file+datetree "~/stuff/org/diary.org")
-                 "* %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n")
-                ("u" "urgent todo" entry (file "~/stuff/org/refile.org")
-                 "* TODO %? :urgent:\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n")
-                ("n" "note" entry (file "~/stuff/org/refile.org")
-                 "* %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n")
-                ("z" "bugz" entry (file+headline "~/stuff/org/bugz.org" "incoming")
-                 "* TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST:%U\n:END:\n%a\n")
-                ("i" "instadev" entry (file+headline "~/stuff/content/ideas.org" "instadev")
-                 "* %c\n")
-                ("s" "snipz")  
-                ("sr" "snipz request" entry (file+headline "~/stuff/org/snipz.org" "incoming")
-                 "* TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST:%U\n:END:\n%a\n")
-                ("sn" "snipz note" entry (file+headline "~/stuff/org/snipz.org" "incoming")
-                 "* %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%c\n")
-                ("b" "binding" entry (file+headline "~/stuff/org/snipz.org" "bindings")
-                 "* %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:")
-                ("k" "kill ring")
-                ("kb" "kill ring body" entry (file "~/stuff/org/refile.org")
-                 "* %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%c")
-                ("kh" "kill ring head" entry (file "~/stuff/org/refile.org")
-                 "* TODO %c\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%?"))))
-  
+  (setq org-capture-templates 
+        (loop for row in capture-data
+              collect
+              (eval (quote (car (read-from-string 
+                                (replace-regexp-in-string "(  )" ""                                                     (replace-regexp-in-string "\"\"" "" 
+                                (replace-regexp-in-string "\\\\n" "n" 
+                                 (apply 'format "(%S %S %s (%s %S %S) %S)" row))))))))))
 #+end_src
-
-#+results:
-| t  | todo (with link) | entry | (file ~/stuff/org/refile.org)                      | * TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%a\n      |
-| j  | Journal          | entry | (file+datetree ~/stuff/org/diary.org)              | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n               |
-| u  | urgent todo      | entry | (file ~/stuff/org/refile.org)                      | * TODO %? :urgent:\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n |
-| n  | note             | entry | (file ~/stuff/org/refile.org)                      | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n               |
-| z  | bugz             | entry | (file+headline ~/stuff/org/bugz.org incoming)      | * TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST:%U\n:END:\n%a\n       |
-| i  | instadev         | entry | (file+headline ~/stuff/content/ideas.org instadev) | * %c\n                                                          |
-| s  | snipz            |       |                                                    |                                                                 |
-| sr | snipz request    | entry | (file+headline ~/stuff/org/snipz.org incoming)     | * TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST:%U\n:END:\n%a\n       |
-| sn | snipz note       | entry | (file+headline ~/stuff/org/snipz.org incoming)     | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%c\n           |
-| b  | binding          | entry | (file+headline ~/stuff/org/snipz.org bindings)     | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:                 |
-| k  | kill ring        |       |                                                    |                                                                 |
-| kb | kill ring body   | entry | (file ~/stuff/org/refile.org)                      | * %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%c             |
-| kh | kill ring head   | entry | (file ~/stuff/org/refile.org)                      | * TODO %c\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%?        |
-
-
 
 
 *** Refiling
-CLOSED: [2012-07-20 Fri 00:20]
-:LOGBOOK:
-- State "DONE"       from "NEXT"       [2012-07-20 Fri 00:20]
-- State "NEXT"       from "TODO"       [2012-07-20 Fri 00:20]
-- State "TODO"       from ""           [2012-07-19 Thu 22:43]
-:END:
 
 #+begin_src emacs-lisp  
 ; Targets include this file and any file contributing to the agenda - up to 4 levels deep
-(setq org-refile-targets (quote ((nil :maxlevel . 4)
-                                 (org-agenda-files :maxlevel . 4))))
+(setq org-refile-targets (quote ((nil :maxlevel . 2)
+                                 (org-agenda-files :maxlevel . 2))))
 ; Use full outline paths for refile targets - we file directly with IDO
 (setq org-refile-use-outline-path t)
 ; Targets complete directly with IDO
@@ -2013,14 +1776,9 @@ CLOSED: [2012-07-20 Fri 00:20]
 
 #+end_src
 
-#+results:
-
 *** Agenda view
 :PROPERTIES:
 		:Effort:   0.45
-:OPEN: [2012-07-23 Mon 19:45]
-:LAST:  [2012-07-23 Mon 20:24]
-:CLOSE: [2012-07-23 Mon 20:24]
 :ID: b6b3a794-7836-4259-8b9c-92ce0a35cd24
 		:END:
 
@@ -2074,10 +1832,7 @@ Startup should take this table and create the org-agenda-files list.
            clean-table))
   #+end_src
 
-  #+results:
-  | ~/stuff/stuff.org | ~/.emacs.d/README.org | ~/.emacs.d/dotemacs.org | ~/stuff/org/refile.org | ~/stuff/org/bugz.org | ~/stuff/org/snipz.org | ~/stuff/org/org.org | ~/stuff/emacs/emacs.org | ~/stuff/emacs/bindings.org | ~/stuff/sys/sys.org | ~/stuff/biz/scarce.org | ~/stuff/content/life.org | ~/stuff/content/writing.org | ~/stuff/dev/webdev.org | ~/stuff/dev/sandpit.org | ~/stuff/dev/jsdev.org | ~/stuff/factor/factor.org | ~/stuff/content/ideas.org | ~/stuff/factor/parity.org | ~/stuff/quant/rdev.org | ~/stuff/quant/volatility.org | ~/stuff/quant/da.org | ~/stuff/quant/emfx.org | ~/git/scarce/scarce.org | ~/git/scarce/mindev.org | ~/git/scarce/sitedev.org | ~/stuff/sys/git.org |
-
-
+  
 
 Standard settings
 #+begin_src emacs-lisp 
@@ -2090,9 +1845,6 @@ Standard settings
   (setq org-stuck-projects (quote ("" nil nil "")))
 
 #+end_src
-
-#+results:
-|   | nil | nil |   |
 
 - Custom agenda
   This custom view is lidted straight from =norang=.  I have no idea
@@ -2177,26 +1929,10 @@ Standard settings
                     (org-agenda-skip-function 'bh/skip-non-archivable-tasks))))))
   #+end_src
 
-  #+results:
-  | N | Notes            | tags                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | NOTE                                                                                                                                                                                                                                                                                                                                          | ((org-agenda-overriding-header Notes) (org-tags-match-list-sublevels t))                                                                                                                                                                                                                                                |                                                              |                                     |
-  | h | Habits           | tags-todo                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | STYLE="habit"                                                                                                                                                                                                                                                                                                                                 | ((org-agenda-overriding-header Habits) (org-agenda-sorting-strategy (quote (todo-state-down effort-up category-keep))))                                                                                                                                                                                                 |                                                              |                                     |
-  |   | Agenda           | ((agenda  nil) (tags REFILE ((org-agenda-overriding-header Tasks to Refile) (org-tags-match-list-sublevels nil))) (tags-todo -CANCELLED/! ((org-agenda-overriding-header Stuck Projects) (org-agenda-skip-function (quote bh/skip-non-stuck-projects)))) (tags-todo -WAITING-CANCELLED/!NEXT ((org-agenda-overriding-header Next Tasks) (org-agenda-skip-function (quote bh/skip-projects-and-habits-and-single-tasks)) (org-agenda-todo-ignore-scheduled t) (org-agenda-todo-ignore-deadlines t) (org-tags-match-list-sublevels t) (org-agenda-sorting-strategy (quote (todo-state-down effort-up category-keep))))) (tags-todo -REFILE-CANCELLED/!-HOLD-WAITING ((org-agenda-overriding-header Tasks) (org-agenda-skip-function (quote bh/skip-project-tasks-maybe)) (org-agenda-todo-ignore-scheduled t) (org-agenda-todo-ignore-deadlines t) (org-agenda-sorting-strategy (quote (category-keep))))) (tags-todo -CANCELLED/! ((org-agenda-overriding-header Projects) (org-agenda-skip-function (quote bh/skip-non-projects)) (org-agenda-sorting-strategy (quote (category-keep))))) (tags-todo -CANCELLED/!WAITING | HOLD ((org-agenda-overriding-header Waiting and Postponed Tasks) (org-tags-match-list-sublevels nil) (org-agenda-todo-ignore-scheduled (quote future)) (org-agenda-todo-ignore-deadlines (quote future)))) (tags -REFILE/ ((org-agenda-overriding-header Tasks to Archive) (org-agenda-skip-function (quote bh/skip-non-archivable-tasks))))) | nil                                                                                                                                                                                                                                                                                                                     |                                                              |                                     |
-  | r | Tasks to Refile  | tags                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | REFILE                                                                                                                                                                                                                                                                                                                                        | ((org-agenda-overriding-header Tasks to Refile) (org-tags-match-list-sublevels nil))                                                                                                                                                                                                                                    |                                                              |                                     |
-  | # | Stuck Projects   | tags-todo                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | -CANCELLED/!                                                                                                                                                                                                                                                                                                                                  | ((org-agenda-overriding-header Stuck Projects) (org-agenda-skip-function (quote bh/skip-non-stuck-projects)))                                                                                                                                                                                                           |                                                              |                                     |
-  | n | Next Tasks       | tags-todo                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | -WAITING-CANCELLED/!NEXT                                                                                                                                                                                                                                                                                                                      | ((org-agenda-overriding-header Next Tasks) (org-agenda-skip-function (quote bh/skip-projects-and-habits-and-single-tasks)) (org-agenda-todo-ignore-scheduled t) (org-agenda-todo-ignore-deadlines t) (org-tags-match-list-sublevels t) (org-agenda-sorting-strategy (quote (todo-state-down effort-up category-keep)))) |                                                              |                                     |
-  | R | Tasks            | tags-todo                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | -REFILE-CANCELLED/!-HOLD-WAITING                                                                                                                                                                                                                                                                                                              | ((org-agenda-overriding-header Tasks) (org-agenda-skip-function (quote bh/skip-project-tasks-maybe)) (org-agenda-sorting-strategy (quote (category-keep))))                                                                                                                                                             |                                                              |                                     |
-  | p | Projects         | tags-todo                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | -CANCELLED/!                                                                                                                                                                                                                                                                                                                                  | ((org-agenda-overriding-header Projects) (org-agenda-skip-function (quote bh/skip-non-projects)) (org-agenda-sorting-strategy (quote (category-keep))))                                                                                                                                                                 |                                                              |                                     |
-  | w | Waiting Tasks    | tags-todo                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | -CANCELLED/!WAITING                                                                                                                                                                                                                                                                                                                           | HOLD                                                                                                                                                                                                                                                                                                                    | ((org-agenda-overriding-header Waiting and Postponed tasks)) | (org-tags-match-list-sublevels nil) |
-  | A | Tasks to Archive | tags                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | -REFILE/                                                                                                                                                                                                                                                                                                                                      | ((org-agenda-overriding-header Tasks to Archive) (org-agenda-skip-function (quote bh/skip-non-archivable-tasks)))                                                                                                                                                                                                       |                                                              |                                     |
-
-
+  
 
 
 *** Agenda Keys
-:PROPERTIES:
-:OPEN: [2012-07-23 Mon 20:41]
-:LAST: NEXT [2012-08-01 Wed 15:08]
-:END:
 
 Most of these agenda commands are from =norang=.  The defuns are
 defined [[file:starter-kit-zyg-defuns-org.org::*%3Dnorang%3D%20defuns][here]].
@@ -2226,22 +1962,7 @@ defined [[file:starter-kit-zyg-defuns-org.org::*%3Dnorang%3D%20defuns][here]].
           'append)
 #+end_src
 
-#+results:
-| lambda | nil | (define-key org-agenda-mode-map q (quote bury-buffer))                        |
-| lambda | nil | (org-defkey org-agenda-mode-map F (quote bh/restrict-to-file-or-follow))      |
-| lambda | nil | (org-defkey org-agenda-mode-map W (quote bh/widen))                           |
-| lambda | nil | (org-defkey org-agenda-mode-map N (quote bh/narrow-to-subtree))               |
-| lambda | nil | (org-defkey org-agenda-mode-map P (quote bh/narrow-to-project))               |
-| lambda | nil | (org-defkey org-agenda-mode-map U (quote bh/narrow-up-one-level))             |
-| lambda | nil | (org-defkey org-agenda-mode-map < (quote bh/set-agenda-restriction-lock)) |
-| lambda | nil | (hl-line-mode 1)                                                              |
-
 *** Agenda Settings - Miscellaneous
-:PROPERTIES:
-:OPEN: [2012-08-01 Wed 13:57]
-:CLOSE: [2012-08-01 Wed 13:57]
-:LAST:  [2012-08-01 Wed 13:57]
-:END:
 
 These follow the =norang= suggestions  
 #+begin_src emacs-lisp 
@@ -2304,9 +2025,6 @@ These follow the =norang= suggestions
 
 #+end_src
 
-#+results:
-: t
-
 
 
 
@@ -2327,9 +2045,6 @@ Defuns are defined [[file:starter-kit-zyg-defuns-org.org::*%3Dnorang%3D%20defuns
   (setq org-agenda-cmp-user-defined 'bh/agenda-sort)
 #+end_src
 
-#+results:
-: bh/agenda-sort
-
 *** Tags
 
 #+begin_src emacs-lisp 
@@ -2349,14 +2064,7 @@ Defuns are defined [[file:starter-kit-zyg-defuns-org.org::*%3Dnorang%3D%20defuns
 
 #+end_src
 
-#+results:
-
 *** Archiving
-:LOGBOOK:
-- State "DONE"       from "NEXT"       [2012-07-19 Thu 23:19]
-- State "NEXT"       from "TODO"       [2012-07-19 Thu 23:19]
-- State "TODO"       from ""           [2012-07-19 Thu 23:19]
-:END:
 
 Anything with a =DONE= todo tag is a valid archiving candidate.
 Though more often than not I'm going to set a section heading back to
@@ -2367,24 +2075,14 @@ Though more often than not I'm going to set a section heading back to
 (setq org-archive-location "%s_archive::* Archived Tasks")
 #+end_src
 
-#+results:
-: %s_archive::* Archived Tasks
-
 *** Code Blocks
-:PROPERTIES:
-:OPEN: [2012-07-23 Mon 19:52]
-:LAST: TODO [2012-07-23 Mon 19:52]
-:END:
 
 - lowercase results
   #+begin_src emacs-lisp 
   (setq org-babel-results-keyword "results")
   #+end_src
 
-  #+results:
-  : results
-
-- languages used
+  - languages used
   #+begin_src emacs-lisp 
     (org-babel-do-load-languages
        (quote org-babel-load-languages)
@@ -2397,58 +2095,39 @@ Though more often than not I'm going to set a section heading back to
                (R . t))))
   #+end_src
 
-  #+results:
-  | (emacs-lisp . t) | (sh . t) | (gnuplot . t) | (org . t) | (octave . t) |
-
-- Don't cache me
+  - Don't cache me
   #+begin_src emacs-lisp 
     (setq org-babel-default-header-args
     (cons '(:cache . "no")
     (assq-delete-all :cache org-babel-default-header-args)))
   #+end_src
 
-  #+results:
-  | (:cache . no) | (:session . *Inferior Octave*) | (:results . value) | (:results . replace) | (:exports . code) | (:noweb . no) | (:hlines . no) | (:tangle . no) | (:padnewline . yes) |
-
-- Don't prompt me
+  - Don't prompt me
   #+begin_src emacs-lisp 
   (setq org-confirm-babel-evaluate nil)
   #+end_src
 
-  #+results:
-
-- do not re-evaluate on export
+  - do not re-evaluate on export
   #+begin_src emacs-lisp 
   (setq org-export-babel-evaluate nil)
   #+end_src
 
-  #+results:
-
-- Use the current window for C-c ' source editing
+  - Use the current window for C-c ' source editing
   #+begin_src emacs-lisp 
   (setq org-src-window-setup 'current-window)
   #+end_src
 
-  #+results:
-  : current-window
-
-- Always look your best
+  - Always look your best
   #+begin_src emacs-lisp 
   (setq org-src-fontify-natively t)
   #+end_src
 
-  #+results:
-  : t
-
-- I wish I'd known about this before.
+  - I wish I'd known about this before.
   #+begin_src emacs-lisp 
   (setq org-src-tab-acts-natively t)
   #+end_src
 
-  #+results:
-  : t
-
-  
+    
 
 *** Setting to get Octave Working
 :PROPERTIES:
@@ -2461,17 +2140,12 @@ Though more often than not I'm going to set a section heading back to
        (cons '(:results . "value") org-babel-default-header-args)) 
   #+end_src
 
-  #+results:
-  | (:results . value) | (:cache . no) | (:session . *Inferior Octave*) | (:results . value) | (:results . replace) | (:exports . code) | (:noweb . no) | (:hlines . no) | (:tangle . no) | (:padnewline . yes) |
-
-- [ ] inline images break my windows emacs 
+  - [ ] inline images break my windows emacs 
   #+begin_src emacs-lisp 
   (setq org-startup-with-inline-images nil)
   #+end_src
 
-  #+results:
-
-- Single session for Octave
+  - Single session for Octave
   - [ ] breaks other languages of course as it's a global variable
   - turning this off
   #+begin_src emacs-lisp :tangle no
@@ -2482,33 +2156,18 @@ Though more often than not I'm going to set a section heading back to
          (assq-delete-all :session org-babel-default-header-args)))
   #+end_src
 
-  #+results:
-  | (:session . *Inferior Octave*) | (:results . value) | (:cache . no) | (:results . value) | (:results . replace) | (:exports . code) | (:noweb . no) | (:hlines . no) | (:tangle . no) | (:padnewline . yes) |
-
-- tangle octave files with a .m suffix
+  - tangle octave files with a .m suffix
   #+begin_src emacs-lisp 
   (add-to-list 'org-babel-tangle-lang-exts '("octave" . "m"))
   #+end_src
 
-  #+results:
-  | (octave . m) | (emacs-lisp . el) |
-
-- sub-scripts might mess with octave
+  - sub-scripts might mess with octave
   #+begin_src emacs-lisp 
   (setq org-use-sub-superscripts nil)
   #+end_src
 
-  #+results:
-
-
+  
 *** Export settings
-:LOGBOOK:
-		 - State "DONE"       from "TODO"       [2012-05-29 Tue 09:10]
-		 :END:
-:PROPERTIES:
-:Effort: 5:00
-:ID: 85ec9756-18b2-4240-a021-7cfa8e6f718b
-:END:
 
 HTML exported using org looks so clean and stylish.
 
@@ -2517,75 +2176,49 @@ HTML exported using org looks so clean and stylish.
   (setq org-export-html-postamble nil)
   #+end_src
 
-  #+results:
-
-  
+    
 - Inline images in HTML instead of producting links to the image
   #+begin_src emacs-lisp 
   (setq org-export-html-inline-images t)
   #+end_src
 
-  #+results:
-  : t
-
-- Using an external style file
+  - Using an external style file
   #+begin_src emacs-lisp 
     (setq org-export-html-style "<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\"/>")
     (setq org-export-html-style-include-default nil)
   #+end_src
 
-  #+results:
-
-- Do not generate internal css formatting for HTML exports
+  - Do not generate internal css formatting for HTML exports
   - [ ] try this out M-x org-export-htmlize-generate-css
   #+begin_src emacs-lisp 
   (setq org-export-htmlize-output-type (quote css))
   #+end_src
 
-  #+results:
-  : css
-
-- Export with LaTeX fragments
+  - Export with LaTeX fragments
   - [ ] dollar dollar bug
   #+begin_src emacs-lisp 
   (setq org-export-with-LaTeX-fragments t)
   #+end_src
 
-  #+results:
-  : t
-
-- html decl
+  - html decl
   #+begin_src emacs-lisp 
   (setq org-export-html-xml-declaration (quote (("html" . "")
                                                 ("was-html" . "<?xml version=\"1.0\" encoding=\"%s\"?>")
                                                 ("php" . "<?php echo \"<?xml version=\\\"1.0\\\" encoding=\\\"%s\\\" ?>\"; ?>"))))
   #+end_src
 
-  #+results:
-  | (html . ) | (was-html . <?xml version="1.0" encoding="%s"?>) | (php . <?php echo "<?xml version=\"1.0\" encoding=\"%s\" ?>"; ?>) |
-
-- allow BIND to do its thing
+  - allow BIND to do its thing
   #+begin_src emacs-lisp 
   (setq org-export-allow-BIND t)
   #+end_src
 
-  #+results:
-  : t
-
-- timestamps outside drawers are evil.
+  - timestamps outside drawers are evil.
   #+begin_src emacs-lisp 
   (setq org-export-with-timestamps nil)
   #+end_src
 
-  #+results:
-
-
+  
 *** Publishing
-:PROPERTIES:
-:OPEN: [2012-07-23 Mon 20:14]
-:LAST:     [2012-10-11 Thu 13:31]
-:CLOSE:    [2012-10-11 Thu 13:31]
-:END:
 
 This is still in test mode.
 
@@ -2686,17 +2319,6 @@ This is still in test mode.
 
 #+end_src
 
-#+results:
-| mom-report-org   | :base-directory | ~/projects/qic/momentum/draft     | :publishing-directory | ~/pub/report | :recursive      | t    | :section-numbers | nil  | :table-of-contents | nil  | :base-extension      | org                    | :publishing-function   | (org-publish-org-to-html org-publish-org-to-org) | :style  | <link rel="stylesheet" href="scarce.css" type="text/css" />                           | :plain-source | t | :htmlized-source | t | :style-include-default | nil | :auto-sitemap | t | :sitemap-filename | index.html | :sitemap-title | Momentum Report             | :sitemap-style | tree | :author-info | t | :creator-info | t |
-| mom-report-extra | :base-directory | ~/projects/qic/momentum/draft     | :publishing-directory | ~/pub/report | :base-extension | css\ | pdf\             | png\ | jpg\               | gif  | :publishing-function | org-publish-attachment | :recursive             | t                                                | :author | nil                                                                                   |               |   |                  |   |                        |     |               |   |                   |            |                |                             |                |      |              |   |               |   |
-| mom-report       | :components     | (mom-report-org mom-report-extra) |                       |              |                 |      |                  |      |                    |      |                      |                        |                        |                                                  |         |                                                                                       |               |   |                  |   |                        |     |               |   |                   |            |                |                             |                |      |              |   |               |   |
-| tmp-org          | :base-directory | ~/tmp/publish                     | :publishing-directory | ~/pub/tmp    | :recursive      | t    | :section-numbers | nil  | :table-of-contents | nil  | :base-extension      | org                    | :publishing-function   | (org-publish-org-to-html org-publish-org-to-org) | :style  | <link rel="stylesheet" href="org.css" type="text/css" />                              | :plain-source | t | :htmlized-source | t | :style-include-default | nil | :auto-sitemap | t | :sitemap-filename | index.html | :sitemap-title | Test Publishing Environment | :sitemap-style | tree | :author-info | t | :creator-info | t |
-| tmp-extra        | :base-directory | ~/tmp/publish/                    | :publishing-directory | ~/pub/tmp    | :base-extension | css\ | pdf\             | png\ | jpg\               | gif\ | el                   | :publishing-function   | org-publish-attachment | :recursive                                       | t       | :author                                                                               | nil           |   |                  |   |                        |     |               |   |                   |            |                |                             |                |      |              |   |               |   |
-| tmp              | :components     | (tmp-org tmp-extra)               |                       |              |                 |      |                  |      |                    |      |                      |                        |                        |                                                  |         |                                                                                       |               |   |                  |   |                        |     |               |   |                   |            |                |                             |                |      |              |   |               |   |
-| mom-dev-org      | :base-directory | ~/projects/momentum/dev           | :publishing-directory | ~/pub/dev    | :recursive      | t    | :section-numbers | nil  | :table-of-contents | nil  | :base-extension      | org                    | :publishing-function   | (org-publish-org-to-html org-publish-org-to-org) | :style  | <link rel="stylesheet" href="http://scarcecapital.com/tmp/org.css" type="text/css" /> | :plain-source | t | :htmlized-source | t | :style-include-default | nil | :auto-sitemap | t | :sitemap-filename | index.html | :sitemap-title | Momemtum Development        | :sitemap-style | tree | :author-info | t | :creator-info | t |
-| mom-dev-extra    | :base-directory | ~/projects/momentum/dev           | :publishing-directory | ~/pub/dev    | :base-extension | css\ | pdf\             | png\ | jpg\               | gif  | :publishing-function | org-publish-attachment | :recursive             | t                                                | :author | nil                                                                                   |               |   |                  |   |                        |     |               |   |                   |            |                |                             |                |      |              |   |               |   |
-| mom-dev          | :components     | (mom-dev-org mom-dev-extra)       |                       |              |                 |      |                  |      |                    |      |                      |                        |                        |                                                  |         |                                                                                       |               |   |                  |   |                        |     |               |   |                   |            |                |                             |                |      |              |   |               |   |
-
 
 *** Visuals
 
@@ -2716,22 +2338,12 @@ Various visual stylistic choices
   
 #+end_src
 
-#+results:
-| * | bold         | <b>                                       | </b>    |          |
-| / | italic       | <i>                                       | </i>    |          |
-| _ | underline    | <span style="text-decoration:underline;"> | </span> |          |
-| = | org-code     | <code>                                    | </code> | verbatim |
-| ~ | org-verbatim | <code>                                    | </code> | verbatim |
-
 *** Action Modification
 
 Various stylistic choices 
 #+begin_src emacs-lisp 
 (setq org-return-follows-link t)
 #+end_src
-
-#+results:
-: t
 
 
 *** Special Key
@@ -2742,14 +2354,8 @@ Various stylistic choices
   (setq org-yank-adjusted-subtrees t)
 #+end_src
 
-#+results:
-: t
-
  
 *** Speed keys
-:PROPERTIES:
-:CUSTOM_ID: speed-keys
-:END:
 Speed commands enable single-letter commands in Org-mode files when
 the point is at the beginning of a headline, or at the beginning of a
 code block.
@@ -2816,9 +2422,6 @@ display a list of the code blocks commands and their related keys.
 
 #+end_src
 
-#+results:
-: t
-
 
 *** Auto Save and Revert
 
@@ -2827,25 +2430,11 @@ display a list of the code blocks commands and their related keys.
 (global-auto-revert-mode t)
 #+end_src
 
-#+results:
-: t
-
 *** org2blog
-:LOGBOOK:
-CLOCK: [2012-08-20 Mon 18:29]--[2012-08-20 Mon 18:29] =>  0:00
-:END:
-:PROPERTIES:
-:OPEN: [2012-08-19 Sun 11:51]
-:LAST:  [2012-09-09 Sun 12:30]
-:CLOSE: [2012-09-09 Sun 12:30]
-:END:
 
 #+begin_src emacs-lisp
 (require 'org2blog-autoloads)
 #+end_src
-
-#+results:
-: org2blog-autoloads
 
 #+begin_src emacs-lisp
   (setq org2blog/wp-blog-alist
@@ -2859,10 +2448,6 @@ CLOCK: [2012-08-20 Mon 18:29]--[2012-08-20 Mon 18:29] =>  0:00
           :default-categories ("quant" "org" "emacs")
           :tags-as-categories nil)))
 #+end_src
-
-#+results:
-| scarce | :url | http://scarcecapital.com/wordpress/xmlrpc.php | :username | Tony Day |                |                         |                     |                   |                     |     |
-| dev    | :url | http://127.0.0.1:4001/wpdev/xmlrpc.php        | :username | Tony Day | :default-title | test title (production) | :default-categories | (quant org emacs) | :tags-as-categories | nil |
 
 
 
@@ -2881,9 +2466,6 @@ CLOCK: [2012-08-20 Mon 18:29]--[2012-08-20 Mon 18:29] =>  0:00
   (load "org-compat")
   (require 'org-jsinfo)
 #+end_src
-
-#+results:
-: org-compat
 
 #+begin_src emacs-lisp :tangle no
   ; Enable habit tracking (and a bunch of other modules)
@@ -2909,9 +2491,6 @@ CLOCK: [2012-08-20 Mon 18:29]--[2012-08-20 Mon 18:29] =>  0:00
   (require 'org-habit)
   
 #+end_src
-
-#+results:
-: 50
 
 
 
@@ -2939,15 +2518,6 @@ CLOCK: [2012-08-20 Mon 18:29]--[2012-08-20 Mon 18:29] =>  0:00
 #+end_src
 
 *** org defuns
-**** TODO Insert the last stored link
-:PROPERTIES:
-:OPEN: [2012-07-23 Mon 20:53]
-:LAST: TODO [2012-07-23 Mon 20:53]
-:ID:       56629caf-21e0-42c2-a6ac-69d78ff00993
-:END:
-
-- saving a button press
-- [ ] broken
 #+begin_src emacs-lisp
 (defun org-insert-last-link()
   (interactive)
@@ -2957,9 +2527,6 @@ CLOCK: [2012-08-20 Mon 18:29]--[2012-08-20 Mon 18:29] =>  0:00
         (plist-get org-store-link-plist :description)
         "]]")))
 #+end_src
-
-#+results:
-: org-insert-last-link
 
 
 **** Get Timestamp as String
@@ -2992,9 +2559,6 @@ This is the same as org-insert-time-stamp without the insert.
       ))
 #+end_src
 
-#+results:
-: org-string-timestamp
-
 **** Log State Change
 #+begin_src emacs-lisp 
   (defun zyg/log-state-change ()
@@ -3017,16 +2581,8 @@ This is the same as org-insert-time-stamp without the insert.
         (org-set-property "LAST" (concatenate 'string org-state " " stamp)))))
 #+end_src
 
-#+results:
-: zyg/log-state-change
-
 
 **** =norang= general defuns
-:PROPERTIES:
-:OPEN: [2012-07-23 Mon 20:50]
-:LAST:  [2012-08-01 Wed 13:54]
-:CLOSE: [2012-08-01 Wed 13:54]
-:END:
 
 
 #+begin_src emacs-lisp 
@@ -3157,9 +2713,6 @@ so change the default 'F' binding in the agenda to allow both"
 
 
 #+end_src
-
-#+results:
-: bh/show-org-agenda
 
 
 **** =norang= agenda helper defuns
@@ -3358,9 +2911,6 @@ so change the default 'F' binding in the agenda to allow both"
   
 #+end_src
 
-#+results:
-: bh/skip-non-archivable-tasks
-
 
 
 
@@ -3457,9 +3007,6 @@ so change the default 'F' binding in the agenda to allow both"
     (string-match "Sched\.\\(.*\\)x:" date-str))
 #+end_src
 
-#+results:
-: bh/is-scheduled-late
-
 
 
 
@@ -3469,10 +3016,6 @@ so change the default 'F' binding in the agenda to allow both"
 
 
 *** org-clock
-:PROPERTIES:
-:OPEN: [2012-10-13 Sat 13:15]
-:LAST: [2012-10-13 Sat 13:15]
-:END:
 #+begin_src emacs-lisp
   (require 'org-clock)
   (require 'org-colview)
@@ -3534,10 +3077,7 @@ so change the default 'F' binding in the agenda to allow both"
 
 #+end_src
 
-#+results:
-:t
-
-** TODO hook git table up
+** hook git table up
 
 #+name: git-repos
 | ~/git/scarce |
@@ -3556,14 +3096,6 @@ so change the default 'F' binding in the agenda to allow both"
    ;;(setq magit-repo-dirs '("~/.emacs.d" 
    ;;"~/stuff"))
 #+end_src
-
-#+results:
-| ~/git/scarce | ~/stuff | ~/.emacs.d | ~/git/o-blog | ~/git/emfx_R |
-
-
-
-
-
 
 ** ess
 #+begin_src emacs-lisp
@@ -7493,8 +7025,6 @@ FORM => (eval FORM)."
 :tangle:   no
 :END:
 ** jw init.el hack attack
-:PROPERTIES:
-:END:
 - regexp-search-replace
   
   #+begin_example
@@ -7533,142 +7063,9 @@ FORM => (eval FORM)."
                (list f)))
 #+end_src
 
-#+RESULTS:
-| src                                                                                        |
-| /Users/tonyday/.emacs.d/elpa/ess-5.14/                                                     |
-| /Users/tonyday/.emacs.d/src/yasnippet                                                      |
-| /Users/tonyday/.emacs.d/elpa/anything-1.287                                                |
-| /Users/tonyday/.emacs.d/elpa/auctex-11.86/                                                 |
-| /Users/tonyday/.emacs.d/elpa/auctex-11.86                                                  |
-| /Users/tonyday/.emacs.d/elpa/clojure-mode-1.11.5                                           |
-| /Users/tonyday/.emacs.d/elpa/elisp-slime-nav-0.2                                           |
-| /Users/tonyday/.emacs.d/elpa/ess-5.14                                                      |
-| /Users/tonyday/.emacs.d/elpa/ess-smart-underscore-0.73                                     |
-| /Users/tonyday/.emacs.d/elpa/find-file-in-project-3.2                                      |
-| /Users/tonyday/.emacs.d/elpa/htmlize-1.39                                                  |
-| /Users/tonyday/.emacs.d/elpa/js-comint-0.0.1                                               |
-| /Users/tonyday/.emacs.d/elpa/js2-mode-20090814                                             |
-| /Users/tonyday/.emacs.d/elpa/magithub-0.2                                                  |
-| /Users/tonyday/.emacs.d/elpa/json-1.2                                                      |
-| /Users/tonyday/.emacs.d/elpa/org-magit-0.2.0                                               |
-| /Users/tonyday/.emacs.d/elpa/magit-1.1.1                                                   |
-| /Users/tonyday/.emacs.d/elpa/org2blog-0.5                                                  |
-| /Users/tonyday/.emacs.d/elpa/paredit-22                                                    |
-| /Users/tonyday/.emacs.d/elpa/slime-20100404.1                                              |
-| /Users/tonyday/.emacs.d/elpa/smex-1.1.4                                                    |
-| /Users/tonyday/.emacs.d/elpa/xml-rpc-1.6.8                                                 |
-| /Users/tonyday/.emacs.d/elpa/yaml-mode-0.0.7                                               |
-| /Users/tonyday/.emacs.d/elpa/yasnippet-bundle-0.6.1                                        |
-| /Users/tonyday/.emacs.d/elpa/zenburn-theme-1.5                                             |
-| /Users/tonyday/.emacs.d/                                                                   |
-| /Users/tonyday/.emacs.d/src                                                                |
-| /Users/tonyday/.emacs.d/src/elnode                                                         |
-| /Users/tonyday/.emacs.d/src/o-blog                                                         |
-| /Users/tonyday/.emacs.d/src/org-ehtml                                                      |
-| /Users/tonyday/.emacs.d/src/org-mac-protocol                                               |
-| /Users/tonyday/.emacs.d/src/org-mode                                                       |
-| /Users/tonyday/.emacs.d/src/org2blog                                                       |
-| /Users/tonyday/.emacs.d/src/elnode/examples                                                |
-| /Users/tonyday/.emacs.d/src/elnode/test_docroot                                            |
-| /Users/tonyday/.emacs.d/src/o-blog/Font-Awesome                                            |
-| /Users/tonyday/.emacs.d/src/o-blog/bootstrap                                               |
-| /Users/tonyday/.emacs.d/src/o-blog/example                                                 |
-| /Users/tonyday/.emacs.d/src/o-blog/less.js                                                 |
-| /Users/tonyday/.emacs.d/src/o-blog/templates                                               |
-| /Users/tonyday/.emacs.d/src/org-ehtml/src                                                  |
-| /Users/tonyday/.emacs.d/src/org-ehtml/test                                                 |
-| /Users/tonyday/.emacs.d/src/org-mac-protocol/orgQSLib                                      |
-| /Users/tonyday/.emacs.d/src/org-mode/contrib                                               |
-| /Users/tonyday/.emacs.d/src/org-mode/etc                                                   |
-| /Users/tonyday/.emacs.d/src/org-mode/lisp                                                  |
-| /Users/tonyday/.emacs.d/src/org-mode/mk                                                    |
-| /Users/tonyday/.emacs.d/src/org-mode/testing                                               |
-| /Users/tonyday/.emacs.d/src/o-blog/example/assets                                          |
-| /Users/tonyday/.emacs.d/src/o-blog/example/out                                             |
-| /Users/tonyday/.emacs.d/src/o-blog/templates/style                                         |
-| /Users/tonyday/.emacs.d/src/org-ehtml/test/examples                                        |
-| /Users/tonyday/.emacs.d/src/org-ehtml/test/lisp                                            |
-| /Users/tonyday/.emacs.d/src/org-mode/contrib/babel                                         |
-| /Users/tonyday/.emacs.d/src/org-mode/contrib/lisp                                          |
-| /Users/tonyday/.emacs.d/src/org-mode/contrib/scripts                                       |
-| /Users/tonyday/.emacs.d/src/org-mode/etc/schema                                            |
-| /Users/tonyday/.emacs.d/src/org-mode/etc/styles                                            |
-| /Users/tonyday/.emacs.d/src/org-mode/testing/examples                                      |
-| /Users/tonyday/.emacs.d/src/org-mode/testing/jump                                          |
-| /Users/tonyday/.emacs.d/src/org-mode/testing/lisp                                          |
-| /Users/tonyday/.emacs.d/src/o-blog/example/out/assets                                      |
-| /Users/tonyday/.emacs.d/src/o-blog/example/out/content                                     |
-| /Users/tonyday/.emacs.d/src/o-blog/example/out/style                                       |
-| /Users/tonyday/.emacs.d/src/o-blog/example/out/tags                                        |
-| /Users/tonyday/.emacs.d/src/o-blog/example/out/tips                                        |
-| /Users/tonyday/.emacs.d/src/o-blog/templates/style/Font-Awesome                            |
-| /Users/tonyday/.emacs.d/src/o-blog/templates/style/bootstrap                               |
-| /Users/tonyday/.emacs.d/src/o-blog/templates/style/font                                    |
-| /Users/tonyday/.emacs.d/src/o-blog/templates/style/js                                      |
-| /Users/tonyday/.emacs.d/src/o-blog/templates/style/less                                    |
-| /Users/tonyday/.emacs.d/src/org-mode/contrib/babel/langs                                   |
-| /Users/tonyday/.emacs.d/src/org-mode/contrib/scripts/staticmathjax                         |
-| /Users/tonyday/.emacs.d/src/o-blog/example/out/content/2012                                |
-| /Users/tonyday/.emacs.d/src/o-blog/example/out/style/Font-Awesome                          |
-| /Users/tonyday/.emacs.d/src/o-blog/example/out/style/bootstrap                             |
-| /Users/tonyday/.emacs.d/src/o-blog/example/out/style/font                                  |
-| /Users/tonyday/.emacs.d/src/o-blog/example/out/style/js                                    |
-| /Users/tonyday/.emacs.d/src/o-blog/example/out/style/less                                  |
-| /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012                                   |
-| /Users/tonyday/.emacs.d/src/o-blog/templates/style/Font-Awesome/font                       |
-| /Users/tonyday/.emacs.d/src/o-blog/templates/style/Font-Awesome/less                       |
-| /Users/tonyday/.emacs.d/src/o-blog/templates/style/bootstrap/img                           |
-| /Users/tonyday/.emacs.d/src/o-blog/templates/style/bootstrap/js                            |
-| /Users/tonyday/.emacs.d/src/o-blog/templates/style/bootstrap/less                          |
-| /Users/tonyday/.emacs.d/src/org-mode/contrib/scripts/staticmathjax/chrome                  |
-| /Users/tonyday/.emacs.d/src/org-mode/contrib/scripts/staticmathjax/defaults                |
-| /Users/tonyday/.emacs.d/src/o-blog/example/out/content/2012/10                             |
-| /Users/tonyday/.emacs.d/src/o-blog/example/out/style/Font-Awesome/font                     |
-| /Users/tonyday/.emacs.d/src/o-blog/example/out/style/Font-Awesome/less                     |
-| /Users/tonyday/.emacs.d/src/o-blog/example/out/style/bootstrap/img                         |
-| /Users/tonyday/.emacs.d/src/o-blog/example/out/style/bootstrap/js                          |
-| /Users/tonyday/.emacs.d/src/o-blog/example/out/style/bootstrap/less                        |
-| /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012/01                                |
-| /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012/02                                |
-| /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012/05                                |
-| /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012/08                                |
-| /Users/tonyday/.emacs.d/src/org-mode/contrib/scripts/staticmathjax/chrome/content          |
-| /Users/tonyday/.emacs.d/src/org-mode/contrib/scripts/staticmathjax/defaults/preferences    |
-| /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012/01/07_example-of-some-org-syntax  |
-| /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012/08/21_adding-an-image-into-a-post |
-| /Users/tonyday/.emacs.d/src/org-mode/lisp                                                  |
-| /usr/local/share/emacs/site-lisp                                                           |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp                                      |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/vc                                   |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/url                                  |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/textmodes                            |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/progmodes                            |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/play                                 |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/org                                  |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/nxml                                 |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/net                                  |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/mh-e                                 |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/mail                                 |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/language                             |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/international                        |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/gnus                                 |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/eshell                               |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/erc                                  |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/emulation                            |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/emacs-lisp                           |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/cedet                                |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/calendar                             |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/calc                                 |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/obsolete                             |
-| /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/leim                                      |
-
 
 
 ** jw testbed
-:PROPERTIES:
-:OPEN:     [2012-09-16 Sun 13:23]
-:LAST:     NEXT [2012-09-16 Sun 13:23]
-:END:
 
 - test loading init.el from another sub-directory.
  #+begin_src sh
@@ -7725,9 +7122,6 @@ no errors
         )))
 #+end_src
 
-#+results:
-| /opt/local/share/texmf-texlive-dist/doc/latex/latex2e-help-texinfo/ | /Users/johnw/Archives/Languages/Ruby/Sources/ruby/misc/ | /opt/local/share/doc/git-core/contrib/emacs/ | /opt/local/share/emacs/site-lisp/ | /usr/local/share/emacs/site-lisp/ | ~/src/ledger/lisp/ | override/tramp/lisp/ | override/org-mode/lisp/ | override/org-mode/contrib/lisp/ | override/gnus/lisp/ | override/gnus/contrib/ | override/bbdb/lisp/ | /Users/tonyday/dotemacs-mashup/jwiegley/ |
-
 
 new code should produce exactly the same
 
@@ -7740,24 +7134,16 @@ new code should produce exactly the same
                          )))
 #+end_src
 
-#+results:
-| override/tramp/lisp/ | override/org-mode/lisp/ | override/org-mode/contrib/lisp/ | override/gnus/lisp/ | override/gnus/contrib/ | override/bbdb/lisp/ | /Users/tonyday/dotemacs-mashup/jwiegley/ |
-
 
   
   #+begin_src emacs-lisp
     (equal newlist canned)
   #+end_src
 
-#+results:
-: t
-
 
 #+begin_src emacs-lisp
   (setq misc-dirs nil)
 #+end_src
-
-#+results:
 
 ***** cycle 3
 
@@ -7833,9 +7219,6 @@ Mark set
           (normal-top-level-add-subdirs-to-load-path))))
 #+end_src
 
-#+results:
-: test-funk
-
 #+begin_src emacs-lisp
   (defun test-funk ()
     (setq src-dir (expand-file-name "src" user-emacs-directory))
@@ -7851,15 +7234,9 @@ Mark set
 
 
 
-#+results:
-: test-funk
-
 #+begin_src emacs-lisp
   (test-funk)
 #+end_src
-
-#+results:
-| /Users/tonyday/.emacs.d/src/elnode | /Users/tonyday/.emacs.d/src/o-blog | /Users/tonyday/.emacs.d/src/org-ehtml | /Users/tonyday/.emacs.d/src/org-mac-protocol | /Users/tonyday/.emacs.d/src/org-mode | /Users/tonyday/.emacs.d/src/org2blog | /Users/tonyday/.emacs.d/src/elnode/examples | /Users/tonyday/.emacs.d/src/elnode/test_docroot | /Users/tonyday/.emacs.d/src/o-blog/Font-Awesome | /Users/tonyday/.emacs.d/src/o-blog/bootstrap | /Users/tonyday/.emacs.d/src/o-blog/example | /Users/tonyday/.emacs.d/src/o-blog/less.js | /Users/tonyday/.emacs.d/src/o-blog/templates | /Users/tonyday/.emacs.d/src/org-ehtml/src | /Users/tonyday/.emacs.d/src/org-ehtml/test | /Users/tonyday/.emacs.d/src/org-mac-protocol/orgQSLib | /Users/tonyday/.emacs.d/src/org-mode/contrib | /Users/tonyday/.emacs.d/src/org-mode/etc | /Users/tonyday/.emacs.d/src/org-mode/lisp | /Users/tonyday/.emacs.d/src/org-mode/mk | /Users/tonyday/.emacs.d/src/org-mode/testing | /Users/tonyday/.emacs.d/src/o-blog/example/assets | /Users/tonyday/.emacs.d/src/o-blog/example/out | /Users/tonyday/.emacs.d/src/o-blog/templates/style | /Users/tonyday/.emacs.d/src/org-ehtml/test/examples | /Users/tonyday/.emacs.d/src/org-ehtml/test/lisp | /Users/tonyday/.emacs.d/src/org-mode/contrib/babel | /Users/tonyday/.emacs.d/src/org-mode/contrib/lisp | /Users/tonyday/.emacs.d/src/org-mode/contrib/scripts | /Users/tonyday/.emacs.d/src/org-mode/etc/schema | /Users/tonyday/.emacs.d/src/org-mode/etc/styles | /Users/tonyday/.emacs.d/src/org-mode/testing/examples | /Users/tonyday/.emacs.d/src/org-mode/testing/jump | /Users/tonyday/.emacs.d/src/org-mode/testing/lisp | /Users/tonyday/.emacs.d/src/o-blog/example/out/assets | /Users/tonyday/.emacs.d/src/o-blog/example/out/content | /Users/tonyday/.emacs.d/src/o-blog/example/out/style | /Users/tonyday/.emacs.d/src/o-blog/example/out/tags | /Users/tonyday/.emacs.d/src/o-blog/example/out/tips | /Users/tonyday/.emacs.d/src/o-blog/templates/style/Font-Awesome | /Users/tonyday/.emacs.d/src/o-blog/templates/style/bootstrap | /Users/tonyday/.emacs.d/src/o-blog/templates/style/font | /Users/tonyday/.emacs.d/src/o-blog/templates/style/js | /Users/tonyday/.emacs.d/src/o-blog/templates/style/less | /Users/tonyday/.emacs.d/src/org-mode/contrib/babel/langs | /Users/tonyday/.emacs.d/src/org-mode/contrib/scripts/staticmathjax | /Users/tonyday/.emacs.d/src/o-blog/example/out/content/2012 | /Users/tonyday/.emacs.d/src/o-blog/example/out/style/Font-Awesome | /Users/tonyday/.emacs.d/src/o-blog/example/out/style/bootstrap | /Users/tonyday/.emacs.d/src/o-blog/example/out/style/font | /Users/tonyday/.emacs.d/src/o-blog/example/out/style/js | /Users/tonyday/.emacs.d/src/o-blog/example/out/style/less | /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012 | /Users/tonyday/.emacs.d/src/o-blog/templates/style/Font-Awesome/font | /Users/tonyday/.emacs.d/src/o-blog/templates/style/Font-Awesome/less | /Users/tonyday/.emacs.d/src/o-blog/templates/style/bootstrap/img | /Users/tonyday/.emacs.d/src/o-blog/templates/style/bootstrap/js | /Users/tonyday/.emacs.d/src/o-blog/templates/style/bootstrap/less | /Users/tonyday/.emacs.d/src/org-mode/contrib/scripts/staticmathjax/chrome | /Users/tonyday/.emacs.d/src/org-mode/contrib/scripts/staticmathjax/defaults | /Users/tonyday/.emacs.d/src/o-blog/example/out/content/2012/10 | /Users/tonyday/.emacs.d/src/o-blog/example/out/style/Font-Awesome/font | /Users/tonyday/.emacs.d/src/o-blog/example/out/style/Font-Awesome/less | /Users/tonyday/.emacs.d/src/o-blog/example/out/style/bootstrap/img | /Users/tonyday/.emacs.d/src/o-blog/example/out/style/bootstrap/js | /Users/tonyday/.emacs.d/src/o-blog/example/out/style/bootstrap/less | /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012/01 | /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012/02 | /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012/05 | /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012/08 | /Users/tonyday/.emacs.d/src/org-mode/contrib/scripts/staticmathjax/chrome/content | /Users/tonyday/.emacs.d/src/org-mode/contrib/scripts/staticmathjax/defaults/preferences | /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012/01/07_example-of-some-org-syntax | /Users/tonyday/.emacs.d/src/o-blog/example/out/tips/2012/08/21_adding-an-image-into-a-post | /Users/tonyday/.emacs.d/src/org-mode/lisp | /usr/local/share/emacs/site-lisp | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/vc | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/url | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/textmodes | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/progmodes | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/play | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/org | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/nxml | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/net | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/mh-e | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/mail | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/language | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/international | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/gnus | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/eshell | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/erc | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/emulation | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/emacs-lisp | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/cedet | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/calendar | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/calc | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/lisp/obsolete | /usr/local/Cellar/emacs/HEAD/share/emacs/24.2.50/leim |
 
 
 ** test table quote etc
@@ -7877,17 +7254,10 @@ Mark set
                          (delete "" (delete-dups line)))))
   #+end_src
 
-  #+results:
-  | /Users/tonyday/.emacs.d/info |
-  | /usr/share/info/             |
-
-
+  
 #+begin_src emacs-lisp
   (load "t1test")
 #+end_src
-
-#+results:
-: t
 
 
 
@@ -7904,109 +7274,12 @@ Mark set
     (print test-incoming-table) 
  #+end_src
 
-  #+results:
-  : 
-  : (("package" "essential") hline ("magit" "yes") ("yasnippet" "yes") ("" ""))
-
-
+  
 
 ** debug bindings
 #+begin_src emacs-lisp
   personal-keybindings  
 #+end_src
-
-#+results:
-| (<C-return>)             | other-window                                                                                                                                                                                                                                                                                                                                              | other-window                                                                                                                                                                                                                                                                                                                                              |
-| (<C-M-backspace>)        | backward-kill-sexp                                                                                                                                                                                                                                                                                                                                        | backward-kill-sexp                                                                                                                                                                                                                                                                                                                                        |
-| (A-M-w)                  | copy-code-as-rtf                                                                                                                                                                                                                                                                                                                                          | copy-code-as-rtf                                                                                                                                                                                                                                                                                                                                          |
-| (C-.)                    | ctl-period-map                                                                                                                                                                                                                                                                                                                                            | ctl-period-map                                                                                                                                                                                                                                                                                                                                            |
-| (C-. m)                  | kmacro-keymap                                                                                                                                                                                                                                                                                                                                             | nil                                                                                                                                                                                                                                                                                                                                                       |
-| (C-z)                    | collapse-or-expand                                                                                                                                                                                                                                                                                                                                        | collapse-or-expand                                                                                                                                                                                                                                                                                                                                        |
-| (C-. C-i)                | indent-rigidly                                                                                                                                                                                                                                                                                                                                            | nil                                                                                                                                                                                                                                                                                                                                                       |
-| (C-M-r)                  | isearch-backward-other-window                                                                                                                                                                                                                                                                                                                             | isearch-backward                                                                                                                                                                                                                                                                                                                                          |
-| (C-M-s)                  | isearch-forward-other-window                                                                                                                                                                                                                                                                                                                              | isearch-forward                                                                                                                                                                                                                                                                                                                                           |
-| (C-c 0)                  | (lambda nil See the documentation for `recursive-edit-preserving-window-config'. (interactive) (let ((wconfig (current-window-configuration))) (unwind-protect (progn (delete-window) (recursive-edit)) (set-window-configuration wconfig))))                                                                                                             | (lambda nil See the documentation for `recursive-edit-preserving-window-config'. (interactive) (let ((wconfig (current-window-configuration))) (unwind-protect (progn (delete-window) (recursive-edit)) (set-window-configuration wconfig))))                                                                                                             |
-| (C-c 1)                  | (lambda nil See the documentation for `recursive-edit-preserving-window-config'. (interactive) (let ((wconfig (current-window-configuration))) (unwind-protect (progn (if (one-window-p (quote ignore-minibuffer)) (error Current window is the only window in its frame) (delete-other-windows)) (recursive-edit)) (set-window-configuration wconfig)))) | (lambda nil See the documentation for `recursive-edit-preserving-window-config'. (interactive) (let ((wconfig (current-window-configuration))) (unwind-protect (progn (if (one-window-p (quote ignore-minibuffer)) (error Current window is the only window in its frame) (delete-other-windows)) (recursive-edit)) (set-window-configuration wconfig)))) |
-| (C-c ;)                  | comment-or-uncomment-region                                                                                                                                                                                                                                                                                                                               | comment-or-uncomment-region                                                                                                                                                                                                                                                                                                                               |
-| (C-c <tab>)              | ff-find-other-file                                                                                                                                                                                                                                                                                                                                        | ff-find-other-file                                                                                                                                                                                                                                                                                                                                        |
-| (C-c =)                  | count-matches                                                                                                                                                                                                                                                                                                                                             | count-matches                                                                                                                                                                                                                                                                                                                                             |
-| (C-c O)                  | customize-group                                                                                                                                                                                                                                                                                                                                           | customize-group                                                                                                                                                                                                                                                                                                                                           |
-| (C-c SPC)                | just-one-space                                                                                                                                                                                                                                                                                                                                            | just-one-space                                                                                                                                                                                                                                                                                                                                            |
-| (C-c U)                  | tinify-url                                                                                                                                                                                                                                                                                                                                                | tinify-url                                                                                                                                                                                                                                                                                                                                                |
-| (C-c V)                  | view-clipboard                                                                                                                                                                                                                                                                                                                                            | view-clipboard                                                                                                                                                                                                                                                                                                                                            |
-| (C-c [)                  | align-regexp                                                                                                                                                                                                                                                                                                                                              | align-regexp                                                                                                                                                                                                                                                                                                                                              |
-| (C-c d)                  | delete-current-line                                                                                                                                                                                                                                                                                                                                       | delete-current-line                                                                                                                                                                                                                                                                                                                                       |
-| (C-c e E)                | elint-current-buffer                                                                                                                                                                                                                                                                                                                                      | elint-current-buffer                                                                                                                                                                                                                                                                                                                                      |
-| (C-c e b)                | do-eval-buffer                                                                                                                                                                                                                                                                                                                                            | do-eval-buffer                                                                                                                                                                                                                                                                                                                                            |
-| (C-c e c)                | cancel-debug-on-entry                                                                                                                                                                                                                                                                                                                                     | cancel-debug-on-entry                                                                                                                                                                                                                                                                                                                                     |
-| (C-c e d)                | debug-on-entry                                                                                                                                                                                                                                                                                                                                            | debug-on-entry                                                                                                                                                                                                                                                                                                                                            |
-| (C-c e e)                | toggle-debug-on-error                                                                                                                                                                                                                                                                                                                                     | toggle-debug-on-error                                                                                                                                                                                                                                                                                                                                     |
-| (C-c e f)                | emacs-lisp-byte-compile-and-load                                                                                                                                                                                                                                                                                                                          | emacs-lisp-byte-compile-and-load                                                                                                                                                                                                                                                                                                                          |
-| (C-c e j)                | emacs-lisp-mode                                                                                                                                                                                                                                                                                                                                           | emacs-lisp-mode                                                                                                                                                                                                                                                                                                                                           |
-| (C-c e l)                | find-library                                                                                                                                                                                                                                                                                                                                              | find-library                                                                                                                                                                                                                                                                                                                                              |
-| (C-c e r)                | eval-region                                                                                                                                                                                                                                                                                                                                               | eval-region                                                                                                                                                                                                                                                                                                                                               |
-| (C-c e s)                | scratch                                                                                                                                                                                                                                                                                                                                                   | scratch                                                                                                                                                                                                                                                                                                                                                   |
-| (C-c e v)                | edit-variable                                                                                                                                                                                                                                                                                                                                             | edit-variable                                                                                                                                                                                                                                                                                                                                             |
-| (C-c e w)                | find-which                                                                                                                                                                                                                                                                                                                                                | find-which                                                                                                                                                                                                                                                                                                                                                |
-| (C-c e z)                | byte-recompile-directory                                                                                                                                                                                                                                                                                                                                  | byte-recompile-directory                                                                                                                                                                                                                                                                                                                                  |
-| (C-c f)                  | flush-lines                                                                                                                                                                                                                                                                                                                                               | flush-lines                                                                                                                                                                                                                                                                                                                                               |
-| (C-c g)                  | goto-line                                                                                                                                                                                                                                                                                                                                                 | goto-line                                                                                                                                                                                                                                                                                                                                                 |
-| (C-c k)                  | keep-lines                                                                                                                                                                                                                                                                                                                                                | keep-lines                                                                                                                                                                                                                                                                                                                                                |
-| (C-c m)                  | emacs-toggle-size                                                                                                                                                                                                                                                                                                                                         | emacs-toggle-size                                                                                                                                                                                                                                                                                                                                         |
-| (C-c n)                  | insert-user-timestamp                                                                                                                                                                                                                                                                                                                                     | insert-user-timestamp                                                                                                                                                                                                                                                                                                                                     |
-| (C-c o)                  | customize-option                                                                                                                                                                                                                                                                                                                                          | customize-option                                                                                                                                                                                                                                                                                                                                          |
-| (C-c q)                  | fill-region                                                                                                                                                                                                                                                                                                                                               | fill-region                                                                                                                                                                                                                                                                                                                                               |
-| (C-c r)                  | replace-regexp                                                                                                                                                                                                                                                                                                                                            | replace-regexp                                                                                                                                                                                                                                                                                                                                            |
-| (C-c s)                  | replace-string                                                                                                                                                                                                                                                                                                                                            | org-insert-subheading                                                                                                                                                                                                                                                                                                                                     |
-| (C-c u)                  | rename-uniquely                                                                                                                                                                                                                                                                                                                                           | rename-uniquely                                                                                                                                                                                                                                                                                                                                           |
-| (C-c v)                  | ffap                                                                                                                                                                                                                                                                                                                                                      | ffap                                                                                                                                                                                                                                                                                                                                                      |
-| (C-c z)                  | clean-buffer-list                                                                                                                                                                                                                                                                                                                                         | clean-buffer-list                                                                                                                                                                                                                                                                                                                                         |
-| (C-c C-z)                | delete-to-end-of-buffer                                                                                                                                                                                                                                                                                                                                   | delete-to-end-of-buffer                                                                                                                                                                                                                                                                                                                                   |
-| (C-c M-q)                | unfill-paragraph                                                                                                                                                                                                                                                                                                                                          | unfill-paragraph                                                                                                                                                                                                                                                                                                                                          |
-| (C-h e)                  | lisp-find-map                                                                                                                                                                                                                                                                                                                                             | lisp-find-map                                                                                                                                                                                                                                                                                                                                             |
-| (C-h e F)                | find-face-definition                                                                                                                                                                                                                                                                                                                                      | nil                                                                                                                                                                                                                                                                                                                                                       |
-| (C-h e V)                | apropos-value                                                                                                                                                                                                                                                                                                                                             | nil                                                                                                                                                                                                                                                                                                                                                       |
-| (C-h e c)                | finder-commentary                                                                                                                                                                                                                                                                                                                                         | nil                                                                                                                                                                                                                                                                                                                                                       |
-| (C-h e d)                | my-describe-symbol                                                                                                                                                                                                                                                                                                                                        | nil                                                                                                                                                                                                                                                                                                                                                       |
-| (C-h e e)                | view-echo-area-messages                                                                                                                                                                                                                                                                                                                                   | nil                                                                                                                                                                                                                                                                                                                                                       |
-| (C-h e f)                | find-function                                                                                                                                                                                                                                                                                                                                             | nil                                                                                                                                                                                                                                                                                                                                                       |
-| (C-h e i)                | info-apropos                                                                                                                                                                                                                                                                                                                                              | nil                                                                                                                                                                                                                                                                                                                                                       |
-| (C-h e k)                | find-function-on-key                                                                                                                                                                                                                                                                                                                                      | nil                                                                                                                                                                                                                                                                                                                                                       |
-| (C-h e l)                | find-library                                                                                                                                                                                                                                                                                                                                              | nil                                                                                                                                                                                                                                                                                                                                                       |
-| (C-h e s)                | scratch                                                                                                                                                                                                                                                                                                                                                   | nil                                                                                                                                                                                                                                                                                                                                                       |
-| (C-h e v)                | find-variable                                                                                                                                                                                                                                                                                                                                             | nil                                                                                                                                                                                                                                                                                                                                                       |
-| (C-x B)                  | ido-switch-buffer-other-window                                                                                                                                                                                                                                                                                                                            | ido-switch-buffer-other-window                                                                                                                                                                                                                                                                                                                            |
-| (C-x F)                  | set-fill-column                                                                                                                                                                                                                                                                                                                                           | set-fill-column                                                                                                                                                                                                                                                                                                                                           |
-| (C-x d)                  | delete-whitespace-rectangle                                                                                                                                                                                                                                                                                                                               | delete-whitespace-rectangle                                                                                                                                                                                                                                                                                                                               |
-| (C-x t)                  | toggle-truncate-lines                                                                                                                                                                                                                                                                                                                                     | toggle-truncate-lines                                                                                                                                                                                                                                                                                                                                     |
-| (C-x C-d)                | duplicate-line                                                                                                                                                                                                                                                                                                                                            | duplicate-line                                                                                                                                                                                                                                                                                                                                            |
-| (C-x C-e)                | pp-eval-last-sexp                                                                                                                                                                                                                                                                                                                                         | pp-eval-last-sexp                                                                                                                                                                                                                                                                                                                                         |
-| (C-x C-n)                | next-line                                                                                                                                                                                                                                                                                                                                                 | next-line                                                                                                                                                                                                                                                                                                                                                 |
-| (C-x C-v)                | find-alternate-file-with-sudo                                                                                                                                                                                                                                                                                                                             | find-alternate-file-with-sudo                                                                                                                                                                                                                                                                                                                             |
-| (C-x M-n)                | set-goal-column                                                                                                                                                                                                                                                                                                                                           | set-goal-column                                                                                                                                                                                                                                                                                                                                           |
-| (C-x M-q)                | refill-paragraph                                                                                                                                                                                                                                                                                                                                          | refill-paragraph                                                                                                                                                                                                                                                                                                                                          |
-| (M-!)                    | async-shell-command                                                                                                                                                                                                                                                                                                                                       | async-shell-command                                                                                                                                                                                                                                                                                                                                       |
-| (M-")                    | insert-pair                                                                                                                                                                                                                                                                                                                                               | insert-pair                                                                                                                                                                                                                                                                                                                                               |
-| (M-')                    | insert-pair                                                                                                                                                                                                                                                                                                                                               | insert-pair                                                                                                                                                                                                                                                                                                                                               |
-| (M-/)                    | dabbrev-expand                                                                                                                                                                                                                                                                                                                                            | dabbrev-expand                                                                                                                                                                                                                                                                                                                                            |
-| (M-D)                    | mark-defun                                                                                                                                                                                                                                                                                                                                                | mark-defun                                                                                                                                                                                                                                                                                                                                                |
-| (M-H)                    | mark-paragraph                                                                                                                                                                                                                                                                                                                                            | mark-paragraph                                                                                                                                                                                                                                                                                                                                            |
-| (M-J)                    | delete-indentation                                                                                                                                                                                                                                                                                                                                        | delete-indentation                                                                                                                                                                                                                                                                                                                                        |
-| (M-L)                    | mark-line                                                                                                                                                                                                                                                                                                                                                 | mark-line                                                                                                                                                                                                                                                                                                                                                 |
-| (M-S)                    | mark-sentence                                                                                                                                                                                                                                                                                                                                             | mark-sentence                                                                                                                                                                                                                                                                                                                                             |
-| (M-W)                    | mark-word                                                                                                                                                                                                                                                                                                                                                 | mark-word                                                                                                                                                                                                                                                                                                                                                 |
-| (M-X)                    | mark-sexp                                                                                                                                                                                                                                                                                                                                                 | mark-sexp                                                                                                                                                                                                                                                                                                                                                 |
-| (M-[)                    | align-code                                                                                                                                                                                                                                                                                                                                                | align-code                                                                                                                                                                                                                                                                                                                                                |
-| (M-`)                    | other-frame                                                                                                                                                                                                                                                                                                                                               | other-frame                                                                                                                                                                                                                                                                                                                                               |
-| (M-j)                    | delete-indentation-forward                                                                                                                                                                                                                                                                                                                                | delete-indentation-forward                                                                                                                                                                                                                                                                                                                                |
-| (M-g c)                  | goto-char                                                                                                                                                                                                                                                                                                                                                 | goto-char                                                                                                                                                                                                                                                                                                                                                 |
-| (M-g l)                  | goto-line                                                                                                                                                                                                                                                                                                                                                 | goto-line                                                                                                                                                                                                                                                                                                                                                 |
-| (M-s n)                  | find-name-dired                                                                                                                                                                                                                                                                                                                                           | find-name-dired                                                                                                                                                                                                                                                                                                                                           |
-| (M-s o)                  | occur                                                                                                                                                                                                                                                                                                                                                     | occur                                                                                                                                                                                                                                                                                                                                                     |
-| (C-^ . isearch-mode-map) | isearch-edit-string                                                                                                                                                                                                                                                                                                                                       | isearch-edit-string                                                                                                                                                                                                                                                                                                                                       |
-| (C-c . isearch-mode-map) | isearch-toggle-case-fold                                                                                                                                                                                                                                                                                                                                  | isearch-toggle-case-fold                                                                                                                                                                                                                                                                                                                                  |
-| (C-i . isearch-mode-map) | isearch-complete                                                                                                                                                                                                                                                                                                                                          | isearch-complete                                                                                                                                                                                                                                                                                                                                          |
-| (C-t . isearch-mode-map) | isearch-toggle-regexp                                                                                                                                                                                                                                                                                                                                     | isearch-toggle-regexp                                                                                                                                                                                                                                                                                                                                     |
 
 
 
@@ -8699,4 +7972,6 @@ Other sites
 - http://www.emacswiki.org/emacs/RobertAdesamConfig
 - http://www.emacswiki.org/emacs/EmacsInitFileOfSylecn
 - http://www.emacswiki.org/emacs/CategoryDotEmacs
+
+
 

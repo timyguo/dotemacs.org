@@ -803,6 +803,8 @@ $\\|P.+\\\\\n\\)" nil t)
 
 (bind-key "C-. C-i" 'indent-rigidly)
 
+(bind-key "C-. C-c" 'org-indent-indent-buffer)
+
 ;;;_ , help-map
 
 (defvar lisp-find-map)
@@ -1071,35 +1073,26 @@ $\\|P.+\\\\\n\\)" nil t)
 
 (setq org-enable-priority-commands nil)
 
-(setq org-capture-templates
-      (quote (("t" "todo (with link)" entry (file "~/stuff/org/refile.org")
-               "* TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%a\n")
-              ("j" "Journal" entry (file+datetree "~/stuff/org/diary.org")
-               "* %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n")
-              ("u" "urgent todo" entry (file "~/stuff/org/refile.org")
-               "* TODO %? :urgent:\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n")
-              ("n" "note" entry (file "~/stuff/org/refile.org")
-               "* %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n")
-              ("z" "bugz" entry (file+headline "~/stuff/org/bugz.org" "incoming")
-               "* TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST:%U\n:END:\n%a\n")
-              ("i" "instadev" entry (file+headline "~/stuff/content/ideas.org" "instadev")
-               "* %c\n")
-              ("s" "snipz")  
-              ("sr" "snipz request" entry (file+headline "~/stuff/org/snipz.org" "incoming")
-               "* TODO %?\n:PROPERTIES:\n:OPEN: %U\n:LAST:%U\n:END:\n%a\n")
-              ("sn" "snipz note" entry (file+headline "~/stuff/org/snipz.org" "incoming")
-               "* %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%c\n")
-              ("b" "binding" entry (file+headline "~/stuff/org/snipz.org" "bindings")
-               "* %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:")
-              ("k" "kill ring")
-              ("kb" "kill ring body" entry (file "~/stuff/org/refile.org")
-               "* %?\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%c")
-              ("kh" "kill ring head" entry (file "~/stuff/org/refile.org")
-               "* TODO %c\n:PROPERTIES:\n:OPEN: %U\n:LAST: %U\n:END:\n%?"))))
+(let ((table (quote (("key" "desc" "type" "target type" "target path" "target header" "template") hline ("," ",," "entry" "file" "~/stuff/org/refile.org" "" "* %?\\n") ("t" "todo" "" "" "" "" "") ("tu" "urgent todo" "entry" "file" "~/stuff/org/refile.org" "" "* NEXT %? :urgent:\\n:PROPERTIES:\\n:OPEN: %U\\n:END:\\n") ("tl" "linked todo" "entry" "file" "~/stuff/org/refile.org" "" "* TODO %?\\n%a\\n") ("tn" "next todo" "entry" "file" "~/stuff/org/refile.org" "" "* NEXT %?\\n") ("tt" "todo todo" "entry" "file" "~/stuff/org/refile.org" "" "* TODO %?\\n") ("tb" "yank body" "entry" "file" "~/stuff/org/refile.org" "" "* TODO %?\\n%c\\n") ("th" "yank header" "entry" "file" "~/stuff/org/refile.org" "" "* TODO %c\\n%?\\n") ("i" "idea" "" "" "" "" "") ("ii" "idea" "entry" "file+headline" "~/stuff/content/ideas.org" "incoming" "* %? \\n") ("il" "idea link" "entry" "file+headline" "~/stuff/content/ideas.org" "links" "* %a \\n %?") ("iy" "idea yank" "entry" "file+headline" "~/stuff/content/ideas.org" "incoming" "* %?%c \\n") ("z" "bugz" "entry" "file+headline" "~/stuff/org/bugz.org" "incoming" "* TODO %?\\n%a") ("s" "snipz" "" "" "" "" "") ("sr" "snipz request" "entry" "file+headline" "~/stuff/org/snipz.org" "incoming" "* TODO %?\\n%a\\n") ("sn" "snipz note" "entry" "file+headline" "~/stuff/org/snipz.org" "incoming" "* %?\\n%c\\n") ("b" "binding" "table-line" "file+headline" "~/stuff/emacs/bindings.org" "incoming" "%?") ("k" "kill ring" "" "" "" "" "") ("kb" "kill ring body" "entry" "file" "~/stuff/org/refile.org" "" "* %?\\n%c\\n") ("kh" "kill ring head" "entry" "file" "~/stuff/org/refile.org" "" "* %c\\n%?\\n")))))
+(defun org-table-remove-header (table)
+  "turns an org-table into a list"                                       
+  (if (eq (cadr table) 'hline) 
+      (setq table (cddr table))))
+    
+(setq capture-data (org-table-remove-header table))  
+
+(setq org-capture-templates 
+      (loop for row in capture-data
+            collect
+            (eval (quote (car (read-from-string 
+                              (replace-regexp-in-string "(  )" ""                                                     (replace-regexp-in-string "\"\"" "" 
+                              (replace-regexp-in-string "\\\\n" "n" 
+                               (apply 'format "(%S %S %s (%s %S %S) %S)" row))))))))))
+)
 
 ; Targets include this file and any file contributing to the agenda - up to 4 levels deep
-(setq org-refile-targets (quote ((nil :maxlevel . 4)
-                                 (org-agenda-files :maxlevel . 4))))
+(setq org-refile-targets (quote ((nil :maxlevel . 2)
+                                 (org-agenda-files :maxlevel . 2))))
 ; Use full outline paths for refile targets - we file directly with IDO
 (setq org-refile-use-outline-path t)
 ; Targets complete directly with IDO
@@ -1111,7 +1104,7 @@ $\\|P.+\\\\\n\\)" nil t)
 ; use IDO
 (setq org-completion-use-ido t)
 
-(let ((table (quote (("stuff" "meta.org" "") (".emacs.d" "README.org" "") ("stuff" "org" "refile.org") ("stuff" "org" "bugz.org") ("stuff" "org" "snipz.org") ("stuff" "org" "org.org") ("stuff" "emacs" "emacs.org") ("stuff" "sys" "sys.org") ("stuff" "biz" "scarce.org") ("stuff" "site" "landing.org") ("stuff" "site" "scarcecapital.org") ("stuff" "content" "life.org") ("stuff" "content" "writing.org") ("stuff" "dev" "webdev.org") ("stuff" "emacs" "bindings.org") ("stuff" "sys" "git.org") ("stuff" "factor" "factor.org") ("stuff" "dev" "jsdev.org") ("stuff" "content" "ideas.org") ("git" "emfx_R" "emfx.org") ("git" "emfx_R" "volatility.org") ("git" "emfx_R" "rdev.org") ("git" "emfx_R" "xkcd.org") ("emfx" "README.org" "")))))
+(let ((table (quote (("stuff" "" "stuff.org") (".emacs.d" "" "README.org") (".emacs.d" "" "dotemacs.org") ("stuff" "org" "refile.org") ("stuff" "org" "bugz.org") ("stuff" "org" "snipz.org") ("stuff" "org" "org.org") ("stuff" "emacs" "emacs.org") ("stuff" "emacs" "bindings.org") ("stuff" "sys" "sys.org") ("stuff" "biz" "scarce.org") ("stuff" "content" "life.org") ("stuff" "content" "writing.org") ("stuff" "dev" "webdev.org") ("stuff" "dev" "sandpit.org") ("stuff" "dev" "jsdev.org") ("stuff" "factor" "factor.org") ("stuff" "content" "ideas.org") ("stuff" "factor" "parity.org") ("stuff" "quant" "rdev.org") ("stuff" "quant" "volatility.org") ("stuff" "quant" "da.org") ("stuff" "quant" "emfx.org") ("stuff" "sys" "git.org") ("git" "scarce" "scarce.org") ("git" "scarce" "mindev.org") ("git" "scarce" "sitedev.org")))))
 (setq clean-table
       (delete nil  
               (loop for line in table
@@ -1126,16 +1119,6 @@ $\\|P.+\\\\\n\\)" nil t)
                   'eval x "/")))
        clean-table))
 )
-
-;; Disable C-c [ and C-c ] in org-mode
-(add-hook 'org-mode-hook
-          (lambda ()
-            ;; Undefine C-c [ and C-c ] since this breaks my
-            ;; org-agenda files when directories are include It
-            ;; expands the files in the directories individually
-            (org-defkey org-mode-map "\C-c["    'undefined)
-            (org-defkey org-mode-map "\C-c]"    'undefined))
-          'append)
 
 ;; Compact the block agenda view
 (setq org-agenda-compact-blocks t)
@@ -2066,8 +2049,15 @@ Late deadlines first, then scheduled, then non-late deadlines"
  ;;(add-hook 'magit-status-mode-hook 'start-git-monitor)
  ))
 
-(setq magit-repo-dirs '("~/.emacs.d" 
-"~/stuff"))
+(let ((table (quote (("~/git/scarce") ("~/stuff") ("~/.emacs.d") ("~/git/o-blog") ("~/git/emfx_R")))))
+
+  
+  (setq magit-repo-dirs
+        (loop for file in table
+                  collect (car file)))
+;;(setq magit-repo-dirs '("~/.emacs.d" 
+;;"~/stuff"))
+)
 
 (setq-default inferior-R-program-name "R")
 (require 'ess-site)
