@@ -4,15 +4,11 @@
 #+COLUMNS: %25ITEM %30tangle
 #+PROPERTIES: tangle yes
 
+
 * upfront
 :PROPERTIES:
 :tangle:   no
 :END:
-#+begin_quote
-  business in the front, party in the back
-
-  -- [[http://en.wikipedia.org/wiki/The_Mullets_(TV_series)][The Mullets]]
-#+end_quote
 
 ** design
 :PROPERTIES:
@@ -40,14 +36,17 @@ The main sections are (in order)
 - endboot. stuff that has to go at the end.
 
 
-** random tasks
-- [X] remove properties folders
-- [X] separate org stuff
-- [X] get key-binds done
-- [X] clean up existing packages
+** thread
+- [-] de-bugz'ing
+    - [X] turn off all offensive packages
+    - [ ] at a clean version
+    - [ ] turn back on
+- [ ] add repos as submodules
+- [ ] add org-mode as submodule
+- [ ] replumb jwiegley
 - [ ] clean up settings
 - [ ] priority list for new package r&d
-  - [ ] elisp mode
+    - [ ] elisp mode
 - [ ] settings r&d
 - thread
     - need paredit up to format src blocks properly
@@ -195,18 +194,13 @@ load-path)))
 
 *** group load path table
 
-There are a few standard grouped path loads:
-- emacs standard configure
-- elpa (~/.emacs.d/elpa here), defined by ???
-- ~/.emacs.d/src as the main extra source directory, for extras and for overrides.
-
-Grouped means that every sub-directory is also added to the path.
+These directory groups (directory and sub-directories) are added to the path.
 
 #+name: group-load-path-table
 | directory                | toggle |
 |--------------------------+--------|
-| src                      | t      |
-| jwiegley/site-lisp       | t      |
+| site-lisp                | t      |
+| repos/jwiegley/site-lisp | t      |
 | elpa                     | t      |
 
 And here's where we start taking advantage of using org on startup.
@@ -225,16 +219,15 @@ to the load-path. Can be absolute or relative to user-emacs-directory")
           (nreverse group-load-directories))
 #+end_src
 
-
 *** load path table
 
-Any other directories needed to be loaded onto the path go here:
+Any other directories needed on the path go here:
 
 #+name: load-path-table
-| directory                            | toggle |
-|--------------------------------------+--------|
-| ~/.emacs.d                           | t      |
-| ~/.emacs.d/src/org-mode/contrib/lisp | t      |
+| directory                                  | toggle |
+|--------------------------------------------+--------|
+| ~/.emacs.d                                 | t      |
+| ~/.emacs.d/site-lisp/org-mode/contrib/lisp | t      |
 
 #+begin_src emacs-lisp :var table=load-path-table
 (defvar path-directories
@@ -405,15 +398,6 @@ variable, or you can just C-c C-c the block in org-mode after the event.
 |----------------------------+--------|
 
 
-| auto-fill-mode             | t      |
-| column-number-mode         | t      |
-| column-number-mode         | t      |
-| show-paren-mode            | 1      |
-| recentf-mode               | 1      |
-| auto-compression-mode      | t      |
-| tooltip-mode               | -1     |
-| tool-bar-mode              | -1     |
-
 #+begin_src emacs-lisp
   (defun set-variables-from-table (data)
     "Takes a list of key bindings and commands (both in string format) and binds them using bind-key
@@ -438,7 +422,7 @@ variable, or you can just C-c C-c the block in org-mode after the event.
     #+begin_src emacs-lisp :tangle no
 (setq row1 '("frame-title-format" "'(buffer-file-name \"%f\" (\"%b\"))" "" "window-system"))
 (eval (car (read-from-string 
-                     (apply 'format "(setq %s %s)" row1))))
+                (apply 'format "(setq %s %s)" row1))))
 #+end_src
 
   #+begin_src emacs-lisp :var table=process-settings-table
@@ -454,11 +438,6 @@ variable, or you can just C-c C-c the block in org-mode after the event.
 Miscellaneous settings and snippets that I haven't org-tabled or categorised.
 #+begin_src emacs-lisp
   ;; % dont survive the format process
-  (setq display-time-format " %I:%M%p %a %d %b")
-  (set-default 'indent-tabs-mode nil)
-  (set-default 'indicate-empty-lines t)
-  (set-default 'imenu-auto-rescan t)
-  (add-hook 'text-mode-hook 'turn-on-auto-fill)
   (defalias 'yes-or-no-p 'y-or-n-p)
   (setq backup-directory-alist `(("." . ,(expand-file-name
                                         (concat user-emacs-directory "backups")))))
@@ -1300,24 +1279,10 @@ $\\|P.+\\\\\n\\)" nil t)
 
 #+end_src
 
-- [ ] sorting out inter-dependent problems with ido and dired.
-
-state 1
-dired off, ido on
-
-C-x C-f bound to find-file and not ido-find-file
-running ido-find-file produces an error:
-
-ls does not support --dired; see `dired-use-ls-dired' for more details.
-dired-use-ls-dired is nil
-
-
-
-
 
 *** o-blog
     :PROPERTIES:
-    :tangle: yes
+    :tangle:   no
     :END:
 #+begin_src emacs-lisp
 ;;;_ , o-blog
@@ -2469,7 +2434,7 @@ FORM => (eval FORM)."
 #+end_src
 *** helm
     :PROPERTIES:
-    :tangle:   yes
+    :tangle:   no
     :END:
 #+begin_src emacs-lisp
 ;;;_ , helm
@@ -2532,20 +2497,9 @@ FORM => (eval FORM)."
   (use-package hl-line+))
 
 #+end_src
-*** ibuffer
-:PROPERTIES:
-:tangle:   yes
-:END:
-#+begin_src emacs-lisp
-;;;_ , ibuffer
-
-(use-package ibuffer
-  :bind ("C-x C-b" . ibuffer))
-
-#+end_src
 *** ido
     :PROPERTIES:
-    :tangle:   yes
+    :tangle:   no
     :END:
 #+begin_src emacs-lisp
 ;;;_ , ido
@@ -4306,7 +4260,7 @@ FORM => (eval FORM)."
 
 *** yasnippet
     :PROPERTIES:
-    :tangle: yes
+    :tangle:   no
     :END:
 #+begin_src emacs-lisp
 ;;;_ , yasnippet
@@ -4518,9 +4472,10 @@ FORM => (eval FORM)."
 :tangle:   no
 :END:
 ** ideaz
+Mostly from Sacha
 *** Quantified Emacs!
 :PROPERTIES:
-:tangle:   yes
+:tangle:   no
 :END:
 
 #+begin_src emacs-lisp
@@ -4783,27 +4738,20 @@ recently-opened files first.
 
 ** other dots
 
-
-| directory name      | http                                             | fork                                            | works out of box | notes                  |   |   |   |
-|---------------------+--------------------------------------------------+-------------------------------------------------+------------------+------------------------+---+---+---|
-| emacs24-starter-kit | https://github.com/eschulte/emacs24-starter-kit  | https://github.com/zygomega/emacs24-starter-kit | yes              | best base found so far |   |   |   |
-| jwiegley            | https://github.com/jwiegley/dot-emacs            | https://github.com/zygomega/dot-emacs           |                  |                        |   |   |   |
-| prelude             | https://github.com/bbatsov/prelude               | https://github.com/zygomega/prelude             |                  |                        |   |   |   |
-| emacs-live          | https://github.com/overtone/emacs-live           | https://github.com/zygomega/emacs-live          |                  |                        |   |   |   |
-| defunkt             | https://github.com/defunkt/emacs                 |                                                 |                  |                        |   |   |   |
-| mathiasbynens       | https://github.com/mathiasbynens/dotfiles        | https://github.com/zygomega/dotfiles-2          |                  |                        |   |   |   |
-| cabbage             | https://github.com/senny/cabbage                 | https://github.com/zygomega/cabbage             |                  |                        |   |   |   |
-| purcell             | https://github.com/purcell/emacs.d               | https://github.com/zygomega/emacs.d             |                  |                        |   |   |   |
-| magnars             | https://github.com/magnars/.emacs.d              | https://github.com/zygomega/.emacs.d-1          |                  |                        |   |   |   |
-| ghoseb              | https://github.com/ghoseb/dotemacs               | https://github.com/zygomega/dotemacs            |                  |                        |   |   |   |
-| rmm5t               | https://github.com/rmm5t/dotfiles                | https://github.com/zygomega/dotfiles            |                  |                        |   |   |   |
-| garybernhardt       | https://github.com/garybernhardt/dotfiles        | https://github.com/zygomega/dotfiles-1          |                  |                        |   |   |   |
-| alexott             | https://github.com/alexott/emacs-configs         |                                                 |                  |                        |   |   |   |
-| starter-kit         | https://github.com/technomancy/emacs-starter-kit |                                                 | yes              | access via emacs24     |   |   |   |
-|                     |                                                  |                                                 |                  |                        |   |   |   |
-|                     |                                                  |                                                 |                  |                        |   |   |   |
-|                     |                                                  |                                                 |                  |                        |   |   |   |
-|                     |                                                  |                                                 |                  |                        |   |   |   |
+| directory name      | http                                             |
+|---------------------+--------------------------------------------------|
+| emacs24-starter-kit | https://github.com/eschulte/emacs24-starter-kit  |
+| jwiegley            | https://github.com/jwiegley/dot-emacs            |
+| prelude             | https://github.com/bbatsov/prelude               |
+| emacs-live          | https://github.com/overtone/emacs-live           |
+| defunkt             | https://github.com/defunkt/emacs                 |
+| cabbage             | https://github.com/senny/cabbage                 |
+| purcell             | https://github.com/purcell/emacs.d               |
+| magnars             | https://github.com/magnars/.emacs.d              |
+| ghoseb              | https://github.com/ghoseb/dotemacs               |
+| rmm5t               | https://github.com/rmm5t/dotfiles                |
+| alexott             | https://github.com/alexott/emacs-configs         |
+| starter-kit         | https://github.com/technomancy/emacs-starter-kit |
 
 
 Other sites
@@ -4811,7 +4759,7 @@ Other sites
 - http://www.emacswiki.org/emacs/RobertAdesamConfig
 - http://www.emacswiki.org/emacs/EmacsInitFileOfSylecn
 - http://www.emacswiki.org/emacs/CategoryDotEmacs
-
+- sacha
 
 ** debugs and tools
 :PROPERTIES:
@@ -4859,4 +4807,26 @@ Other sites
                        (directory-files user-dir t ".*\.\\(org\\|el\\)\\(\\.gpg\\)?$"))
                :test #'string=))))))
 #+end_src
+
+*** current startup bugz
+**** flet
+`flet' is an obsolete macro (as of 24.3); use either `cl-flet' or `cl-letf'. [3 times]
+**** yas
+Configuring package yasnippet...
+File mode specification error: (void-function yas/initialize)
+(No changes need to be saved)
+ad-handle-definition: `yas-global-mode' got redefined
+Configuring package yasnippet...
+Wrote /Users/tonyday/.emacs.d/org-mode-prequel.el
+
+**** helm-config
+Could not load package helm-config
+**** Could not load package ido-hacks
+**** Could not load package ido-springboard
+**** diary
+No event to add
+Appointment reminders enabled (no diary file found)
+**** Could not load package keyfreq
+**** ls does not support --dired; see `dired-use-ls-dired' for more details.
+**** babel insisting on messaging tangled data
 

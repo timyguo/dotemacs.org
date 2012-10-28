@@ -1,11 +1,17 @@
-Modifications to org-mode.org
+#+TITLE: org-init
+#+AUTHOR: Tony Day
+#+EMAIL: tonyday567 at gmail dot com
+#+COLUMNS: %25ITEM %30tangle
+#+PROPERTIES: tangle yes
 
 * tasks
 [2012-10-25 Thu 21:14]
-- [X] remove timestamp creation
-- Not restoring clock data; ~/.emacs.d/org-clock-save.el not found
+- [ ] why tangle isnt working by default
 
 * org table functions
+  :PROPERTIES:
+  :tangle:   yes
+  :END:
 I make extensive use of org-tables in setting org up.  It needs a few
 functions to be defined before it actually gets setup though.  
 
@@ -24,6 +30,9 @@ standard emacs packages and old org-mode to do stuff.
       (car el)))
 #+end_src
 
+#+RESULTS:
+: org-table-list-and-toggle
+
 #+begin_src emacs-lisp
     (defun org-table-remove-header (table)
     "turns an org-table into a list"                                       
@@ -31,9 +40,13 @@ standard emacs packages and old org-mode to do stuff.
         (setq table (cddr table))))
 #+end_src
 
+#+RESULTS:
+: org-table-remove-header
+
 * Capture
 :PROPERTIES:
 :ID:       e79ecad1-2428-452a-b9d6-9fdd3ef8a174
+:tangle:   yes
 :END:
 
 #+name: capture-table
@@ -101,6 +114,9 @@ standard emacs packages and old org-mode to do stuff.
 | kh | kill ring head | entry      | (file ~/stuff/org/refile.org)                       | * %c\n%?\n                                           |
 
 * Agenda files
+  :PROPERTIES:
+  :tangle:   yes
+  :END:
 
 #+TBLNAME: agenda-files-table
 | stuff    |         | stuff.org         |
@@ -154,6 +170,9 @@ standard emacs packages and old org-mode to do stuff.
   | ~/stuff/stuff.org | ~/.emacs.d/README.org | ~/.emacs.d/dotemacs.org | ~/stuff/org/refile.org | ~/stuff/org/bugz.org | ~/stuff/org/snipz.org | ~/stuff/org/org.org | ~/stuff/emacs/emacs.org | ~/stuff/emacs/bindings.org | ~/stuff/sys/sys.org | ~/stuff/biz/scarce.org | ~/stuff/content/life.org | ~/stuff/content/writing.org | ~/stuff/dev/webdev.org | ~/stuff/dev/sandpit.org | ~/stuff/dev/jsdev.org | ~/stuff/factor/factor.org | ~/stuff/content/ideas.org | ~/stuff/factor/parity.org | ~/stuff/quant/rdev.org | ~/stuff/quant/volatility.org | ~/stuff/quant/da.org | ~/stuff/quant/emfx.org | ~/stuff/sys/git.org | ~/git/scarce/scarce.org | ~/git/scarce/mindev.org | ~/git/scarce/sitedev.org |
 
 * tags
+  :PROPERTIES:
+  :tangle:   yes
+  :END:
 [2012-10-25 Thu 21:24]
 
 #+begin_src emacs-lisp
@@ -164,7 +183,14 @@ standard emacs packages and old org-mode to do stuff.
                             ("crypt" . ?c)
                             ("emacs" . ?e))))
 #+end_src
+
+#+RESULTS:
+| (urgent . 117) | (bill . 98) | (scarce . 115) | (crypt . 99) | (emacs . 101) |
+
 * babel
+  :PROPERTIES:
+  :tangle:   yes
+  :END:
 [2012-10-25 Thu 21:25]
   - languages used
   #+begin_src emacs-lisp 
@@ -179,7 +205,13 @@ standard emacs packages and old org-mode to do stuff.
                (R . t))))
   #+end_src
 
-* abbrevs 
+  #+RESULTS:
+  | (emacs-lisp . t) | (sh . t) | (gnuplot . t) | (org . t) | (octave . t) | (js . t) | (R . t) |
+
+* abbrevs
+  :PROPERTIES:
+  :tangle:   yes
+  :END: 
 [2012-10-25 Thu 21:13]
 
 
@@ -188,7 +220,13 @@ standard emacs packages and old org-mode to do stuff.
        '(("google"    . "http://www.google.com/search?q=")))
 #+end_src
 
+#+RESULTS:
+| (google . http://www.google.com/search?q=) |
+
 * MobileOrg via Dropbox
+  :PROPERTIES:
+  :tangle:   yes
+  :END:
 [2012-10-25 Thu 21:16]
 #+begin_src emacs-lisp 
   (setq org-default-notes-file "~/stuff/org/refile.org")
@@ -198,13 +236,21 @@ standard emacs packages and old org-mode to do stuff.
   (setq org-mobile-directory "~/Dropbox/MobileOrg")
 #+end_src
 
+#+RESULTS:
+: ~/Dropbox/MobileOrg
+
 * overrides
+  :PROPERTIES:
+  :tangle:   yes
+  :END:
 [2012-10-25 Thu 21:28]
 
 - no auto-stamps
   #+begin_src emacs-lisp
     (remove-hook 'org-insert-heading-hook 'bh/insert-heading-inactive-timestamp)
   #+end_src
+
+  #+RESULTS:
 
 ** priority
 
@@ -214,7 +260,13 @@ regions.  Can't bring myself to do it - instead I use an urgent tag.
 #+begin_src emacs-lisp 
   (setq org-enable-priority-commands nil)
 #+end_src
+
+#+RESULTS:
+
 * bind
+  :PROPERTIES:
+  :tangle:   yes
+  :END:
 
 shoving the binds in binds so I can see where everything is
 #+name: org-bindings

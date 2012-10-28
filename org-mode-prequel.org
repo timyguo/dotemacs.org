@@ -1,5 +1,11 @@
+#+TITLE: org-mode-prequel
+#+AUTHOR: Tony Day
+#+EMAIL: tonyday567 at gmail dot com
+#+COLUMNS: %25ITEM %30tangle
+#+PROPERTIES: tangle yes
 
-#+begin_src emacs-lisp
+
+#+begin_src emacs-lisp :tangle yes
 (setq org-mode-user-lisp-path 
       (expand-file-name "src/org-mode/lisp" user-emacs-directory))
 (setq org-user-agenda-files (quote ()))
@@ -17,12 +23,7 @@
   (setq org-default-notes-file "~/git/org/refile.org")
 #+end_src
 
-
-
-- post changes
-
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle yes
   (add-to-list 'Info-default-directory-list "~/git/org-mode/doc")
-
 #+end_src
 

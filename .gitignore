@@ -1,6 +1,12 @@
 ## misc
 places
 bookmarks
+#*
+#.*
+.org-id-locations
+abbrev_defs
+org-clock-save.el
+
 
 ## directory contents
 auto-save-list/*
@@ -8,22 +14,8 @@ backups/*
 data/*
 elpa/*
 eshell/*
-repos/*
-src/*
 tmp/*
 url/*
+site-lisp/*
 
-/#init.el#
-/dotemacs-boilerplate.org~
-/#dotemacs.el#
-/.org-id-locations
-/abbrev_defs
-/dotemacs-boilerplate.el
-/dotemacs-boilerplate.org
-/dotemacs.el
-/org-clock-save.el
-/org-mode-mods.el
-/org-mode-prequel.el
-/org-mode.el
-/snippets/org-mode/se.yasnippet
-/snippets/org-mode/zz
+

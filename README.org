@@ -54,9 +54,21 @@ should be added to (or deleted from) the list, please let me know.
 
 ** why?
 
-So if I'm looking at ways to use rgrep (say), I can rgrep the repos
-directory and see instantly how it's being used.
+So if I'm looking at ways grep is used (say), I can grep the repos
+directory and see instantly how it's being used:
 
++ starter kit recommends and binds rgrep to C-x C-r
++ jwiegley uses a grep-ed package and binds grep, and find-grep (but
+  not rgrep). there is also a package called color-moccur makes heavy use of
+  greppy things.
++ (what I was looking for!!!), there is a 'writable' grep buffer for
+  those pesky global refactoring name changes
+  ;;; wgrep.el --- Writable grep buffer and apply the changes to files
++ magnars has a full-screen grep thing that looks pretty funnky.
+
+
+
+** current list
 
 | repo                | git                                              |
 |---------------------+--------------------------------------------------|
@@ -65,17 +77,14 @@ directory and see instantly how it's being used.
 | prelude             | https://github.com/bbatsov/prelude               |
 | emacs-live          | https://github.com/overtone/emacs-live           |
 | defunkt             | https://github.com/defunkt/emacs                 |
-| mathiasbynens       | https://github.com/mathiasbynens/dotfiles        |
 | cabbage             | https://github.com/senny/cabbage                 |
 | purcell             | https://github.com/purcell/emacs.d               |
 | magnars             | https://github.com/magnars/.emacs.d              |
 | ghoseb              | https://github.com/ghoseb/dotemacs               |
 | rmm5t               | https://github.com/rmm5t/dotfiles                |
-| garybernhardt       | https://github.com/garybernhardt/dotfiles        |
 | alexott             | https://github.com/alexott/emacs-configs         |
 | starter-kit         | https://github.com/technomancy/emacs-starter-kit |
 | dwamacs             | https://github.com/dabrahams/dwamacs.git         |
-|                     |                                                  |
 |                     |                                                  |
 
 

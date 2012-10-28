@@ -1,3 +1,39 @@
-[submodule "jwiegley"]
-	path = jwiegley
+[submodule "repos/jwiegley"]
+	path = repos/jwiegley
 	url = https://github.com/jwiegley/dot-emacs.git
+[submodule "repos/emacs24-starter-kit"]
+	path = repos/emacs24-starter-kit
+	url = https://github.com/eschulte/emacs24-starter-kit
+[submodule "repos/prelude"]
+	path = repos/prelude
+	url = https://github.com/bbatsov/prelude
+[submodule "repos/emacs-live"]
+	path = repos/emacs-live
+	url = https://github.com/overtone/emacs-live
+[submodule "repos/defunkt"]
+	path = repos/defunkt
+	url = https://github.com/defunkt/emacs
+[submodule "repos/cabbage"]
+	path = repos/cabbage
+	url = https://github.com/senny/cabbage
+[submodule "repos/purcell"]
+	path = repos/purcell
+	url = https://github.com/purcell/emacs.d
+[submodule "repos/magnars"]
+	path = repos/magnars
+	url = https://github.com/magnars/.emacs.d
+[submodule "repos/ghoseb"]
+	path = repos/ghoseb
+	url = https://github.com/ghoseb/dotemacs
+[submodule "repos/rmm5t"]
+	path = repos/rmm5t
+	url = https://github.com/rmm5t/dotfiles
+[submodule "repos/alexott"]
+	path = repos/alexott
+	url = https://github.com/alexott/emacs-configs
+[submodule "repos/starter-kit"]
+	path = repos/starter-kit
+	url = https://github.com/technomancy/emacs-starter-kit
+[submodule "repos/dwamacs"]
+	path = repos/dwamacs
+	url = https://github.com/dabrahams/dwamacs.git
