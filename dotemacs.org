@@ -4,7 +4,6 @@
 #+COLUMNS: %25ITEM %30tangle
 #+PROPERTIES: tangle yes
 
-
 * upfront
 :PROPERTIES:
 :tangle:   no
@@ -41,7 +40,7 @@ The main sections are (in order)
     - [X] turn off all offensive packages
     - [ ] at a clean version
     - [ ] turn back on
-- [ ] add repos as submodules
+- [X] add repos as submodules
 - [ ] add org-mode as submodule
 - [ ] replumb jwiegley
 - [ ] clean up settings
@@ -66,7 +65,7 @@ automatically next restart.
 
 Not much we can do about that.
 
-It weighs in at a muscular 3 lines and does exactly 3 things.
+It does exactly 3 things.
 1. finds out where it is and sets the current directory as the
    user-emacs-directory (~/.emacs.d in 99% of cases these days). This
    means that it can start anywhere if pointed to with:
@@ -115,12 +114,19 @@ It weighs in at a muscular 3 lines and does exactly 3 things.
 ** init.el
 
   
-#+Begin_src emacs-lisp :tangle init.el :var dotemacs-org-file=(buffer-file-name)
+#+Begin_src emacs-lisp :tangle init.el :var tangled-in=(buffer-file-name)
   ;; see dotemacs.org for documentation
   (setq user-emacs-directory
-        (file-name-directory (or load-file-name (buffer-file-name))))
-  (let ((org-dir (expand-file-name "src/org-mode/lisp" user-emacs-directory)))
-    (add-to-list 'load-path org-dir))
+        (file-name-directory (or load-file-name user-emacs-directory "~/.emacs.d/")))
+  (defvar org-dir
+  "repos/jwiegley/override/org-mode/lisp"
+  "location of the directory containing org-mode")
+  (add-to-list 'load-path (expand-file-name org-dir user-emacs-directory))
+  (defvar dotemacs-org-file
+  "dotemacs.org"
+  "Name of the org file containing the main startup code")
+  (if (boundp 'tangled-in)
+     (setq dotemacs-org-file tangled-in))
   (org-babel-load-file (expand-file-name dotemacs-org-file user-emacs-directory))
 #+end_src
 
@@ -201,6 +207,8 @@ These directory groups (directory and sub-directories) are added to the path.
 |--------------------------+--------|
 | site-lisp                | t      |
 | repos/jwiegley/site-lisp | t      |
+| repos/jwiegley/override  | t      |
+| repos/jwiegley/lisp      | t      |
 | elpa                     | t      |
 
 And here's where we start taking advantage of using org on startup.
@@ -224,10 +232,10 @@ to the load-path. Can be absolute or relative to user-emacs-directory")
 Any other directories needed on the path go here:
 
 #+name: load-path-table
-| directory                                  | toggle |
-|--------------------------------------------+--------|
-| ~/.emacs.d                                 | t      |
-| ~/.emacs.d/site-lisp/org-mode/contrib/lisp | t      |
+| directory                                                 | toggle |
+|-----------------------------------------------------------+--------|
+| ~/.emacs.d                                                | t      |
+| ~/.emacs.d/repos/jwiegley/overrides/org-mode/contrib/lisp | t      |
 
 #+begin_src emacs-lisp :var table=load-path-table
 (defvar path-directories
@@ -258,6 +266,143 @@ variable, or you can just C-c C-c the block in org-mode after the event.
                collect
                (list f)))
 #+end_src
+
+#+RESULTS:
+| /Users/tonyday/.emacs.d                                                                                                   |
+| /Users/tonyday/.emacs.d/repos/jwiegley/overrides/org-mode/contrib/lisp                                                    |
+| /Users/tonyday/.emacs.d/site-lisp                                                                                         |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/ac                                                                       |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/ace-jump-mode                                                            |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/asynk                                                                    |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/auctex                                                                   |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/auto-overlays                                                            |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/autopair                                                                 |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/bm                                                                       |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/bookmark-plus                                                            |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/boxquote                                                                 |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/command-log-mode                                                         |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/debbugs                                                                  |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/deft                                                                     |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/dired-sync                                                               |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/doxymacs                                                                 |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/dvc                                                                      |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/el-get                                                                   |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/el-mock                                                                  |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/elisp-depend                                                             |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/elisp-slime-nav                                                          |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/elnode                                                                   |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/emacs-edbi                                                               |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/emacs-quickrun                                                           |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/emacs-w3m                                                                |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/emms                                                                     |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/ess                                                                      |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/eval-expr                                                                |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/ghc-mod                                                                  |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/gist                                                                     |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/git-commit-mode                                                          |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/haskell-mode                                                             |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/helm                                                                     |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/helm-descbinds                                                           |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/hpaste                                                                   |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/hsenv.el                                                                 |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/ido-hacks                                                                |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/info-lookmore                                                            |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/ipa-el                                                                   |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/lua-mode                                                                 |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/lusty-emacs                                                              |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/macrostep                                                                |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/magit                                                                    |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/markdown-mode                                                            |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/melpa                                                                    |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/org-magit                                                                |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/org-merge-driver                                                         |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/python-mode                                                              |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/ruby-mode                                                                |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/session                                                                  |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/slime                                                                    |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/sunrise-commander                                                        |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/swank-js                                                                 |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/workgroups                                                               |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/wrap-region                                                              |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/yaml-mode                                                                |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/yari-with-buttons                                                        |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/yasnippet                                                                |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/zencoding-mode                                                           |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp                                                                          |
+| /Users/tonyday/.emacs.d/repos/jwiegley/override/bbdb                                                                      |
+| /Users/tonyday/.emacs.d/repos/jwiegley/override/gnus                                                                      |
+| /Users/tonyday/.emacs.d/repos/jwiegley/override/org-mode                                                                  |
+| /Users/tonyday/.emacs.d/repos/jwiegley/override/tramp                                                                     |
+| /Users/tonyday/.emacs.d/repos/jwiegley/override                                                                           |
+| /Users/tonyday/.emacs.d/repos/jwiegley/lisp/alert                                                                         |
+| /Users/tonyday/.emacs.d/repos/jwiegley/lisp/bind-key                                                                      |
+| /Users/tonyday/.emacs.d/repos/jwiegley/lisp/chess                                                                         |
+| /Users/tonyday/.emacs.d/repos/jwiegley/lisp/emacs-async                                                                   |
+| /Users/tonyday/.emacs.d/repos/jwiegley/lisp/emacs-edg                                                                     |
+| /Users/tonyday/.emacs.d/repos/jwiegley/lisp/erc-yank                                                                      |
+| /Users/tonyday/.emacs.d/repos/jwiegley/lisp/gnus-harvest                                                                  |
+| /Users/tonyday/.emacs.d/repos/jwiegley/lisp/haskell-config                                                                |
+| /Users/tonyday/.emacs.d/repos/jwiegley/lisp/initsplit                                                                     |
+| /Users/tonyday/.emacs.d/repos/jwiegley/lisp/muse                                                                          |
+| /Users/tonyday/.emacs.d/repos/jwiegley/lisp/planner                                                                       |
+| /Users/tonyday/.emacs.d/repos/jwiegley/lisp/regex-tool                                                                    |
+| /Users/tonyday/.emacs.d/repos/jwiegley/lisp/springboard                                                                   |
+| /Users/tonyday/.emacs.d/repos/jwiegley/lisp/use-package                                                                   |
+| /Users/tonyday/.emacs.d/repos/jwiegley/lisp                                                                               |
+| /Users/tonyday/.emacs.d/elpa/anything-1.287                                                                               |
+| /Users/tonyday/.emacs.d/elpa/archives                                                                                     |
+| /Users/tonyday/.emacs.d/elpa/auctex-11.86                                                                                 |
+| /Users/tonyday/.emacs.d/elpa/bbdb-20120923.1954                                                                           |
+| /Users/tonyday/.emacs.d/elpa/clojure-mode-1.11.5                                                                          |
+| /Users/tonyday/.emacs.d/elpa/elisp-slime-nav-0.2                                                                          |
+| /Users/tonyday/.emacs.d/elpa/ess-5.14                                                                                     |
+| /Users/tonyday/.emacs.d/elpa/ess-smart-underscore-0.73                                                                    |
+| /Users/tonyday/.emacs.d/elpa/find-file-in-project-3.2                                                                     |
+| /Users/tonyday/.emacs.d/elpa/htmlize-1.39                                                                                 |
+| /Users/tonyday/.emacs.d/elpa/ido-ubiquitous-1.5                                                                           |
+| /Users/tonyday/.emacs.d/elpa/js-comint-0.0.1                                                                              |
+| /Users/tonyday/.emacs.d/elpa/js2-mode-20090814                                                                            |
+| /Users/tonyday/.emacs.d/elpa/json-1.2                                                                                     |
+| /Users/tonyday/.emacs.d/elpa/magit-1.1.1                                                                                  |
+| /Users/tonyday/.emacs.d/elpa/magithub-0.2                                                                                 |
+| /Users/tonyday/.emacs.d/elpa/org-magit-0.2.0                                                                              |
+| /Users/tonyday/.emacs.d/elpa/org2blog-0.5                                                                                 |
+| /Users/tonyday/.emacs.d/elpa/paredit-22                                                                                   |
+| /Users/tonyday/.emacs.d/elpa/slime-20100404.1                                                                             |
+| /Users/tonyday/.emacs.d/elpa/smex-1.1.4                                                                                   |
+| /Users/tonyday/.emacs.d/elpa/xml-rpc-1.6.8                                                                                |
+| /Users/tonyday/.emacs.d/elpa/yaml-mode-0.0.7                                                                              |
+| /Users/tonyday/.emacs.d/elpa/yasnippet-0.8.0                                                                              |
+| /Users/tonyday/.emacs.d/elpa/yasnippet-bundle-0.6.1                                                                       |
+| /Users/tonyday/.emacs.d/elpa/zenburn-theme-1.5                                                                            |
+| /Users/tonyday/.emacs.d/elpa                                                                                              |
+| /Users/tonyday/.emacs.d/repos/jwiegley/override/org-mode/lisp                                                             |
+| /Users/david/src/emacs-dev/emacs-bzr/build-2012-10-24/nextstep/Emacs.app/Contents/Resources/share/emacs/24.2.50/site-lisp |
+| /Users/david/src/emacs-dev/emacs-bzr/build-2012-10-24/nextstep/Emacs.app/Contents/Resources/share/emacs/site-lisp         |
+| /Applications/Emacs241012.app/Contents/Resources/site-lisp                                                                |
+| /Applications/Emacs241012.app/Contents/Resources/lisp                                                                     |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/vc                                                                  |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/url                                                                 |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/textmodes                                                           |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/progmodes                                                           |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/play                                                                |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/org                                                                 |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/nxml                                                                |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/net                                                                 |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/mh-e                                                                |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/mail                                                                |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/language                                                            |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/international                                                       |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/gnus                                                                |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/eshell                                                              |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/erc                                                                 |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/emulation                                                           |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/emacs-lisp                                                          |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/cedet                                                               |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/calendar                                                            |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/calc                                                                |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/obsolete                                                            |
+| /Applications/Emacs241012.app/Contents/Resources/leim                                                                     |
 
 ** elpa
    :PROPERTIES:
@@ -383,7 +528,7 @@ variable, or you can just C-c C-c the block in org-mode after the event.
    
 * guff
 :PROPERTIES:
-:tangle:   yes
+:tangle:   no
 :END:
 ** process settings table
 
@@ -554,7 +699,7 @@ So,
 #+end_src
 ** extra bindings
    :PROPERTIES:
-   :tangle:   yes
+   :tangle: 
    :END:
 
 #+name: tob
@@ -579,7 +724,6 @@ So,
 #+end_src
 
 #+RESULTS:
-
 
 
 ** utility macros and functions
@@ -1064,7 +1208,7 @@ $\\|P.+\\\\\n\\)" nil t)
             (car (auth-source-search :host "api.j.mp" :user api-login
                                      :type 'netrc :port 80))
             :secret))))
-    (flet ((message (&rest ignore)))
+    (cl-flet ((message (&rest ignore)))
       (with-current-buffer
           (let ((query
                  (format "format=txt&longUrl=%s&login=%s&apiKey=%s"
@@ -1221,7 +1365,7 @@ $\\|P.+\\\\\n\\)" nil t)
 
     (delete-other-windows)
 
-    (flet ((switch-in-other-buffer
+    (cl-flet ((switch-in-other-buffer
             (buf)
             (when buf
               (split-window-vertically)
@@ -1278,6 +1422,8 @@ $\\|P.+\\\\\n\\)" nil t)
 ;;;_. Packages
 
 #+end_src
+
+(require 'org-colview)
 
 
 *** o-blog
@@ -1631,7 +1777,7 @@ $\\|P.+\\\\\n\\)" nil t)
 
     (defun my-bookmark-set ()
       (interactive)
-      (flet ((bmkp-completing-read-lax
+      (cl-flet ((bmkp-completing-read-lax
               (prompt &optional default alist pred hist)
               (completing-read prompt alist pred nil nil hist default)))
         (call-interactively #'bookmark-set)))
@@ -1672,7 +1818,7 @@ $\\|P.+\\\\\n\\)" nil t)
 #+end_src
 *** color-moccur
 :PROPERTIES:
-:tangle:   yes
+:tangle:   no
 :END:
 #+begin_src emacs-lisp
 ;;;_ , color-moccur
@@ -1715,7 +1861,7 @@ $\\|P.+\\\\\n\\)" nil t)
 #+end_src
 *** ibuffer
     :PROPERTIES:
-    :tangle:   yes
+    :tangle:   no
     :END:
 #+begin_src emacs-lisp
 ;;;_ , ibuffer
@@ -1801,7 +1947,7 @@ iflipb-next-buffer or iflipb-previous-buffer this round."
 #+end_src
 *** diff-mode
     :PROPERTIES:
-    :tangle: yes
+    :tangle:   no
     :END:
 #+begin_src emacs-lisp
 ;;;_ , diff-mode
@@ -1987,7 +2133,7 @@ iflipb-next-buffer or iflipb-previous-buffer this round."
 #+end_src
 *** ediff
     :PROPERTIES:
-    :tangle: yes
+    :tangle:   no
     :END:
 #+begin_src emacs-lisp
 ;;;_ , ediff
@@ -2321,7 +2467,7 @@ FORM => (eval FORM)."
 #+end_src
 *** grep
     :PROPERTIES:
-    :tangle:   yes
+    :tangle:   no
     :END:
 #+begin_src emacs-lisp
 ;;;_ , grep
@@ -2572,7 +2718,7 @@ FORM => (eval FORM)."
 #+end_src
 *** ielm
     :PROPERTIES:
-    :tangle:   yes
+    :tangle:   no
     :END:
 #+begin_src emacs-lisp
 ;;;_ , ielm
@@ -2617,7 +2763,7 @@ FORM => (eval FORM)."
 #+end_src
 *** info
     :PROPERTIES:
-    :tangle:   yes
+    :tangle:   no
     :END:
 #+begin_src emacs-lisp
 ;;;_ , info
@@ -3005,7 +3151,7 @@ FORM => (eval FORM)."
     (if (featurep 'icicles)
         (defadvice lusty-file-explorer (around lusty-file-explorer-without-icy
                                                activate)
-          (flet ((message (&rest ignore)))
+          (cl-flet ((message (&rest ignore)))
             (let ((icy-was-on icicle-mode))
               (if icy-was-on (icy-mode 0))
               (unwind-protect
@@ -3335,9 +3481,270 @@ FORM => (eval FORM)."
                       (org-resolve-clocks))) t)))
 
 #+end_src
-*** paredit
+
+*** TODO my org-mode
     :PROPERTIES:
     :tangle:   yes
+    :END:
+
+Org-mode is specially treated for a few reasons:
+- it has already been loaded in init.el so we could bootstrap everything else via an org-mode file.
+- I prefer to go through Brent Hansen's org-mode.org setup and tweak that rather than reinvent my own config.
+- [ ] insert use-package
+
+There's a few settings needed for org-mode.org to work (I tweak it post mostly)
+
+#+begin_src emacs-lisp
+(setq org-mode-user-lisp-path 
+      (expand-file-name org-dir user-emacs-directory))
+(setq org-user-agenda-files (quote ()))
+(setq org-mode-user-contrib-lisp-path 
+      (expand-file-name "repos/jwiegley/override/org-mode/contrib/lisp" user-emacs-directory))
+(org-babel-load-file (expand-file-name "~/.emacs.d/site-lisp/org-mode.org"))
+#+end_src
+
+
+
+**** org-capture
+
+#+name: captures
+| key | desc           | type       | target type   | target path                | target header | template                                             |
+|-----+----------------+------------+---------------+----------------------------+---------------+------------------------------------------------------|
+| ,   | ,,             | entry      | file          | ~/stuff/org/refile.org     |               | * %?\n                                               |
+| t   | todo           |            |               |                            |               |                                                      |
+| tu  | urgent todo    | entry      | file          | ~/stuff/org/refile.org     |               | * NEXT %? :urgent:\n:PROPERTIES:\n:OPEN: %U\n:END:\n |
+| tl  | linked todo    | entry      | file          | ~/stuff/org/refile.org     |               | * TODO %?\n%a\n                                      |
+| tn  | next todo      | entry      | file          | ~/stuff/org/refile.org     |               | * NEXT %?\n                                          |
+| tt  | todo todo      | entry      | file          | ~/stuff/org/refile.org     |               | * TODO %?\n                                          |
+| tb  | yank body      | entry      | file          | ~/stuff/org/refile.org     |               | * TODO %?\n%c\n                                      |
+| th  | yank header    | entry      | file          | ~/stuff/org/refile.org     |               | * TODO %c\n%?\n                                      |
+| i   | idea           |            |               |                            |               |                                                      |
+| ii  | idea           | entry      | file+headline | ~/stuff/content/ideas.org  | incoming      | * %? \n                                              |
+| il  | idea link      | entry      | file+headline | ~/stuff/content/ideas.org  | links         | * %a \n %?                                           |
+| iy  | idea yank      | entry      | file+headline | ~/stuff/content/ideas.org  | incoming      | * %?%c \n                                            |
+| z   | bugz           | entry      | file+headline | ~/stuff/org/bugz.org       | incoming      | * TODO %?\n%a                                        |
+| s   | snipz          |            |               |                            |               |                                                      |
+| sr  | snipz request  | entry      | file+headline | ~/stuff/org/snipz.org      | incoming      | * TODO %?\n%a\n                                      |
+| sn  | snipz note     | entry      | file+headline | ~/stuff/org/snipz.org      | incoming      | * %?\n%c\n                                           |
+| b   | binding        | table-line | file+headline | ~/stuff/emacs/bindings.org | incoming      | %?                                                   |
+| k   | kill ring      |            |               |                            |               |                                                      |
+| kb  | kill ring body | entry      | file          | ~/stuff/org/refile.org     |               | * %?\n%c\n                                           |
+| kh  | kill ring head | entry      | file          | ~/stuff/org/refile.org     |               | * %c\n%?\n                                           |
+
+
+#+begin_src emacs-lisp :var data=captures  
+  (setq org-capture-templates 
+        (loop for row in (org-table-remove-header data)
+              collect
+              (eval (quote (car (read-from-string 
+                                (replace-regexp-in-string "(  )" ""                                                     (replace-regexp-in-string "\"\"" "" 
+                                (replace-regexp-in-string "\\\\n" "n" 
+                                 (apply 'format "(%S %S %s (%s %S %S) %S)" row))))))))))
+#+end_src
+
+#+results:
+| ,  | ,,             | entry      | (file ~/stuff/org/refile.org)                       | * %?\n                                               |
+| t  | todo           |            |                                                     |                                                      |
+| tu | urgent todo    | entry      | (file ~/stuff/org/refile.org)                       | * NEXT %? :urgent:\n:PROPERTIES:\n:OPEN: %U\n:END:\n |
+| tl | linked todo    | entry      | (file ~/stuff/org/refile.org)                       | * TODO %?\n%a\n                                      |
+| tn | next todo      | entry      | (file ~/stuff/org/refile.org)                       | * NEXT %?\n                                          |
+| tt | todo todo      | entry      | (file ~/stuff/org/refile.org)                       | * TODO %?\n                                          |
+| tb | yank body      | entry      | (file ~/stuff/org/refile.org)                       | * TODO %?\n%c\n                                      |
+| th | yank header    | entry      | (file ~/stuff/org/refile.org)                       | * TODO %c\n%?\n                                      |
+| i  | idea           |            |                                                     |                                                      |
+| ii | idea           | entry      | (file+headline ~/stuff/content/ideas.org incoming)  | * %? \n                                              |
+| il | idea link      | entry      | (file+headline ~/stuff/content/ideas.org links)     | * %a \n %?                                           |
+| iy | idea yank      | entry      | (file+headline ~/stuff/content/ideas.org incoming)  | * %?%c \n                                            |
+| z  | bugz           | entry      | (file+headline ~/stuff/org/bugz.org incoming)       | * TODO %?\n%a                                        |
+| s  | snipz          |            |                                                     |                                                      |
+| sr | snipz request  | entry      | (file+headline ~/stuff/org/snipz.org incoming)      | * TODO %?\n%a\n                                      |
+| sn | snipz note     | entry      | (file+headline ~/stuff/org/snipz.org incoming)      | * %?\n%c\n                                           |
+| b  | binding        | table-line | (file+headline ~/stuff/emacs/bindings.org incoming) | %?                                                   |
+| k  | kill ring      |            |                                                     |                                                      |
+| kb | kill ring body | entry      | (file ~/stuff/org/refile.org)                       | * %?\n%c\n                                           |
+| kh | kill ring head | entry      | (file ~/stuff/org/refile.org)                       | * %c\n%?\n                                           |
+
+**** agenda-files
+
+
+#+TBLNAME: agenda-files
+| stuff    |         | stuff.org         |
+| .emacs.d |         | README.org        |
+| .emacs.d |         | dotemacs.org      |
+| stuff    | org     | refile.org        |
+| stuff    | org     | bugz.org          |
+| stuff    | org     | snipz.org         |
+| stuff    | org     | org.org           |
+| stuff    | emacs   | emacs.org         |
+| stuff    | emacs   | bindings.org      |
+| stuff    | sys     | sys.org           |
+| stuff    | biz     | scarce.org        |
+| stuff    | content | life.org          |
+| stuff    | content | writing.org       |
+| stuff    | dev     | webdev.org        |
+| stuff    | dev     | sandpit.org       |
+| stuff    | dev     | jsdev.org         |
+| stuff    | factor  | factor.org        |
+| stuff    | content | ideas.org         |
+| stuff    | factor  | parity.org        |
+| stuff    | quant   | rdev.org          |
+| stuff    | quant   | volatility.org    |
+| stuff    | quant   | da.org            |
+| stuff    | quant   | emfx.org          |
+| stuff    | sys     | git.org           |
+| git      | scarce  | scarce.org        |
+| git      | scarce  | mindev.org        |
+| git      | scarce  | sitedev.org       |
+
+  #+begin_src emacs-lisp :var data=agenda-files
+    (setq clean-table
+          (delete nil  
+                  (loop for line in data
+                        collect 
+                        (delete "" (delete-dups line)))))
+    
+    (setq org-agenda-files 
+          (mapcar
+           (lambda (x) 
+             (concat "~/"
+                     (mapconcat
+                      'eval x "/")))
+           clean-table))
+  #+end_src
+
+  #+results:
+  | ~/stuff/stuff.org | ~/.emacs.d/README.org | ~/.emacs.d/dotemacs.org | ~/stuff/org/refile.org | ~/stuff/org/bugz.org | ~/stuff/org/snipz.org | ~/stuff/org/org.org | ~/stuff/emacs/emacs.org | ~/stuff/emacs/bindings.org | ~/stuff/sys/sys.org | ~/stuff/biz/scarce.org | ~/stuff/content/life.org | ~/stuff/content/writing.org | ~/stuff/dev/webdev.org | ~/stuff/dev/sandpit.org | ~/stuff/dev/jsdev.org | ~/stuff/factor/factor.org | ~/stuff/content/ideas.org | ~/stuff/factor/parity.org | ~/stuff/quant/rdev.org | ~/stuff/quant/volatility.org | ~/stuff/quant/da.org | ~/stuff/quant/emfx.org | ~/stuff/sys/git.org | ~/git/scarce/scarce.org | ~/git/scarce/mindev.org | ~/git/scarce/sitedev.org |
+
+**** other suff
+- tags
+  #+begin_src emacs-lisp
+  ; Tags with fast selection keys
+(setq org-tag-alist (quote (("urgent" . ?u)
+                            ("bill" . ?b)
+                            ("scarce" . ?s)
+                            ("crypt" . ?c)
+                            ("emacs" . ?e))))
+#+end_src 
+
+  #+results:
+  | (urgent . 117) | (bill . 98) | (scarce . 115) | (crypt . 99) | (emacs . 101) |
+
+- babel languages
+   #+begin_src emacs-lisp 
+    (org-babel-do-load-languages
+       (quote org-babel-load-languages)
+       (quote ((emacs-lisp . t)
+               (sh . t)
+               (gnuplot . t)
+               (org . t)
+               (octave . t)
+               (js . t)
+               (R . t))))
+  #+end_src
+
+   #+results:
+   | (emacs-lisp . t) | (sh . t) | (gnuplot . t) | (org . t) | (octave . t) | (js . t) | (R . t) |
+
+- link abbreviations
+  #+begin_src emacs-lisp
+  (setq org-link-abbrev-alist
+       '(("google"    . "http://www.google.com/search?q=")))
+#+end_src
+
+  #+results:
+  | (google . http://www.google.com/search?q=) |
+
+- mobileorg settings
+  #+begin_src emacs-lisp 
+  (setq org-default-notes-file "~/stuff/org/refile.org")
+  ;; Set to the name of the file where new notes will be stored
+  (setq org-mobile-inbox-for-pull "~/stuff/org/refile.org")
+  ;; Set to <your Dropbox root directory>/MobileOrg.
+  (setq org-mobile-directory "~/Dropbox/MobileOrg")
+#+end_src
+
+  #+results:
+  : ~/Dropbox/MobileOrg
+
+- override settings
+    #+begin_src emacs-lisp
+      (remove-hook 'org-insert-heading-hook 'bh/insert-heading-inactive-timestamp)
+    #+end_src
+
+    #+results:
+
+  Using priorities kills the ability to ever use S-down to select
+  regions.  Can't bring myself to do it - instead I use an urgent tag.
+
+  #+begin_src emacs-lisp 
+  (setq org-enable-priority-commands nil)
+  #+end_src
+
+  #+results:
+
+**** bind
+
+shoving the binds in binds so I can see where everything is
+#+name: org-bindings
+| key         | binding                                           |
+|-------------+---------------------------------------------------|
+| C-c l     | org-store-link                                    |
+| C-c a     | org-agenda                                        |
+| C-c b     | org-iswitchb                                      |
+| <f12>     | org-agenda                                        |
+| <f5>      | bh/org-todo                                       |
+| <S-f5>    | bh/widen                                          |
+| <f7>      | bh/set-truncate-lines                             |
+| <f8>      | org-cycle-agenda-files                            |
+| <f9> <f9> | bh/show-org-agenda                                |
+| <f9> b    | bbdb                                              |
+| <f9> c    | calendar                                          |
+| <f9> f    | boxquote-insert-file                              |
+| <f9> g    | gnus                                              |
+| <f9> h    | bh/hide-other                                     |
+| <f9> n    | org-narrow-to-subtree                             |
+| <f9> w    | widen                                             |
+| <f9> u    | bh/narrow-up-one-level                            |
+| <f9> I    | bh/punch-in                                       |
+| <f9> O    | bh/punch-out                                      |
+| <f9> o    | bh/make-org-scratch                               |
+| <f9> r    | boxquote-region                                   |
+| <f9> s    | bh/switch-to-scratch                              |
+| <f9> t    | bh/insert-inactive-timestamp                      |
+| <f9> T    | tabify                                            |
+| <f9> U    | untabify                                          |
+| <f9> v    | visible-mode                                      |
+| <f9> SPC  | bh/clock-in-last-task                             |
+| C-<f9>    | previous-buffer                                   |
+| M-<f9>    | org-toggle-inline-images                          |
+| C-x n r   | narrow-to-region                                  |
+| C-<f10>   | next-buffer                                       |
+| <f11>     | org-clock-goto                                    |
+| C-<f11>   | org-clock-in                                      |
+| C-s-<f12> | bh/save-then-publish                              |
+| C-M-r     | org-capture                                       |
+| C-c r     | org-capture                                       |
+| C-M-r     | org-capture                                       |
+| C-c r     | org-capture                                       |
+| <f9> p    | bh/phone-call                                     |
+| C-s-<f12> | bh/save-then-publish                              |
+| <f5>      | bh/org-todo                                       |
+| <S-f5>    | bh/widen                                          |
+| <f9> t    | bh/insert-inactive-timestamp                      |
+| M-x       | smex                                              |
+| C-x x     | smex                                              |
+| M-X       | smex-major-mode-commands                          |
+| <C-f6>    | (lambda () (interactive) (bookmark-set "SAVED")) |
+| <f6>        | (lambda () (interactive) (bookmark-jump "SAVED")) |
+
+#+begin_src emacs-lisp :var table=org-bindings
+  (bind-keys-from-table (org-table-remove-header table))
+#+end_src
+
+
+*** paredit
+    :PROPERTIES:
+    :tangle:   no
     :END:
 #+begin_src emacs-lisp
 ;;;_ , paredit
@@ -3512,7 +3919,7 @@ FORM => (eval FORM)."
 #+end_src
 *** recentf
     :PROPERTIES:
-    :tangle:   yes
+    :tangle:   no
     :END:
 #+begin_src emacs-lisp
 ;;;_ , recentf
@@ -4105,7 +4512,7 @@ FORM => (eval FORM)."
 #+end_src
 *** whitespace
 :PROPERTIES:
-:tangle:   yes
+:tangle:   no
 :END:
 #+begin_src emacs-lisp
 ;;;_ , whitespace
@@ -4337,8 +4744,6 @@ FORM => (eval FORM)."
 
 #+results:
 
-
-
 *** yaoddmuse
 #+begin_src emacs-lisp
 ;;;_ , yaoddmuse
@@ -4374,13 +4779,16 @@ FORM => (eval FORM)."
 #+end_src
 
 * files
+  :PROPERTIES:
+  :tangle:   no
+  :END:
 
 #+name: init-file-loads
 | file                 | toggle |
 |----------------------+--------|
-| org-mode-prequel.org | t      |
-| org-mode.org         | t      |
-| org-mode-mods.org    | t      |
+| org-mode-prequel.org |        |
+| org-mode.org         |        |
+| org-mode-mods.org    |        |
 | my-old-org.org       |        |
 
 #+begin_src emacs-lisp :var init-file-loads=init-file-loads
@@ -4828,5 +5236,11 @@ No event to add
 Appointment reminders enabled (no diary file found)
 **** Could not load package keyfreq
 **** ls does not support --dired; see `dired-use-ls-dired' for more details.
-**** babel insisting on messaging tangled data
+**** babel insisting on messaging tangled 
+
+*** zeroed package bugz
+ 1. `flet' is an obsolete macro (as of 24.3); use either `cl-flet' or `cl-letf'.
+ 2.  org-fixup.el: redefined Org version
+
+
 
