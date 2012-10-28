@@ -535,7 +535,6 @@ variable, or you can just C-c C-c the block in org-mode after the event.
 #+name: process-settings-table
 | variable                       | value |
 |--------------------------------+-------|
-| transient-mark-mode            | t     |
 
 
 #+name: process-settings-function-table
@@ -579,26 +578,16 @@ variable, or you can just C-c C-c the block in org-mode after the event.
   #+end_src
 
 ** orphan settings
+:PROPERTIES:
+:tangle:   yes
+:END:
 
 Miscellaneous settings and snippets that I haven't org-tabled or categorised.
 #+begin_src emacs-lisp
-  ;; % dont survive the format process
   (defalias 'yes-or-no-p 'y-or-n-p)
-  (setq backup-directory-alist `(("." . ,(expand-file-name
-                                        (concat user-emacs-directory "backups")))))
 #+end_src
 
 ** orphan requires
-
-  #+begin_src emacs-lisp
-    (require 'saveplace)
-    (require 'ffap)
-    (require 'uniquify)
-    (require 'ansi-color)
-    (require 'recentf)
-    (require 'yaml-mode)
-    (require 'find-file-in-project)
-  #+end_src
 
 ** orphaned defuns
 *** transpose-windows
@@ -617,89 +606,9 @@ Miscellaneous settings and snippets that I haven't org-tabled or categorised.
     (define-key ctl-x-4-map (kbd "t") 'transpose-windows)
   #+end_src
 
-*** plainlistify-paragraph
-#+begin_src emacs-lisp
-  (defun unfill-region (beg end)
-      "Unfill the region, joining text paragraphs into a single
-    logical line.  This is useful, e.g., for use with
-    `visual-line-mode'."
-      (interactive "*r")
-      (let ((fill-column (point-max)))
-        (fill-region beg end)))
-    
-    ;; Handy key definition
-    (define-key global-map "\C-\M-Q" 'unfill-region)
-
-  (defun unfill-paragraph ()
-      "Takes a multi-line paragraph and makes it into a single line of text."
-      (interactive)
-      (let ((fill-column (point-max)))
-        (fill-paragraph nil)))
-    ;; Handy key definition
-    (define-key global-map "\M-Q" 'unfill-paragraph)
-
-#+end_src
-** info docs
-
-There's various snafu's happening:
-
-- Auctex seems to add to info-directory not default and this clobbers
-  the default usage (cellar link). 
-- ess adds elpa/doc/info (which doesnt exist)
-
-So,
-- using the table below
-- change both info and default variables to the list
-- first directory is my own with customised dir file there
-
-#+TBLNAME: info-dirs
-| /Users/tonyday/.emacs.d/info                   |
-| /usr/share/info/                               |
-
-
-
-| /usr/local/Cellar/emacs/HEAD/share/info/emacs/ |
-| /Users/tonyday/.emacs.d/elpa/magit-1.1.1       |
-| /Users/tonyday/.emacs.d/elpa/auctex-11.86      |
-
-
-  #+begin_src emacs-lisp :var table=info-dirs
-     (setq clean-table
-           (delete nil  
-                   (loop for line in table
-                         collect 
-                         (delete "" (delete-dups line)))))
-    (setq Info-default-directory-list (apply #'append clean-table))
-    (setq Info-directory-list Info-default-directory-list)
-  #+end_src
-  
-#+begin_src emacs-lisp :tangle no
-(add-to-list 'Info-default-directory-list "/Users/tonyday/.emacs.d/src/org-mode/doc/")
-#+end_src
-
-#+begin_src emacs-lisp :tangle no
-  (add-to-list 'Info-directory-list "/Users/tonyday/.emacs.d/src/org-mode/doc/")
-#+end_src
-
-
-#+begin_src emacs-lisp :tangle no
-  (getenv "INFOPATH")
-#+end_src
-
-#+begin_src emacs-lisp :tangle no
-  (print (loop for f in Info-default-directory-list
-               collect
-               (list f)))
-#+end_src
-
-#+begin_src emacs-lisp :tangle no
-  (print (loop for f in Info-directory-list
-               collect
-               (car f)))
-#+end_src
 ** extra bindings
    :PROPERTIES:
-   :tangle: 
+   :tangle: yes 
    :END:
 
 #+name: tob
@@ -780,6 +689,9 @@ $\\|P.+\\\\\n\\)" nil t)
 
 #+end_src
 ** keybindings
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_. Keybindings
 
@@ -810,6 +722,9 @@ $\\|P.+\\\\\n\\)" nil t)
 
 #+end_src
 **** C-?
+:PROPERTIES:
+:tangle: 
+:END:
 #+begin_src emacs-lisp
 ;;;_  . C-?
 
@@ -892,9 +807,8 @@ $\\|P.+\\\\\n\\)" nil t)
 (bind-key "M-s n" 'find-name-dired)
 (bind-key "M-s o" 'occur)
 
-(bind-key "A-M-w" 'copy-code-as-rtf)
-
 #+end_src
+
 **** M-C-?
 #+begin_src emacs-lisp
 ;;;_  . M-C-?
@@ -1222,7 +1136,6 @@ $\\|P.+\\\\\n\\)" nil t)
           (kill-buffer (current-buffer)))))))
 
 (bind-key "C-c U" 'tinify-url)
-(bind-key "C-c v" 'ffap)
 
 (defun view-clipboard ()
   (interactive)
@@ -2410,7 +2323,31 @@ FORM => (eval FORM)."
   :commands fetchmail-mode)
 
 #+end_src
+*** ffap
+:PROPERTIES:
+:tangle:   yes
+:END:
+
+#+begin_src emacs-lisp
+(use-package ffap
+  :bind ("C-c v" . ffap))
+#+end_src
+
+
+*** ffip
+:PROPERTIES:
+:tangle:   yes
+:END:
+
+#+begin_src emacs-lisp
+(use-package find-file-in-project
+  :bind ("C-x f" . find-file-in-project))
+#+end_src
+
 *** flyspell
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , flyspell
 
@@ -2467,7 +2404,7 @@ FORM => (eval FORM)."
 #+end_src
 *** grep
     :PROPERTIES:
-    :tangle:   no
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , grep
@@ -2763,7 +2700,7 @@ FORM => (eval FORM)."
 #+end_src
 *** info
     :PROPERTIES:
-    :tangle:   no
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , info
@@ -2784,9 +2721,41 @@ FORM => (eval FORM)."
           (delete-window)))))
 
 (use-package info-look
-  :commadns info-lookup-add-help)
-
+  :commands info-lookup-add-help)
 #+end_src
+
+**** getting info directories right
+#+TBLNAME: info-dirs
+| /Users/tonyday/.emacs.d/info                   |
+| /usr/share/info/                               |
+
+  #+begin_src emacs-lisp :var table=info-dirs
+     (setq clean-table
+           (delete nil  
+                   (loop for line in table
+                         collect 
+                         (delete "" (delete-dups line)))))
+    (setq Info-default-directory-list (apply #'append clean-table))
+    (setq Info-directory-list Info-default-directory-list)
+  #+end_src
+
+**** checks
+#+begin_src emacs-lisp :tangle no
+  (getenv "INFOPATH")
+#+end_src
+
+#+begin_src emacs-lisp :tangle no
+  (print (loop for f in Info-default-directory-list
+               collect
+               (list f)))
+#+end_src
+
+#+begin_src emacs-lisp :tangle no
+  (print (loop for f in Info-directory-list
+               collect
+               (car f)))
+#+end_src
+
 *** indirect
     :PROPERTIES:
     :tangle: 
@@ -3614,6 +3583,7 @@ There's a few settings needed for org-mode.org to work (I tweak it post mostly)
 
   #+results:
   | ~/stuff/stuff.org | ~/.emacs.d/README.org | ~/.emacs.d/dotemacs.org | ~/stuff/org/refile.org | ~/stuff/org/bugz.org | ~/stuff/org/snipz.org | ~/stuff/org/org.org | ~/stuff/emacs/emacs.org | ~/stuff/emacs/bindings.org | ~/stuff/sys/sys.org | ~/stuff/biz/scarce.org | ~/stuff/content/life.org | ~/stuff/content/writing.org | ~/stuff/dev/webdev.org | ~/stuff/dev/sandpit.org | ~/stuff/dev/jsdev.org | ~/stuff/factor/factor.org | ~/stuff/content/ideas.org | ~/stuff/factor/parity.org | ~/stuff/quant/rdev.org | ~/stuff/quant/volatility.org | ~/stuff/quant/da.org | ~/stuff/quant/emfx.org | ~/stuff/sys/git.org | ~/git/scarce/scarce.org | ~/git/scarce/mindev.org | ~/git/scarce/sitedev.org |
+
 
 **** other suff
 - tags

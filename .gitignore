@@ -18,3 +18,5 @@ url/*
 
 /#org-mode-mods.org#
 /site-lisp/org-mode.el
+/yes 
+/dotemacs.el
