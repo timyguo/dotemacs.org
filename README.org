@@ -1,9 +1,39 @@
-Playing around with your emacs config is all about trying out new
-stuff, adding new packages, tweaking bindings and deleting old stuff
-you no longer need.  
+Welcome to my dotemacs lab :)
 
-This repo aims to be all about that and is used as a bit of an
-emacs laboratory.
+I'm learning emacs and elisp by playing around with dot file configs
+and otherwise having a look at how other people set up their files.
+
+
+* contents
+
+What you'll find here is:
++ one teeny tiny init.el file, and
++ one large, flat org file (dotemacs.org) that gets called by
+  init.el.  This in turn can call other files (but I try and avoid that).
++ one wired up submodule of John Wiegley's emacs dot files.
++ several unwired-up repositories of other well-maintained emacs dot files.
+
+Within dotemacs.org you will find:
++ a startup process that works for me.
++ a column view mode that lets you quickly turn bits of code off and
+  on via the tangle property. C-c C-x C-c is really how you should
+  view this file.
++ some org-tables and some code to convert said tables into code for
+  settings and bindings. I have used this to bust up my old init.el
+  and to muck around with new bindings and settings. 
++ I started out with the usual mishmash of hundreds of miscellaneous
+  settings and uncategorised defuns. There may be a few still lurking
+  in there somewhere.
++ the jwiegley init.el code busted up into separate headers, and in
+  various stages of being subject to a light editing for my personal
+  needs.
+
+* setup
+
+  I'm not sure how this would work for someone else.  If anyone ever
+  wants to try, let me know.
+
+* org-mode
 
 The use of org-mode as the lab is what separates this
 dotemacs from other (perhaps more rigorous) patterns.  Org-mode is used:
@@ -17,22 +47,39 @@ dotemacs from other (perhaps more rigorous) patterns.  Org-mode is used:
   often with a toggle to again turn things on and off. Babel then
   takes care of turning the table into code.  Simple as C-c C-v t.  
 
-Right at this commit, dotemacs.org is a collision of three very
-different influences:
-  - the inspirational Eric Schulte org'ified starter-kit
-  - the awesome personal dots of John Wiegley
-  - the haphazard and largely newbish way I have gathered together my
-    personal dots (but no more!) 
+* other dotemacs repos
 
-| directory name      | http                                            |
-|---------------------+-------------------------------------------------|
-| emacs24-starter-kit | https://github.com/eschulte/emacs24-starter-kit |
-| jwiegley            | https://github.com/jwiegley/dot-emacs           |
+I have many dotemacs repos as submodules. If you know of others that
+should be added to (or deleted from) the list, please let me know.
+
+** why?
+
+So if I'm looking at ways to use rgrep (say), I can rgrep the repos
+directory and see instantly how it's being used.
 
 
-If you make it as far as looking through the repo, can I suggest you
-start with dotemacs.org, which contains everything. Run it in column
-mode (C-c C-x C-c) and you'll see how I'm using the file.
+| repo                | git                                              |
+|---------------------+--------------------------------------------------|
+| jwiegley            | https://github.com/jwiegley/dot-emacs            |
+| emacs24-starter-kit | https://github.com/eschulte/emacs24-starter-kit  |
+| prelude             | https://github.com/bbatsov/prelude               |
+| emacs-live          | https://github.com/overtone/emacs-live           |
+| defunkt             | https://github.com/defunkt/emacs                 |
+| mathiasbynens       | https://github.com/mathiasbynens/dotfiles        |
+| cabbage             | https://github.com/senny/cabbage                 |
+| purcell             | https://github.com/purcell/emacs.d               |
+| magnars             | https://github.com/magnars/.emacs.d              |
+| ghoseb              | https://github.com/ghoseb/dotemacs               |
+| rmm5t               | https://github.com/rmm5t/dotfiles                |
+| garybernhardt       | https://github.com/garybernhardt/dotfiles        |
+| alexott             | https://github.com/alexott/emacs-configs         |
+| starter-kit         | https://github.com/technomancy/emacs-starter-kit |
+| dwamacs             | https://github.com/dabrahams/dwamacs.git         |
+|                     |                                                  |
+|                     |                                                  |
 
-It might just work out of the box if elpa is turned on.
+
+
+
+
 

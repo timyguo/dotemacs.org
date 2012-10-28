@@ -15,3 +15,15 @@ url/*
 
 /#init.el#
 /dotemacs-boilerplate.org~
+/#dotemacs.el#
+/.org-id-locations
+/abbrev_defs
+/dotemacs-boilerplate.el
+/dotemacs-boilerplate.org
+/dotemacs.el
+/org-clock-save.el
+/org-mode-mods.el
+/org-mode-prequel.el
+/org-mode.el
+/snippets/org-mode/se.yasnippet
+/snippets/org-mode/zz

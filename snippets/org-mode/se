@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: se
+# --
+#+begin_src emacs-lisp
+$0  
+#+end_src
