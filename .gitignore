@@ -20,3 +20,5 @@ url/*
 /site-lisp/org-mode.el
 /yes 
 /dotemacs.el
+/site-lisp/less-css-mode
+/site-lisp/o-blog

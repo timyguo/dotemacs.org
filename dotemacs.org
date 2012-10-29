@@ -35,24 +35,6 @@ The main sections are (in order)
 - endboot. stuff that has to go at the end.
 
 
-** thread
-- [-] de-bugz'ing
-    - [X] turn off all offensive packages
-    - [ ] at a clean version
-    - [ ] turn back on
-- [X] add repos as submodules
-- [ ] add org-mode as submodule
-- [ ] replumb jwiegley
-- [ ] clean up settings
-- [ ] priority list for new package r&d
-    - [ ] elisp mode
-- [ ] settings r&d
-- thread
-    - need paredit up to format src blocks properly
-        - elisp mode hook???
-    - get other repos in here so I can compare usage
-        - compare-across-repo-tools
-
 * init.el
 :PROPERTIES:
 :tangle:   init.el
@@ -528,7 +510,7 @@ variable, or you can just C-c C-c the block in org-mode after the event.
    
 * guff
 :PROPERTIES:
-:tangle:   no
+:tangle:   yes
 :END:
 ** process settings table
 
@@ -579,7 +561,7 @@ variable, or you can just C-c C-c the block in org-mode after the event.
 
 ** orphan settings
 :PROPERTIES:
-:tangle:   yes
+:tangle: 
 :END:
 
 Miscellaneous settings and snippets that I haven't org-tabled or categorised.
@@ -590,25 +572,9 @@ Miscellaneous settings and snippets that I haven't org-tabled or categorised.
 ** orphan requires
 
 ** orphaned defuns
-*** transpose-windows
-  #+begin_src emacs-lisp
-    (defun transpose-windows (arg)
-      "Transpose the buffers shown in two windows."
-      (interactive "p")
-      (let ((selector (if (>= arg 0) 'next-window 'previous-window)))
-        (while (/= arg 0)
-          (let ((this-win (window-buffer))
-                (next-win (window-buffer (funcall selector))))
-            (set-window-buffer (selected-window) next-win)
-            (set-window-buffer (funcall selector) this-win)
-            (select-window (funcall selector)))
-          (setq arg (if (plusp arg) (1- arg) (1+ arg))))))
-    (define-key ctl-x-4-map (kbd "t") 'transpose-windows)
-  #+end_src
-
 ** extra bindings
    :PROPERTIES:
-   :tangle: yes 
+   :tangle: 
    :END:
 
 #+name: tob
@@ -633,7 +599,6 @@ Miscellaneous settings and snippets that I haven't org-tabled or categorised.
 #+end_src
 
 #+RESULTS:
-
 
 ** utility macros and functions
 #+begin_src emacs-lisp
@@ -690,7 +655,7 @@ $\\|P.+\\\\\n\\)" nil t)
 #+end_src
 ** keybindings
 :PROPERTIES:
-:tangle:   yes
+:tangle: 
 :END:
 #+begin_src emacs-lisp
 ;;;_. Keybindings
@@ -861,7 +826,20 @@ $\\|P.+\\\\\n\\)" nil t)
 (bind-key "C-x F" 'set-fill-column)
 (bind-key "C-x t" 'toggle-truncate-lines)
 
-#+end_src
+    (defun transpose-windows (arg)
+      "Transpose the buffers shown in two windows."
+      (interactive "p")
+      (let ((selector (if (>= arg 0) 'next-window 'previous-window)))
+        (while (/= arg 0)
+          (let ((this-win (window-buffer))
+                (next-win (window-buffer (funcall selector))))
+            (set-window-buffer (selected-window) next-win)
+            (set-window-buffer (funcall selector) this-win)
+            (select-window (funcall selector)))
+          (setq arg (if (plusp arg) (1- arg) (1+ arg))))))
+    (bind-key "C-x 4 t" 'transpose-windows)
+  #+end_src
+
 **** C-x C-?
 #+begin_src emacs-lisp
 ;;;_  . C-x C-?
@@ -1327,7 +1305,7 @@ $\\|P.+\\\\\n\\)" nil t)
 
 #+end_src
 
-* TODO packages
+* packages
 :PROPERTIES:
 :tangle:   no
 :END:
@@ -1336,12 +1314,9 @@ $\\|P.+\\\\\n\\)" nil t)
 
 #+end_src
 
-(require 'org-colview)
-
-
 *** o-blog
     :PROPERTIES:
-    :tangle:   no
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , o-blog
@@ -1731,7 +1706,7 @@ $\\|P.+\\\\\n\\)" nil t)
 #+end_src
 *** color-moccur
 :PROPERTIES:
-:tangle:   no
+:tangle:   yes
 :END:
 #+begin_src emacs-lisp
 ;;;_ , color-moccur
@@ -1763,7 +1738,7 @@ $\\|P.+\\\\\n\\)" nil t)
 #+end_src
 *** css-mode
     :PROPERTIES:
-    :tangle: 
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , css-mode
@@ -1774,7 +1749,7 @@ $\\|P.+\\\\\n\\)" nil t)
 #+end_src
 *** ibuffer
     :PROPERTIES:
-    :tangle:   no
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , ibuffer
@@ -1860,7 +1835,7 @@ iflipb-next-buffer or iflipb-previous-buffer this round."
 #+end_src
 *** diff-mode
     :PROPERTIES:
-    :tangle:   no
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , diff-mode
@@ -1884,7 +1859,7 @@ iflipb-next-buffer or iflipb-previous-buffer this round."
 
 *** dired
     :PROPERTIES:
-    :tangle:   no
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
   ;;;_ , dired
@@ -1893,7 +1868,7 @@ iflipb-next-buffer or iflipb-previous-buffer this round."
      :defer t
      :config
     (progn
-      (use-package ls-lisp)
+      ;;(use-package ls-lisp)
       (defun dired-package-initialize ()
         (unless (featurep 'runner)
          (use-package dired-x)
@@ -1901,9 +1876,9 @@ iflipb-next-buffer or iflipb-previous-buffer this round."
          (use-package dired-sort-map)
          (use-package runner))
  
-         (setq dired-use-ls-dired t)
-         (setq ls-lisp-use-insert-directory-program nil)
-         (setq insert-directory-program "gls")
+         ;;(setq dired-use-ls-dired t)
+         ;;(setq ls-lisp-use-insert-directory-program nil)
+         ;;(setq insert-directory-program "gls")
 
          (bind-key "l" 'dired-up-directory dired-mode-map)
   
@@ -2046,7 +2021,7 @@ iflipb-next-buffer or iflipb-previous-buffer this round."
 #+end_src
 *** ediff
     :PROPERTIES:
-    :tangle:   no
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , ediff
@@ -2059,7 +2034,6 @@ iflipb-next-buffer or iflipb-previous-buffer this round."
     (bind-key "C-. =" 'ctl-period-equals-map)
 
     (bind-key "C-. = c" 'compare-windows)) ; not an ediff command, but it fits
-
   :bind (("C-. = b" . ediff-buffers)
          ("C-. = B" . ediff-buffers3)
          ("C-. = =" . ediff-files)
@@ -2517,7 +2491,7 @@ FORM => (eval FORM)."
 #+end_src
 *** helm
     :PROPERTIES:
-    :tangle:   no
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , helm
@@ -2582,7 +2556,7 @@ FORM => (eval FORM)."
 #+end_src
 *** ido
     :PROPERTIES:
-    :tangle:   no
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , ido
@@ -2594,7 +2568,7 @@ FORM => (eval FORM)."
             ido-final-text
             ido-show-confirm-message)
   :init
-  (ido-mode 'buffer)
+  (ido-mode t)
 
   :config
   (progn
@@ -2655,7 +2629,7 @@ FORM => (eval FORM)."
 #+end_src
 *** ielm
     :PROPERTIES:
-    :tangle:   no
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , ielm
@@ -2853,7 +2827,7 @@ FORM => (eval FORM)."
 #+end_src
 *** lisp-mode
     :PROPERTIES:
-    :tangle: 
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , lisp-mode
@@ -3304,7 +3278,7 @@ FORM => (eval FORM)."
 #+end_src
 *** mule
 :PROPERTIES:
-:tangle:   no
+:tangle:   yes
 :END:
 #+begin_src emacs-lisp
 ;;;_ , mule
@@ -3451,10 +3425,10 @@ FORM => (eval FORM)."
 
 #+end_src
 
-*** TODO my org-mode
-    :PROPERTIES:
-    :tangle:   yes
-    :END:
+*** my org-mode
+:PROPERTIES:
+:tangle:   yes
+:END:
 
 Org-mode is specially treated for a few reasons:
 - it has already been loaded in init.el so we could bootstrap everything else via an org-mode file.
@@ -3585,7 +3559,7 @@ There's a few settings needed for org-mode.org to work (I tweak it post mostly)
   | ~/stuff/stuff.org | ~/.emacs.d/README.org | ~/.emacs.d/dotemacs.org | ~/stuff/org/refile.org | ~/stuff/org/bugz.org | ~/stuff/org/snipz.org | ~/stuff/org/org.org | ~/stuff/emacs/emacs.org | ~/stuff/emacs/bindings.org | ~/stuff/sys/sys.org | ~/stuff/biz/scarce.org | ~/stuff/content/life.org | ~/stuff/content/writing.org | ~/stuff/dev/webdev.org | ~/stuff/dev/sandpit.org | ~/stuff/dev/jsdev.org | ~/stuff/factor/factor.org | ~/stuff/content/ideas.org | ~/stuff/factor/parity.org | ~/stuff/quant/rdev.org | ~/stuff/quant/volatility.org | ~/stuff/quant/da.org | ~/stuff/quant/emfx.org | ~/stuff/sys/git.org | ~/git/scarce/scarce.org | ~/git/scarce/mindev.org | ~/git/scarce/sitedev.org |
 
 
-**** other suff
+**** other stuff
 - tags
   #+begin_src emacs-lisp
   ; Tags with fast selection keys
@@ -3650,9 +3624,14 @@ There's a few settings needed for org-mode.org to work (I tweak it post mostly)
   (setq org-enable-priority-commands nil)
   #+end_src
 
-  #+results:
+- packages
 
-**** bind
+#+begin_src emacs-lisp
+  (use-package org-magit)
+  (use-package org-habit)
+#+end_src
+
+**** org bind
 
 shoving the binds in binds so I can see where everything is
 #+name: org-bindings
@@ -3714,7 +3693,7 @@ shoving the binds in binds so I can see where everything is
 
 *** paredit
     :PROPERTIES:
-    :tangle:   no
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , paredit
@@ -3755,7 +3734,7 @@ shoving the binds in binds so I can see where everything is
 #+end_src
 *** paren
     :PROPERTIES:
-    :tangle: 
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , paren
@@ -3889,7 +3868,7 @@ shoving the binds in binds so I can see where everything is
 #+end_src
 *** recentf
     :PROPERTIES:
-    :tangle:   no
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , recentf
@@ -4071,7 +4050,7 @@ shoving the binds in binds so I can see where everything is
 #+end_src
 *** slime
     :PROPERTIES:
-    :tangle: 
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , slime
@@ -4482,7 +4461,7 @@ shoving the binds in binds so I can see where everything is
 #+end_src
 *** whitespace
 :PROPERTIES:
-:tangle:   no
+:tangle:   yes
 :END:
 #+begin_src emacs-lisp
 ;;;_ , whitespace
@@ -4599,8 +4578,14 @@ shoving the binds in binds so I can see where everything is
 
 #+end_src
 *** write-room
+:PROPERTIES:
+:tangle:   yes
+:END:
+
+
 #+begin_src emacs-lisp
 ;;;_ , write-room
+(defvar in-write-room nil)
 
 (defun write-room ()
   "Make a frame without any bling."
@@ -4612,9 +4597,9 @@ shoving the binds in binds so I can see where everything is
                   (vertical-scroll-bars . nil)
                   (left-fringe . 0); no fringe
                   (right-fringe . 0)
-                  (background-mode . dark)
-                  (background-color . "cornsilk")
-                  (foreground-color . "black")
+                  ;;(background-mode . dark)
+                  ;;(background-color . "cornsilk")
+                  ;;(foreground-color . "black")
                   (cursor-color . "green")
                   (border-width . 0)
                   (border-color . "black"); should be unnecessary
@@ -4630,14 +4615,26 @@ shoving the binds in binds so I can see where everything is
           fill-column 65)
     (set-window-margins (selected-window) 50 50)))
 
+(defun toggle-write-room ()
+  (interactive)
+  (if in-write-room
+      (progn
+        (select-frame (make-frame))
+        (setq mode-line-format (default-value 'mode-line-format))
+        (setq in-write-room nil))
+    (progn
+      (setq in-write-room t)
+      (write-room))))
+
+(bind-key "C-c w" 'toggle-write-room)
 #+end_src
 
 #+RESULTS:
-: write-room
+: toggle-write-room
 
 *** yasnippet
     :PROPERTIES:
-    :tangle:   no
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , yasnippet
@@ -5214,3 +5211,16 @@ Appointment reminders enabled (no diary file found)
 
 
 
+** remove results
+:PROPERTIES:
+:OPEN: [2012-10-20 Sat 20:00]
+:LAST: [2012-10-20 Sat 20:00]
+:END:
+
+#+begin_src emacs-lisp
+  (save-excursion
+    (beginning-of-buffer)
+    (while (re-search-forward "^#\\+results:.*\n\\(^\|.+\n\\)*\n" nil t)
+      (replace-match ""))
+    )
+#+end_src
