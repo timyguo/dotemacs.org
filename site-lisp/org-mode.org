@@ -3719,12 +3719,12 @@ The clock modeline time is also shown with a reverse background.
 
 #+begin_src emacs-lisp :tangle no
 ;; The following custom-set-faces create the highlights
-(custom-set-faces
+;;(custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(org-mode-line-clock ((t (:background "grey75" :foreground "red" :box (:line-width -1 :style released-button)))) t))
+;; '(org-mode-line-clock ((t (:background "grey75" :foreground "red" :box (:line-width -1 :style released-button)))) t))
 #+end_src
 *** Keep tasks with timestamps visible on the global todo lists
 :PROPERTIES:

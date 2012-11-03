@@ -23,6 +23,8 @@ General design:
   and bind, and then doing things to them that are dangerous.
 
 ** flow 
+:LOGBOOK:
+:END:
 The main sections are (in order)
 - bootstrap. stuff that absolutely has to go at the front and load before
   everything else. order matters.
@@ -217,6 +219,7 @@ Any other directories needed on the path go here:
 | directory                                                 | toggle |
 |-----------------------------------------------------------+--------|
 | ~/.emacs.d                                                | t      |
+| ~/.emacs.d/elpa/ess-20121027.2218/lisp                    | t      |
 | ~/.emacs.d/repos/jwiegley/overrides/org-mode/contrib/lisp | t      |
 
 #+begin_src emacs-lisp :var table=load-path-table
@@ -231,6 +234,9 @@ Any other directories needed on the path go here:
 (require 'autoloads nil t)
 (require 'cus-load nil t)
 #+end_src
+
+#+results:
+: cus-load
 
 *** load-path check
     :PROPERTIES:
@@ -251,7 +257,11 @@ variable, or you can just C-c C-c the block in org-mode after the event.
 
 #+RESULTS:
 | /Users/tonyday/.emacs.d                                                                                                   |
+| /Users/tonyday/.emacs.d/elpa/ess-20121027.2218/lisp                                                                       |
 | /Users/tonyday/.emacs.d/repos/jwiegley/overrides/org-mode/contrib/lisp                                                    |
+| /Users/tonyday/.emacs.d/repos/jwiegley/override/org-mode/contrib/lisp                                                     |
+| /Users/tonyday/.emacs.d/site-lisp/less-css-mode                                                                           |
+| /Users/tonyday/.emacs.d/site-lisp/o-blog                                                                                  |
 | /Users/tonyday/.emacs.d/site-lisp                                                                                         |
 | /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/ac                                                                       |
 | /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/ace-jump-mode                                                            |
@@ -336,9 +346,10 @@ variable, or you can just C-c C-c the block in org-mode after the event.
 | /Users/tonyday/.emacs.d/elpa/auctex-11.86                                                                                 |
 | /Users/tonyday/.emacs.d/elpa/bbdb-20120923.1954                                                                           |
 | /Users/tonyday/.emacs.d/elpa/clojure-mode-1.11.5                                                                          |
+| /Users/tonyday/.emacs.d/elpa/csv-mode-20091203.1911                                                                       |
+| /Users/tonyday/.emacs.d/elpa/csv-nav-20091121.37                                                                          |
 | /Users/tonyday/.emacs.d/elpa/elisp-slime-nav-0.2                                                                          |
-| /Users/tonyday/.emacs.d/elpa/ess-5.14                                                                                     |
-| /Users/tonyday/.emacs.d/elpa/ess-smart-underscore-0.73                                                                    |
+| /Users/tonyday/.emacs.d/elpa/ess-20121027.2218                                                                            |
 | /Users/tonyday/.emacs.d/elpa/find-file-in-project-3.2                                                                     |
 | /Users/tonyday/.emacs.d/elpa/htmlize-1.39                                                                                 |
 | /Users/tonyday/.emacs.d/elpa/ido-ubiquitous-1.5                                                                           |
@@ -425,7 +436,7 @@ variable, or you can just C-c C-c the block in org-mode after the event.
 | magit                | t      |                            |
 | magithub             | t      | learn                      |
 | org                  |        | direct from repo           |
-| org-magit            | t      |                            |
+| org-magit            |        |                            |
 | org2blog             |        |                            |
 | paredit              | t      |                            |
 | slime                | t      | check                      |
@@ -1207,6 +1218,25 @@ $\\|P.+\\\\\n\\)" nil t)
 (bind-key "C-. C-c" 'org-indent-indent-buffer)
 #+end_src
 
+**** C-. C-.
+#+begin_src emacs-lisp
+(defvar ctl-period-ctl-period-map)
+(define-prefix-command 'ctl-period-ctl-period-map)
+(bind-key "C-. C-." 'ctl-period-ctl-period-map)
+
+(bind-key "C-. C-. d" 'describe-personal-keybindings)
+(bind-key "C-. C-. n" 'next-buffer)
+(bind-key "C-. C-. p" 'previous-buffer)
+(bind-key "C-. C-. k" 'keyfreq-show)
+(bind-key "C-. C-. b" 'bury-buffer)
+(bind-key "C-. C-. f" 'recentf-open-files)
+
+#+end_src
+
+#+results:
+: previous-buffer
+
+
 *** help-map
 #+begin_src emacs-lisp
 ;;;_ , help-map
@@ -1422,11 +1452,14 @@ $\\|P.+\\\\\n\\)" nil t)
 
 #+end_src
 *** auctex
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , auctex
 
 (use-package tex-site
-  :load-path "site-lisp/auctex/preview/"
+  :load-path "/repos/jwiegley/site-lisp/auctex/preview/"
   :defines (latex-help-cmd-alist
             latex-help-file)
   ;; jww (2012-06-15): Do I want to use AucTeX for texinfo-mode?
@@ -1459,6 +1492,10 @@ $\\|P.+\\\\\n\\)" nil t)
                                         ("(latex2e)Command Index"))))))
 
 #+end_src
+
+#+results:
+: t
+
 *** auto-complete
 #+begin_src emacs-lisp
 ;;;_ , auto-complete
@@ -2272,6 +2309,29 @@ FORM => (eval FORM)."
   :bind ("C-x C-z" . eshell-toggle))
 
 #+end_src
+*** ess
+:PROPERTIES:
+:tangle:   yes
+:END:
+
+#+begin_src emacs-lisp
+;;(locate-library "ess")
+;;(use-package ess)
+;;(load-path)
+(require 'ess)
+
+;;(print load-path)
+
+;;(require 'ess-site)
+
+;;(package-installed-p 'ess)
+
+
+#+end_src
+
+#+results:
+
+
 *** eval-expr
 #+begin_src emacs-lisp
 ;;;_ , eval-expr
@@ -2556,7 +2616,7 @@ FORM => (eval FORM)."
 #+end_src
 *** ido
     :PROPERTIES:
-    :tangle:   yes
+    :tangle:   no
     :END:
 #+begin_src emacs-lisp
 ;;;_ , ido
@@ -3145,7 +3205,7 @@ FORM => (eval FORM)."
 | ~/stuff      |
 | ~/.emacs.d   |
 | ~/git/o-blog |
-| ~/git/emfx_R |
+| ~/git/quaff |
 
 
 #+begin_src emacs-lisp :var table=git-repos  
@@ -3153,6 +3213,9 @@ FORM => (eval FORM)."
            (loop for file in table
                      collect (car file)))
 #+end_src
+
+#+results:
+| ~/git/scarce | ~/stuff | ~/.emacs.d | ~/git/o-blog | ~/git/quaff |
 
 *** markdown-mode
     :PROPERTIES:
@@ -3511,33 +3574,34 @@ There's a few settings needed for org-mode.org to work (I tweak it post mostly)
 
 
 #+TBLNAME: agenda-files
-| stuff    |         | stuff.org         |
-| .emacs.d |         | README.org        |
-| .emacs.d |         | dotemacs.org      |
-| stuff    | org     | refile.org        |
-| stuff    | org     | bugz.org          |
-| stuff    | org     | snipz.org         |
-| stuff    | org     | org.org           |
-| stuff    | emacs   | emacs.org         |
-| stuff    | emacs   | bindings.org      |
-| stuff    | sys     | sys.org           |
-| stuff    | biz     | scarce.org        |
-| stuff    | content | life.org          |
-| stuff    | content | writing.org       |
-| stuff    | dev     | webdev.org        |
-| stuff    | dev     | sandpit.org       |
-| stuff    | dev     | jsdev.org         |
-| stuff    | factor  | factor.org        |
-| stuff    | content | ideas.org         |
-| stuff    | factor  | parity.org        |
-| stuff    | quant   | rdev.org          |
-| stuff    | quant   | volatility.org    |
-| stuff    | quant   | da.org            |
-| stuff    | quant   | emfx.org          |
-| stuff    | sys     | git.org           |
-| git      | scarce  | scarce.org        |
-| git      | scarce  | mindev.org        |
-| git      | scarce  | sitedev.org       |
+| git      | quaff   | quaff.org      |
+| stuff    |         | stuff.org      |
+| .emacs.d |         | README.org     |
+| .emacs.d |         | dotemacs.org   |
+| stuff    | org     | refile.org     |
+| stuff    | org     | bugz.org       |
+| stuff    | org     | snipz.org      |
+| stuff    | org     | org.org        |
+| stuff    | emacs   | emacs.org      |
+| stuff    | emacs   | bindings.org   |
+| stuff    | sys     | sys.org        |
+| stuff    | biz     | scarce.org     |
+| stuff    | content | life.org       |
+| stuff    | content | writing.org    |
+| stuff    | dev     | webdev.org     |
+| stuff    | dev     | sandpit.org    |
+| stuff    | dev     | jsdev.org      |
+| stuff    | factor  | factor.org     |
+| stuff    | content | ideas.org      |
+| stuff    | factor  | parity.org     |
+| stuff    | quant   | rdev.org       |
+| stuff    | quant   | volatility.org |
+| stuff    | quant   | da.org         |
+| stuff    | sys     | git.org        |
+| git      | scarce  | scarce.org     |
+| git      | scarce  | mindev.org     |
+| git      | scarce  | sitedev.org    |
+| stuff    | bunny   | bunny.org      |
 
   #+begin_src emacs-lisp :var data=agenda-files
     (setq clean-table
@@ -3556,7 +3620,7 @@ There's a few settings needed for org-mode.org to work (I tweak it post mostly)
   #+end_src
 
   #+results:
-  | ~/stuff/stuff.org | ~/.emacs.d/README.org | ~/.emacs.d/dotemacs.org | ~/stuff/org/refile.org | ~/stuff/org/bugz.org | ~/stuff/org/snipz.org | ~/stuff/org/org.org | ~/stuff/emacs/emacs.org | ~/stuff/emacs/bindings.org | ~/stuff/sys/sys.org | ~/stuff/biz/scarce.org | ~/stuff/content/life.org | ~/stuff/content/writing.org | ~/stuff/dev/webdev.org | ~/stuff/dev/sandpit.org | ~/stuff/dev/jsdev.org | ~/stuff/factor/factor.org | ~/stuff/content/ideas.org | ~/stuff/factor/parity.org | ~/stuff/quant/rdev.org | ~/stuff/quant/volatility.org | ~/stuff/quant/da.org | ~/stuff/quant/emfx.org | ~/stuff/sys/git.org | ~/git/scarce/scarce.org | ~/git/scarce/mindev.org | ~/git/scarce/sitedev.org |
+  | ~/git/quaff/quaff.org | ~/stuff/stuff.org | ~/.emacs.d/README.org | ~/.emacs.d/dotemacs.org | ~/stuff/org/refile.org | ~/stuff/org/bugz.org | ~/stuff/org/snipz.org | ~/stuff/org/org.org | ~/stuff/emacs/emacs.org | ~/stuff/emacs/bindings.org | ~/stuff/sys/sys.org | ~/stuff/biz/scarce.org | ~/stuff/content/life.org | ~/stuff/content/writing.org | ~/stuff/dev/webdev.org | ~/stuff/dev/sandpit.org | ~/stuff/dev/jsdev.org | ~/stuff/factor/factor.org | ~/stuff/content/ideas.org | ~/stuff/factor/parity.org | ~/stuff/quant/rdev.org | ~/stuff/quant/volatility.org | ~/stuff/quant/da.org | ~/stuff/sys/git.org | ~/git/scarce/scarce.org | ~/git/scarce/mindev.org | ~/git/scarce/sitedev.org | ~/stuff/bunny/bunny.org |
 
 
 **** other stuff
@@ -3635,8 +3699,8 @@ There's a few settings needed for org-mode.org to work (I tweak it post mostly)
 
 shoving the binds in binds so I can see where everything is
 #+name: org-bindings
-| key         | binding                                           |
-|-------------+---------------------------------------------------|
+| key       | binding                                           |
+|-----------+---------------------------------------------------|
 | C-c l     | org-store-link                                    |
 | C-c a     | org-agenda                                        |
 | C-c b     | org-iswitchb                                      |
@@ -3683,8 +3747,8 @@ shoving the binds in binds so I can see where everything is
 | M-x       | smex                                              |
 | C-x x     | smex                                              |
 | M-X       | smex-major-mode-commands                          |
-| <C-f6>    | (lambda () (interactive) (bookmark-set "SAVED")) |
-| <f6>        | (lambda () (interactive) (bookmark-jump "SAVED")) |
+| <C-f6>    | (lambda () (interactive) (bookmark-set "SAVED"))  |
+| <f6>      | (lambda () (interactive) (bookmark-jump "SAVED")) |
 
 #+begin_src emacs-lisp :var table=org-bindings
   (bind-keys-from-table (org-table-remove-header table))
@@ -4850,7 +4914,7 @@ shoving the binds in binds so I can see where everything is
 Mostly from Sacha
 *** Quantified Emacs!
 :PROPERTIES:
-:tangle:   no
+:tangle:   yes
 :END:
 
 #+begin_src emacs-lisp

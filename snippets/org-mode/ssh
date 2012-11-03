@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: source block sh 
+# --
+#+begin_src sh
+$0
+#+end_src
