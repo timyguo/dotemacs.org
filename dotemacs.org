@@ -1493,8 +1493,18 @@ $\\|P.+\\\\\n\\)" nil t)
 
 #+end_src
 
-#+results:
-: t
+**** random notes
+:PROPERTIES:
+:tangle:   no
+:END:
+Some random old-school instructions
+
+#+begin_src emacs-lisp
+  (load "auctex.el" nil t t)
+  (load "preview-latex.el" nil t t)
+#+end_src
+
+
 
 *** auto-complete
 #+begin_src emacs-lisp
@@ -3590,34 +3600,49 @@ There's a few settings needed for org-mode.org to work (I tweak it post mostly)
 
 
 #+TBLNAME: agenda-files
-| git      | quaff   | quaff.org      |
-| stuff    |         | stuff.org      |
-| .emacs.d |         | README.org     |
-| .emacs.d |         | dotemacs.org   |
-| stuff    | org     | refile.org     |
-| stuff    | org     | bugz.org       |
-| stuff    | org     | snipz.org      |
-| stuff    | org     | org.org        |
-| stuff    | emacs   | emacs.org      |
-| stuff    | emacs   | bindings.org   |
-| stuff    | sys     | sys.org        |
-| stuff    | biz     | scarce.org     |
-| stuff    | content | life.org       |
-| stuff    | content | writing.org    |
-| stuff    | dev     | webdev.org     |
-| stuff    | dev     | sandpit.org    |
-| stuff    | dev     | jsdev.org      |
-| stuff    | factor  | factor.org     |
-| stuff    | content | ideas.org      |
-| stuff    | factor  | parity.org     |
-| stuff    | quant   | rdev.org       |
-| stuff    | quant   | volatility.org |
-| stuff    | quant   | da.org         |
-| stuff    | sys     | git.org        |
-| git      | scarce  | scarce.org     |
-| git      | scarce  | mindev.org     |
-| git      | scarce  | sitedev.org    |
-| stuff    | bunny   | bunny.org      |
+| git      | quaff   | quaff.org                  |
+| git      | quaff   | fxspot.org                 |
+| git      | quaff   | edhec.org                  |
+| git      | quaff   | jgb.org                    |
+| stuff    |         | stuff.org                  |
+| .emacs.d |         | README.org                 |
+| .emacs.d |         | dotemacs.org               |
+| stuff    | org     | refile.org                 |
+| stuff    | org     | bugz.org                   |
+| stuff    | org     | snipz.org                  |
+| stuff    | org     | table-tests.org            |
+| stuff    | org     | org.org                    |
+| stuff    | emacs   | emacs.org                  |
+| stuff    | emacs   | bindings.org               |
+| stuff    | emacs   | regexp.org                 |
+| stuff    | sys     | sys.org                    |
+| stuff    | sys     | git.org                    |
+| stuff    | biz     | scarce.org                 |
+| stuff    | content | life.org                   |
+| stuff    | content | writing.org                |
+| stuff    | dev     | webdev.org                 |
+| stuff    | dev     | sandpit.org                |
+| stuff    | dev     | jsdev.org                  |
+| stuff    | factor  | factor.org                 |
+| stuff    | content | ideas.org                  |
+| stuff    | factor  | parity.org                 |
+| stuff    | quant   | rdev.org                   |
+| stuff    | quant   | volatility.org             |
+| stuff    | quant   | bunny.org                  |
+| stuff    | quant   | volatility.org             |
+| stuff    | quant   | strategy_run_annotated.org |
+| stuff    | quant   | startegy_run_default.org   |
+| stuff    | quant   | momentum.org               |
+| stuff    | quant   | mom-report.org             |
+| stuff    | quant   | xkcd.org                   |
+| stuff    | quant   | tail.org                   |
+| stuff    | quant   | da.org                     |
+| stuff    | sys     | git.org                    |
+| git      | scarce  | scarce.org                 |
+| git      | scarce  | mindev.org                 |
+| git      | scarce  | sitedev.org                |
+| git      | o-blog  | oblog-sandpit.org          |
+| git      | o-blog  | oblog-min.org              |
 
   #+begin_src emacs-lisp :var data=agenda-files
     (setq clean-table
@@ -3626,7 +3651,7 @@ There's a few settings needed for org-mode.org to work (I tweak it post mostly)
                         collect 
                         (delete "" (delete-dups line)))))
     
-    (setq org-agenda-files 
+    (setq org-agenda-files
           (mapcar
            (lambda (x) 
              (concat "~/"
@@ -3635,12 +3660,8 @@ There's a few settings needed for org-mode.org to work (I tweak it post mostly)
            clean-table))
   #+end_src
 
-  #+results:
-  | ~/git/quaff/quaff.org | ~/stuff/stuff.org | ~/.emacs.d/README.org | ~/.emacs.d/dotemacs.org | ~/stuff/org/refile.org | ~/stuff/org/bugz.org | ~/stuff/org/snipz.org | ~/stuff/org/org.org | ~/stuff/emacs/emacs.org | ~/stuff/emacs/bindings.org | ~/stuff/sys/sys.org | ~/stuff/biz/scarce.org | ~/stuff/content/life.org | ~/stuff/content/writing.org | ~/stuff/dev/webdev.org | ~/stuff/dev/sandpit.org | ~/stuff/dev/jsdev.org | ~/stuff/factor/factor.org | ~/stuff/content/ideas.org | ~/stuff/factor/parity.org | ~/stuff/quant/rdev.org | ~/stuff/quant/volatility.org | ~/stuff/quant/da.org | ~/stuff/sys/git.org | ~/git/scarce/scarce.org | ~/git/scarce/mindev.org | ~/git/scarce/sitedev.org | ~/stuff/bunny/bunny.org |
-
-
 **** other stuff
-- tags
+***** tags
   #+begin_src emacs-lisp
   ; Tags with fast selection keys
 (setq org-tag-alist (quote (("urgent" . ?u)
@@ -3652,8 +3673,7 @@ There's a few settings needed for org-mode.org to work (I tweak it post mostly)
 
   #+results:
   | (urgent . 117) | (bill . 98) | (scarce . 115) | (crypt . 99) | (emacs . 101) |
-
-- babel languages
+***** babel languages
    #+begin_src emacs-lisp 
     (org-babel-do-load-languages
        (quote org-babel-load-languages)
@@ -3668,8 +3688,7 @@ There's a few settings needed for org-mode.org to work (I tweak it post mostly)
 
    #+results:
    | (emacs-lisp . t) | (sh . t) | (gnuplot . t) | (org . t) | (octave . t) | (js . t) | (R . t) |
-
-- link abbreviations
+***** link abbreviations
   #+begin_src emacs-lisp
   (setq org-link-abbrev-alist
        '(("google"    . "http://www.google.com/search?q=")))
@@ -3677,8 +3696,7 @@ There's a few settings needed for org-mode.org to work (I tweak it post mostly)
 
   #+results:
   | (google . http://www.google.com/search?q=) |
-
-- mobileorg settings
+***** mobileorg settings
   #+begin_src emacs-lisp 
   (setq org-default-notes-file "~/stuff/org/refile.org")
   ;; Set to the name of the file where new notes will be stored
@@ -3689,8 +3707,7 @@ There's a few settings needed for org-mode.org to work (I tweak it post mostly)
 
   #+results:
   : ~/Dropbox/MobileOrg
-
-- override settings
+***** override settings
     #+begin_src emacs-lisp
       (remove-hook 'org-insert-heading-hook 'bh/insert-heading-inactive-timestamp)
     #+end_src
@@ -3703,13 +3720,37 @@ There's a few settings needed for org-mode.org to work (I tweak it post mostly)
   #+begin_src emacs-lisp 
   (setq org-enable-priority-commands nil)
   #+end_src
+***** packages
 
-- packages
-
-#+begin_src emacs-lisp
+  #+begin_src emacs-lisp
   (use-package org-magit)
   (use-package org-habit)
 #+end_src
+
+***** jumping
+#+begin_src emacs-lisp
+  (defun org-jump ()
+    (interactive)
+    (bookmark-set "org-jumped-from")
+    (org-refile t nil nil "Jump")
+    (bookmark-set "org-jumped-to"))
+    
+   
+  (defun org-jump-back()
+    (interactive)
+    (if (equal (point) (bookmark-get-position "org-jumped-from"))
+        (bookmark-jump "org-jumped-to")
+      (if (bookmark-get-position "org-jumped-to")
+          (bookmark-jump "org-jumped-from"))))
+     
+  
+  (bind-key "C-. j" 'org-jump)
+  (bind-key "C-. l" 'org-jump-back)
+#+end_src
+
+#+results:
+: org-jump-back
+
 
 **** org bind
 
