@@ -2270,6 +2270,16 @@ FORM => (eval FORM)."
       (erc-cmd-DEOP (format "%s" (erc-current-nick))))))
 
 #+end_src
+
+*** erlang
+#+begin_src emacs-lisp
+  (use-package erlang-start)
+(setq erlang-root-dir "/usr/local/Cellar/erlang/R15B02/share")
+#+end_src
+
+#+results:
+: /usr/local/Cellar/erlang/R15B02/share
+
 *** eshell
     :PROPERTIES:
     :tangle: 
@@ -3219,7 +3229,7 @@ FORM => (eval FORM)."
 
 *** markdown-mode
     :PROPERTIES:
-    :tangle: 
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , markdown-mode
@@ -3238,6 +3248,12 @@ FORM => (eval FORM)."
     (bind-key "C-x M" 'markdown-preview-file)))
 
 #+end_src
+
+http://lucindo.com.br/lisp/milki/markdown.html
+
+#+results:
+: t
+
 *** merlin
 #+begin_src emacs-lisp
 ;;;_ , merlin

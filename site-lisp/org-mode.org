@@ -5629,7 +5629,7 @@ in my =~/.emacs.d/plugins= directory, renamed =yasnippet0.5.10= to
             (org-set-local 'yas/trigger-key [tab])
             (define-key yas/keymap [tab] 'yas/next-field-group)
             ;; flyspell mode for spell checking everywhere
-            (flyspell-mode 1)
+            ;; (flyspell-mode 1)
             ;; auto-fill mode on
             (auto-fill-mode 1)))
 #+end_src
