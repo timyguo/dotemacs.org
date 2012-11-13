@@ -1366,7 +1366,7 @@ $\\|P.+\\\\\n\\)" nil t)
 
 *** abbrev
     :PROPERTIES:
-    :tangle: 
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , abbrev
@@ -1389,6 +1389,9 @@ $\\|P.+\\\\\n\\)" nil t)
 
 #+end_src
 *** ace-jump-mode
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , ace-jump-mode
 
@@ -1397,6 +1400,9 @@ $\\|P.+\\\\\n\\)" nil t)
 
 #+end_src
 *** allout
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , allout
 
@@ -1426,6 +1432,9 @@ $\\|P.+\\\\\n\\)" nil t)
 
 #+end_src
 *** ascii
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , ascii
 
@@ -1443,6 +1452,9 @@ $\\|P.+\\\\\n\\)" nil t)
 
 #+end_src
 *** archive-region
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , archive-region
 
@@ -1507,6 +1519,9 @@ Some random old-school instructions
 
 
 *** auto-complete
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , auto-complete
 
@@ -1522,6 +1537,9 @@ Some random old-school instructions
 
 #+end_src
 *** autopair
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , autopair
 
@@ -1538,6 +1556,9 @@ Some random old-school instructions
 
 #+end_src
 *** autorevert
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , autorevert
 
@@ -1551,6 +1572,9 @@ Some random old-school instructions
 
 #+end_src
 *** backup-each-save
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , backup-each-save
 
@@ -1679,6 +1703,9 @@ Some random old-school instructions
 
 #+end_src
 *** bm
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , bm
 
@@ -1700,6 +1727,9 @@ Some random old-school instructions
 
 #+end_src
 *** bookmark
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , bookmark
 
@@ -1722,7 +1752,7 @@ Some random old-school instructions
 #+end_src
 *** browse-kill-ring+
     :PROPERTIES:
-    :tangle: 
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , browse-kill-ring+
@@ -1731,6 +1761,9 @@ Some random old-school instructions
 
 #+end_src
 *** cmake-mode
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , cmake-mode
 
@@ -1740,6 +1773,9 @@ Some random old-school instructions
 
 #+end_src
 *** compile
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , compile
 
@@ -1776,6 +1812,9 @@ Some random old-school instructions
 : t
 
 *** crosshairs
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , crosshairs
 
@@ -1873,6 +1912,9 @@ iflipb-next-buffer or iflipb-previous-buffer this round."
 
 #+end_src
 *** dedicated
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , dedicated
 
@@ -2281,6 +2323,167 @@ FORM => (eval FORM)."
 
 #+end_src
 
+*** my erc
+:PROPERTIES:
+:tangle:   yes
+:END:
+#+begin_src emacs-lisp
+;;;_ , erc
+
+(use-package erc
+  ;; :commands erc
+  :init
+  (progn
+    (defun irc ()
+      (interactive)
+      (erc-tls :server "irc.freenode.net"
+               :port 6697
+               :nick "zygomega"
+               :password (funcall
+                          (plist-get
+                           (car (auth-source-search :host "irc.freenode.net"
+                                                    :user "zygomega"
+                                                    :type 'netrc
+                                                    :port 6667))
+                           :secret)))
+      (erc-tls :server "irc.oftc.net"
+               :port 6697
+               :nick "zygomega"))
+
+    (defun erc-connect ()
+      "alexott connect to IRC."
+      (interactive)
+      (progn
+        (erc-select :server "irc.freenode.net" :port 6667 :nick "zygomega")))
+
+
+    (defun im ()
+      (interactive)
+      (erc :server "localhost"
+           :port 6667
+           :nick "tonyday")))
+
+  :config
+  (progn
+    (erc-track-minor-mode 1)
+    (erc-track-mode 1)
+
+    (use-package erc-alert)
+    (use-package erc-highlight-nicknames)
+    (use-package erc-patch)
+    
+    (use-package erc-yank
+      :init
+      (bind-key "C-y" 'erc-yank erc-mode-map))
+
+    (use-package wtf
+      :commands wtf-is
+      :init
+      (defun erc-cmd-WTF (term &rest ignore)
+        "Look up definition for TERM."
+        (let ((def (wtf-is term)))
+          (if def
+              (let ((msg (concat "{Term} " (upcase term) " is " def)))
+                (with-temp-buffer
+                  (insert msg)
+                  (kill-ring-save (point-min) (point-max)))
+                (message msg))
+            (message (concat "No definition found for " (upcase term)))))))
+
+    (defun switch-to-bitlbee ()
+      (interactive)
+      (switch-to-buffer-other-window "&bitlbee")
+      (call-interactively 'erc-channel-names)
+      (goto-char (point-max)))
+
+    (bind-key "C-c b" 'switch-to-bitlbee)
+
+    (defun erc-cmd-SHOW (&rest form)
+      "Eval FORM and send the result and the original form as:
+FORM => (eval FORM)."
+      (let* ((form-string (mapconcat 'identity form " "))
+             (result
+              (condition-case err
+                  (eval (read-from-whole-string form-string))
+                (error
+                 (format "Error: %s" err)))))
+        (erc-send-message (format "%s => %S" form-string result))))
+
+    (defun erc-cmd-INFO (&rest ignore)
+      "Send current info node."
+      (unless (get-buffer "*info*")
+        (error "No *info* buffer"))
+      (let (output)
+        (with-current-buffer "*info*"
+          (let* ((file (file-name-nondirectory Info-current-file))
+                 (node Info-current-node))
+            (setq output (format "(info \"(%s)%s\") <-- hit C-x C-e to evaluate"
+                                 file node))))
+        (erc-send-message output)))
+
+    (eval-when-compile
+      (defvar erc-fools))
+
+    (defun erc-cmd-FOOL (term &rest ignore)
+      (add-to-list 'erc-fools term))
+
+    (defun erc-cmd-UNFOOL (term &rest ignore)
+      (setq erc-fools (delete term erc-fools)))
+
+    (defun erc-cmd-OPME ()
+      "Request chanserv to op me."
+      (erc-message "PRIVMSG"
+                   (format "chanserv op %s %s"
+                           (erc-default-target)
+                           (erc-current-nick)) nil))
+
+    (defun erc-cmd-DEOPME ()
+      "Deop myself from current channel."
+      (erc-cmd-DEOP (format "%s" (erc-current-nick))))))
+
+#+end_src
+
+*** test erc
+:PROPERTIES:
+:tangle:   no
+:END:
+
+http://www.irchelp.org/irchelp/chanlist//
+
+http://static.quadpoint.org/bitlbee-user-guide.html#quickstart4
+
+
+
+#+begin_src emacs-lisp
+  (use-package bitlbee)
+  (bitlbee-start)
+
+    (defun im ()
+      (interactive)
+      (erc :server "localhost"
+           :port 6667
+           :nick "tonyday"))
+
+    (defun switch-to-bitlbee ()
+      (interactive)
+      (switch-to-buffer-other-window "&bitlbee")
+      ;;im(call-interactively 'erc-channel-names)
+      (goto-char (point-max)))
+
+    (bind-key "C-. C-. b" 'switch-to-bitlbee)
+
+#+end_src
+
+#+results:
+: switch-to-bitlbee
+
+*** dwa erc
+:PROPERTIES:
+:tangle:   yes
+:END:
+#+begin_src emacs-lisp
+  (org-babel-load-file (expand-file-name "~/.emacs.d/site-lisp/erc-settings.org"))
+#+end_src
 *** erlang
 #+begin_src emacs-lisp
   (use-package erlang-start)
@@ -2292,7 +2495,7 @@ FORM => (eval FORM)."
 
 *** eshell
     :PROPERTIES:
-    :tangle: 
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , eshell
@@ -2335,16 +2538,13 @@ FORM => (eval FORM)."
 :END:
 
 #+begin_src emacs-lisp
-;;(locate-library "ess")
-;;(use-package ess)
-;;(load-path)
-(require 'ess)
+(use-package ess-site
+  :bind ("C-. C-. r" . R))
+;;(use-package ess-tracebug)
+#+end_src
 
-;;(print load-path)
-
-;;(require 'ess-site)
-
-;;(package-installed-p 'ess)
+#+results:
+: t
 
 
 #+end_src
@@ -2353,6 +2553,9 @@ FORM => (eval FORM)."
 
 
 *** eval-expr
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , eval-expr
 
@@ -2431,7 +2634,7 @@ FORM => (eval FORM)."
 #+end_src
 *** gist
     :PROPERTIES:
-    :tangle: 
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , gist
@@ -2499,6 +2702,9 @@ FORM => (eval FORM)."
 : t
 
 *** gtags
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , gtags
 
@@ -2534,6 +2740,9 @@ FORM => (eval FORM)."
 
 #+end_src
 *** gud
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , gud
 
@@ -2563,6 +2772,9 @@ FORM => (eval FORM)."
 
 #+end_src
 *** haskell-mode
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , haskell-mode
 
@@ -2605,7 +2817,7 @@ FORM => (eval FORM)."
 #+end_src
 *** hi-lock
     :PROPERTIES:
-    :tangle: 
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , hi-lock
@@ -2617,6 +2829,9 @@ FORM => (eval FORM)."
 
 #+end_src
 *** hilit-chg
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , hilit-chg
 
@@ -2625,6 +2840,9 @@ FORM => (eval FORM)."
 
 #+end_src
 *** hl-line
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , hl-line
 
@@ -2634,7 +2852,83 @@ FORM => (eval FORM)."
   (use-package hl-line+))
 
 #+end_src
+*** my ido
+    :PROPERTIES:
+    :tangle:   yes
+    :END:
+#+begin_src emacs-lisp
+;;;_ , ido
+
+(use-package ido
+  :defines (ido-cur-item
+            ido-require-match
+            ido-selected
+            ido-final-text
+            ido-show-confirm-message)
+  :init
+  (ido-mode t)
+
+  :config
+  (progn
+    (use-package ido-hacks
+      :init
+      (ido-hacks-mode 1))
+
+    (use-package ido-springboard)
+
+    (defun ido-smart-select-text ()
+      "Select the current completed item.  Do NOT descend into directories."
+      (interactive)
+      (when (and (or (not ido-require-match)
+                     (if (memq ido-require-match
+                               '(confirm confirm-after-completion))
+                         (if (or (eq ido-cur-item 'dir)
+                                 (eq last-command this-command))
+                             t
+                           (setq ido-show-confirm-message t)
+                           nil))
+                     (ido-existing-item-p))
+                 (not ido-incomplete-regexp))
+        (when ido-current-directory
+          (setq ido-exit 'takeprompt)
+          (unless (and ido-text (= 0 (length ido-text)))
+            (let ((match (ido-name (car ido-matches))))
+              (throw 'ido
+                     (setq ido-selected
+                           (if match
+                               (replace-regexp-in-string "/\\'" "" match)
+                             ido-text)
+                           ido-text ido-selected
+                           ido-final-text ido-text)))))
+        (exit-minibuffer)))
+
+    (add-hook 'ido-minibuffer-setup-hook
+              #'(lambda ()
+                  (bind-key "<return>" 'ido-smart-select-text
+                            ido-file-completion-map)))
+
+    (defun ido-switch-buffer-tiny-frame (buffer)
+      (interactive (list (ido-read-buffer "Buffer: " nil t)))
+      (with-selected-frame
+          (make-frame '((width                . 80)
+                        (height               . 22)
+                        (left-fringe          . 0)
+                        (right-fringe         . 0)
+                        (vertical-scroll-bars . nil)
+                        (unsplittable         . t)
+                        (has-modeline-p       . nil)
+                        ;;(background-color     . "grey80")
+                        (minibuffer           . nil)))
+        (switch-to-buffer buffer)
+        (set (make-local-variable 'mode-line-format) nil)))
+
+    (bind-key "C-x 5 t" 'ido-switch-buffer-tiny-frame)))
+
+#+end_src
+
+
 *** ido
+
     :PROPERTIES:
     :tangle:   no
     :END:
@@ -2741,7 +3035,7 @@ FORM => (eval FORM)."
 #+end_src
 *** image-file
     :PROPERTIES:
-    :tangle: 
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , image-file
@@ -2812,7 +3106,7 @@ FORM => (eval FORM)."
 
 *** indirect
     :PROPERTIES:
-    :tangle: 
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , indirect
@@ -2822,6 +3116,9 @@ FORM => (eval FORM)."
 
 #+end_src
 *** initsplit
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , initsplit
 
@@ -2830,6 +3127,9 @@ FORM => (eval FORM)."
 
 #+end_src
 *** ipa
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , ipa
 
@@ -2843,7 +3143,7 @@ FORM => (eval FORM)."
 #+end_src
 *** js2-mode
     :PROPERTIES:
-    :tangle: 
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , js2-mode
@@ -3073,6 +3373,9 @@ FORM => (eval FORM)."
 
 #+end_src
 *** llvm-mode
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , llvm-mode
 
@@ -3081,6 +3384,9 @@ FORM => (eval FORM)."
 
 #+end_src
 *** log4j-mode
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , log4j-mode
 
@@ -3090,6 +3396,9 @@ FORM => (eval FORM)."
 
 #+end_src
 *** lua-mode
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , lua-mode
 
@@ -3100,7 +3409,7 @@ FORM => (eval FORM)."
 #+end_src
 *** lusty-explorer
     :PROPERTIES:
-    :tangle: 
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , lusty-explorer
@@ -3183,6 +3492,9 @@ FORM => (eval FORM)."
 
 #+end_src
 *** macrostep
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , macrostep
 
@@ -3465,6 +3777,9 @@ http://lucindo.com.br/lisp/milki/markdown.html
 
 #+end_src
 *** nxml-mode
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , nxml-mode
 
@@ -3601,7 +3916,8 @@ There's a few settings needed for org-mode.org to work (I tweak it post mostly)
 
 #+TBLNAME: agenda-files
 | git      | quaff   | quaff.org                  |
-| git      | quaff   | fxspot.org                 |
+| git      | quaff   | data.org                   |
+| git      | quaff   | moments.org                |
 | git      | quaff   | edhec.org                  |
 | git      | quaff   | jgb.org                    |
 | stuff    |         | stuff.org                  |
@@ -3627,11 +3943,10 @@ There's a few settings needed for org-mode.org to work (I tweak it post mostly)
 | stuff    | content | ideas.org                  |
 | stuff    | factor  | parity.org                 |
 | stuff    | quant   | rdev.org                   |
-| stuff    | quant   | volatility.org             |
 | stuff    | quant   | bunny.org                  |
 | stuff    | quant   | volatility.org             |
 | stuff    | quant   | strategy_run_annotated.org |
-| stuff    | quant   | startegy_run_default.org   |
+| stuff    | quant   | strategy_run_default.org   |
 | stuff    | quant   | momentum.org               |
 | stuff    | quant   | mom-report.org             |
 | stuff    | quant   | xkcd.org                   |
@@ -3641,8 +3956,13 @@ There's a few settings needed for org-mode.org to work (I tweak it post mostly)
 | git      | scarce  | scarce.org                 |
 | git      | scarce  | mindev.org                 |
 | git      | scarce  | sitedev.org                |
-| git      | o-blog  | oblog-sandpit.org          |
-| git      | o-blog  | oblog-min.org              |
+| stuff    | quant   | earnings.org               |
+| stuff    | dev     | alice.org                  |
+| stuff    | quant   | acme.org                   |
+| stuff    | quant   | dcf.org                    |
+| stuff    | content | grob.org                   |
+| git      | hft     | hft.org                    |
+| stuff    | content | poker.org                  |
 
   #+begin_src emacs-lisp :var data=agenda-files
     (setq clean-table
@@ -3659,6 +3979,9 @@ There's a few settings needed for org-mode.org to work (I tweak it post mostly)
                       'eval x "/")))
            clean-table))
   #+end_src
+
+  #+results:
+  | ~/git/quaff/quaff.org | ~/git/quaff/data.org | ~/git/quaff/moments.org | ~/git/quaff/edhec.org | ~/git/quaff/jgb.org | ~/stuff/stuff.org | ~/.emacs.d/README.org | ~/.emacs.d/dotemacs.org | ~/stuff/org/refile.org | ~/stuff/org/bugz.org | ~/stuff/org/snipz.org | ~/stuff/org/table-tests.org | ~/stuff/org/org.org | ~/stuff/emacs/emacs.org | ~/stuff/emacs/bindings.org | ~/stuff/emacs/regexp.org | ~/stuff/sys/sys.org | ~/stuff/sys/git.org | ~/stuff/biz/scarce.org | ~/stuff/content/life.org | ~/stuff/content/writing.org | ~/stuff/dev/webdev.org | ~/stuff/dev/sandpit.org | ~/stuff/dev/jsdev.org | ~/stuff/factor/factor.org | ~/stuff/content/ideas.org | ~/stuff/factor/parity.org | ~/stuff/quant/rdev.org | ~/stuff/quant/bunny.org | ~/stuff/quant/volatility.org | ~/stuff/quant/strategy_run_annotated.org | ~/stuff/quant/strategy_run_default.org | ~/stuff/quant/momentum.org | ~/stuff/quant/mom-report.org | ~/stuff/quant/xkcd.org | ~/stuff/quant/tail.org | ~/stuff/quant/da.org | ~/stuff/sys/git.org | ~/git/scarce/scarce.org | ~/git/scarce/mindev.org | ~/git/scarce/sitedev.org | ~/stuff/quant/earnings.org | ~/stuff/dev/alice.org | ~/stuff/quant/acme.org | ~/stuff/quant/dcf.org | ~/stuff/content/grob.org | ~/stuff/content/poker.org |
 
 **** other stuff
 ***** tags
@@ -3871,6 +4194,9 @@ shoving the binds in binds so I can see where everything is
 
 #+end_src
 *** per-window-point
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , per-window-point
 
@@ -3881,7 +4207,7 @@ shoving the binds in binds so I can see where everything is
 #+end_src
 *** persistent-scratch
     :PROPERTIES:
-    :tangle: 
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , persistent-scratch
@@ -3893,7 +4219,7 @@ shoving the binds in binds so I can see where everything is
 #+end_src
 *** popup-ruler
     :PROPERTIES:
-    :tangle: 
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , popup-ruler
@@ -3904,6 +4230,9 @@ shoving the binds in binds so I can see where everything is
 
 #+end_src
 *** pp-c-l
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , pp-c-l
 
@@ -3980,6 +4309,9 @@ shoving the binds in binds so I can see where everything is
 
 #+end_src
 *** quickrun
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , quickrun
 
@@ -4014,6 +4346,9 @@ shoving the binds in binds so I can see where everything is
 
 #+end_src
 *** repeat-insert
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , repeat-insert
 
@@ -4071,6 +4406,9 @@ shoving the binds in binds so I can see where everything is
 
 #+end_src
 *** selectkey
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , selectkey
 
@@ -4280,10 +4618,13 @@ shoving the binds in binds so I can see where everything is
             (switch-to-buffer-other-window compile-buf)
           (call-interactively 'compile))))
 
-    (bind-key "M-O" 'show-compilation)))
+  (bind-key "M-O" 'show-compilation)))
 
 #+end_src
 *** smerge-mode
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , smerge-mode
 
@@ -4294,6 +4635,9 @@ shoving the binds in binds so I can see where everything is
 
 #+end_src
 *** stopwatch
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , stopwatch
 
@@ -4383,6 +4727,9 @@ shoving the binds in binds so I can see where everything is
 
 #+end_src
 *** tablegen-mode
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , tablegen-mode
 
@@ -4393,6 +4740,9 @@ shoving the binds in binds so I can see where everything is
 
 #+end_src
 *** texinfo
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , texinfo
 
@@ -4430,6 +4780,9 @@ shoving the binds in binds so I can see where everything is
 
 #+end_src
 *** vkill
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , vkill
 
@@ -4450,7 +4803,7 @@ shoving the binds in binds so I can see where everything is
 #+end_src
 *** w3m
     :PROPERTIES:
-    :tangle: 
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
 ;;;_ , w3m
@@ -4573,6 +4926,9 @@ shoving the binds in binds so I can see where everything is
 
 #+end_src
 *** wcount-mode
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , wcount-mode
 
@@ -4650,6 +5006,9 @@ shoving the binds in binds so I can see where everything is
 
 #+end_src
 *** winner
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , winner
 
@@ -4684,6 +5043,9 @@ shoving the binds in binds so I can see where everything is
 
 #+end_src
 *** wrap-region
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , wrap-region
 
@@ -4833,6 +5195,9 @@ shoving the binds in binds so I can see where everything is
 #+results:
 
 *** yaoddmuse
+:PROPERTIES:
+:tangle:   no
+:END:
 #+begin_src emacs-lisp
 ;;;_ , yaoddmuse
 
@@ -4844,7 +5209,7 @@ shoving the binds in binds so I can see where everything is
 #+end_src
 *** zencoding-mode
     :PROPERTIES:
-    :tangle: 
+    :tangle:   yes
     :END:
 #+begin_src emacs-lisp
   ;;;_ , zencoding-mode

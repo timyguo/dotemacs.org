@@ -22,3 +22,7 @@ url/*
 /dotemacs.el
 /site-lisp/less-css-mode
 /site-lisp/o-blog
+/#dotemacs.org#
+/#init.el#
+/.#dotemacs.org
+/tramp
