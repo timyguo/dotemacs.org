@@ -24,6 +24,8 @@
  '(truncate-partial-width-windows nil)
  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
  '(visible-bell t))
+
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -40,4 +42,5 @@
  '(org-mode-line-clock ((t (:foreground "selectedKnobColor" :box (:line-width -1 :style released-button)))) t)
  '(org-mode-line-clock-overrun ((t (:inherit modeline :foreground "#5650d5" :background "#dccce9"))) t)
  '(trailing-whitespace ((t (:background "disabledControlTextColor"))))
- '(whitespace-indentation ((t (:background "#3f3f3f" :foreground "#cc9393")))))
+ '(whitespace-indentation ((t (:background "#3f3f3f" :foreground
+					   "#cc9393")))))
