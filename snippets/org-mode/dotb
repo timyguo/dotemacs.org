@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: dot block
+# --
+#+begin_src dot :file $1.png :cache yes :cmdline -Kdot -Tpng
+graph G {
+  $0
+}
+#+end_src

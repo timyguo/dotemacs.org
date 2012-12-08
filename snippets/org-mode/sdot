@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: sdot
+# --
+#+begin_src dot :file $1.png :cmdline -Kdot -Tpng :exports both :cache yes
+digraph G {
+  $0
+}
+#+end_src
+  

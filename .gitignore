@@ -26,3 +26,7 @@ url/*
 /#init.el#
 /.#dotemacs.org
 /tramp
+/dotemacs.elc
+/settings-backup.el
+/site-lisp/regexp-dsl.elc
+/var/pcache/gh/gh-gist-api/tonyday567
