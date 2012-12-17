@@ -30,3 +30,5 @@ url/*
 /settings-backup.el
 /site-lisp/regexp-dsl.elc
 /var/pcache/gh/gh-gist-api/tonyday567
+/dotemacs.org~
+/secret.el.gpg

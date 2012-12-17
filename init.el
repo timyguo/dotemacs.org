@@ -4,7 +4,7 @@
 (setq user-emacs-directory
       (file-name-directory (or load-file-name user-emacs-directory "~/.emacs.d/")))
 (defvar org-dir
-"repos/jwiegley/override/org-mode/lisp"
+"site-lisp/org-mode/lisp"
 "location of the directory containing org-mode")
 (add-to-list 'load-path (expand-file-name org-dir user-emacs-directory))
 (defvar dotemacs-org-file

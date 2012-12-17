@@ -1,0 +1,1023 @@
+
+Archived entries from file /Users/tonyday/.emacs.d/dotemacs.org
+
+
+* Archived Tasks
+
+** yas
+:PROPERTIES:
+:ARCHIVE_TIME: 2012-12-08 Sat 18:34
+:ARCHIVE_FILE: ~/.emacs.d/dotemacs.org
+:ARCHIVE_OLPATH: clipboard/debugs and tools/current startup bugz
+:ARCHIVE_CATEGORY: dotemacs
+:END:
+Configuring package yasnippet...
+File mode specification error: (void-function yas/initialize)
+(No changes need to be saved)
+ad-handle-definition: `yas-global-mode' got redefined
+Configuring package yasnippet...
+Wrote /Users/tonyday/.emacs.d/org-mode-prequel.el
+
+** helm-config
+:PROPERTIES:
+:ARCHIVE_TIME: 2012-12-08 Sat 18:34
+:ARCHIVE_FILE: ~/.emacs.d/dotemacs.org
+:ARCHIVE_OLPATH: clipboard/debugs and tools/current startup bugz
+:ARCHIVE_CATEGORY: dotemacs
+:END:
+Could not load package helm-config
+
+** Could not load package ido-hacks
+:PROPERTIES:
+:ARCHIVE_TIME: 2012-12-08 Sat 18:34
+:ARCHIVE_FILE: ~/.emacs.d/dotemacs.org
+:ARCHIVE_OLPATH: clipboard/debugs and tools/current startup bugz
+:ARCHIVE_CATEGORY: dotemacs
+:END:
+
+** Could not load package ido-springboard
+:PROPERTIES:
+:ARCHIVE_TIME: 2012-12-08 Sat 18:34
+:ARCHIVE_FILE: ~/.emacs.d/dotemacs.org
+:ARCHIVE_OLPATH: clipboard/debugs and tools/current startup bugz
+:ARCHIVE_CATEGORY: dotemacs
+:END:
+
+** diary
+:PROPERTIES:
+:ARCHIVE_TIME: 2012-12-08 Sat 18:34
+:ARCHIVE_FILE: ~/.emacs.d/dotemacs.org
+:ARCHIVE_OLPATH: clipboard/debugs and tools/current startup bugz
+:ARCHIVE_CATEGORY: dotemacs
+:END:
+No event to add
+Appointment reminders enabled (no diary file found)
+
+** Could not load package keyfreq
+:PROPERTIES:
+:ARCHIVE_TIME: 2012-12-08 Sat 18:34
+:ARCHIVE_FILE: ~/.emacs.d/dotemacs.org
+:ARCHIVE_OLPATH: clipboard/debugs and tools/current startup bugz
+:ARCHIVE_CATEGORY: dotemacs
+:END:
+
+** ls does not support --dired; see `dired-use-ls-dired' for more details.
+:PROPERTIES:
+:ARCHIVE_TIME: 2012-12-08 Sat 18:34
+:ARCHIVE_FILE: ~/.emacs.d/dotemacs.org
+:ARCHIVE_OLPATH: clipboard/debugs and tools/current startup bugz
+:ARCHIVE_CATEGORY: dotemacs
+:END:
+
+** zeroed package bugz
+:PROPERTIES:
+:ARCHIVE_TIME: 2012-12-08 Sat 18:35
+:ARCHIVE_FILE: ~/.emacs.d/dotemacs.org
+:ARCHIVE_OLPATH: clipboard/debugs and tools
+:ARCHIVE_CATEGORY: dotemacs
+:END:
+ 1. `flet' is an obsolete macro (as of 24.3); use either `cl-flet' or `cl-letf'.
+ 2.  org-fixup.el: redefined Org version
+
+** link abbreviations
+:PROPERTIES:
+:ARCHIVE_TIME: 2012-12-10 Mon 16:35
+:ARCHIVE_FILE: ~/.emacs.d/dotemacs.org
+:ARCHIVE_OLPATH: packages/org-mode/other stuff
+:ARCHIVE_CATEGORY: dotemacs
+:END:
+  #+begin_src emacs-lisp
+  (setq org-link-abbrev-alist
+       '(("google"    . "http://www.google.com/search?q=")))
+#+end_src
+
+** mobileorg settings
+:PROPERTIES:
+:ARCHIVE_TIME: 2012-12-10 Mon 16:50
+:ARCHIVE_FILE: ~/.emacs.d/dotemacs.org
+:ARCHIVE_OLPATH: packages/org-mode/other stuff
+:ARCHIVE_CATEGORY: dotemacs
+:END:
+  #+begin_src emacs-lisp 
+  (setq org-default-notes-file "~/stuff/org/refile.org")
+  ;; Set to the name of the file where new notes will be stored
+  (setq org-mobile-inbox-for-pull "~/stuff/org/refile.org")
+  ;; Set to <your Dropbox root directory>/MobileOrg.
+  (setq org-mobile-directory "~/Dropbox/MobileOrg")
+#+end_src
+
+** gnus custom-set-variables backup 
+:PROPERTIES:
+:tangle:   no
+:ARCHIVE_TIME: 2012-12-10 Mon 19:00
+:ARCHIVE_FILE: ~/.emacs.d/dotemacs.org
+:ARCHIVE_OLPATH: packages/gnus/current production gnus
+:ARCHIVE_CATEGORY: dotemacs
+:END:
+ #+begin_src emacs-lisp
+   (custom-set-variables
+    ;; custom-set-variables was added by Custom.
+    ;; If you edit it by hand, you could mess it up, so be careful.
+    ;; Your init file should contain only one such instance.
+    ;; If there is more than one, they won't work right.
+    '(gnus-activate-level 1)
+    '(gnus-after-getting-new-news-hook
+      (quote
+       (gnus-display-time-event-handler gnus-group-save-newsrc)))
+    '(gnus-agent-expire-all nil)
+    '(gnus-agent-expire-days 14)
+    '(gnus-agent-go-online t)
+    '(gnus-agent-mark-unread-after-downloaded nil)
+    '(gnus-agent-synchronize-flags t)
+    '(gnus-always-read-dribble-file t)
+    '(gnus-article-address-banner-alist
+      (quote
+       (("@sig\\.com\\'" . signature)
+        ("@volcanocorp\\.com\\'" . signature))))
+    '(gnus-article-sort-functions
+      (quote
+       ((not gnus-article-sort-by-number))))
+    '(gnus-article-update-date-headers nil)
+    '(gnus-asynchronous t)
+    '(gnus-auto-select-next nil nil nil "
+   VERY IMPORTANT SETTING ***.  See http://debbugs.gnu.org/cgi/bugreport.cgi?bug=9399")
+    '(gnus-buttonized-mime-types
+      (quote
+       ("multipart/alternative")))
+    '(gnus-check-new-newsgroups nil)
+    '(gnus-cited-closed-text-button-line-format "...<schnipp %n>...
+   ")
+    '(gnus-cited-lines-visible
+      (quote
+       (5 . 10)))
+    '(gnus-cited-opened-text-button-line-format "")
+    '(gnus-completing-read-function
+      (quote gnus-ido-completing-read))
+    '(gnus-default-article-saver
+      (quote gnus-summary-write-to-file))
+    '(gnus-default-directory "~")
+    '(gnus-duplicate-list-length 100000)
+    '(gnus-extra-headers
+      (quote
+       (To Cc Content-Type)))
+    '(gnus-gcc-mark-as-read t)
+    '(gnus-generate-tree-function
+      (quote gnus-generate-horizontal-tree))
+    '(gnus-group-default-list-level 4)
+    '(gnus-group-line-format "%S%p%P%5y%5T: %(%B%G%B%)
+   ")
+    '(gnus-group-mode-hook
+      (quote
+       (gnus-topic-mode gnus-agent-mode)))
+    '(gnus-group-use-permanent-levels t)
+    '(gnus-ignored-from-addresses "^zygomega\\|tonyday567\\|tony.day")
+    '(gnus-ignored-mime-types
+      (quote
+       ("application/x-pkcs7-signature" "application/ms-tnef" "text/x-vcard")))
+    '(gnus-interactive-exit
+      (quote quiet))
+    '(gnus-large-newsgroup 1000)
+    '(gnus-message-archive-group
+      (quote
+       ((format-time-string "sent.%Y-%m"))))
+    '(gnus-message-replyencrypt nil)
+    '(gnus-novice-user nil)
+    '(gnus-parameters
+      (quote
+       (("^INBOX"
+         (expiry-wait . immediate)
+         (expiry-target . delete)
+         (display .
+                  [or
+                   (not reply)
+                   (not expire)])))))
+    '(gnus-read-active-file nil)
+    '(gnus-read-newsrc-file nil)
+    '(gnus-refer-article-method
+      (quote
+       (current
+        (nnregistry)
+        (nntp "Gmane"
+              (nntp-address "news.gmane.org"))
+        (nntp "GigaNews"
+              (nntp-address "text.giganews.com")
+              (nntp-authinfo-user "tonyday567"))))
+      nil nil "***** NOTE: NEED TO RESTORE (nnregistry) here")
+    '(gnus-refer-thread-use-nnir t)
+    '(gnus-safe-html-newsgroups ".")
+    '(gnus-save-duplicate-list t)
+    '(gnus-save-killed-list nil)
+    '(gnus-save-newsrc-file nil)
+    '(gnus-score-default-duration
+      (quote p))
+    '(gnus-score-expiry-days 30)
+    '(gnus-score-find-score-files-function
+      (quote
+       (gnus-score-find-hierarchical)))
+   
+   
+    '(gnus-select-group-hook
+      (quote
+       (gnus-group-set-timestamp)))
+     
+    '(gnus-signature-separator
+      (quote
+       ("^-- $" "^-- *$" "^_____+$" "^-----+
+   ?
+   NOTICE: ")))
+    '(gnus-simplify-subject-functions
+      (quote
+       (gnus-simplify-subject-fuzzy)))
+    '(gnus-sort-gathered-threads-function
+      (quote gnus-thread-sort-by-date)
+      t)
+   
+    ;;'(smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil)))
+    ;;'(smtpmail-smtp-server "smtp.gmail.com")
+    ;;'(smtpmailil-default-smtp-server "smtp.gmail.com")
+    ;;'(send-mail-function 'smtpmail-send-it)
+    ;;'(message-send-mail-function 'smtpmail-send-it)
+    ;;'(smtpmail-smtp-service 587)
+    ;;'(gnus-outgoing-message-group "[Google Mail]/Sent Mail")
+   
+   
+    '(gnus-spam-process-destinations
+      (quote
+       (("^\\(\\(nnimap\\+\\)?Mail:\\)?[^+]*$" "[Gmail].Spam"))))
+    '(gnus-spam-process-newsgroups
+      (quote
+       (("^\\(\\(nntp\\+\\)?LocalNNTP:\\)?gmane\\."
+         ((spam spam-use-gmane))))))
+    '(gnus-split-methods
+      (quote
+       ((gnus-save-site-lisp-file)
+        (gnus-article-archive-name)
+        (gnus-article-nndoc-name))))
+    '(gnus-started-hook
+      (quote
+       ((lambda nil
+          (run-hooks
+           (quote gnus-after-getting-new-news-hook))))))
+    '(gnus-subscribe-newsgroup-method
+      (quote gnus-subscribe-topics))
+    '(gnus-summary-expunge-below -100)
+    '(gnus-summary-highlight
+      (quote
+       (((eq mark gnus-spam-mark)
+         . spam)
+        ((eq mark gnus-spam-mark)
+         . spam)
+        ((eq mark gnus-expirable-mark)
+         . gnus-summary-expirable-face)
+        ((eq mark gnus-spam-mark)
+         . spam)
+        ((eq mark gnus-spam-mark)
+         . spam)
+        ((eq mark gnus-canceled-mark)
+         . gnus-summary-cancelled)
+        ((and uncached
+              (> score default-high))
+         . gnus-summary-high-undownloaded)
+        ((and uncached
+              (< score default-low))
+         . gnus-summary-low-undownloaded)
+        (uncached . gnus-summary-normal-undownloaded)
+        ((and
+          (> score default-high)
+          (or
+           (eq mark gnus-dormant-mark)
+           (eq mark gnus-ticked-mark)))
+         . gnus-summary-high-ticked)
+        ((and
+          (< score default-low)
+          (or
+           (eq mark gnus-dormant-mark)
+           (eq mark gnus-ticked-mark)))
+         . gnus-summary-low-ticked)
+        ((or
+          (eq mark gnus-dormant-mark)
+          (eq mark gnus-ticked-mark))
+         . gnus-summary-normal-ticked)
+        ((and
+          (> score default-high)
+          (eq mark gnus-ancient-mark))
+         . gnus-summary-high-ancient)
+        ((and
+          (< score default-low)
+          (eq mark gnus-ancient-mark))
+         . gnus-summary-low-ancient)
+        ((eq mark gnus-ancient-mark)
+         . gnus-summary-normal-ancient)
+        ((and
+          (> score default-high)
+          (eq mark gnus-unread-mark))
+         . gnus-summary-high-unread)
+        ((and
+          (< score default-low)
+          (eq mark gnus-unread-mark))
+         . gnus-summary-low-unread)
+        ((eq mark gnus-unread-mark)
+         . gnus-summary-normal-unread)
+        ((> score default-high)
+         . gnus-summary-high-read)
+        ((< score default-low)
+         . gnus-summary-low-read)
+        (t . gnus-summary-normal-read))))
+    '(gnus-summary-line-format "%O%U%R%z%~(form my-align-gnus-summary)@%B%&user-date;: %(%f%~(form my-align-gnus-subject)@%)               %s
+   ")
+    '(gnus-suppress-duplicates t)
+    '(gnus-suspend-gnus-hook
+      (quote
+       (gnus-group-save-newsrc)))
+    '(gnus-thread-hide-subtree
+      (quote
+       (not gnus-article-unread-p)))
+    '(gnus-thread-sort-functions
+      (quote
+       ((not gnus-thread-sort-by-number)
+        (not gnus-thread-sort-by-most-recent-date)
+        gnus-thread-sort-by-total-score)))
+    '(gnus-topic-display-empty-topics nil)
+    '(gnus-topic-line-format "%i[ %A: %(%{%n%}%) ]%v
+   ")
+    '(gnus-treat-date-lapsed
+      (quote head))
+    '(gnus-treat-display-smileys nil)
+    '(gnus-treat-from-gravatar
+      (quote head))
+    '(gnus-treat-hide-citation t)
+    '(gnus-treat-mail-gravatar
+      (quote head))
+    '(gnus-treat-strip-cr t)
+    '(gnus-treat-strip-leading-blank-lines
+      (quote first))
+    '(gnus-treat-strip-multiple-blank-lines t)
+    '(gnus-treat-strip-trailing-blank-lines
+      (quote last))
+    '(gnus-tree-minimize-window nil)
+    '(gnus-uncacheable-groups "^nnml")
+    '(gnus-use-cache t)
+    '(gnus-use-trees t)
+   '(user-mail-address "tonyday567@gmail.com")
+   '(user-full-name "Tony Day")
+   
+    '(gnus-valid-select-methods
+      (quote
+       (("nntp" post address prompt-address physical-address)
+        ("nnspool" post address)
+        ("nnvirtual" post-mail prompt-address virtual)
+        ("nnmbox" mail address respool)
+        ("nnml" post-mail address respool)
+        ("nnmh" mail address respool)
+        ("nndir" post-mail prompt-address physical-address)
+        ("nneething" none address prompt-address physical-address)
+        ("nndoc" none address prompt-address virtual)
+        ("nnbabyl" mail address respool)
+        ("nndraft" post-mail)
+        ("nnfolder" mail address respool)
+        ("nngateway" post-mail address prompt-address physical-address)
+        ("nnweb" none)
+        ("nnrss" none)
+        ("nnagent" post-mail)
+        ("nnimap" post-mail address prompt-address physical-address respool server-marks)
+        ("nnmaildir" mail address respool server-marks)
+        ("nnnil" none)
+        ("nndiary" post-mail respool address)
+        ("nnir" mail virtual))))
+    '(gnus-verbose 4)
+    '(nnir-hyrex-remove-prefix "~/Library/Data/Gnus/Mail")
+    '(nnir-ignored-newsgroups "^\"\\([^[]\\|\\[Gmail][/.][^A]\\)")
+    '(nnir-imap-default-search-key "imap")
+    '(nnir-namazu-index-directory "~/Library/Data/Gnus/Mail/namazu")
+    '(nnir-namazu-remove-prefix "~/Library/Data/Gnus/Mail")
+    '(nnir-notmuch-remove-prefix "~/Library/Data/Gnus/Mail")
+    '(nnir-swish++-configuration-file "~/Library/Data/Gnus/Mail/swish++.conf")
+    '(nnir-swish++-remove-prefix "~/Library/Data/Gnus/Mail/")
+    '(nnir-swish-e-index-file "~/Library/Data/Gnus/Mail/index.swish-e")
+    '(nnir-swish-e-index-files
+      (quote
+       ("~/Library/Data/Gnus/Mail/index.swish-e")))
+    '(nnir-swish-e-remove-prefix "~/Library/Data/Gnus/Mail/")
+    '(nnmail-crosspost nil)
+    '(nnmail-expiry-wait 30)
+    '(nnmail-extra-headers
+      (quote
+       (To Cc Content-Type)))
+    '(nnmail-scan-directory-mail-source-once t)
+    '(mail-dont-reply-to-names "dave@\\(boost-consulting\\|boostpro\\)\\.com\\|dave\\.abrahams@rcn\\.com\\|boost\\.consulting@gmail\\.com\\|dave\\.boostpro@gmail\\.com\\|Undisclosed-recipients[:;]*")
+    '(mail-envelope-from
+      (quote header))
+    '(mail-setup-with-from nil)
+    '(mail-signature t)
+    '(mail-source-delete-incoming t)
+    '(mail-source-delete-old-incoming-confirm nil)
+    '(mail-source-report-new-mail-interval 15)
+    '(mail-specify-envelope-from t)
+    '(mail-user-agent
+      (quote gnus-user-agent)))
+ #+end_src
+
+** custom-set-faces
+:PROPERTIES:
+:tangle:   no
+:ARCHIVE_TIME: 2012-12-10 Mon 19:06
+:ARCHIVE_FILE: ~/.emacs.d/dotemacs.org
+:ARCHIVE_OLPATH: packages/gnus/current production gnus
+:ARCHIVE_CATEGORY: dotemacs
+:END:
+ #+begin_src emacs-lisp
+
+;;;_ + faces
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(gnus-summary-expirable-face
+   ((t
+     (:foreground "grey55" :strike-through t :slant italic :weight normal :width condensed :family "DejaVu Sans")))))
+
+ #+end_src
+
+** install instructions
+:PROPERTIES:
+:ARCHIVE_TIME: 2012-12-16 Sun 23:06
+:ARCHIVE_FILE: ~/.emacs.d/dotemacs.org
+:ARCHIVE_OLPATH: packages/gnus/gnus r&d/gnus dev status
+:ARCHIVE_CATEGORY: dotemacs
+:END:
+For Dovecot to work, you will need to do the following:
+
+1) Create configuration in /usr/local/etc
+
+2) If required by the configuration above, create a dovecot user and group
+
+3) possibly create a launchd item in /Library/LaunchDaemons/homebrew.mxcl.dovecot.plist, like so:
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+        <key>Label</key>
+        <string>homebrew.mxcl.dovecot</string>
+        <key>OnDemand</key>
+        <false/>
+        <key>ProgramArguments</key>
+        <array>
+                <string>/usr/local/sbin/dovecot</string>
+                <string>-F</string>
+        </array>
+        <key>RunAtLoad</key>
+        <true/>
+        <key>ServiceDescription</key>
+        <string>Dovecot mail server</string>
+</dict>
+</plist>
+
+Source: http://wiki.dovecot.org/LaunchdInstall
+4) start the server using: sudo launchctl load /Library/LaunchDaemons/homebrew.mxcl.dovecot.plist
+
+http://wiki2.dovecot.org/TestInstallation
+
+** TODO dovecot execution choices
+:PROPERTIES:
+:ID:       C94AFA9F-AB07-4CFE-9DCE-A16F1805D315
+:ARCHIVE_TIME: 2012-12-16 Sun 23:06
+:ARCHIVE_FILE: ~/.emacs.d/dotemacs.org
+:ARCHIVE_OLPATH: packages/gnus/gnus r&d/gnus dev status
+:ARCHIVE_CATEGORY: dotemacs
+:ARCHIVE_TODO: TODO
+:END:
+
+- [ ] what is (nnimap-shell-program "/usr/local/opt/dovecot/libexec/dovecot/imap")
+/usr/local/Cellar/dovecot/2.1.10/libexec/dovecot/imap
+http://wiki2.dovecot.org/LaunchdInstall
+
+#+begin_src sh
+            ps auxw|grep "dovecot"
+
+#+end_src
+
+#+results:
+| root    |    95 | 0.0 | 0.0 | 2433616 |   4 | ?? | S  | 8:37PM | 0:00.01 | dovecot/config          |         |
+| root    |    91 | 0.0 | 0.0 | 2433284 |   4 | ?? | S  | 8:37PM | 0:00.00 | dovecot/log             |         |
+| tonyday |    90 | 0.0 | 0.0 | 2433284 |   4 | ?? | S  | 8:37PM | 0:00.00 | dovecot/anvil           |         |
+| root    |    71 | 0.0 | 0.0 | 2433328 |   4 | ?? | Ss | 8:37PM | 0:00.02 | /usr/local/sbin/dovecot | -F      |
+| tonyday | 15142 | 0.0 | 0.0 | 2423540 | 180 | ?? | R  | 2:35PM | 0:00.00 | grep                    | dovecot |
+
+ps auxw|grep "dovecot"
+http://wiki.dovecot.org/TestInstallation
+
+auth default {
+..
+  passdb passwd-file {
+    args = /etc/passwd.dovecot
+  }
+protocols = imap
+mail_location = maildir:~/Mail
+auth default {
+  passdb passwd-file {
+    args = /etc/passwd.dovecot
+  }
+}
+
+
+
+- [ ] (setq imap-shell-program
+       (quote
+        ("/opt/local/sbin/dovecot --exec-mail imap" 
+         "ssh %s imapd"
+         "rsh %s imapd"
+         "ssh %g ssh %s imapd"
+         "rsh %g rsh %s imapd")))
+- [ ] (setq imap-shell-program "dovecot -c ~/.dovecotrc --exec-mail imap")
+- [ ] '(offlineimap-command "offlineimap -u machineui")
+
+** gnus r&d
+:PROPERTIES:
+:tangle:   no
+:ARCHIVE_TIME: 2012-12-17 Mon 00:17
+:ARCHIVE_FILE: ~/.emacs.d/dotemacs.org
+:ARCHIVE_OLPATH: packages/gnus
+:ARCHIVE_CATEGORY: dotemacs
+:END:
+*** NEXT gnus dev status
+SCHEDULED: <2012-12-14 Fri>
+:LOGBOOK:
+CLOCK: [2012-12-16 Sun 09:35]--[2012-12-17 Mon 06:42] => 21:07
+CLOCK: [2012-12-14 Fri 13:46]--[2012-12-15 Sat 18:32] => 28:46
+:END:
+:PROPERTIES:
+:ID:       6069F551-22F4-4F47-B33E-CE9A07A70C32
+:END:
+
+refs
+http://www.sanityinc.com/articles/read-mailing-lists-in-emacs-over-imap
+http://stackoverflow.com/questions/9977182/how-to-integrate-dovecot-version-2-with-gnus-emacs
+
+(gnus-refer-article-method
+
+status
+- offlineimap working from the terminal and start-offlineimap-regular, but not
+  on the launchctl platform.  The problem might be due to an inability to
+  pass gmail the passord(?)
+    - [X] problem with getting password to gmail???
+    - [X] check rc
+- [X] lay in solid primary select method
+- [X] scrape back old secondaries
+- [X] add in scarce
+  dovecot offlineimap setup needed
+- [X] add newsreadings (and review setup)
+- [X] smtp needs/changes
+    - [X] immediately mail send might be ok
+
+
+**** dovecot.conf stash
+#+begin_example
+# 2.1.10: /usr/local/etc/dovecot/dovecot.conf
+# OS: Darwin 12.2.0 x86_64  
+default_internal_user = tonyday
+default_login_user = tonyday
+disable_plaintext_auth = no
+mail_debug = yes
+mail_location = maildir:~/Maildir:LAYOUT=fs:INBOX=~/Maildir/INBOX
+namespace inbox {
+  inbox = yes
+  location = 
+  mailbox Drafts {
+    special_use = \Drafts
+  }
+  mailbox Junk {
+    special_use = \Junk
+  }
+  mailbox Sent {
+    special_use = \Sent
+  }
+  mailbox "Sent Messages" {
+    special_use = \Sent
+  }
+  mailbox Trash {
+    special_use = \Trash
+  }
+  prefix = 
+}
+passdb {
+  args = /etc/passwd.dovecot
+  driver = passwd-file
+}
+passdb {
+  driver = pam
+}
+passdb {
+  driver = pam
+}
+protocols = imap
+ssl = no
+ssl_cert = </etc/ssl/certs/dovecot.pem
+ssl_key = </etc/ssl/private/dovecot.pem
+userdb {
+  driver = passwd
+}
+userdb {
+  driver = passwd
+} 
+#+end_example
+
+
+**** .offlineimaprc stash
+
+#+begin_example
+  [general]
+accounts = Work, Home
+maxsyncaccounts = 2
+ui = TTYUI
+
+[Account Work]
+localrepository = LocalWork
+remoterepository = GmailWork
+autorefresh = 5
+maxage = 20
+
+[Repository LocalWork]
+#type= Maildir
+#localfolders = ~/Maildir
+type = IMAP
+preauthtunnel = /usr/local/Cellar/dovecot/2.1.10/libexec/dovecot/imap
+nametrans = lambda folder: re.sub('^Work/', '', folder)
+
+[Repository GmailWork]
+type = Gmail
+cert_fingerprint=6d1b5b5ee0180ab493b71d3b94534b5ab937d042
+remoteuser = tony.day@scarcecapital.com
+remotepass = xxxxxxxxx
+createfolders=false
+maxconnections=4
+nametrans = lambda folder: re.sub('^', 'Work/', folder)
+folderfilter = lambda folder: folder in ['INBOX', '[Gmail]/Sent Mail', '[Gmail]/Starred', 'linkedin']
+
+[Account Home]
+localrepository = LocalHome
+remoterepository = GmailHome
+autorefresh = 5
+maxage = 20
+
+[Repository LocalHome]
+type = IMAP
+preauthtunnel = /usr/local/Cellar/dovecot/2.1.10/libexec/dovecot/imap
+nametrans = lambda folder: re.sub('^Home/', '', folder)
+
+[Repository GmailHome]
+type = Gmail
+cert_fingerprint=6d1b5b5ee0180ab493b71d3b94534b5ab937d042
+remoteuser = tonyday567@gmail.com
+remotepass = xxxxxxxxxx
+maxconnections=4
+nametrans = lambda folder: re.sub('^', 'Home/', folder)
+folderfilter = lambda folder: folder in ['INBOX', '[Gmail]/Sent Mail', '[Gmail]/Starred', 'org', 'emacs', 'github', 'keepers', 'paperwork']
+
+  
+#+end_example
+
+
+**** dev tools
+
+What dovecot processes are running
+#+begin_src sh
+  ps auxw|grep "dovecot"
+#+end_src
+
+#+results:
+| tonyday | 416 | 0.0 | 0.0 | 2433512 | 1048 | ?? | S  | 11:02PM | 0:00.00 | dovecot/auth            |         |
+| root    |  81 | 0.0 | 0.0 | 2433284 |  880 | ?? | S  | 11:02PM | 0:00.00 | dovecot/log             |         |
+| tonyday |  80 | 0.0 | 0.0 | 2433284 |  804 | ?? | S  | 11:02PM | 0:00.00 | dovecot/anvil           |         |
+| root    |  71 | 0.0 | 0.0 | 2433328 |  988 | ?? | Ss | 11:02PM | 0:00.02 | /usr/local/sbin/dovecot | -F      |
+| tonyday | 489 | 0.0 | 0.0 | 2424992 |  464 | ?? | R  | 11:05PM | 0:00.00 | grep                    | dovecot |
+
+#+begin_src sh
+  ps auxw|grep "offlineimap"
+#+end_src
+
+#+results:
+| tonyday | 409 | 0.1 | 0.1 | 2504792 | 14876 | s001 | Ss+ | 11:02PM | 0:00.89 | /usr/local/Cellar/python/2.7.3/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python | /usr/local/bin/offlineimap |
+| tonyday | 492 | 0.0 | 0.0 | 2424992 |   464 | ??   | R   | 11:05PM | 0:00.00 | grep                                                                                                               | offlineimap                |
+
+
+
+*** links
+
+http://comments.gmane.org/gmane.emacs.gnus.general/72313
+http://www.sanityinc.com/articles/read-mailing-lists-in-emacs-over-imap
+http://www.xemacs.org/Links/tutorials_3.html
+http://getapix.wordpress.com/2008/12/07/setting-up-gmail-with-postfix-and-fetchmail-on-osx-and-linux-laptops/
+
+*** gmail to gnu table
+
+
+| Action on client                                    | Result in Gmail on the web                                      | Command in Gnus                           |
+|-----------------------------------------------------+-----------------------------------------------------------------+-------------------------------------------|
+| Open a message                                      | Mark a message as read                                          | RET                                       |
+| Flag a message                                      | Apply a star to the message                                     | !                                         |
+| Unflag a message                                    | Remove the star from the message                                | M-u                                       |
+| Move a message to a folder                          | Apply a label to the message                                    | B m                                       |
+| Move a message to a folder within a folder          | Apply a label showing folder hierarchy (’MainFolder/SubFolder’) | B m                                       |
+| Create a folder                                     | Create a label                                                  | B m to nonexistent folder will create it. |
+| Move a message to [Gmail]/Spam                      | Report a message as spam                                        | B m [Gmail]/Spam RET                      |
+| Move a message to [Gmail]/Trash                     | Move a message to Trash                                         | B m [Gmail]/Trash RET                     |
+| Send a message                                      | Store message in Sent Mail                                      | m                                         |
+| Delete a message in inbox                           | Remove the message from inbox                                   | B DEL                                     |
+| Delete a message from a folder                      | Remove that label from the message                              | B DEL                                     |
+| Delete a message from [Gmail]/Spam or [Gmail]/Trash | Delete the message permanently                                  | B DEL                                     |
+
+*** gnus r&d code
+
+#+begin_src emacs-lisp :tangle no
+  (require 'nnir)
+  (nnir-search-engine imap)
+#+end_src
+
+#+begin_src emacs-lisp
+(nnimap-expunge-on-close 'never)
+#+end_src
+
+#+begin_src emacs-lisp
+  ;; for autocompletion of email addresses
+  ;; (setq bbdb/news-auto-create-p t)
+  ;; Reply-to with the same address as it was sent to
+  (setq gnus-posting-styles
+      '(((header "to" "zygomega@gmail.com")
+         (address "zygomega@gmail.com"))
+	((header "to" "koolkeith73@gmail.com")
+         (address "koolkeith73@gmail.com"))
+	((header "cc" "zygomega@gmail.com")
+         (address "zygomega@gmail.com"))
+	((header "cc" "koolkeith73@gmail.com")
+         (address "koolkeith73@gmail.com"))))
+
+#+end_src
+
+
+
+
+*** dovecot imap reference
+:PROPERTIES:
+:tangle:   no
+:END:
+ #+begin_src emacs-lisp
+ ;;(setq imap-shell-program "dovecot -c ~/.dovecotrc --exec-mail imap")
+ ;;
+ ;;(setq gnus-select-method '(nnimap "Mail"
+ ;;                                (nnimap-stream shell)))
+ ;;
+ ;;(setq imap-shell-program "/usr/lib/dovecot/imap" )
+ (setq imap-shell-program
+       (quote
+        ("/opt/local/sbin/dovecot --exec-mail imap" 
+         "ssh %s imapd"
+         "rsh %s imapd"
+         "ssh %g ssh %s imapd"
+         "rsh %g rsh %s imapd")))
+ 
+ 
+;; (setq gnus-secondary-select-methods '((nnimap "Mail" (nnimap-stream
+;;  shell))))
+ #+end_src
+ 
+
+*** dwa select method
+:PROPERTIES:
+:tangle:   no
+:END:
+ #+begin_src emacs-lisp
+;; primary and secondary methods
+ (setq gnus-select-method
+   (quote
+    (nnimap "LocalIMAP"
+            (nnimap-address "localhost")
+            (nnimap-user "dave")
+            (nnimap-server-port 9143)
+            (nnimap-stream network))))
+
+ #+end_src
+
+*** jw select method
+:PROPERTIES:
+:tangle:   no
+:END:
+
+#+begin_src emacs-lisp
+(setq gnus-select-method
+  (quote
+   (nnimap "Local"
+           (nnimap-stream shell)
+           (nnimap-shell-program "/usr/local/opt/dovecot/libexec/dovecot/imap"))))
+
+#+end_src
+ 
+*** secondaries
+:PROPERTIES:
+:tangle:   no
+:END:
+ #+begin_src emacs-lisp
+(setq gnus-secondary-select-methods
+   (quote
+    ((nntp "GigaNews"
+           (nntp-address "text.giganews.com")
+           (nntp-authinfo-user "dabrahams"))
+     (nntp "Gmane"
+           (nntp-address "news.gmane.org"))
+     (nnimap "GMail"
+             (nnimap-address "imap.gmail.com")
+             (nnimap-server-port 993)
+             (nnimap-stream ssl)
+             (nnimap-user "dave.abrahams@gmail.com"))
+     (nntp "Gwene"
+           (nntp-address "news.gwene.org")))))
+ 
+#+end_src
+
+ #+results:
+ | nnimap | tonyday567 | (nnimap-address imap.gmail.com) |
+ | nnml   |            |                                 |
+
+
+
+
+*** jw hook
+    :PROPERTIES:
+    :tangle:   no
+    :END:
+#+begin_src emacs-lisp
+(use-package dotgnus
+  :bind (("M-G"   . switch-to-gnus)
+         ("C-x m" . compose-mail))
+  :init
+  (progn
+    (setq gnus-init-file (expand-file-name "dotgnus" user-emacs-directory)
+          gnus-home-directory "~/Messages/Gnus/")))
+  
+#+end_src
+
+*** minimal
+
+This minimalist version is mostly gleaned from the help files
+
+:PROPERTIES:
+:tangle:   no
+:END:
+#+begin_src emacs-lisp
+(setq user-mail-address "tonyday567@gmail.com")
+(setq user-full-name "Tony Day")
+(setq gnus-select-method '(nnimap "imap.gmail.com"
+                           (nnimap-address "imap.gmail.com")
+                           (nnimap-server-port 993)
+                           (nnimap-authinfo-file "~/.authinfo.gpg")
+                           (nnimap-stream ssl)))
+
+(setq smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+      smtpmail-smtp-server "smtp.gmail.com"
+      smtpmailil-default-smtp-server "smtp.gmail.com"
+      send-mail-function 'smtpmail-send-it
+      message-send-mail-function 'smtpmail-send-it
+      smtpmail-smtp-service 587)
+
+(add-hook 'gnus-topic-mode-hook 'gnus-topic-mode)
+
+(setq gnus-invalid-group-regexp "[:`'\"]\\|^$")
+(setq gnus-ignored-newsgroups "")
+(setq gnus-outgoing-message-group "[Google Mail]/Sent Mail")
+
+ '(gnus-secondary-select-methods
+   (quote
+    ((nntp "giganews"
+           (nntp-address "text.giganews.com")
+           (nntp-authinfo-user "tonyday567"))
+     (nntp "gmane"
+           (nntp-address "news.gmane.org"))
+     (nnimap "scarce"
+             (nnimap-address "imap.gmail.com")
+             (nnimap-server-port 993)
+             (nnimap-stream ssl)
+             (nnimap-user "tony.day@scarcecapital.com")))))
+
+(setq gnus-group-line-format "%S%p%P%5y%5T%5R: %(%B%G%B%)
+")
+(setq gnus-summary-line-format "%O%U%R%z%~(form my-align-gnus-summary)@%B%&user-date;: %(%f%~(form my-align-gnus-subject)@%)		%s
+")
+(defvar my-align-gnus-summary (propertize " " 'display '(space :align-to 5)))
+(defvar my-align-gnus-subject (propertize " " 'display '(space :align-to 30)))
+
+(defvar my-align-gnus-group (propertize " " 'display '(space :align-to 8)))
+
+#+end_src
+
+
+
+
+*** primary select (now in settings.el)
+#+begin_src emacs-lisp
+  (setq gnus-select-method '(nnimap "main"
+                              (nnimap-address "imap.gmail.com")
+                              (nnimap-server-port 993)
+                              (nnimap-authinfo-file "~/.authinfo.gpg")
+                              (nnimap-user "tonyday567")
+                              (nnimap-stream ssl)))
+ #+end_src
+ 
+
+*** full secondary
+:PROPERTIES:
+:tangle:   no
+:END:
+
+#+begin_src emacs-lisp
+(setq gnus-secondary-select-methods
+      (quote
+       ((nntp "giganews"
+              (nntp-address "text.giganews.com")
+              (nntp-authinfo-user "tonyday567"))
+        (nntp "gmane"
+              (nntp-address "news.gmane.org"))
+        (nnimap "scarce"
+                (nnimap-address "imap.gmail.com")
+                (nnimap-server-port 993)
+                (nnimap-stream ssl)
+                (nnimap-user "tony.day@scarcecapital.com"))
+        (nnimap "gmail"
+                (nnimap-address "imap.gmail.com")
+                (nnimap-server-port 993)
+                (nnimap-stream ssl)
+                (nnimap-user "tonyday567@gmail.com"))
+        (nntp "Gwene"
+              (nntp-address "news.gwene.org"))
+        (nnimap "LocalIMAP"
+                (nnimap-address "localhost")
+                (nnimap-user "tonyday")
+                (nnimap-server-port 9143)
+                (nnimap-stream network)))))
+#+end_src 
+
+
+*** various select method attempts and patterns
+:PROPERTIES:
+:tangle:   no
+:END:
+
+#+begin_src emacs-lisp
+(setq gnus-select-method
+   (quote
+    (nnimap "LocalIMAP"
+            (nnimap-address "localhost")
+            (nnimap-user "tonyday")
+            (nnimap-stream network))))
+#+end_src
+
+
+#+begin_src emacs-lisp
+(setq imap-shell-method "/usr/local/sbin/dovecot")
+(setq gnus-secondary-select-methods '((nnimap "mail" (nnimap-stream shell))))
+(setq gnus-secondary-select-methods '((nnimap "localhost" (nnimap-stream network))))
+(setq gnus-select-method (quote
+  (nnimap "localhost" 
+    (nnimap-stream network))))
+
+'(gnus-secondary-select-methods (quote ((nnimap "scarce" (nnimap-address "imap.gmail.com") (nnimap-server-port 993) (nnimap-stream ssl) (nnimap-user "tony.day@scarcecapital.com")) (nntp "giganews" (nntp-address "text.giganews.com") (nntp-authinfo-user "tonyday567")) (nntp "gmane" (nntp-address "news.gmane.org")) (nntp "Gwene" (nntp-address "news.gwene.org")))))
+
+(setq gnus-select-method '(nnimap "Local" (nnimap-stream shell)))
+
+
+(setq gnus-select-method
+  (quote
+   (nnimap "localhost"
+           (nnimap-stream shell)
+           (nnimap-shell-program "/usr/local/sbin/dovecot"))))
+
+#+end_src
+
+#+results:
+| nnimap | Local | (nnimap-stream shell) | (nnimap-shell-program /usr/local/sbin/dovecot/libexec/dovecot/imap) |
+
+
+
+
+*** actual secondary (in settings)
+
+#+begin_src emacs-lisp
+(setq gnus-secondary-select-methods
+      (quote
+       (
+        (nnimap "scarce"
+                (nnimap-address "imap.gmail.com")
+                (nnimap-server-port 993)
+                (nnimap-stream ssl)
+                (nnimap-user "tony.day@scarcecapital.com"))
+        (nntp "giganews"
+              (nntp-address "text.giganews.com")
+              (nntp-authinfo-user "tonyday567"))
+        (nntp "gmane"
+              (nntp-address "news.gmane.org"))
+        (nntp "Gwene"
+              (nntp-address "news.gwene.org"))
+
+        )))
+#+end_src 
+
