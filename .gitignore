@@ -7,6 +7,10 @@ bookmarks
 abbrev_defs
 org-clock-save.el
 
+rnc
+rnc/*
+semanticdb
+semanticdb/*
 ## directory contents
 auto-save-list/*
 backups/*

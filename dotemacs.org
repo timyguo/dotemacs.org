@@ -180,13 +180,15 @@ load-path)))
 These directory groups (directory and sub-directories) are added to the path.
 
 #+name: group-load-path-table
-| directory                | toggle |
-|--------------------------+--------|
-| site-lisp                | t      |
-| repos/jwiegley/site-lisp | t      |
-| repos/jwiegley/override  | t      |
-| repos/jwiegley/lisp      | t      |
-| elpa                     | t      |
+| directory                   | toggle |
+|-----------------------------+--------|
+| site-lisp                   | t      |
+| repos/jwiegley/site-lisp    | t      |
+| repos/jwiegley/override     | t      |
+| repos/jwiegley/lisp         | t      |
+| repos/jwiegley/site-lisp/ac | t      |
+| site-lisp/cedet             | t      |
+| elpa                        | t      |
 
 And here's where we start taking advantage of using org on startup.
 If you would like to add more group loads, just add to the above
@@ -204,17 +206,20 @@ to the load-path. Can be absolute or relative to user-emacs-directory")
           (nreverse group-load-directories))
 #+end_src
 
+#+results:
+| elpa | site-lisp/cedet | repos/jwiegley/site-lisp/ac | repos/jwiegley/lisp | repos/jwiegley/override | repos/jwiegley/site-lisp | site-lisp |
+
 *** load path table
 
 Any other directories needed on the path go here:
 
 #+name: load-path-table
-| directory                                                 | toggle |
-|-----------------------------------------------------------+--------|
-| ~/.emacs.d                                                | t      |
-| ~/.emacs.d/elpa/ess-20121027.2218/lisp                    | t      |
-| ~/.emacs.d/site-lisp/org-mode/contrib/lisp | t      |
-| ~/.emacs.d/repos/jwiegley/overrides/tramp/lisp            | t      |
+| directory                                      | toggle |
+|------------------------------------------------+--------|
+| ~/.emacs.d                                     | t      |
+| ~/.emacs.d/elpa/ess-20121027.2218/lisp         | t      |
+| ~/.emacs.d/site-lisp/org-mode/contrib/lisp     | t      |
+| ~/.emacs.d/repos/jwiegley/overrides/tramp/lisp | t      |
 
 #+begin_src emacs-lisp :var table=load-path-table
 (defvar path-directories
@@ -1211,6 +1216,31 @@ register.
 
 #+end_src
 
+
+*** hyper key
+I set this in customization
+
+(setq ns-function-modifier 'hyper)
+
+**** H-?
+#+begin_src emacs-lisp
+(defun my-indent-region ()
+  (interactive)
+  (save-excursion
+    (save-restriction
+      (if (> (point) (mark))
+          (exchange-point-and-mark))
+      (while (< (point) (mark))
+        (indent-for-tab-command)
+        (forward-line 1)))))
+
+(bind-key "H-i" 'my-indent-region)
+
+#+end_src
+
+
+
+
 * packages
 :PROPERTIES:
 :tangle:   no
@@ -1349,7 +1379,6 @@ register.
     #+results:
     : t
 
-
 *** auctex
 :PROPERTIES:
 :tangle:   yes
@@ -1403,24 +1432,25 @@ Some random old-school instructions
 #+end_src
 
 
-
 *** auto-complete
 :PROPERTIES:
 :tangle:   yes
 :END:
 #+begin_src emacs-lisp
-;;;_ , auto-complete
-
-(use-package auto-complete-config
-  :commands auto-complete-mode
-  :diminish auto-complete-mode
-  :config
-  (progn
-    (ac-set-trigger-key "TAB")
-    (setq ac-use-menu-map t)
-
-    (unbind-key "C-s" ac-completing-map)))
-
+    ;;;_ , auto-complete
+    
+    (use-package auto-complete-config
+      :commands auto-complete-mode
+      :diminish auto-complete-mode
+      :config
+      (progn
+        (ac-set-trigger-key "TAB")
+        (setq ac-use-menu-map t)
+    
+        (unbind-key "C-s" ac-completing-map))
+      :load-path ("repos/jwiegley/site-lisp/ac/auto-complete/"
+                  "repos/jwiegley/site-lisp/ac/"))
+    
 #+end_src
 *** autopair
 :PROPERTIES:
@@ -1690,6 +1720,741 @@ Some random old-school instructions
 
 #+end_src
 
+*** cc-mode
+:PROPERTIES:
+:tangle:   yes
+:END:
+
+Based on dwa version which is mostly ott.
+
+#+begin_src emacs-lisp
+  (load-file "~/.emacs.d/site-lisp/cedet/cedet-devel-load.el")
+
+  (require 'find-func)
+(let ((cedet-lisp (file-name-directory (find-library-name "cedet"))))
+  (add-to-list 'load-path (expand-file-name "../../contrib" cedet-lisp))
+;  (add-to-list 'load-path (expand-file-name "srecode" cedet-lisp))
+;  (add-to-list 'load-path (expand-file-name "semantic" cedet-lisp))
+)
+
+;;(add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode)
+(add-to-list 'semantic-default-submodes 'global-semantic-mru-bookmark-mode)
+(add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
+(add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
+;(add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
+(add-to-list 'semantic-default-submodes 'global-cedet-m3-minor-mode)
+(add-to-list 'semantic-default-submodes 'global-semantic-highlight-func-mode)
+;;(add-to-list 'semantic-default-submodes 'global-semantic-show-unmatched-syntax-mode)
+;;(add-to-list 'semantic-default-submodes 'global-semantic-highlight-edits-mode)
+;;(add-to-list 'semantic-default-submodes 'global-semantic-show-parser-state-mode)
+;;(add-to-list 'semantic-default-submodes ')
+
+(require 'semantic/bovine/el)
+(require 'semantic/canned-configs)
+(semantic-load-enable-gaudy-code-helpers)
+;; dwa
+; (semantic-load-enable-excessive-code-helpers)
+
+;; Activate semantic
+(semantic-mode 1)
+
+(setq semantic-clang-binary "/usr/local/bin/clang")
+(require 'semantic/bovine/c)
+(require 'semantic/bovine/gcc)
+(require 'semantic/bovine/clang)
+(require 'semantic/ia)
+(require 'semantic/decorate/include)
+(require 'semantic/lex-spp)
+(require 'eassist)
+(require 'auto-complete)
+
+
+;; customisation of modes
+(defun alexott/cedet-hook ()
+  (local-set-key "\C-c?" 'semantic-ia-complete-symbol)
+  ;;
+  (local-set-key "\C-c>" 'semantic-complete-analyze-inline)
+  (local-set-key "\C-c=" 'semantic-decoration-include-visit)
+
+  (local-set-key "\C-cj" 'semantic-ia-fast-jump)
+  (local-set-key "\C-cq" 'semantic-ia-show-doc)
+  (local-set-key "\C-cs" 'semantic-ia-show-summary)
+  (local-set-key "\C-cp" 'semantic-analyze-proto-impl-toggle)
+  (local-set-key (kbd "C-c <left>") 'semantic-tag-folding-fold-block)
+  (local-set-key (kbd "C-c <right>") 'semantic-tag-folding-show-block)
+
+  (add-to-list 'ac-sources 'ac-source-semantic)
+  )
+;; (add-hook 'semantic-init-hooks 'alexott/cedet-hook)
+(add-hook 'c-mode-common-hook 'alexott/cedet-hook)
+(add-hook 'lisp-mode-hook 'alexott/cedet-hook)
+(add-hook 'scheme-mode-hook 'alexott/cedet-hook)
+(add-hook 'emacs-lisp-mode-hook 'alexott/cedet-hook)
+(add-hook 'erlang-mode-hook 'alexott/cedet-hook)
+
+(defun alexott/c-mode-cedet-hook ()
+ ;; (local-set-key "." 'semantic-complete-self-insert)
+ ;; (local-set-key ">" 'semantic-complete-self-insert)
+  (local-set-key "\C-ct" 'eassist-switch-h-cpp)
+  (local-set-key "\C-xt" 'eassist-switch-h-cpp)
+  (local-set-key "\C-ce" 'eassist-list-methods)
+  (local-set-key "\C-c\C-r" 'semantic-symref)
+
+;;  (add-to-list 'ac-sources 'ac-source-etags)
+  (add-to-list 'ac-sources 'ac-source-gtags)
+  )
+(add-hook 'c-mode-common-hook 'alexott/c-mode-cedet-hook)
+
+(require 'cedet-global)
+(when (cedet-gnu-global-version-check t)
+  (semanticdb-enable-gnu-global-databases 'c-mode)
+  (semanticdb-enable-gnu-global-databases 'c++-mode))
+
+(semanticdb-enable-cscope-databases :noerror)
+
+(ignore-errors 
+  (when (cedet-ectag-version-check t)
+    (semantic-load-enable-primary-ectags-support)))
+
+;; SRecode
+(global-srecode-minor-mode 1)
+
+;; EDE
+(global-ede-mode 1)
+(ede-enable-generic-projects)
+
+;;; Correct the handling of generic cmake projects in  upstream EDE
+;;;
+;;; CMAKE
+;; (defclass ede-generic-cmake-project (ede-generic-project)
+;;   ((buildfile :initform "CMakeLists.txt")
+;;    )
+;;   "Generic Project for cmake.")
+
+;; (defmethod ede-generic-setup-configuration ((proj ede-generic-cmake-project) config)
+;;   "Setup a configuration for CMake."
+;;   (oset config build-command "cmake")
+;;   (oset config debug-command "gdb ")
+;;   )
+
+;; (ede-generic-new-autoloader "generic-cmake" "CMake"
+;;                             "CMakeLists.txt" 'ede-generic-cmake-project)
+;;;
+
+
+(defun recur-list-files (dir re)
+  "Returns list of files in directory matching to given regex"
+  (when (file-accessible-directory-p dir)
+    (let ((files (directory-files dir t))
+          matched)
+      (dolist (file files matched)
+        (let ((fname (file-name-nondirectory file)))
+          (cond
+           ((or (string= fname ".")
+                (string= fname "..")) nil)
+           ((and (file-regular-p file)
+                 (string-match re fname))
+            (setq matched (cons file matched)))
+           ((file-directory-p file)
+            (let ((tfiles (recur-list-files file re)))
+              (when tfiles (setq matched (append matched tfiles)))))))))))
+
+(defun c++-setup-boost (boost-root)
+  (when (file-accessible-directory-p boost-root)
+    (let ((cfiles (recur-list-files boost-root "\\(config\\|user\\)\\.hpp")))
+      (dolist (file cfiles)
+        (add-to-list 'semantic-lex-c-preprocessor-symbol-file file)))))
+
+
+
+;; my functions for EDE
+(defun alexott/ede-get-local-var (fname var)
+  "fetch given variable var from :local-variables of project of file fname"
+  (let* ((current-dir (file-name-directory fname))
+         (prj (ede-current-project current-dir)))
+    (when prj
+      (let* ((ov (oref prj local-variables))
+            (lst (assoc var ov)))
+        (when lst
+          (cdr lst))))))
+
+;; setup compile package
+(require 'compile)
+(setq compilation-disable-input nil)
+(setq compilation-scroll-output t)
+(setq mode-compile-always-save-buffer-p t)
+
+(defun alexott/compile ()
+  "Saves all unsaved buffers, and runs 'compile'."
+  (interactive)
+  (save-some-buffers t)
+  (let* ((r (alexott/ede-get-local-var
+             (or (buffer-file-name (current-buffer)) default-directory)
+             'compile-command))
+         (cmd (if (functionp r) (funcall r) r)))
+    (set (make-local-variable 'compile-command) (or cmd compile-command))
+    (compile compile-command)))
+
+;;(global-set-key [f9] 'alexott/compile)
+
+;;
+(defun alexott/gen-std-compile-string ()
+  "Generates compile string for compiling CMake project in debug mode"
+  (let* ((current-dir (file-name-directory
+                       (or (buffer-file-name (current-buffer)) default-directory)))
+         (prj (ede-current-project current-dir))
+         (root-dir (ede-project-root-directory prj)))
+    (concat "cd " root-dir "; make -j2")))
+
+;;
+(defun alexott/gen-cmake-debug-compile-string ()
+  "Generates compile string for compiling CMake project in debug mode"
+  (let* ((current-dir (file-name-directory
+                       (or (buffer-file-name (current-buffer)) default-directory)))
+         (prj (ede-current-project current-dir))
+         (root-dir (ede-project-root-directory prj))
+         (subdir "")
+         )
+    (when (string-match root-dir current-dir)
+      (setf subdir (substring current-dir (match-end 0))))
+    (concat "cd " root-dir "Debug/" "; make -j3")))
+
+(defun alexott/gen-cmake-debug/release-compile-string ()
+  "Generates compile string for compiling CMake project in debug & release modes"
+  (let* ((current-dir (file-name-directory
+                       (or (buffer-file-name (current-buffer)) default-directory)))
+         (prj (ede-current-project current-dir))
+         (root-dir (ede-project-root-directory prj))
+         (subdir "")
+         )
+    (when (string-match root-dir current-dir)
+      (setf subdir (substring current-dir (match-end 0))))
+    (concat "cd " root-dir "Debug/ && make -j3 && cd " root-dir "Release/ && make -j3" )))
+
+;; Projects
+(when (file-exists-p "~/projects/opoker/CMakeLists.txt")
+(setq opoker-project
+(ede-cpp-root-project "opoker"
+                :name "opoker rescue"
+                :file "~/projects/opoker/CMakeLists.txt"
+                :include-path '("/include"
+                                "../../gtest-1.5.0/include/gtest"
+                               )
+                :system-include-path '("/usr/include/c++/4.2.1")
+                ;;:spp-table '(("isUnix" . "")
+                ;;             ("BOOST_TEST_DYN_LINK" . ""))
+)))
+
+
+
+
+(when (file-exists-p "~/src/LLVM/llvm/CMakeLists.txt")
+  (setq llvm-project
+	(ede-cpp-root-project "llvm"
+			      :file "~/src/LLVM/llvm/CMakeLists.txt"
+                              :include-path 
+                              '(
+                                "/include"
+                                "/tools/clang/include"
+                               )
+			      :local-variables '((compile-command . 'alexott/gen-cmake-debug-compile-string)
+						)
+			      )))
+
+
+(when (file-exists-p "~/src/corp/cree/CMakeLists.txt")
+  (setq cree-project
+	(ede-cpp-root-project "cree"
+			      :file "~/src/corp/cree/CMakeLists.txt"
+                              :include-path 
+                              '("/src"
+                                "/include"
+                                "/lib"
+                                "/lib_src"
+                                "/ext/llvm/include"
+                                "/ext/llvm/tools/clang/include"
+                                "."
+                               )
+                              :spp-table '(("LLVM_DELETED_FUNCTION".""))
+			      :local-variables '((compile-command . "cd ~/Products/cree && PATH=\"$HOME/Products/LLVM/cree/bin:$PATH\" cmake ~/src/corp/cree -G Ninja && ninja")
+						)
+			      ))
+)
+
+(when (file-exists-p "~/src/llvm/abi/CMakeLists.txt")
+  (setq abi-project
+	(ede-cpp-root-project "abi"
+			      :file "~/src/llvm/abi/CMakeLists.txt"
+                              :include-path 
+                              '("/include"
+                                "/tools/clang/include"
+                                "."
+                               )
+                              :spp-table '(("LLVM_DELETED_FUNCTION".""))
+			      :local-variables '((compile-command . "cd ~/Products/abi && cmake -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang ~/src/LLVM/abi -G Ninja && ninja")
+						)
+			      ))
+)
+
+
+;; cpp-tests project definition
+(when (file-exists-p "~/projects/lang-exp/cpp/CMakeLists.txt")
+  (setq cpp-tests-project
+	(ede-cpp-root-project "cpp-tests"
+			      :file "~/projects/lang-exp/cpp/CMakeLists.txt"
+			      :system-include-path '("/home/ott/exp/include"
+						     boost-base-directory)
+			      :local-variables (list
+						(cons 'compile-command 'alexott/gen-cmake-debug-compile-string)
+						)
+			      )))
+
+(when (file-exists-p "~/projects/squid-gsb/README")
+  (setq squid-gsb-project
+	(ede-cpp-root-project "squid-gsb"
+			      :file "~/projects/squid-gsb/README"
+			      :system-include-path '("/home/ott/exp/include"
+						     boost-base-directory)
+			      :local-variables (list
+						(cons 'compile-command 'alexott/gen-cmake-debug-compile-string)
+						)
+			      )))
+
+;; (when (file-exists-p "~/work/emacs-head/README")
+;;   (setq emacs-project
+;; 	(ede-emacs-project "emacs-head"
+;; 			   :file "~/work/emacs-head/README")))
+
+
+;; (setq arabica-project
+;;       (ede-cpp-root-project "arabica"
+;;                             :file "~/projects/arabica-devel/README"
+;;                             :system-include-path '("/home/ott/exp/include"
+;;                                                    boost-base-directory)
+;;                             :local-variables (list
+;;                                               (cons 'compile-command 'alexott/gen-std-compile-string)
+;;                                               )
+;;                             ))
+
+#+end_src
+
+#+results:
+
+*** TODO cedet dev
+:LOGBOOK:
+CLOCK: [2012-12-21 Fri 14:10]--[2012-12-22 Sat 14:07] => 23:57
+:END:
+:PROPERTIES:
+:tangle:   no
+:END:
+
+- [ ] cedet
+  [[http://alexott.net/en/writings/emacs-devenv/EmacsCedet.html][A Gentle introduction to CEDET]]
+    - [ ] ede
+        - [ ] understand what a project is and how to open it
+    - [ ] semantic
+
+      [[file:~/.emacs.d/repos/dwamacs/settings/semantic-settings.el::]]
+
+- [ ] clang is a front end for llvm
+    - [ ] [[file:~/.emacs.d/dotemacs.org::*llvm-mode][llvm-mode]]
+
+- [ ] opencl
+      (find-file "~/src/ansi/opencl.c")
+
+- [-] [[file:~/.emacs.d/dotemacs.org::*cmake-mode][cmake-mode]]
+    - [ ] get mode turning on automatically
+    - [X] separate build and src
+      [[http://stackoverflow.com/questions/2123669/configuring-emacs-for-cmake][configuring emacs for cmake - Stack Overflow]]
+    - [X] cpputils-cmake
+      [[https://github.com/redguardtoo/cpputils-cmake][redguardtoo/cpputils-cmake · GitHub]]
+
+  #+begin_src emacs-lisp
+  (add-hook 'c-mode-common-hook (lambda ()
+  (cppcm-reload-all)
+  ; fixed rinari's bug.
+  (remove-hook 'find-file-hook 'rinari-launch)
+  ))
+;; OPTIONAL, avoid typing full path when starting gdb
+(global-set-key (kbd "H-g")
+ '(lambda ()(interactive) (gud-gdb (concat "gdb --fullname " (cppcm-get-exe-path-current-buffer))))
+)
+  #+end_src
+
+
+- [ ] [[file:~/.emacs.d/dotemacs.org::*compile][compile]]
+
+- [ ] [[file:~/.emacs.d/dotemacs.org::*gtags][gtags]]
+
+- [ ] gud
+
+  [[file:~/.emacs.d/repos/jwiegley/override/gud.el::%3B%3B%3B%20gud.el%20---%20Grand%20Unified%20Debugger%20mode%20for%20running%20GDB%20and%20other%20debuggers][file:~/.emacs.d/repos/jwiegley/override/gud.el::;;; gud.el --- Grand Unified Debugger mode for running GDB and other debuggers]]
+
+- [ ] hs-minor-mode
+      (diminish 'hs-minor-mode)
+
+- [ ] add a TAGS menu item
+  #+begin_src emacs-lisp
+  (defun my-semantic-hook ()
+  (imenu-add-to-menubar "TAGS"))
+  (add-hook 'semantic-init-hooks 'my-semantic-hook)
+  #+end_src
+
+**** jwiegley cc-mode
+:PROPERTIES:
+:tangle:   no
+:END:
+
+- [ ] compare with dwa
+
+#+begin_src emacs-lisp
+  (use-package cc-mode
+    :mode (("\\.h\\(h?\\|xx\\|pp\\)\\'" . c++-mode)
+           ("\\.m\\'"                   . c-mode)
+           ("\\.mm\\'"                  . c++-mode))
+    :init
+    (progn
+      (defun llvm-info ()
+        (interactive)
+        (w3m-find-file "/usr/local/opt/clang/docs/llvm/html/doxygen/classllvm_1_1IRBuilder.html"))
+      
+      (defun my-paste-as-check ()
+        (interactive)
+        (save-excursion
+          (insert "/*\n")
+          (let ((beg (point)) end)
+            (yank)
+            (setq end (point-marker))
+            (goto-char beg)
+            (while (< (point) end)
+              (forward-char 2)
+              (insert "CHECK: ")
+              (forward-line 1)))
+          (insert "*/\n")))
+      
+      (defun my-c-indent-or-complete ()
+        (interactive)
+        (let ((class (syntax-class (syntax-after (1- (point))))))
+          (if (or (bolp) (and (/= 2 class)
+                              (/= 3 class)))
+              (call-interactively 'indent-according-to-mode)
+            (call-interactively 'auto-complete))))
+      
+      (defvar printf-index 0)
+      
+      (defun insert-counting-printf (arg)
+        (interactive "P")
+        (if arg
+            (setq printf-index 0))
+        (if t
+            (insert (format "std::cerr << \"step %d..\" << std::endl;\n"
+                            (setq printf-index (1+ printf-index))))
+          (insert (format "printf(\"step %d..\\n\");\n"
+                          (setq printf-index (1+ printf-index)))))
+        (forward-line -1)
+        (indent-according-to-mode)
+        (forward-line))
+      
+      (defun my-c-save-buffer ()
+        (interactive)
+        (if (buffer-modified-p)
+            (call-interactively 'save-buffer))
+        (if flymake-mode
+            (flymake-start-syntax-check)))
+      
+      (defun my-c-mode-common-hook ()
+        (abbrev-mode 1)
+        (gtags-mode 1)
+        (hs-minor-mode 1)
+        (hide-ifdef-mode 1)
+        (whitespace-mode 1)
+        (which-function-mode 1)
+        (auto-complete-mode 1)
+        (yas/minor-mode 1)
+        
+        (diminish 'gtags-mode)
+        (diminish 'hs-minor-mode)
+        (diminish 'hide-ifdef-mode)
+        
+        (add-to-list 'load-path "~/.emacs.d/site-lisp/ghc-mod/elisp")
+        (require 'ghc-flymake)            ; jww (2012-09-19): hack!
+        (bind-key "M-?" 'ghc-flymake-display-errors c-mode-base-map)
+        (bind-key "M-p" 'flymake-goto-prev-error c-mode-base-map)
+        (bind-key "M-n" 'flymake-goto-next-error c-mode-base-map)
+        (bind-key "C-x C-s" 'my-c-save-buffer c-mode-base-map)
+        
+        (bind-key "C-c p" 'insert-counting-printf c-mode-base-map)
+        
+        (auto-complete-mode 1)
+        (setq ac-sources (list (if (and (fboundp 'semantic-active-p)
+                                        (funcall #'semantic-active-p))
+                                   'ac-source-semantic
+                                 'ac-source-gtags)))
+        (bind-key "<A-tab>" 'ac-complete c-mode-base-map)
+        
+        ;;(doxymacs-mode 1)
+        ;;(doxymacs-font-lock)
+        
+        (bind-key "<return>" 'newline-and-indent c-mode-base-map)
+        
+        (set (make-local-variable 'yas/fallback-behavior)
+             '(apply my-c-indent-or-complete . nil))
+        (bind-key "<tab>" 'yas/expand-from-trigger-key c-mode-base-map)
+        
+        (unbind-key "M-j" c-mode-base-map)
+        (bind-key "C-c C-i" 'c-includes-current-file c-mode-base-map)
+        (bind-key "C-c C-y" 'my-paste-as-check c-mode-base-map)
+        
+        (set (make-local-variable 'parens-require-spaces) nil)
+        (setq indicate-empty-lines t)
+        (setq fill-column 72)
+        
+        (bind-key "M-q" 'c-fill-paragraph c-mode-base-map)
+        
+        (let ((bufname (buffer-file-name)))
+          (when bufname
+            (cond
+             ((string-match "/ledger/" bufname)
+              (c-set-style "ledger"))
+             ((string-match "/ansi/" bufname)
+              (c-set-style "ti")
+              (substitute-key-definition 'fill-paragraph 'ti-refill-comment
+                                         c-mode-base-map global-map)
+              (bind-key "M-q" 'ti-refill-comment c-mode-base-map))
+             ((string-match "/edg/" bufname)
+              (c-set-style "edg"))
+             (t
+              (c-set-style "clang")))))
+        
+        (font-lock-add-keywords 'c++-mode '(("\\<\\(assert\\|DEBUG\\)("
+                                             1 font-lock-warning-face t))))
+      
+      (add-hook 'c-mode-common-hook 'my-c-mode-common-hook))
+    
+    :config
+    (progn
+      (setq c-syntactic-indentation nil)
+      
+      (bind-key "#" 'self-insert-command c-mode-base-map)
+      (bind-key "{" 'self-insert-command c-mode-base-map)
+      (bind-key "}" 'self-insert-command c-mode-base-map)
+      (bind-key "/" 'self-insert-command c-mode-base-map)
+      (bind-key "*" 'self-insert-command c-mode-base-map)
+      (bind-key ";" 'self-insert-command c-mode-base-map)
+      (bind-key "," 'self-insert-command c-mode-base-map)
+      (bind-key ":" 'self-insert-command c-mode-base-map)
+      (bind-key "(" 'self-insert-command c-mode-base-map)
+      (bind-key ")" 'self-insert-command c-mode-base-map)
+      (bind-key "<" 'self-insert-command c++-mode-map)
+      (bind-key ">" 'self-insert-command c++-mode-map)
+      
+      (use-package cedet
+        :disabled nil
+        :init
+        (progn
+          ;; Add further minor-modes to be enabled by semantic-mode.  See
+          ;; doc-string of `semantic-default-submodes' for other things you can
+          ;; use here.
+          (dolist (submode '(global-semantic-idle-summary-mode
+                             global-semantic-mru-bookmark-mode
+                             global-semantic-idle-local-symbol-highlight-mode
+                             global-semantic-show-unmatched-syntax-mode))
+            (add-to-list 'semantic-default-submodes submode t))
+          
+          ;; Enable Semantic
+          (semantic-mode 1)
+          
+          (when nil              ; jww (2012-06-20): this kills buffers
+            ;; if you want to enable support for gnu global
+            (use-package semanticdb-global)
+            
+            (semanticdb-enable-gnu-global-databases 'c-mode)
+            (semanticdb-enable-gnu-global-databases 'c++-mode))))
+      
+      (add-to-list 'c-style-alist
+                   '("ti"
+                     (indent-tabs-mode . nil)
+                     (c-basic-offset . 3)
+                     (c-comment-only-line-offset . (0 . 0))
+                     (c-hanging-braces-alist
+                      . ((substatement-open before after)
+                         (arglist-cont-nonempty)))
+                     (c-offsets-alist
+                      . ((statement-block-intro . +)
+                         (knr-argdecl-intro . 5)
+                         (substatement-open . 0)
+                         (substatement-label . 0)
+                         (label . 0)
+                         (case-label . +)
+                         (statement-case-open . 0)
+                         (statement-cont . +)
+                         (arglist-intro . c-lineup-arglist-intro-after-paren)
+                         (arglist-close . c-lineup-arglist)
+                         (inline-open . 0)
+                         (brace-list-open . 0)
+                         (topmost-intro-cont
+                          . (first c-lineup-topmost-intro-cont
+                                   c-lineup-gnu-DEFUN-intro-cont))))
+                     (c-special-indent-hook . c-gnu-impose-minimum)
+                     (c-block-comment-prefix . "")))
+      
+      (add-to-list 'c-style-alist
+                   '("edg"
+                     (indent-tabs-mode . nil)
+                     (c-basic-offset . 2)
+                     (c-comment-only-line-offset . (0 . 0))
+                     (c-hanging-braces-alist
+                      . ((substatement-open before after)
+                         (arglist-cont-nonempty)))
+                     (c-offsets-alist
+                      . ((statement-block-intro . +)
+                         (knr-argdecl-intro . 5)
+                         (substatement-open . 0)
+                         (substatement-label . 0)
+                         (label . 0)
+                         (case-label . +)
+                         (statement-case-open . 0)
+                         (statement-cont . +)
+                         (arglist-intro . +)
+                         (arglist-close . +)
+                         (inline-open . 0)
+                         (brace-list-open . 0)
+                         (topmost-intro-cont
+                          . (first c-lineup-topmost-intro-cont
+                                   c-lineup-gnu-DEFUN-intro-cont))))
+                     (c-special-indent-hook . c-gnu-impose-minimum)
+                     (c-block-comment-prefix . "")))
+      
+      (add-to-list 'c-style-alist
+                   '("ledger"
+                     (indent-tabs-mode . nil)
+                     (c-basic-offset . 2)
+                     (c-comment-only-line-offset . (0 . 0))
+                     (c-hanging-braces-alist
+                      . ((substatement-open before after)
+                         (arglist-cont-nonempty)))
+                     (c-offsets-alist
+                      . ((statement-block-intro . +)
+                         (knr-argdecl-intro . 5)
+                         (substatement-open . 0)
+                         (substatement-label . 0)
+                         (label . 0)
+                         (case-label . 0)
+                         (statement-case-open . 0)
+                         (statement-cont . +)
+                         (arglist-intro . +)
+                         (arglist-close . +)
+                         (inline-open . 0)
+                         (brace-list-open . 0)
+                         (topmost-intro-cont
+                          . (first c-lineup-topmost-intro-cont
+                                   c-lineup-gnu-DEFUN-intro-cont))))
+                     (c-special-indent-hook . c-gnu-impose-minimum)
+                     (c-block-comment-prefix . "")))
+      
+      (add-to-list 'c-style-alist
+                   '("clang"
+                     (indent-tabs-mode . nil)
+                     (c-basic-offset . 2)
+                     (c-comment-only-line-offset . (0 . 0))
+                     (c-hanging-braces-alist
+                      . ((substatement-open before after)
+                         (arglist-cont-nonempty)))
+                     (c-offsets-alist
+                      . ((statement-block-intro . +)
+                         (knr-argdecl-intro . 5)
+                         (substatement-open . 0)
+                         (substatement-label . 0)
+                         (label . 0)
+                         (case-label . 0)
+                         (statement-case-open . 0)
+                         (statement-cont . +)
+                         (arglist-intro . +)
+                         (arglist-close . +)
+                         (inline-open . 0)
+                         (brace-list-open . 0)
+                         (topmost-intro-cont
+                          . (first c-lineup-topmost-intro-cont
+                                   c-lineup-gnu-DEFUN-intro-cont))))
+                     (c-special-indent-hook . c-gnu-impose-minimum)
+                     (c-block-comment-prefix . "")))
+      
+      (defun opencl ()
+        (interactive)
+        (find-file "~/src/ansi/opencl.c")
+        (find-file-noselect "~/Contracts/TI/bugslayer/cl_0603/cl_0603.c")
+        (find-file-noselect "~/Contracts/TI/bugslayer")
+        (magit-status "~/src/ansi")
+        (gud-gdb "gdb --fullname ~/Contracts/TI/bin/c60/acpia6x"))
+      
+      (defun ti-refill-comment ()
+        (interactive)
+        (let ((here (point)))
+          (goto-char (line-beginning-position))
+          (let ((begin (point)) end
+                (marker ?-) (marker-re "\\(-----\\|\\*\\*\\*\\*\\*\\)")
+                (leader-width 0))
+            (unless (looking-at "[ \t]*/\\*[-* ]")
+              (search-backward "/*")
+              (goto-char (line-beginning-position)))
+            (unless (looking-at "[ \t]*/\\*[-* ]")
+              (error "Not in a comment"))
+            (while (and (looking-at "\\([ \t]*\\)/\\* ")
+                        (setq leader-width (length (match-string 1)))
+                        (not (looking-at (concat "[ \t]*/\\*" marker-re))))
+              (forward-line -1)
+              (setq begin (point)))
+            (when (looking-at (concat "[^\n]+?" marker-re "\\*/[ \t]*$"))
+              (setq marker (if (string= (match-string 1) "-----") ?- ?*))
+              (forward-line))
+            (while (and (looking-at "[^\n]+?\\*/[ \t]*$")
+                        (not (looking-at (concat "[^\n]+?" marker-re
+                                                 "\\*/[ \t]*$"))))
+              (forward-line))
+            (when (looking-at (concat "[^\n]+?" marker-re "\\*/[ \t]*$"))
+              (forward-line))
+            (setq end (point))
+            (let ((comment (buffer-substring-no-properties begin end)))
+              (with-temp-buffer
+                (insert comment)
+                (goto-char (point-min))
+                (flush-lines (concat "^[ \t]*/\\*" marker-re "[-*]+\\*/[ \t]*$"))
+                (goto-char (point-min))
+                (while (re-search-forward "^[ \t]*/\\* ?" nil t)
+                  (goto-char (match-beginning 0))
+                  (delete-region (match-beginning 0) (match-end 0)))
+                (goto-char (point-min))
+                (while (re-search-forward "[ \t]*\\*/[ \t]*$" nil t)
+                  (goto-char (match-beginning 0))
+                  (delete-region (match-beginning 0) (match-end 0)))
+                (goto-char (point-min)) (delete-trailing-whitespace)
+                (goto-char (point-min)) (flush-lines "^$")
+                (set-fill-column (- 80    ; width of the text
+                                    6     ; width of "/*  */"
+                                    leader-width))
+                (goto-char (point-min)) (fill-paragraph nil)
+                (goto-char (point-min))
+                (while (not (eobp))
+                  (insert (make-string leader-width ? ) "/* ")
+                  (goto-char (line-end-position))
+                  (insert (make-string (- 80 3 (current-column)) ? ) " */")
+                  (forward-line))
+                (goto-char (point-min))
+                (insert (make-string leader-width ? )
+                        "/*" (make-string (- 80 4 leader-width) marker) "*/\n")
+                (goto-char (point-max))
+                (insert (make-string leader-width ? )
+                        "/*" (make-string (- 80 4 leader-width) marker) "*/\n")
+                (setq comment (buffer-string)))
+              (goto-char begin)
+              (delete-region begin end)
+              (insert comment)))
+          (goto-char here)))))
+  
+#+end_src
+
+
+**** [[http://rachid.koucha.free.fr/tech_corner/cmake_manual.html][How to use cmake]]
 *** cmake-mode
 :PROPERTIES:
 :tangle:   yes
@@ -1702,6 +2467,20 @@ Some random old-school instructions
          ("\\.cmake\\'"         . cmake-mode)))
 
 #+end_src
+
+*** cmake-project
+:PROPERTIES:
+:tangle:   yes
+:END:
+#+begin_src emacs-lisp
+(use-package cmake-project
+:init (progn
+  (defun maybe-cmake-project-hook ()
+  (if (file-exists-p "CMakeLists.txt") (cmake-project-mode)))
+(add-hook 'c-mode-hook 'maybe-cmake-project-hook)
+(add-hook 'c++-mode-hook 'maybe-cmake-project-hook)))
+#+end_src
+
 *** compile
 :PROPERTIES:
 :tangle:   yes
@@ -1738,6 +2517,14 @@ Some random old-school instructions
 
 #+end_src
 
+*** cpputils-cmake
+:PROPERTIES:
+:tangle:   yes
+:END:
+#+begin_src emacs-lisp
+  (use-package cpputils-cmake)
+
+#+end_src
 *** crosshairs
 :PROPERTIES:
 :tangle:   yes
@@ -2003,7 +2790,22 @@ iflipb-next-buffer or iflipb-previous-buffer this round."
   
 #+end_src
 
+*** docx
+:PROPERTIES:
+:tangle:   yes
+:END:
+#+begin_src emacs-lisp
+ (add-to-list 'auto-mode-alist '("\\.docx\\'" . docx2txt))
+
+(defun docx2txt ()
+  "Run docx2txt on the entire buffer."
+  (shell-command-on-region (point-min) (point-max) "docx2txt.pl" t t))
+#+end_src
+
 *** doxymacs
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , doxymacs
 
@@ -2354,6 +3156,56 @@ FORM => (eval FORM)."
 #+begin_src emacs-lisp
 (use-package find-file-in-project
   :bind ("C-x f" . find-file-in-project))
+#+end_src
+
+*** flymake-html-validator
+:PROPERTIES:
+:tangle:   yes
+:END:
+#+begin_src emacs-lisp
+  (use-package flymake-html-validator
+    :init (progn
+    ;;(add-hook 'html-mode-hook 'flymake-mode)
+
+(defvar flymake-minor-map-mode)
+(define-prefix-command 'flymake-minor-mode-map)
+(bind-key "H-f" 'flymake-minor-mode-map)
+
+(bind-key "M-p" 'flymake-goto-prev-error)
+(bind-key "M-n" 'flymake-goto-next-error)
+  
+(defun flymake-err-at (pos)
+  (let ((overlays (overlays-at pos)))
+    (remove nil
+            (mapcar (lambda (overlay)
+                      (and (overlay-get overlay 'flymake-overlay)
+                           (overlay-get overlay 'help-echo)))
+                    overlays))))
+
+(defun flymake-err-echo ()
+  (message "%s" (mapconcat 'identity (flymake-err-at (point)) "\n")))
+
+(defadvice flymake-goto-next-error (after display-message activate compile)
+  (flymake-err-echo))
+
+(defadvice flymake-goto-prev-error (after display-message activate compile)
+  (flymake-err-echo))
+
+(define-minor-mode flymake-minor-mode
+  "Simple minor mode which adds some key bindings for moving to the next and previous errors.
+
+Key bindings:
+
+\\{my-flymake-minor-mode-map}"
+  nil
+  nil
+  flymake-minor-mode-map)
+
+;; Enable this keybinding (my-flymake-minor-mode) by default
+;; Added by Hartmut 2011-07-05
+;; (add-hook 'html-mode-hook 'flymake-minor-mode)
+
+(setq validator-script "~/.emacs.d/site-lisp/flymake-html-validator")))
 #+end_src
 
 *** flyspell
@@ -3211,6 +4063,29 @@ creating structured email messages.
   (use-package hl-line+))
 
 #+end_src
+*** html gist
+
+#+begin_src emacs-lisp
+  (add-hook 'html-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-c v")
+                           (lambda () (interactive)
+                             (save-buffer)
+                             (shell-command (concat "html5check.py " (shell-quote-argument (buffer-file-name))))
+                             ))))
+#+end_src
+
+#+begin_src emacs-lisp
+  (defun check-html5 ()
+    (interactive)
+    (save-buffer)
+    (shell-command (concat "html5check.py " (shell-quote-argument (buffer-file-name)))))
+#+end_src
+
+#+results:
+: check-html5
+
+
 *** ido
     :PROPERTIES:
     :tangle:   yes
@@ -3839,6 +4714,10 @@ creating structured email messages.
 | ~/stuff                     |
 | ~/.emacs.d                  |
 | ~/git/o-blog                |
+| ~/projects/opoker           |
+| ~/projects/alice            |
+| ~/projects/metalice         |
+| ~/projects/fgr              |
 | ~/git/tonyday567.github.com |
 
 
@@ -3849,7 +4728,7 @@ creating structured email messages.
 #+end_src
 
 #+results:
-| ~/git/hft | ~/stuff | ~/.emacs.d | ~/git/o-blog | ~/git/tonyday567.github.com |
+| ~/git/hft | ~/stuff | ~/.emacs.d | ~/git/o-blog | ~/projects/opoker | ~/projects/alice | ~/projects/metalice | ~/projects/fgr | ~/git/tonyday567.github.com |
 
 *** markdown-mode
     :PROPERTIES:
@@ -4095,33 +4974,46 @@ http://lucindo.com.br/lisp/milki/markdown.html
                   (add-hook 'after-save-hook 'update-nroff-timestamp nil t)))))
 
 #+end_src
+*** nxhtml
+:PROPERTIES:
+:tangle:   no
+:END:
+
+#+begin_src emacs-lisp
+     (load "~/.emacs.d/site-lisp/nxhtml/autostart.el")
+
+#+end_src
+
 *** nxml-mode
 :PROPERTIES:
-:tangle:   yes
+:tangle:   no
 :END:
 #+begin_src emacs-lisp
-;;;_ , nxml-mode
-
-(use-package nxml-mode
-  :commands nxml-mode
-  :init
-  (defalias 'xml-mode 'nxml-mode)
-  :mode ("\\.html$" . nxml-mode)
-  :config
-  (progn
-    (defun my-nxml-mode-hook ()
-      (bind-key "<return>" 'newline-and-indent nxml-mode-map))
-
-    (add-hook 'nxml-mode-hook 'my-nxml-mode-hook)
-
-    (defun tidy-xml-buffer ()
-      (interactive)
-      (save-excursion
-        (call-process-region (point-min) (point-max) "tidy" t t nil
-                             "-xml" "-i" "-wrap" "0" "-omit" "-q")))
-
-    (bind-key "C-. C-. t" 'tidy-xml-buffer nxml-mode-map)))
-
+  ;;;_ , nxml-mode
+  
+  (use-package nxml-mode
+    :commands nxml-mode
+    :init
+    (defalias 'xml-mode 'nxml-mode)
+    :mode ("\\.html$" . nxml-mode)
+    :config
+    (progn
+      (add-to-list 'rng-schema-locating-files "~/.emacs.d/site-lisp/html5-el/schemas.xml")
+      (use-package whattf-dt)
+  
+      (defun my-nxml-mode-hook ()
+        (bind-key "<return>" 'newline-and-indent nxml-mode-map))
+  
+      (add-hook 'nxml-mode-hook 'my-nxml-mode-hook)
+  
+      (defun tidy-xml-buffer ()
+        (interactive)
+        (save-excursion
+          (call-process-region (point-min) (point-max) "tidy" t t nil
+                               "-xml" "-i" "-wrap" "0" "-omit" "-q")))
+  
+      (bind-key "C-. C-. t" 'tidy-xml-buffer nxml-mode-map)))
+  
 #+end_src
 *** o-blog
     :PROPERTIES:
@@ -4137,7 +5029,7 @@ http://lucindo.com.br/lisp/milki/markdown.html
   (progn
     (defvar o-blog-local-site "~/Sites/dev")
     (defvar o-blog-out-dir "out")
-    (defvar o-blog-local-url-index "http://127.0.0.1/~tonyday/mindev/index.html")
+    (defvar o-blog-local-url-index "http://127.0.0.1/~tonyday/dev/index.html")
 
     (defun o-blog-publish ()
       (interactive)
@@ -4226,47 +5118,48 @@ Using tables as well for agenda files is very useful, especially for
 quickly changing ordering.
 
 #+TBLNAME: agenda-files
-| stuff    |         | stuff.org                  |
-| .emacs.d |         | README.org                 |
-| .emacs.d |         | dotemacs.org               |
-| stuff    | org     | refile.org                 |
-| stuff    | org     | bugz.org                   |
-| stuff    | org     | snipz.org                  |
-| stuff    | org     | org.org                    |
-| stuff    | emacs   | emacs.org                  |
-| stuff    | emacs   | bindings.org               |
-| git      | hft     | hft.org                    |
-| stuff    | sys     | sys.org                    |
-| stuff    | biz     | scarce.org                 |
-| stuff    | content | life.org                   |
-| stuff    | content | writing.org                |
-| stuff    | dev     | webdev.org                 |
-| stuff    | dev     | sandpit.org                |
-| stuff    | dev     | jsdev.org                  |
-| stuff    | factor  | factor.org                 |
-| stuff    | content | ideas.org                  |
-| stuff    | quant   | rdev.org                   |
-| stuff    | quant   | volatility.org             |
-| stuff    | quant   | strategy_run_annotated.org |
-| stuff    | quant   | strategy_run_default.org   |
-| stuff    | quant   | momentum.org               |
-| stuff    | quant   | mom-report.org             |
-| stuff    | quant   | tail.org                   |
-| stuff    | quant   | jgb.org                    |
-| stuff    | quant   | data.org                   |
-| stuff    | quant   | quaff.org                  |
-| stuff    | quant   | moments.org                |
-| stuff    | quant   | da.org                     |
-| stuff    | site    | site-build.org             |
-| stuff    | site    | sitedev.org                |
-| stuff    | dev     | alice.org                  |
-| stuff    | quant   | acme.org                   |
-| stuff    | quant   | dcf.org                    |
-| stuff    | content | grob.org                   |
-| stuff    | content | allocation_final.org       |
-| stuff    | dev     | dot.org                    |
-| stuff    | dev     | beamer.org                 |
-| stuff    | content | poker.org                  |
+| .emacs.d |           | README.org                 |               |
+| .emacs.d |           | dotemacs.org               |               |
+| git      | acme      | acme.org                   |               |
+| git      | o-blog    | example                    | oblog-min.org |
+| stuff    |           | stuff.org                  |               |
+| stuff    | biz       | scarce.org                 |               |
+| stuff    | content   | allocation_final.org       |               |
+| stuff    | content   | life.org                   |               |
+| stuff    | content   | writing.org                |               |
+| stuff    | content   | ideas.org                  |               |
+| stuff    | content   | tail-material.org          |               |
+| stuff    | content   | grob.org                   |               |
+| stuff    | dev       | alice.org                  |               |
+| stuff    | dev       | webdev.org                 |               |
+| stuff    | dev       | sandpit                    | sandpit.org   |
+| stuff    | dev       | dot.org                    |               |
+| stuff    | dev       | beamer.org                 |               |
+| stuff    | emacs     | emacs.org                  |               |
+| stuff    | emacs     | bindings.org               |               |
+| stuff    | factor    | factor.org                 |               |
+| stuff    | org       | refile.org                 |               |
+| stuff    | org       | bugz.org                   |               |
+| stuff    | org       | snipz.org                  |               |
+| stuff    | org       | org.org                    |               |
+| stuff    | quant     | rdev.org                   |               |
+| stuff    | quant     | volatility.org             |               |
+| stuff    | quant     | strategy_run_annotated.org |               |
+| stuff    | quant     | strategy_run_default.org   |               |
+| stuff    | quant     | momentum.org               |               |
+| stuff    | quant     | mom-report.org             |               |
+| stuff    | quant     | jgb.org                    |               |
+| stuff    | quant     | data.org                   |               |
+| stuff    | quant     | quaff.org                  |               |
+| stuff    | quant     | moments.org                |               |
+| stuff    | quant     | da.org                     |               |
+| stuff    | site      | site-build.org             |               |
+| stuff    | site      | sitedev.org                |               |
+| stuff    | sys       | sys.org                    |               |
+| projects | fgr       | fgr.org                    |               |
+| projects | opoker    | opoker.org                 |               |
+| projects | alice     | alice.org                  |               |
+| projects | metaalice | metaalice.org              |               |
 
   #+begin_src emacs-lisp :var data=agenda-files
     (setq clean-table
@@ -4285,7 +5178,7 @@ quickly changing ordering.
   #+end_src
 
   #+results:
-  | ~/stuff/stuff.org | ~/.emacs.d/README.org | ~/.emacs.d/dotemacs.org | ~/stuff/org/refile.org | ~/stuff/org/bugz.org | ~/stuff/org/snipz.org | ~/stuff/org/org.org | ~/stuff/emacs/emacs.org | ~/stuff/emacs/bindings.org | ~/git/hft/hft.org | ~/stuff/sys/sys.org | ~/stuff/biz/scarce.org | ~/stuff/content/life.org | ~/stuff/content/writing.org | ~/stuff/dev/webdev.org | ~/stuff/dev/sandpit.org | ~/stuff/dev/jsdev.org | ~/stuff/factor/factor.org | ~/stuff/content/ideas.org | ~/stuff/quant/rdev.org | ~/stuff/quant/volatility.org | ~/stuff/quant/strategy_run_annotated.org | ~/stuff/quant/strategy_run_default.org | ~/stuff/quant/momentum.org | ~/stuff/quant/mom-report.org | ~/stuff/quant/tail.org | ~/stuff/quant/jgb.org | ~/stuff/quant/data.org | ~/stuff/quant/quaff.org | ~/stuff/quant/moments.org | ~/stuff/quant/da.org | ~/stuff/site/site-build.org | ~/stuff/site/sitedev.org | ~/stuff/dev/alice.org | ~/stuff/quant/acme.org | ~/stuff/quant/dcf.org | ~/stuff/content/grob.org | ~/stuff/content/allocation_final.org | ~/stuff/dev/dot.org | ~/stuff/dev/beamer.org | ~/stuff/content/poker.org |
+  | ~/.emacs.d/README.org | ~/.emacs.d/dotemacs.org | ~/git/acme/acme.org | ~/git/o-blog/example/oblog-min.org | ~/stuff/stuff.org | ~/stuff/biz/scarce.org | ~/stuff/content/allocation_final.org | ~/stuff/content/life.org | ~/stuff/content/writing.org | ~/stuff/content/ideas.org | ~/stuff/content/tail-material.org | ~/stuff/content/grob.org | ~/stuff/dev/alice.org | ~/stuff/dev/webdev.org | ~/stuff/dev/sandpit/sandpit.org | ~/stuff/dev/dot.org | ~/stuff/dev/beamer.org | ~/stuff/emacs/emacs.org | ~/stuff/emacs/bindings.org | ~/stuff/factor/factor.org | ~/stuff/org/refile.org | ~/stuff/org/bugz.org | ~/stuff/org/snipz.org | ~/stuff/org/org.org | ~/stuff/quant/rdev.org | ~/stuff/quant/volatility.org | ~/stuff/quant/strategy_run_annotated.org | ~/stuff/quant/strategy_run_default.org | ~/stuff/quant/momentum.org | ~/stuff/quant/mom-report.org | ~/stuff/quant/jgb.org | ~/stuff/quant/data.org | ~/stuff/quant/quaff.org | ~/stuff/quant/moments.org | ~/stuff/quant/da.org | ~/stuff/site/site-build.org | ~/stuff/site/sitedev.org | ~/stuff/sys/sys.org | ~/projects/fgr/fgr.org | ~/projects/opoker/opoker.org | ~/projects/alice/alice.org | ~/projects/metaalice/metaalice.org |
 
 **** other stuff
 ***** tags
@@ -4328,6 +5221,9 @@ quickly changing ordering.
   (use-package org-magit)
   (use-package org-habit)
   (use-package org-colview)
+  (use-package org-special-blocks)
+  (use-package org-mac-iCal)
+  (use-package org-mac-link-grabber)
 #+end_src
 
 ***** jumping
@@ -4366,6 +5262,83 @@ quickly changing ordering.
 
 (bind-key "C-c t r" 'org-remove-results)
 
+#+end_src
+
+***** org-random-entry
+#+begin_src emacs-lisp
+  (defun org-random-entry (&optional arg)
+    "Select and goto a random todo item from the global agenda"
+    (interactive "P")
+    (if org-agenda-overriding-arguments
+        (setq arg org-agenda-overriding-arguments))
+    (if (and (stringp arg) (not (string-match "\\S-" arg))) (setq arg nil))
+    (let* ((today (org-today))
+           (date (calendar-gregorian-from-absolute today))
+           (kwds org-todo-keywords-for-agenda)
+           (lucky-entry nil)
+           (completion-ignore-case t)
+           (org-select-this-todo-keyword
+            (if (stringp arg) arg
+              (and arg (integerp arg) (> arg 0)
+                   (nth (1- arg) kwds))))
+           rtn rtnall files file pos marker buffer)
+      (when (equal arg '(4))
+        (setq org-select-this-todo-keyword
+              (org-icompleting-read "Keyword (or KWD1|K2D2|...): "
+                                    (mapcar 'list kwds) nil nil)))
+      (and (equal 0 arg) (setq org-select-this-todo-keyword nil))
+      (catch 'exit
+        (org-compile-prefix-format 'todo)
+        (org-set-sorting-strategy 'todo)
+        (setq files (org-agenda-files nil 'ifmode)
+              rtnall nil)
+        (while (setq file (pop files))
+          (catch 'nextfile
+            (org-check-agenda-file file)
+            (setq rtn (org-agenda-get-day-entries file date :todo))
+            (setq rtnall (append rtnall rtn))))
+        
+        (when rtnall
+          (setq lucky-entry
+                (nth (random
+                      (safe-length
+                       (setq entries rtnall)))
+                     entries))
+          
+          (setq marker (or (get-text-property 0 'org-marker lucky-entry)
+                           (org-agenda-error)))
+          (setq buffer (marker-buffer marker))
+          (setq pos (marker-position marker))
+          (org-pop-to-buffer-same-window buffer)
+          (widen)
+          (goto-char pos)
+          (when (derived-mode-p 'org-mode)
+            (org-show-context 'agenda)
+            (save-excursion
+              (and (outline-next-heading)
+                   (org-flag-heading nil))) ; show the next heading
+            (when (outline-invisible-p)
+              (show-entry))                 ; display invisible text
+            (run-hooks 'org-agenda-after-show-hook))))))
+  
+  (bind-key "C-. C-. r" 'org-random-entry)
+    
+#+end_src
+
+***** update diary
+#+begin_src emacs-lisp
+  (setq diary-file "~/Documents/diary")
+  (org-mac-iCal)
+#+end_src
+
+#+results:
+: #<buffer dotemacs.org>
+
+***** grab link
+
+[[http://orgmode.org/worg/org-contrib/org-mac-link-grabber.html][org-mac-link-grabber.el – Grab links from open Mac applications]]
+#+begin_src emacs-lisp
+  (bind-key "H-l" 'omlg-grab-link)
 #+end_src
 
 **** org bindings
@@ -5114,6 +6087,9 @@ jwiegley org setup
 #+end_src
 
 *** tramp
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
   (use-package tramp)
 #+end_src
