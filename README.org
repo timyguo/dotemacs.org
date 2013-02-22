@@ -4,6 +4,8 @@ I'm learning emacs and elisp by playing around with dot file configs
 and otherwise having a look at how other people set up their files.
 
 
+* TODO README tasks
+convert to markdown
 * contents
 
 What you'll find here is:

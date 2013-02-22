@@ -4,6 +4,7 @@
 #+COLUMNS: %25ITEM %30tangle
 #+PROPERTIES: tangle yes
 
+
 * upfront
 :PROPERTIES:
 :tangle:   no
@@ -155,6 +156,15 @@ standard emacs packages to do stuff.
   :PROPERTIES:
   :tangle: 
   :END:
+*** library tools
+  #+begin_src emacs-lisp
+    (load "org-macs")
+    (setq debug-on-error t)
+  (locate-library "yasnippet")
+  (locate-file "yasnippet.el" load-path)
+  #+end_src
+
+
 *** path load defuns
 #+begin_src emacs-lisp
 (defun add-to-load-path (path &optional dir)
@@ -175,20 +185,23 @@ load-path)))
                           (expand-file-name path user-emacs-directory)))))
 #+end_src
 
-*** group load path table
+*** TODO group load path table
+
+- [ ] removing repo hooks
+- [ ] work out why helm isn't working
+
 
 These directory groups (directory and sub-directories) are added to the path.
 
 #+name: group-load-path-table
-| directory                   | toggle |
-|-----------------------------+--------|
-| site-lisp                   | t      |
-| repos/jwiegley/site-lisp    | t      |
-| repos/jwiegley/override     | t      |
-| repos/jwiegley/lisp         | t      |
-| repos/jwiegley/site-lisp/ac | t      |
-| site-lisp/cedet             | t      |
-| elpa                        | t      |
+| directory               | toggle |
+|-------------------------+--------|
+| overides                | t      |
+| elpa                    | t      |
+| site-lisp               | t      |
+| site-lisp/cedet         | t      |
+| site-lisp/jwiegley-lisp | t      |
+| site-lisp/ac            | t      |
 
 And here's where we start taking advantage of using org on startup.
 If you would like to add more group loads, just add to the above
@@ -214,12 +227,11 @@ to the load-path. Can be absolute or relative to user-emacs-directory")
 Any other directories needed on the path go here:
 
 #+name: load-path-table
-| directory                                      | toggle |
-|------------------------------------------------+--------|
-| ~/.emacs.d                                     | t      |
-| ~/.emacs.d/elpa/ess-20121027.2218/lisp         | t      |
-| ~/.emacs.d/site-lisp/org-mode/contrib/lisp     | t      |
-| ~/.emacs.d/repos/jwiegley/overrides/tramp/lisp | t      |
+| directory                                  | toggle |
+|--------------------------------------------+--------|
+| ~/.emacs.d                                 | t      |
+| ~/.emacs.d/elpa/ess-20121027.2218/lisp     | t      |
+| ~/.emacs.d/site-lisp/org-mode/contrib/lisp | t      |
 
 #+begin_src emacs-lisp :var table=load-path-table
 (defvar path-directories
@@ -253,6 +265,325 @@ variable, or you can just C-c C-c the block in org-mode after the event.
                collect
                (list f)))
 #+end_src
+
+#+results:
+| /Users/tonyday/.emacs.d/site-lisp/cedet/lisp/speedbar                                                                     |
+| /Users/tonyday/.emacs.d/site-lisp/cedet/lisp/eieio                                                                        |
+| /Users/tonyday/.emacs.d/site-lisp/cedet/lisp/cedet                                                                        |
+| /Users/tonyday/.emacs.d/site-lisp/cedet/                                                                                  |
+| ~/.emacs.d/site-lisp/gnus/contrib                                                                                         |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/ac/                                                                      |
+| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/ac/auto-complete/                                                        |
+| /repos/jwiegley/site-lisp/auctex/preview/                                                                                 |
+| /Users/tonyday/git/jwiegley/site-lisp/yasnippet                                                                           |
+| /Users/tonyday/.emacs.d                                                                                                   |
+| /Users/tonyday/.emacs.d/elpa/ess-20121027.2218/lisp                                                                       |
+| /Users/tonyday/.emacs.d/site-lisp/org-mode/contrib/lisp                                                                   |
+| /Users/tonyday/.emacs.d/overides                                                                                          |
+| /Users/tonyday/.emacs.d/elpa/anti-zenburn-theme-20121111.21                                                               |
+| /Users/tonyday/.emacs.d/elpa/anything-1.287                                                                               |
+| /Users/tonyday/.emacs.d/elpa/archives                                                                                     |
+| /Users/tonyday/.emacs.d/elpa/auctex-11.86                                                                                 |
+| /Users/tonyday/.emacs.d/elpa/bbdb-20120923.1954                                                                           |
+| /Users/tonyday/.emacs.d/elpa/bitlbee-20080417.2032                                                                        |
+| /Users/tonyday/.emacs.d/elpa/caml-20121015.1250                                                                           |
+| /Users/tonyday/.emacs.d/elpa/clojure-mode-1.11.5                                                                          |
+| /Users/tonyday/.emacs.d/elpa/color-theme-20080305.834                                                                     |
+| /Users/tonyday/.emacs.d/elpa/color-theme-github-0.0.3                                                                     |
+| /Users/tonyday/.emacs.d/elpa/csv-mode-20091203.1911                                                                       |
+| /Users/tonyday/.emacs.d/elpa/csv-nav-20091121.37                                                                          |
+| /Users/tonyday/.emacs.d/elpa/elisp-slime-nav-0.3                                                                          |
+| /Users/tonyday/.emacs.d/elpa/erlang-20120831.1448                                                                         |
+| /Users/tonyday/.emacs.d/elpa/ess-20121027.2218                                                                            |
+| /Users/tonyday/.emacs.d/elpa/expand-region-20121118.1703                                                                  |
+| /Users/tonyday/.emacs.d/elpa/find-file-in-project-3.2                                                                     |
+| /Users/tonyday/.emacs.d/elpa/gh-20120927.1646                                                                             |
+| /Users/tonyday/.emacs.d/elpa/ghc-1.10.2                                                                                   |
+| /Users/tonyday/.emacs.d/elpa/gist-20120916.1845                                                                           |
+| /Users/tonyday/.emacs.d/elpa/github-theme-0.0.3                                                                           |
+| /Users/tonyday/.emacs.d/elpa/graphviz-dot-mode-20120821.1835                                                              |
+| /Users/tonyday/.emacs.d/elpa/haskell-mode-2.8.0                                                                           |
+| /Users/tonyday/.emacs.d/elpa/helm-20121208.1538                                                                           |
+| /Users/tonyday/.emacs.d/elpa/helm-themes-20121020.2316                                                                    |
+| /Users/tonyday/.emacs.d/elpa/htmlize-1.39                                                                                 |
+| /Users/tonyday/.emacs.d/elpa/ido-ubiquitous-1.6                                                                           |
+| /Users/tonyday/.emacs.d/elpa/js-comint-0.0.1                                                                              |
+| /Users/tonyday/.emacs.d/elpa/js2-mode-20090814                                                                            |
+| /Users/tonyday/.emacs.d/elpa/json-1.2                                                                                     |
+| /Users/tonyday/.emacs.d/elpa/keyfreq-20110312.1017                                                                        |
+| /Users/tonyday/.emacs.d/elpa/logito-20120225.2155                                                                         |
+| /Users/tonyday/.emacs.d/elpa/magit-1.2.0                                                                                  |
+| /Users/tonyday/.emacs.d/elpa/magithub-0.2                                                                                 |
+| /Users/tonyday/.emacs.d/elpa/markdown-mode+-20120829.710                                                                  |
+| /Users/tonyday/.emacs.d/elpa/markdown-mode-20121007.2146                                                                  |
+| /Users/tonyday/.emacs.d/elpa/oauth-20120302.922                                                                           |
+| /Users/tonyday/.emacs.d/elpa/offlineimap-0.1                                                                              |
+| /Users/tonyday/.emacs.d/elpa/paredit-22                                                                                   |
+| /Users/tonyday/.emacs.d/elpa/pcache-20120408.1206                                                                         |
+| /Users/tonyday/.emacs.d/elpa/r-autoyas-0.28                                                                               |
+| /Users/tonyday/.emacs.d/elpa/slime-20100404.1                                                                             |
+| /Users/tonyday/.emacs.d/elpa/smex-2.0                                                                                     |
+| /Users/tonyday/.emacs.d/elpa/tidy-20111222.1756                                                                           |
+| /Users/tonyday/.emacs.d/elpa/tuareg-20121015.914                                                                          |
+| /Users/tonyday/.emacs.d/elpa/tumblesocks-20120912.955                                                                     |
+| /Users/tonyday/.emacs.d/elpa/undo-tree-20121124.2207                                                                      |
+| /Users/tonyday/.emacs.d/elpa/w3m-20121018.121                                                                             |
+| /Users/tonyday/.emacs.d/elpa/xml-rpc-1.6.8                                                                                |
+| /Users/tonyday/.emacs.d/elpa/yaml-mode-0.0.7                                                                              |
+| /Users/tonyday/.emacs.d/elpa/yasnippet-0.8.0                                                                              |
+| /Users/tonyday/.emacs.d/elpa/yasnippet-bundle-0.6.1                                                                       |
+| /Users/tonyday/.emacs.d/elpa/zenburn-theme-1.5                                                                            |
+| /Users/tonyday/.emacs.d/elpa                                                                                              |
+| /Users/tonyday/.emacs.d/site-lisp/ac                                                                                      |
+| /Users/tonyday/.emacs.d/site-lisp/ace-jump-mode                                                                           |
+| /Users/tonyday/.emacs.d/site-lisp/agda-mode                                                                               |
+| /Users/tonyday/.emacs.d/site-lisp/allout.el                                                                               |
+| /Users/tonyday/.emacs.d/site-lisp/apl.el                                                                                  |
+| /Users/tonyday/.emacs.d/site-lisp/archive-region.el                                                                       |
+| /Users/tonyday/.emacs.d/site-lisp/artbollocks                                                                             |
+| /Users/tonyday/.emacs.d/site-lisp/ascii.el                                                                                |
+| /Users/tonyday/.emacs.d/site-lisp/asynk                                                                                   |
+| /Users/tonyday/.emacs.d/site-lisp/auctex                                                                                  |
+| /Users/tonyday/.emacs.d/site-lisp/auto-overlays                                                                           |
+| /Users/tonyday/.emacs.d/site-lisp/autopair                                                                                |
+| /Users/tonyday/.emacs.d/site-lisp/backup-each-save.el                                                                     |
+| /Users/tonyday/.emacs.d/site-lisp/bbdb                                                                                    |
+| /Users/tonyday/.emacs.d/site-lisp/bbdb-vcard                                                                              |
+| /Users/tonyday/.emacs.d/site-lisp/bbdb-vcard-export.el                                                                    |
+| /Users/tonyday/.emacs.d/site-lisp/bbdb-vcard-import.el                                                                    |
+| /Users/tonyday/.emacs.d/site-lisp/bm                                                                                      |
+| /Users/tonyday/.emacs.d/site-lisp/bookmark-plus                                                                           |
+| /Users/tonyday/.emacs.d/site-lisp/boxquote                                                                                |
+| /Users/tonyday/.emacs.d/site-lisp/browse-kill-ring+.el                                                                    |
+| /Users/tonyday/.emacs.d/site-lisp/browse-kill-ring.el                                                                     |
+| /Users/tonyday/.emacs.d/site-lisp/bytecomp-simplify.el                                                                    |
+| /Users/tonyday/.emacs.d/site-lisp/cdlatex.el                                                                              |
+| /Users/tonyday/.emacs.d/site-lisp/cedet                                                                                   |
+| /Users/tonyday/.emacs.d/site-lisp/cldoc.el                                                                                |
+| /Users/tonyday/.emacs.d/site-lisp/cmake-mode.el                                                                           |
+| /Users/tonyday/.emacs.d/site-lisp/col-highlight.el                                                                        |
+| /Users/tonyday/.emacs.d/site-lisp/color-moccur.el                                                                         |
+| /Users/tonyday/.emacs.d/site-lisp/command-log-mode                                                                        |
+| /Users/tonyday/.emacs.d/site-lisp/cpputils-cmake                                                                          |
+| /Users/tonyday/.emacs.d/site-lisp/crosshairs.el                                                                           |
+| /Users/tonyday/.emacs.d/site-lisp/css-mode.el                                                                             |
+| /Users/tonyday/.emacs.d/site-lisp/csv-mode.el                                                                             |
+| /Users/tonyday/.emacs.d/site-lisp/cursor-chg.el                                                                           |
+| /Users/tonyday/.emacs.d/site-lisp/debbugs                                                                                 |
+| /Users/tonyday/.emacs.d/site-lisp/dedicated.el                                                                            |
+| /Users/tonyday/.emacs.d/site-lisp/deft                                                                                    |
+| /Users/tonyday/.emacs.d/site-lisp/diff-mode-.el                                                                           |
+| /Users/tonyday/.emacs.d/site-lisp/diminish.el                                                                             |
+| /Users/tonyday/.emacs.d/site-lisp/dircmp.el                                                                               |
+| /Users/tonyday/.emacs.d/site-lisp/dired-details.el                                                                        |
+| /Users/tonyday/.emacs.d/site-lisp/dired-sort-map.el                                                                       |
+| /Users/tonyday/.emacs.d/site-lisp/dired-sync                                                                              |
+| /Users/tonyday/.emacs.d/site-lisp/doxymacs                                                                                |
+| /Users/tonyday/.emacs.d/site-lisp/dvc                                                                                     |
+| /Users/tonyday/.emacs.d/site-lisp/ediff-util.el                                                                           |
+| /Users/tonyday/.emacs.d/site-lisp/edit-env.el                                                                             |
+| /Users/tonyday/.emacs.d/site-lisp/edit-server.el                                                                          |
+| /Users/tonyday/.emacs.d/site-lisp/edit-var.el                                                                             |
+| /Users/tonyday/.emacs.d/site-lisp/el-get                                                                                  |
+| /Users/tonyday/.emacs.d/site-lisp/el-mock                                                                                 |
+| /Users/tonyday/.emacs.d/site-lisp/eldoc-extension.el                                                                      |
+| /Users/tonyday/.emacs.d/site-lisp/elisp-depend                                                                            |
+| /Users/tonyday/.emacs.d/site-lisp/elisp-slime-nav                                                                         |
+| /Users/tonyday/.emacs.d/site-lisp/elnode                                                                                  |
+| /Users/tonyday/.emacs.d/site-lisp/emacs-cmake-project                                                                     |
+| /Users/tonyday/.emacs.d/site-lisp/emacs-edbi                                                                              |
+| /Users/tonyday/.emacs.d/site-lisp/emacs-quickrun                                                                          |
+| /Users/tonyday/.emacs.d/site-lisp/emacs-w3m                                                                               |
+| /Users/tonyday/.emacs.d/site-lisp/emms                                                                                    |
+| /Users/tonyday/.emacs.d/site-lisp/erc-highlight-nicknames.el                                                              |
+| /Users/tonyday/.emacs.d/site-lisp/ess                                                                                     |
+| /Users/tonyday/.emacs.d/site-lisp/eval-expr                                                                               |
+| /Users/tonyday/.emacs.d/site-lisp/fdb.el                                                                                  |
+| /Users/tonyday/.emacs.d/site-lisp/fetchmail-mode.el                                                                       |
+| /Users/tonyday/.emacs.d/site-lisp/flymake-html-validator                                                                  |
+| /Users/tonyday/.emacs.d/site-lisp/flyspell-lazy.el                                                                        |
+| /Users/tonyday/.emacs.d/site-lisp/fold-dwim.el                                                                            |
+| /Users/tonyday/.emacs.d/site-lisp/ghc-mod                                                                                 |
+| /Users/tonyday/.emacs.d/site-lisp/gist                                                                                    |
+| /Users/tonyday/.emacs.d/site-lisp/git-commit-mode                                                                         |
+| /Users/tonyday/.emacs.d/site-lisp/gnus                                                                                    |
+| /Users/tonyday/.emacs.d/site-lisp/gnus-alias.el                                                                           |
+| /Users/tonyday/.emacs.d/site-lisp/gnus-hardsort.el                                                                        |
+| /Users/tonyday/.emacs.d/site-lisp/graphviz-dot-mode.el                                                                    |
+| /Users/tonyday/.emacs.d/site-lisp/grep-ed.el                                                                              |
+| /Users/tonyday/.emacs.d/site-lisp/gtags.el                                                                                |
+| /Users/tonyday/.emacs.d/site-lisp/gud.el                                                                                  |
+| /Users/tonyday/.emacs.d/site-lisp/guess-style.el                                                                          |
+| /Users/tonyday/.emacs.d/site-lisp/haskell-mode                                                                            |
+| /Users/tonyday/.emacs.d/site-lisp/helm                                                                                    |
+| /Users/tonyday/.emacs.d/site-lisp/helm-descbinds                                                                          |
+| /Users/tonyday/.emacs.d/site-lisp/helm-gtags.el                                                                           |
+| /Users/tonyday/.emacs.d/site-lisp/hide-region.el                                                                          |
+| /Users/tonyday/.emacs.d/site-lisp/hide-search.el                                                                          |
+| /Users/tonyday/.emacs.d/site-lisp/highlight-cl.el                                                                         |
+| /Users/tonyday/.emacs.d/site-lisp/highlight-cl.elc                                                                        |
+| /Users/tonyday/.emacs.d/site-lisp/highlight-parentheses.el                                                                |
+| /Users/tonyday/.emacs.d/site-lisp/hl-line+.el                                                                             |
+| /Users/tonyday/.emacs.d/site-lisp/hpaste                                                                                  |
+| /Users/tonyday/.emacs.d/site-lisp/hs-lint.el                                                                              |
+| /Users/tonyday/.emacs.d/site-lisp/html5-el                                                                                |
+| /Users/tonyday/.emacs.d/site-lisp/ido-hacks                                                                               |
+| /Users/tonyday/.emacs.d/site-lisp/ido.el                                                                                  |
+| /Users/tonyday/.emacs.d/site-lisp/iflipb.el                                                                               |
+| /Users/tonyday/.emacs.d/site-lisp/indirect.el                                                                             |
+| /Users/tonyday/.emacs.d/site-lisp/info+.el                                                                                |
+| /Users/tonyday/.emacs.d/site-lisp/info-lookmore                                                                           |
+| /Users/tonyday/.emacs.d/site-lisp/ipa-el                                                                                  |
+| /Users/tonyday/.emacs.d/site-lisp/irfc.el                                                                                 |
+| /Users/tonyday/.emacs.d/site-lisp/js2-mode                                                                                |
+| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp                                                                           |
+| /Users/tonyday/.emacs.d/site-lisp/less-css-mode                                                                           |
+| /Users/tonyday/.emacs.d/site-lisp/linum.el                                                                                |
+| /Users/tonyday/.emacs.d/site-lisp/llvm-mode.el                                                                            |
+| /Users/tonyday/.emacs.d/site-lisp/log4j-mode.el                                                                           |
+| /Users/tonyday/.emacs.d/site-lisp/lua-mode                                                                                |
+| /Users/tonyday/.emacs.d/site-lisp/lusty-emacs                                                                             |
+| /Users/tonyday/.emacs.d/site-lisp/macrostep                                                                               |
+| /Users/tonyday/.emacs.d/site-lisp/magit                                                                                   |
+| /Users/tonyday/.emacs.d/site-lisp/markdown-mode                                                                           |
+| /Users/tonyday/.emacs.d/site-lisp/melpa                                                                                   |
+| /Users/tonyday/.emacs.d/site-lisp/memory-usage.el                                                                         |
+| /Users/tonyday/.emacs.d/site-lisp/message-x.el                                                                            |
+| /Users/tonyday/.emacs.d/site-lisp/mic-paren.el                                                                            |
+| /Users/tonyday/.emacs.d/site-lisp/minimap.el                                                                              |
+| /Users/tonyday/.emacs.d/site-lisp/moccur-edit.el                                                                          |
+| /Users/tonyday/.emacs.d/site-lisp/modeline-posn.el                                                                        |
+| /Users/tonyday/.emacs.d/site-lisp/mudel.el                                                                                |
+| /Users/tonyday/.emacs.d/site-lisp/multi-eshell.el                                                                         |
+| /Users/tonyday/.emacs.d/site-lisp/multi-term.el                                                                           |
+| /Users/tonyday/.emacs.d/site-lisp/narrow-stack.el                                                                         |
+| /Users/tonyday/.emacs.d/site-lisp/nf-procmail-mode.el                                                                     |
+| /Users/tonyday/.emacs.d/site-lisp/nxhtml                                                                                  |
+| /Users/tonyday/.emacs.d/site-lisp/o-blog                                                                                  |
+| /Users/tonyday/.emacs.d/site-lisp/one-key.el                                                                              |
+| /Users/tonyday/.emacs.d/site-lisp/org-magit                                                                               |
+| /Users/tonyday/.emacs.d/site-lisp/org-merge-driver                                                                        |
+| /Users/tonyday/.emacs.d/site-lisp/org-mode                                                                                |
+| /Users/tonyday/.emacs.d/site-lisp/pabbrev.el                                                                              |
+| /Users/tonyday/.emacs.d/site-lisp/pandoc-mode                                                                             |
+| /Users/tonyday/.emacs.d/site-lisp/paredit.el                                                                              |
+| /Users/tonyday/.emacs.d/site-lisp/parenface.el                                                                            |
+| /Users/tonyday/.emacs.d/site-lisp/per-window-point.el                                                                     |
+| /Users/tonyday/.emacs.d/site-lisp/persistent-soft                                                                         |
+| /Users/tonyday/.emacs.d/site-lisp/php-mode-improved.el                                                                    |
+| /Users/tonyday/.emacs.d/site-lisp/po-mode.el                                                                              |
+| /Users/tonyday/.emacs.d/site-lisp/popup-ruler.el                                                                          |
+| /Users/tonyday/.emacs.d/site-lisp/pos-tip.el                                                                              |
+| /Users/tonyday/.emacs.d/site-lisp/pp-c-l.el                                                                               |
+| /Users/tonyday/.emacs.d/site-lisp/proofgeneral                                                                            |
+| /Users/tonyday/.emacs.d/site-lisp/psvn.el                                                                                 |
+| /Users/tonyday/.emacs.d/site-lisp/puppet-mode.el                                                                          |
+| /Users/tonyday/.emacs.d/site-lisp/python-mode                                                                             |
+| /Users/tonyday/.emacs.d/site-lisp/redshank.el                                                                             |
+| /Users/tonyday/.emacs.d/site-lisp/regexp-dsl.el                                                                           |
+| /Users/tonyday/.emacs.d/site-lisp/repeat-insert.el                                                                        |
+| /Users/tonyday/.emacs.d/site-lisp/rs-gnus-summary.el                                                                      |
+| /Users/tonyday/.emacs.d/site-lisp/rs-info.el                                                                              |
+| /Users/tonyday/.emacs.d/site-lisp/ruby-mode                                                                               |
+| /Users/tonyday/.emacs.d/site-lisp/runner.el                                                                               |
+| /Users/tonyday/.emacs.d/site-lisp/selectkey.el                                                                            |
+| /Users/tonyday/.emacs.d/site-lisp/session                                                                                 |
+| /Users/tonyday/.emacs.d/site-lisp/shortlist.el                                                                            |
+| /Users/tonyday/.emacs.d/site-lisp/slime                                                                                   |
+| /Users/tonyday/.emacs.d/site-lisp/smart-compile.el                                                                        |
+| /Users/tonyday/.emacs.d/site-lisp/stopwatch.el                                                                            |
+| /Users/tonyday/.emacs.d/site-lisp/sublime.el                                                                              |
+| /Users/tonyday/.emacs.d/site-lisp/sunrise-commander                                                                       |
+| /Users/tonyday/.emacs.d/site-lisp/supercite.el                                                                            |
+| /Users/tonyday/.emacs.d/site-lisp/swank-js                                                                                |
+| /Users/tonyday/.emacs.d/site-lisp/tablegen-mode.el                                                                        |
+| /Users/tonyday/.emacs.d/site-lisp/tail.el                                                                                 |
+| /Users/tonyday/.emacs.d/site-lisp/tidy.el                                                                                 |
+| /Users/tonyday/.emacs.d/site-lisp/tramp                                                                                   |
+| /Users/tonyday/.emacs.d/site-lisp/transpar.el                                                                             |
+| /Users/tonyday/.emacs.d/site-lisp/twittering-mode                                                                         |
+| /Users/tonyday/.emacs.d/site-lisp/unicode-enbox.el                                                                        |
+| /Users/tonyday/.emacs.d/site-lisp/unicode-helper.el                                                                       |
+| /Users/tonyday/.emacs.d/site-lisp/unicode-whitespace.el                                                                   |
+| /Users/tonyday/.emacs.d/site-lisp/unify-buffer.el                                                                         |
+| /Users/tonyday/.emacs.d/site-lisp/use-package                                                                             |
+| /Users/tonyday/.emacs.d/site-lisp/validators                                                                              |
+| /Users/tonyday/.emacs.d/site-lisp/vkill.el                                                                                |
+| /Users/tonyday/.emacs.d/site-lisp/vline.el                                                                                |
+| /Users/tonyday/.emacs.d/site-lisp/volatile-highlights.el                                                                  |
+| /Users/tonyday/.emacs.d/site-lisp/w3m-type-ahead.el                                                                       |
+| /Users/tonyday/.emacs.d/site-lisp/wcount.el                                                                               |
+| /Users/tonyday/.emacs.d/site-lisp/weblogger.el                                                                            |
+| /Users/tonyday/.emacs.d/site-lisp/workgroups                                                                              |
+| /Users/tonyday/.emacs.d/site-lisp/wrap-region                                                                             |
+| /Users/tonyday/.emacs.d/site-lisp/wtf.el                                                                                  |
+| /Users/tonyday/.emacs.d/site-lisp/xray.el                                                                                 |
+| /Users/tonyday/.emacs.d/site-lisp/yaml-mode                                                                               |
+| /Users/tonyday/.emacs.d/site-lisp/yaoddmuse.el                                                                            |
+| /Users/tonyday/.emacs.d/site-lisp/yari-with-buttons                                                                       |
+| /Users/tonyday/.emacs.d/site-lisp/zencoding-mode                                                                          |
+| /Users/tonyday/.emacs.d/site-lisp                                                                                         |
+| /Users/tonyday/.emacs.d/site-lisp/cedet/.bzr                                                                              |
+| /Users/tonyday/.emacs.d/site-lisp/cedet/contrib                                                                           |
+| /Users/tonyday/.emacs.d/site-lisp/cedet/doc                                                                               |
+| /Users/tonyday/.emacs.d/site-lisp/cedet/etc                                                                               |
+| /Users/tonyday/.emacs.d/site-lisp/cedet/lisp                                                                              |
+| /Users/tonyday/.emacs.d/site-lisp/cedet/obsolete                                                                          |
+| /Users/tonyday/.emacs.d/site-lisp/cedet/testprojects                                                                      |
+| /Users/tonyday/.emacs.d/site-lisp/cedet/tests                                                                             |
+| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/alert                                                                     |
+| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/bind-key                                                                  |
+| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/chess                                                                     |
+| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/emacs-async                                                               |
+| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/emacs-edg                                                                 |
+| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/erc-yank                                                                  |
+| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/git-annex-el                                                              |
+| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/gnus-harvest                                                              |
+| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/haskell-config                                                            |
+| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/initsplit                                                                 |
+| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/muse                                                                      |
+| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/planner                                                                   |
+| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/regex-tool                                                                |
+| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/springboard                                                               |
+| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/use-package                                                               |
+| /Users/tonyday/.emacs.d/site-lisp/ac/ac-source-elisp                                                                      |
+| /Users/tonyday/.emacs.d/site-lisp/ac/ac-source-semantic                                                                   |
+| /Users/tonyday/.emacs.d/site-lisp/ac/ac-yasnippet                                                                         |
+| /Users/tonyday/.emacs.d/site-lisp/ac/auto-complete                                                                        |
+| /Users/tonyday/.emacs.d/site-lisp/ac/fuzzy-el                                                                             |
+| /Users/tonyday/.emacs.d/site-lisp/ac/popup-el                                                                             |
+| /Users/tonyday/.emacs.d/site-lisp/org-mode/lisp                                                                           |
+| /Users/david/src/emacs-dev/emacs-bzr/build-2012-10-24/nextstep/Emacs.app/Contents/Resources/share/emacs/24.2.50/site-lisp |
+| /Users/david/src/emacs-dev/emacs-bzr/build-2012-10-24/nextstep/Emacs.app/Contents/Resources/share/emacs/site-lisp         |
+| /Applications/Emacs241012.app/Contents/Resources/site-lisp                                                                |
+| /Applications/Emacs241012.app/Contents/Resources/lisp                                                                     |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/vc                                                                  |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/url                                                                 |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/textmodes                                                           |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/progmodes                                                           |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/play                                                                |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/org                                                                 |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/nxml                                                                |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/net                                                                 |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/mh-e                                                                |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/mail                                                                |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/language                                                            |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/international                                                       |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/gnus                                                                |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/eshell                                                              |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/erc                                                                 |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/emulation                                                           |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/emacs-lisp                                                          |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/calendar                                                            |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/calc                                                                |
+| /Applications/Emacs241012.app/Contents/Resources/lisp/obsolete                                                            |
+| /Applications/Emacs241012.app/Contents/Resources/leim                                                                     |
+
+#+begin_src emacs-lisp
+  (list-load-path-shadows "helm")
+#+end_src
+
+
 
 ** elpa
    :PROPERTIES:
@@ -585,68 +916,80 @@ $\\|P.+\\\\\n\\)" nil t)
 #+end_src
 **** M-?
 #+begin_src emacs-lisp
-;;;_  . M-?
-
-(defadvice async-shell-command (before uniqify-running-shell-command activate)
-  (let ((buf (get-buffer "*Async Shell Command*")))
-    (if buf
-        (let ((proc (get-buffer-process buf)))
-          (if (and proc (eq 'run (process-status proc)))
-              (with-current-buffer buf
-                (rename-uniquely)))))))
-
-(bind-key "M-!" 'async-shell-command)
-(bind-key "M-/" 'dabbrev-expand)
-(bind-key "M-'" 'insert-pair)
-(bind-key "M-\"" 'insert-pair)
-
-(defun align-code (beg end &optional arg)
-  (interactive "rP")
-  (if (null arg)
-      (align beg end)
-    (let ((end-mark (copy-marker end)))
-      (indent-region beg end-mark nil)
-      (align beg end-mark))))
-
-(bind-key "M-[" 'align-code)
-(bind-key "M-`" 'other-frame)
-
-(bind-key "M-j" 'delete-indentation-forward)
-(bind-key "M-J" 'delete-indentation)
-
-(bind-key "M-W" 'mark-word)
-
-(defun mark-line (&optional arg)
-  (interactive "p")
-  (beginning-of-line)
-  (let ((here (point)))
-    (dotimes (i arg)
-      (end-of-line))
-    (set-mark (point))
-    (goto-char here)))
-
-(bind-key "M-L" 'mark-line)
-
-(defun mark-sentence (&optional arg)
-  (interactive "P")
-  (backward-sentence)
-  (mark-end-of-sentence arg))
-
-(bind-key "M-S" 'mark-sentence)
-(bind-key "M-X" 'mark-sexp)
-(bind-key "M-H" 'mark-paragraph)
-(bind-key "M-D" 'mark-defun)
-
-(bind-key "M-g c" 'goto-char)
-(bind-key "M-g l" 'goto-line)
-
-(defun delete-indentation-forward ()
-  (interactive)
-  (delete-indentation t))
-
-(bind-key "M-s n" 'find-name-dired)
-(bind-key "M-s o" 'occur)
-
+  ;;;_  . M-?
+  
+  (defadvice async-shell-command (before uniqify-running-shell-command activate)
+    (let ((buf (get-buffer "*Async Shell Command*")))
+      (if buf
+          (let ((proc (get-buffer-process buf)))
+            (if (and proc (eq 'run (process-status proc)))
+                (with-current-buffer buf
+                  (rename-uniquely)))))))
+  
+  (bind-key "M-!" 'async-shell-command)
+  (bind-key "M-/" 'dabbrev-expand)
+  (bind-key "M-'" 'insert-pair)
+  (bind-key "M-\"" 'insert-pair)
+  
+  (defun align-code (beg end &optional arg)
+    (interactive "rP")
+    (if (null arg)
+        (align beg end)
+      (let ((end-mark (copy-marker end)))
+        (indent-region beg end-mark nil)
+        (align beg end-mark))))
+  
+  (bind-key "M-[" 'align-code)
+  (bind-key "M-`" 'other-frame)
+  
+  (bind-key "M-j" 'delete-indentation-forward)
+  (bind-key "M-J" 'delete-indentation)
+  
+  (bind-key "M-W" 'mark-word)
+  
+  (defun mark-line (&optional arg)
+    (interactive "p")
+    (beginning-of-line)
+    (let ((here (point)))
+      (dotimes (i arg)
+        (end-of-line))
+      (set-mark (point))
+      (goto-char here)))
+  
+  (bind-key "M-L" 'mark-line)
+  
+  (defun delete-leading-whitespace ()
+    "delete leading whitespace from current buffer"
+    (interactive)
+    (save-excursion
+      (beginning-of-buffer)
+      (search-forward-regexp "[^ 
+  ]")
+      (delete-region (point-min)  (- (point) 1))))
+  
+  (bind-key "H-L" 'delete-leading-whitespace)
+  
+  
+  (defun mark-sentence (&optional arg)
+    (interactive "P")
+    (backward-sentence)
+    (mark-end-of-sentence arg))
+  
+  (bind-key "M-S" 'mark-sentence)
+  (bind-key "M-X" 'mark-sexp)
+  (bind-key "M-H" 'mark-paragraph)
+  (bind-key "M-D" 'mark-defun)
+  
+  (bind-key "M-g c" 'goto-char)
+  (bind-key "M-g l" 'goto-line)
+  
+  (defun delete-indentation-forward ()
+    (interactive)
+    (delete-indentation t))
+  
+  (bind-key "M-s n" 'find-name-dired)
+  (bind-key "M-s o" 'occur)
+  
 #+end_src
 
 **** M-C-?
@@ -698,6 +1041,11 @@ $\\|P.+\\\\\n\\)" nil t)
 (bind-key "C-x F" 'set-fill-column)
 (bind-key "C-x t" 'toggle-truncate-lines)
 
+#+end_src
+
+
+***** transpose windows
+#+begin_src emacs-lisp
     (defun transpose-windows (arg)
       "Transpose the buffers shown in two windows."
       (interactive "p")
@@ -710,7 +1058,34 @@ $\\|P.+\\\\\n\\)" nil t)
             (select-window (funcall selector)))
           (setq arg (if (plusp arg) (1- arg) (1+ arg))))))
     (bind-key "C-x 4 t" 'transpose-windows)
-  #+end_src
+#+end_src
+
+***** transparency
+
+#+begin_src emacs-lisp
+  (defun set-transparency-clear ()
+    (set-frame-parameter nil 'alpha 100))
+  
+  (defun set-transparency (&optional alpha-level)
+    (interactive "p")
+    (let ((alpha-level
+           (if (or (not alpha-level)
+                   (< alpha-level 2))
+               (read-number "Opacity percentage: " 85)
+             alpha-level
+             )))
+      (set-frame-parameter nil 'alpha alpha-level))
+    (message (format "Alpha level is %d" (frame-parameter nil 'alpha))))
+    
+  (defun emacs-toggle-transparency ()
+    (interactive)
+    (if (< (frame-parameter nil 'alpha) 100)
+        (set-transparency-clear)
+      (set-transparency)))
+  
+  (bind-key "C-x 5 t" 'emacs-toggle-transparency)
+  
+#+end_src
 
 ***** Frequently-accessed files
 Registers allow you to jump to a file or other location quickly. To
@@ -890,10 +1265,10 @@ register.
         (defvar emacs-min-height 25)
         (defvar emacs-min-width 80))
 
-    (defvar emacs-min-top 22)
-    (defvar emacs-min-left (- (x-display-pixel-width) 918))
-    (defvar emacs-min-height (if (= 1050 (x-display-pixel-height)) 55 64))
-    (defvar emacs-min-width 100)))
+    (defvar emacs-min-top 22) ;;22)
+    (defvar emacs-min-left 5) ;;(- (x-display-pixel-width) 918))
+    (defvar emacs-min-height 53) ;;(if (= 1050 (x-display-pixel-height)) 55 64))
+    (defvar emacs-min-width 80)))
 
 (defun emacs-min ()
   (interactive)
@@ -1087,7 +1462,19 @@ register.
 
 (bind-key "C-. m" 'kmacro-keymap)
 
+  (defun check-html5 ()
+    (interactive)
+    (save-buffer)
+    (shell-command (concat "html5check.py " (shell-quote-argument (buffer-file-name)))))
+
+(bind-key "C-. h" 'check-html5)
+
+
 #+end_src
+
+#+results:
+: check-html5
+
 **** C-. C-i
 #+begin_src emacs-lisp
 ;;;_  . C-. C-i
@@ -1237,7 +1624,6 @@ I set this in customization
 (bind-key "H-i" 'my-indent-region)
 
 #+end_src
-
 
 
 
@@ -1452,6 +1838,15 @@ Some random old-school instructions
                   "repos/jwiegley/site-lisp/ac/"))
     
 #+end_src
+*** autorevert
+:PROPERTIES:
+:tangle:   yes
+:END:
+#+begin_src emacs-lisp
+(use-package autorevert
+:init (global-auto-revert-mode t))
+#+end_src
+
 *** autopair
 :PROPERTIES:
 :tangle:   yes
@@ -1614,47 +2009,21 @@ Some random old-school instructions
 :tangle:   yes
 :END:
 
-**** custom bbdb variables backup
-:PROPERTIES:
-:tangle:   no
-:END:
-#+begin_src emacs-lisp
-  (custom-set-variables
-
- '(bbdb-default-country "")
- '(bbdb-file "~/Documents/bbdb")
- '(bbdb-message-caching-enabled nil)
- '(bbdb-no-duplicates t)
- '(bbdb-offer-save (quote savenoprompt))
- '(bbdb-silent-running t)
- '(bbdb-use-pop-up nil)
- '(bbdb-vcard-import-translation-table (quote (("CELL\\|CAR" . "Mobile") ("WORK" . "Work") ("HOME" . "Home") ("^$" . "Work"))))
- '(bbdb/mail-auto-create-p nil))
-
-#+end_src
-
-**** package setup
-:PROPERTIES:
-:tangle:   yes
-:END:
-
 #+begin_src emacs-lisp
 ;;;_ , bbdb
 
 (use-package bbdb-com
   :commands bbdb-create
-  :bind ("M-B" . bbdb))
-
-#+end_src
-
-#+begin_src emacs-lisp
+  :bind ("M-B" . bbdb)
+  :disabled t
+  :config (progn
 (use-package vcard
-  :load-path "~/.emacs.d/repos/jwiegley/override/gnus/contrib")
+  :load-path "~/.emacs.d/site-lisp/gnus/contrib")
 (use-package bbdb-vcard-import
   :commands bbdb-vcard-import )
 (use-package bbdb-vcard-export
-  :commands bbdb-vcard-export-update-all)
-;;(bbdb-vcard-import "/Users/tonyday/Documents/apple.vcf")
+  :commands bbdb-vcard-export-update-all)))
+
 #+end_src
 
 *** bm
@@ -1720,9 +2089,193 @@ Some random old-school instructions
 
 #+end_src
 
-*** cc-mode
+*** cc-mode dev
 :PROPERTIES:
 :tangle:   yes
+:END:
+
+Based on dwa version which is mostly ott.
+- [ ] modify to use-package etc
+
+
+#+begin_src emacs-lisp
+  (use-package cedet-devel-load
+    :defer t
+    :load-path "~/site-lisp/cedet/contrib" 
+    :config (progn
+              (use-package semantic/bovine/el)
+              (use-package semantic/canned-configs)
+              (semantic-load-enable-gaudy-code-helpers)
+              ;; Activate semantic
+              (semantic-mode 1)
+  
+              (setq semantic-clang-binary "/usr/local/bin/clang")
+              (use-package semantic/bovine/c)
+              (use-package semantic/bovine/gcc)
+              (use-package semantic/bovine/clang)
+              (use-package semantic/ia)
+              (use-package semantic/decorate/include)
+              (use-package semantic/lex-spp)
+              (use-package eassist)
+              (use-package auto-complete)
+  
+  
+              ;; semantic 
+(defun my-cedet-hook ()
+(bind-key "C-c ?" 'semantic-ia-complete-symbol (current-local-map))                                                               
+(bind-key "C-c >" 'semantic-complete-analyze-inline (current-local-map))             
+(bind-key "C-c =" 'semantic-decoration-include-visit (current-local-map))                                                           
+(bind-key "C-c j" 'semantic-ia-fast-jump (current-local-map))                        
+(bind-key "C-c q" 'semantic-ia-show-doc (current-local-map))                          
+(bind-key "C-c s" 'semantic-ia-show-summary (current-local-map))                      
+(bind-key "C-c p" 'semantic-analyze-proto-impl-toggle (current-local-map))            
+                (add-to-list 'ac-sources 'ac-source-semantic))
+                
+
+
+  ;; (add-hook 'semantic-init-hooks 'alexott/cedet-hook)
+  (add-hook 'c-mode-common-hook 'my-cedet-hook)
+  (add-hook 'lisp-mode-hook 'my-cedet-hook)
+  (add-hook 'scheme-mode-hook 'my-cedet-hook)
+  (add-hook 'emacs-lisp-mode-hook 'my-cedet-hook)
+  
+  (defun my-c-mode-cedet-hook ()
+   ;; (local-set-key "." 'semantic-complete-self-insert)
+   ;; (local-set-key ">" 'semantic-complete-self-insert)
+(bind-key "C-c t" 'eassist-switch-h-cpp (current-local-map))                                                               
+(bind-key "C-x t" 'eassist-switch-h-cpp (current-local-map))                                                               
+(bind-key "C-c e" 'eassist-list-methods (current-local-map))                                                               
+(bind-key "C-c C-r" 'semantic-symref (current-local-map))                                                               
+  
+  ;;  (add-to-list 'ac-sources 'ac-source-etags)
+    (add-to-list 'ac-sources 'ac-source-gtags)
+    )
+  (add-hook 'c-mode-common-hook 'my-c-mode-cedet-hook)
+  
+  (use-package cedet-global)
+  (when (cedet-gnu-global-version-check t)
+    (semanticdb-enable-gnu-global-databases 'c-mode)
+    (semanticdb-enable-gnu-global-databases 'c++-mode))
+  
+  (semanticdb-enable-cscope-databases :noerror)
+  
+  (ignore-errors 
+    (when (cedet-ectag-version-check t)
+      (semantic-load-enable-primary-ectags-support)))
+  
+  ;; SRecode
+  (global-srecode-minor-mode 1)
+  
+  ;; EDE
+  (global-ede-mode 1)
+  (ede-enable-generic-projects)
+    
+  (defun recur-list-files (dir re)
+    "Returns list of files in directory matching to given regex"
+    (when (file-accessible-directory-p dir)
+      (let ((files (directory-files dir t))
+            matched)
+        (dolist (file files matched)
+          (let ((fname (file-name-nondirectory file)))
+            (cond
+             ((or (string= fname ".")
+                  (string= fname "..")) nil)
+             ((and (file-regular-p file)
+                   (string-match re fname))
+              (setq matched (cons file matched)))
+             ((file-directory-p file)
+              (let ((tfiles (recur-list-files file re)))
+                (when tfiles (setq matched (append matched tfiles)))))))))))
+  
+  (defun c++-setup-boost (boost-root)
+    (when (file-accessible-directory-p boost-root)
+      (let ((cfiles (recur-list-files boost-root "\\(config\\|user\\)\\.hpp")))
+        (dolist (file cfiles)
+          (add-to-list 'semantic-lex-c-preprocessor-symbol-file file)))))
+  
+  
+  
+  ;; my functions for EDE
+  (defun alexott/ede-get-local-var (fname var)
+    "fetch given variable var from :local-variables of project of file fname"
+    (let* ((current-dir (file-name-directory fname))
+           (prj (ede-current-project current-dir)))
+      (when prj
+        (let* ((ov (oref prj local-variables))
+              (lst (assoc var ov)))
+          (when lst
+            (cdr lst))))))
+  
+  ;; setup compile package
+  (use-package compile)
+  (setq compilation-disable-input nil)
+  (setq compilation-scroll-output t)
+  (setq mode-compile-always-save-buffer-p t)
+  
+  (defun alexott/compile ()
+    "Saves all unsaved buffers, and runs 'compile'."
+    (interactive)
+    (save-some-buffers t)
+    (let* ((r (alexott/ede-get-local-var
+               (or (buffer-file-name (current-buffer)) default-directory)
+               'compile-command))
+           (cmd (if (functionp r) (funcall r) r)))
+      (set (make-local-variable 'compile-command) (or cmd compile-command))
+      (compile compile-command)))
+  
+  (defun alexott/gen-std-compile-string ()
+    "Generates compile string for compiling CMake project in debug mode"
+    (let* ((current-dir (file-name-directory
+                         (or (buffer-file-name (current-buffer)) default-directory)))
+           (prj (ede-current-project current-dir))
+           (root-dir (ede-project-root-directory prj)))
+      (concat "cd " root-dir "; make -j2")))
+  
+  (defun alexott/gen-cmake-debug-compile-string ()
+    "Generates compile string for compiling CMake project in debug mode"
+    (let* ((current-dir (file-name-directory
+                         (or (buffer-file-name (current-buffer)) default-directory)))
+           (prj (ede-current-project current-dir))
+           (root-dir (ede-project-root-directory prj))
+           (subdir "")
+           )
+      (when (string-match root-dir current-dir)
+        (setf subdir (substring current-dir (match-end 0))))
+      (concat "cd " root-dir "Debug/" "; make -j3")))
+  
+  (defun alexott/gen-cmake-debug/release-compile-string ()
+    "Generates compile string for compiling CMake project in debug & release modes"
+    (let* ((current-dir (file-name-directory
+                         (or (buffer-file-name (current-buffer)) default-directory)))
+           (prj (ede-current-project current-dir))
+           (root-dir (ede-project-root-directory prj))
+           (subdir "")
+           )
+      (when (string-match root-dir current-dir)
+        (setf subdir (substring current-dir (match-end 0))))
+      (concat "cd " root-dir "Debug/ && make -j3 && cd " root-dir "Release/ && make -j3" )))
+  
+  ;; Projects
+  (when (file-exists-p "~/projects/opoker/CMakeLists.txt")
+  (setq opoker-project
+  (ede-cpp-root-project "opoker"
+                  :name "opoker rescue"
+                  :file "~/projects/opoker/CMakeLists.txt"
+                  :include-path '("/include"
+                                  "../../gtest-1.5.0/include/gtest"
+                                 )
+                  :system-include-path '("/usr/include/c++/4.2.1"))))))
+  
+  
+  
+#+end_src
+
+#+results:
+: t
+
+*** cc-mode
+:PROPERTIES:
+:tangle:   no
 :END:
 
 Based on dwa version which is mostly ott.
@@ -2059,9 +2612,6 @@ CLOCK: [2012-12-21 Fri 14:10]--[2012-12-22 Sat 14:07] => 23:57
 - [ ] clang is a front end for llvm
     - [ ] [[file:~/.emacs.d/dotemacs.org::*llvm-mode][llvm-mode]]
 
-- [ ] opencl
-      (find-file "~/src/ansi/opencl.c")
-
 - [-] [[file:~/.emacs.d/dotemacs.org::*cmake-mode][cmake-mode]]
     - [ ] get mode turning on automatically
     - [X] separate build and src
@@ -2249,7 +2799,7 @@ CLOCK: [2012-12-21 Fri 14:10]--[2012-12-22 Sat 14:07] => 23:57
       (bind-key ">" 'self-insert-command c++-mode-map)
       
       (use-package cedet
-        :disabled nil
+        :disabled t
         :init
         (progn
           ;; Add further minor-modes to be enabled by semantic-mode.  See
@@ -2378,15 +2928,7 @@ CLOCK: [2012-12-21 Fri 14:10]--[2012-12-22 Sat 14:07] => 23:57
                                    c-lineup-gnu-DEFUN-intro-cont))))
                      (c-special-indent-hook . c-gnu-impose-minimum)
                      (c-block-comment-prefix . "")))
-      
-      (defun opencl ()
-        (interactive)
-        (find-file "~/src/ansi/opencl.c")
-        (find-file-noselect "~/Contracts/TI/bugslayer/cl_0603/cl_0603.c")
-        (find-file-noselect "~/Contracts/TI/bugslayer")
-        (magit-status "~/src/ansi")
-        (gud-gdb "gdb --fullname ~/Contracts/TI/bin/c60/acpia6x"))
-      
+            
       (defun ti-refill-comment ()
         (interactive)
         (let ((here (point)))
@@ -2541,12 +3083,25 @@ CLOCK: [2012-12-21 Fri 14:10]--[2012-12-22 Sat 14:07] => 23:57
     :tangle:   yes
     :END:
 #+begin_src emacs-lisp
-;;;_ , css-mode
-
-(use-package css-mode
-  :mode ("\\.css\\'" . css-mode))
-
+  ;;;_ , css-mode
+  
+  (use-package css-mode
+    :mode (("\\.css\\'" . css-mode)
+           ("\\.less\\'" . css-mode)))
+  
 #+end_src
+
+#+results:
+: t
+
+*** csv-mode
+:PROPERTIES:
+:tangle:   yes
+:END:
+#+begin_src emacs-lisp
+(use-package csv-mode)  
+#+end_src
+
 *** ibuffer
     :PROPERTIES:
     :tangle:   yes
@@ -2633,6 +3188,26 @@ iflipb-next-buffer or iflipb-previous-buffer this round."
   :bind ("C-. d" . dedicated-mode))
 
 #+end_src
+*** not delsel
+:PROPERTIES:
+:tangle:   yes
+:END:
+
+#+begin_src emacs-lisp
+  (delete-selection-mode t)
+#+end_src
+
+
+*** delsel
+:PROPERTIES:
+:tangle:   no
+:END:
+
+#+begin_src emacs-lisp
+  (use-package delsel
+    :init (delete-selection-mode t))
+#+end_src
+
 *** diff-mode
     :PROPERTIES:
     :tangle:   yes
@@ -2924,6 +3499,7 @@ iflipb-next-buffer or iflipb-previous-buffer this round."
 (use-package erc
   ;; :commands erc
   :commands (irc im)
+  :disabled t
   :init
   (progn
     (defun irc ()
@@ -3164,49 +3740,54 @@ FORM => (eval FORM)."
 :END:
 #+begin_src emacs-lisp
   (use-package flymake-html-validator
-    :init (progn
-    ;;(add-hook 'html-mode-hook 'flymake-mode)
-
-(defvar flymake-minor-map-mode)
-(define-prefix-command 'flymake-minor-mode-map)
-(bind-key "H-f" 'flymake-minor-mode-map)
-
-(bind-key "M-p" 'flymake-goto-prev-error)
-(bind-key "M-n" 'flymake-goto-next-error)
+    :init
+    (progn
+      ;;(add-hook 'html-mode-hook 'flymake-mode)
+            
+      (defvar flymake-minor-map-mode)
+      (define-prefix-command 'flymake-minor-mode-map)
+      (bind-key "H-f" 'flymake-minor-mode)
+      (bind-key "M-p" 'flymake-goto-prev-error)
+      (bind-key "M-n" 'flymake-goto-next-error)
+            
+      (defun flymake-err-at (pos)
+        (let ((overlays (overlays-at pos)))
+          (remove nil
+                  (mapcar (lambda (overlay)
+                            (and (overlay-get overlay 'flymake-overlay)
+                                 (overlay-get overlay 'help-echo)))
+                          overlays))))
+            
+      (defun flymake-err-echo ()
+        (message "%s" (mapconcat 'identity (flymake-err-at (point)) "\n")))
+            
+      (defadvice flymake-goto-next-error (after display-message activate compile)
+        (flymake-err-echo))
+            
+      (defadvice flymake-goto-prev-error (after display-message activate compile)
+        (flymake-err-echo))
+            
+      (define-minor-mode flymake-minor-mode
+        "Simple minor mode which adds some key bindings for moving to the next and previous errors.
   
-(defun flymake-err-at (pos)
-  (let ((overlays (overlays-at pos)))
-    (remove nil
-            (mapcar (lambda (overlay)
-                      (and (overlay-get overlay 'flymake-overlay)
-                           (overlay-get overlay 'help-echo)))
-                    overlays))))
-
-(defun flymake-err-echo ()
-  (message "%s" (mapconcat 'identity (flymake-err-at (point)) "\n")))
-
-(defadvice flymake-goto-next-error (after display-message activate compile)
-  (flymake-err-echo))
-
-(defadvice flymake-goto-prev-error (after display-message activate compile)
-  (flymake-err-echo))
-
-(define-minor-mode flymake-minor-mode
-  "Simple minor mode which adds some key bindings for moving to the next and previous errors.
-
-Key bindings:
-
-\\{my-flymake-minor-mode-map}"
-  nil
-  nil
-  flymake-minor-mode-map)
-
-;; Enable this keybinding (my-flymake-minor-mode) by default
-;; Added by Hartmut 2011-07-05
-;; (add-hook 'html-mode-hook 'flymake-minor-mode)
-
-(setq validator-script "~/.emacs.d/site-lisp/flymake-html-validator")))
+  Key bindings:
+  
+  \\{my-flymake-minor-mode-map}"
+        nil
+        nil
+        flymake-minor-mode-map)
+            
+      ;; Enable this keybinding (my-flymake-minor-mode) by default
+      ;; Added by Hartmut 2011-07-05
+      ;; (add-hook 'html-mode-hook 'flymake-minor-mode)
+            
+      ;;(setq validator-script
+      ;;"~/.emacs.d/site-lisp/flymake-html-validator")
+      ))
 #+end_src
+
+#+results:
+: t
 
 *** flyspell
 :PROPERTIES:
@@ -3250,605 +3831,1205 @@ Key bindings:
   :bind ("C-c G" . gist-region-or-buffer))
 
 #+end_src
-*** gnus
+*** gnus wrapped
 :PROPERTIES:
 :tangle:   yes
 :END:
- #+begin_src emacs-lisp
-      (use-package gnus
-        :bind (("M-G"   . gnus)
-               ("C-x m" . compose-mail)
-               ("C-. C-. g" . gnus))
-      
-        :init
-        (progn
-          (use-package bbdb)
-          (use-package bbdb-gnus)
-          (use-package bbdb-message)
-      
-          (use-package gnus-harvest
-            init: (gnus-harvest-install 'message-x))
-          (use-package starttls)
-          (gnus-registry-initialize)
-          (autoload 'gnus-dired-mode "gnus-dired" nil t)
-          (add-hook 'dired-mode-hook 'gnus-dired-mode)
-      
-      (defun my-process-running-p (name)
-        (catch 'proc-running
-          (dolist (proc (process-list))
-            (if (and (string-match name (process-name proc))
-                     (eq 'run (process-status proc)))
-                (throw 'proc-running proc)))))
-      
-      (defun start-offlineimap-regular()
-       (interactive)
-            (shell-command "offlineimap&" "*offlineimap*" nil))
-      
-      (defun start-offlineimap ()
-        (interactive)
-        (shell-command
-         "launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.offline-imap.plist")
-        (message "Offlineimap started"))
-      
-      (defun shutdown-offlineimap ()
-        (interactive)
-        (message "Stopping offlineimap...")
-        (set-process-sentinel
-         (start-process-shell-command
-          "*offlineimap*" "*offlineimap*"
-          "launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.offline-imap.plist")
-         (lambda (process event)
-           (when (string= event "finished\n")
-             (message "Stopping offlineimap...done")))))
-      
-      
-          (defun gnus-query (query)
-            (interactive "sMail Query: ")
-            (let ((nnir-imap-default-search-key "imap"))
-              (gnus-group-make-nnir-group
-               nil
-               `((query    . ,query)
-                 (criteria . "")
-                 (server   . "nnimap:Mail") ))))
-      
-          (bind-key "s-M-f" 'gnus-query)
-      
-          (defun gnus-goto-article (message-id)
-            (with-temp-buffer
-              (erase-buffer)
-              ;; Insert dummy article
-              (insert (format "From nobody Tue Sep 13 22:05:34 2011\n\n"))
-              (gnus-group-read-ephemeral-group
-               message-id
-               `(nndoc ,message-id
-                       (nndoc-address ,(current-buffer))
-                       (nndoc-article-type mbox))
-               :activate
-               (cons (current-buffer) gnus-current-window-configuration)
-               (not :request-only)
-               '(-1)                          ; :select-articles
-               (not :parameters)
-               0                              ; :number
-               )
-              (gnus-summary-refer-article message-id)
-                                              ;           (and (bound-and-true-p gnus-registry-enabled)
-                                              ;            (gnus-try-warping-via-registry))
-              ))
-      
-          (defun gnus-current-message-id ()
-            (with-current-buffer gnus-original-article-buffer
-              (nnheader-narrow-to-headers)
-              (message-fetch-field "message-id")))
-      
-          (defun gnus-open-article-in-apple-mail ()
-            (interactive)
-            (let ((message-id (gnus-current-message-id)))
-              (start-process (concat "open message:" message-id) nil
-                             "open" (concat "message://<"
-                                            (substring message-id 1 -1) ">"))))
-      
-          (defun gmail-report-spam ()
-            "Report the current or marked mails as spam.
-      This moves them into the Spam folder."
-            (interactive)
-            (gnus-summary-move-article nil "[Gmail].Spam"))
-      
-      
-          (use-package gnus-sum
-            :init
-            (progn
-              (bind-key "$" 'gmail-report-spam gnus-summary-mode-map)
-              (bind-key "<C-backspace>" 'gnus-summary-mark-as-expirable gnus-summary-mode-map)
-              (bind-key  "<S-backspace>" 'gnus-summary-expire-thread gnus-summary-mode-map)
-              (bind-key "O O" 'gnus-open-article-in-apple-mail gnus-summary-mode-map)
-              (bind-key "C-c C-o" 'gnus-article-browse-urls gnus-summary-mode-map)))
-      
-          (defadvice message-goto-from (after insert-boostpro-address activate)
-            (if (looking-back ": ")
-                (insert "Tony Day <tonyday567@gmail.com>"))
-            (goto-char (line-end-position))
-            (re-search-backward ": ")
-            (goto-char (match-end 0)))
-      
-          (setq my-smtpmailer-alist
-                '((".*"
-                   ("tonyday567@gmail.com" . "smtp.gmail.com")
-                   ("tony.day@scarcecapital.com" . "smtp.gmail.com"))
-                  ))
-      
-      (defun my-set-smtp-server ()
-        (when (message-field-value "to")
-          (let* ((to-field (cadr (mail-extract-address-components
-                                  (message-field-value "to"))))
-                 (from (let ((field (message-field-value "from")))
-                         (and field (cadr (mail-extract-address-components field)))))
-                 (result
-                  (car (assoc-default (or from to-field)
-                                      my-smtpmailer-alist
-                                      'string-match
-                                      (cons user-mail-address
-                                            (if (boundp 'smtpmail-default-smtp-server)
-                                                smtpmail-default-smtp-server
-                                              ""))))))
-            (if from
-                (setq smtpmail-mail-address from
-                      mail-envelope-from from
-                      smtpmail-smtp-server (cdr result)
-                      smtpmail-smtp-service 587)
-              ;; set mailer address and port
-              (setq smtpmail-mail-address (car result)
-                    mail-envelope-from (car result)
-                    smtpmail-smtp-server (cdr result)
-                    smtpmail-smtp-service 587)
-              (message-remove-header "From")
-              (message-add-header
-               (format "From: %s <%s>" user-full-name (car result)))))))
-      
-          (add-hook 'message-send-hook 'my-set-smtp-server)
-      
-      ;;;_ + Determine layout of the summary windows
-      
-          (progn
-            (gnus-add-configuration
-             '(article
-               (horizontal 1.0
-                           (vertical 1.0
-                                     (group 10)
-                                     (summary 1.0 point))
-                           (vertical .5 (article 1.0)))))
-      
-      
-            (gnus-add-configuration
-             '(summary
-               (horizontal 1.0
-                           (vertical 1.0
-                                     (group 10)
-                                     (summary 1.0 point))
-                           (vertical .5 (article 1.0)))))
-      
-            (gnus-add-configuration
-             '(message
-               (horizontal 1.0
-                           (vertical 1.0
-                                     (group 10)
-                                     (summary 1.0))
-                           (vertical .5
-                                     (message 1.0 point)))))
-      
-            (gnus-add-configuration
-             '(reply
-               (horizontal 1.0
-                           (vertical 1.0
-                                     (group 10)
-                                     (summary 1.0))
-                           (vertical .5
-                                     (message 1.0 point)
-                                     (article .25)))))
-      
-            (gnus-add-configuration
-             '(reply-yank
-               (horizontal 1.0
-                           (vertical 1.0
-                                     (group 10)
-                                     (summary 1.0))
-                           (vertical .5
-                                     (message 1.0 point)))))
-            )
-      
-      ;;;_ + Cleanup all Gnus buffers on exit
-      
-      (defun exit-gnus-on-exit ()
-        (if (and (fboundp 'gnus-group-exit)
-                 (gnus-alive-p))
-            (with-current-buffer (get-buffer "*Group*")
-              (gnus-group-exit))))
-      
-      (add-hook 'kill-emacs-hook 'exit-gnus-on-exit)
-      
-      ;;;_ + Scoring
-      
-      (eval-when-compile
-        (defvar arg))
-      
-      (defun gnus-score-groups ()
-        (interactive)
-        (save-excursion
-          (dolist (info (cdr gnus-newsrc-alist))
-            ;; Only consider this group if it's at or below the current level
-            (when (<= (gnus-info-level info)
-                      (if (numberp arg)
-                          arg
-                        (or (gnus-group-default-level nil t)
-                            (gnus-group-default-list-level)
-                            gnus-level-subscribed)))
-              (let* ((group (gnus-info-group info))
-                     (unread (gnus-group-unread group)))
-                (when (and (not (string-match "^\\(\\(nnimap\\+\\)?Mail:\\)?" group))
-                           (numberp unread) (> unread 0))
-                  (ignore-errors
-                    (gnus-summary-read-group group nil t))
-                  (when (and gnus-summary-buffer
-                             (buffer-live-p gnus-summary-buffer)
-                             (eq (current-buffer)
-                                 (get-buffer gnus-summary-buffer)))
-                    (gnus-summary-exit))))))))
-      
-      ;;;_ + Summary line formats
-      
-      (defun gnus-user-format-function-Z (header)
-        (let ((to (cdr (assq 'To (mail-header-extra header))))
-              (newsgroups (cdr (assq 'Newsgroups (mail-header-extra header))))
-              (mail-parse-charset gnus-newsgroup-charset)
-              (mail-parse-ignored-charsets
-               (with-current-buffer gnus-summary-buffer
-                 gnus-newsgroup-ignored-charsets)))
-          (cond
-           ((and to gnus-ignored-from-addresses
-                 (string-match gnus-ignored-from-addresses
-                               (mail-header-from header)))
-            (concat "-> "
-                    (or (car (funcall gnus-extract-address-components
-                                      (funcall
-                                       gnus-decode-encoded-word-function to)))
-                        (funcall gnus-decode-encoded-word-function to))))
-           ((and newsgroups gnus-ignored-from-addresses
-                 (string-match gnus-ignored-from-addresses
-                               (mail-header-from header)))
-            (concat "=> " newsgroups))
-           (t
-            (let* ((from (mail-header-from header))
-                   (data (condition-case nil
-                             (mail-extract-address-components from)
-                           (error nil)))
-                   (name (car data))
-                   (net (car (cdr data))))
-              (or name net))))))
-      
-      (defsubst dot-gnus-tos (time)
-        "Convert TIME to a floating point number."
-        (+ (* (car time) 65536.0)
-           (cadr time)
-           (/ (or (car (cdr (cdr time))) 0) 1000000.0)))
-      
-      (defun gnus-user-format-function-S (header)
-        "Return how much time it's been since something was sent."
-        (condition-case err
-            (let ((date (mail-header-date header)))
-              (if (> (length date) 0)
-                  (let* ((then (dot-gnus-tos
-                                (apply 'encode-time (parse-time-string date))))
-                         (now (dot-gnus-tos (current-time)))
-                         (diff (- now then)))
-                    (cond ((>= diff (* 86400.0 7.0 52.0))
-                           (if (>= diff (* 86400.0 7.0 52.0 10.0))
-                               (format "%3dY" (floor (/ diff (* 86400.0 7.0 52.0))))
-                             (format "%3.1fY" (/ diff (* 86400.0 7.0 52.0)))))
-                          ((>= diff (* 86400.0 30.0))
-                           (if (>= diff (* 86400.0 30.0 10.0))
-                               (format "%3dM" (floor (/ diff (* 86400.0 30.0))))
-                             (format "%3.1fM" (/ diff (* 86400.0 30.0)))))
-                          ((>= diff (* 86400.0 7.0))
-                           (if (>= diff (* 86400.0 7.0 10.0))
-                               (format "%3dw" (floor (/ diff (* 86400.0 7.0))))
-                             (format "%3.1fw" (/ diff (* 86400.0 7.0)))))
-                          ((>= diff 86400.0)
-                           (if (>= diff (* 86400.0 10.0))
-                               (format "%3dd" (floor (/ diff 86400.0)))
-                             (format "%3.1fd" (/ diff 86400.0))))
-                          ((>= diff 3600.0)
-                           (if (>= diff (* 3600.0 10.0))
-                               (format "%3dh" (floor (/ diff 3600.0)))
-                             (format "%3.1fh" (/ diff 3600.0))))
-                          ((>= diff 60.0)
-                           (if (>= diff (* 60.0 10.0))
-                               (format "%3dm" (floor (/ diff 60.0)))
-                             (format "%3.1fm" (/ diff 60.0))))
-                          (t
-                           (format "%3ds" (floor diff)))))))
-          (error "    ")))
-      
-      (eval-when-compile
-        (defvar thread)
-        (defvar gnus-tmp-level))
-      
-      (defun gnus-user-format-function-t-johnw (header)
-        (let ((tcount (gnus-summary-number-of-articles-in-thread
-                       (and (boundp 'thread) (car thread)) gnus-tmp-level)))
-          (if (> tcount 1)
-              (number-to-string tcount)
-            " ")))
-      
-      ;;;_ + gnus-article-browse-urls
-      
-      (defun gnus-article-browse-urls ()
-        "Visit a URL from the `gnus-article-buffer' by prompting via a
-          poping up a buffer showing the list of URLs found with the
-          `gnus-button-url-regexp'."
-        (interactive)
-        (gnus-configure-windows 'article)
-        (gnus-summary-select-article nil nil 'pseudo)
-        (let ((temp-buffer (generate-new-buffer " *Article URLS*"))
-              (urls (gnus-article-get-current-urls))
-              (this-window (selected-window))
-              (browse-window (get-buffer-window gnus-article-buffer))
-              (count 0))
-          (save-excursion
-            (save-window-excursion
-              (set-buffer temp-buffer)
-              (mapc (lambda (string)
-                      (insert (format "\t%d: %s\n" count string))
-                      (setq count (1+ count))) urls)
-              (not-modified)
-              (pop-to-buffer temp-buffer)
-              (setq count
-                    (string-to-number
-                     (char-to-string (if (fboundp
-                                          'read-char-exclusive)
-                                         (read-char-exclusive)
-                                       (read-char)))))
-              (kill-buffer temp-buffer))
-            (if browse-window
-                (progn (select-window browse-window)
-                       (browse-url (nth count urls)))))
-          (select-window this-window)))
-      
-      (defun gnus-article-get-current-urls ()
-        "Return a list of the urls found in the current `gnus-article-buffer'"
-        (let (url-list)
-          (with-current-buffer gnus-article-buffer
-            (setq url-list (gnus-article-get-urls-region (point-min) (point-max))))
-          url-list))
-      
-      (defun gnus-article-get-urls-region (min max)
-        "Return a list of urls found in the region between MIN and MAX"
-        (let (url-list)
-          (save-excursion
-            (save-restriction
-              (narrow-to-region min max)
-              (goto-char (point-min))
-              (while (re-search-forward gnus-button-url-regexp nil t)
-                (let ((match-string (match-string-no-properties 0)))
-                  (if (and (not (equal (substring match-string 0 4) "file"))
-                           (not (member match-string url-list)))
-                      (setq url-list (cons match-string url-list)))))))
-          url-list))
-      
-      
-      ;;;_* keybindings
-      
-      ;;;_ + gnus-group-score
-      
-      (eval-after-load "gnus-group"
-        '(progn
-           (bind-key "s" 'gnus-score-groups gnus-group-score-map)
-           (bind-key "v o" 'start-offlineimap gnus-group-mode-map)))
-      
-      (eval-after-load "w3m"
-        '(bind-key "\C-m" 'w3m-view-url-with-external-browser w3m-minor-mode-map))
-      
-      ;;;_ + dave's stuff
-      
-      (defun dwa/gnus-summary-ignore-thread ()
-        (interactive)
-        (gnus-summary-top-thread)
-        (let ((message-id (gnus-summary-header "message-id")))
-          (dolist (hdr-type '(("references" . s) ("message-id" . e)))
-            (gnus-summary-score-entry
-             (car hdr-type)                       ; Header
-             (gnus-summary-header "message-id")   ; Match
-             (cdr hdr-type)                       ; Type
-             (- (gnus-score-delta-default nil))   ; Score
-             nil                                  ; Temp
-             nil                                  ; Prompt
-             nil                                  ; not silent
-             nil)))                               ; non-standard overview.
-        (gnus-summary-kill-thread))
-      (bind-key "i" 'dwa/gnus-summary-ignore-thread gnus-summary-mode-map)
-      
-      ;;
-      ;; Support proportional fonts in the summary and group buffers by inserting a forced alignment
-      ;;
-      ;; See http://news.gmane.org/find-root.php?message_id=%3cyoij63rj41q5.fsf%40remote5.student.chalmers.se%3e
-      (defvar my-align-gnus-summary (propertize " " 'display '(space :align-to 5)))
-      (defvar my-align-gnus-subject (propertize " " 'display '(space :align-to 30)))
-      
-      (defvar my-align-gnus-group (propertize " " 'display '(space :align-to 8)))
-      
-      
-      ;; Display word docs inline with antiword installed.  See
-      ;; http://www.emacswiki.org/emacs/MimeTypesWithGnus
-      (when nil
-        (require 'mm-view)
-        (add-to-list 'mm-inline-media-tests
-                     '("application/msword" mm-inline-text identity))
-        (add-to-list 'mm-automatic-external-display "application/msword")
-        (add-to-list 'mm-attachment-override-types "application/msword")
-        (add-to-list 'mm-automatic-display "application/msword"))
-      
-      (defun dwa/gnus-summary-first-unread-or-first-subject ()
-        "Place the point on the subject line of the first unseen article.
-      If all article have been seen, on the subject line of the last article."
-        (interactive)
-        (prog1
-            (unless
-                (when (gnus-summary-first-subject t nil t)
-                  (gnus-summary-show-thread)
-                  (gnus-summary-first-subject t nil t))
-              (goto-char (point-min)))))
-      (setq gnus-auto-select-subject 'dwa/gnus-summary-first-unread-or-first-subject)
-      
-      ;(require 'gnus-spec)
-      ;(eval-when-compile (gnus-compile))
-      
-      (require 'gravatar nil 'noerror)
-      (require 'gnus-gravatar nil 'noerror)
-      (spam-initialize)
-      (bind-key "$" 'gnus-summary-mark-as-spam gnus-summary-mode-map)
-      (bind-key "v o" 'start-offlineimap gnus-summary-mode-map)
-      
-      
-      (defvar my-gnus-group-faces
-        '(
-          gnus-group-news-1
-          gnus-group-news-1-empty
-          gnus-group-news-2
-          gnus-group-news-2-empty
-          gnus-group-news-3
-          gnus-group-news-3-empty
-          gnus-group-news-4
-          gnus-group-news-4-empty
-          gnus-group-news-5
-          gnus-group-news-5-empty
-          gnus-group-news-6
-          gnus-group-news-6-empty
-          gnus-group-news-low
-          gnus-group-news-low-empty
-          gnus-group-mail-1
-          gnus-group-mail-1-empty
-          gnus-group-mail-2
-          gnus-group-mail-2-empty
-          gnus-group-mail-3
-          gnus-group-mail-3-empty
-          gnus-group-mail-low
-          gnus-group-mail-low-empty))
-      
-      (defvar my-gnus-summary-faces
-        '(
-          gnus-summary-selected
-          gnus-summary-cancelled
-          gnus-summary-high-ticked
-          gnus-summary-low-ticked
-          gnus-summary-normal-ticked
-          gnus-summary-high-ancient
-          gnus-summary-low-ancient
-          gnus-summary-normal-ancient
-          gnus-summary-high-undownloaded
-          gnus-summary-low-undownloaded
-          gnus-summary-normal-undownloaded
-          gnus-summary-high-unread
-          gnus-summary-low-unread
-          gnus-summary-normal-unread
-          gnus-summary-high-read
-          gnus-summary-low-read
-          gnus-summary-normal-read
-          gnus-summary-expirable-face))
-      
-      ;(defvar my-gnus-group-face-attributes '(:family "DejaVu Sans" :weight normal :width condensed))
-      (defvar my-gnus-summary-face-attributes '(:family "DejaVu Sans" :weight normal :width condensed))
-      
-      ;(dolist (facename my-gnus-group-faces)
-      ;  (apply 'set-face-attribute facename nil my-gnus-group-face-attributes))
-      (dolist (facename my-gnus-summary-faces)
-        (when (facep facename)
-          (apply 'set-face-attribute facename nil my-gnus-summary-face-attributes)))
-      
-      (defface gnus-summary-expirable-face
-        '((((class color) (background dark))
-           (:foreground "grey50" :italic t :strike-through t))
-          (((class color) (background light))
-           (:foreground "grey55" :italic t :strike-through t)))
-        "Face used to highlight articles marked as expirable."
-        :group 'gnus-summary-visual)
-      
-      ;; prettier summary buffers
-      (when window-system
-        (setq gnus-sum-thread-tree-indent "  ")                            ;; "  "
-        (setq gnus-sum-thread-tree-root "\u229e ")                         ;; "⊞ "
-        (setq gnus-sum-thread-tree-false-root "\u22a1 ")                   ;; "⊡ "
-        (setq gnus-sum-thread-tree-single-indent   " -  ")              ;; " -  "
-        (setq gnus-sum-thread-tree-vertical        " \u2502")              ;; " │"
-        (setq gnus-sum-thread-tree-leaf-with-other " \u251c\u2500 ")  ;; " ├─ "
-        (setq gnus-sum-thread-tree-single-leaf     " \u2570\u2500 ")) ;; " ╰─ "
-      
-      
-      ;; Make sure cited text has a light gray background, in case people
-      ;; forget to add a blank line after their citations.
-      (use-package gnus-cite)
-      
-      ;; Thanks to David Engster
-      ;; [[gnus:nntp%2Bnews.gmane.org:gmane.emacs.gnus.general#87vdnimyxd.fsf@randomsample.de][Posting on ding@gnus.org]]
-      (defun DE-collapse-group-names ()
-        (save-excursion
-          (let (previous-group current-group common-prefix
-                               common-dot-count prefix suffix)
-            (goto-char (point-min))
-            (while (not (eobp))
-              (when (setq current-group
-                          (get-text-property (point) 'gnus-group))
-                (setq current-group (symbol-name current-group))
-                (when (string-match "\\(.+\\):\\(.+\\)" current-group)
-                  (setq current-group (match-string 2 current-group)))
-                (setq common-prefix (substring current-group 0
-                                               (mismatch previous-group current-group))
-                      common-dot-count (count ?. common-prefix)
-                      prefix (mapconcat (lambda (x) x)
-                                        (make-list common-dot-count "  .") "")
-                      suffix (and (string-match
-                                   (format "\\([^.]*[.]\\)\\{%d\\}\\(.+\\)" common-dot-count)
-                                   current-group)
-                                  (match-string 2 current-group))
-                      previous-group current-group)
-                (unless (zerop (length prefix))
-                  (when (search-forward current-group (point-at-eol) t)
-                    (let ((props (text-properties-at (1- (point)))))
-                      (replace-match (apply 'propertize (concat prefix suffix)
-                                            props))))))
-              (forward-line 1)))))
-      
-      (add-hook 'gnus-group-prepare-hook 'DE-collapse-group-names)
-      (add-hook 'gnus-group-update-group-hook 'DE-collapse-group-names)
-      
-      ;; Queueing messages in Gnus (instead of Postfix) when
-      ;; disconnected:
-      
-      ;; uncomment to enable
-      ;; (add-hook 'message-send-hook 'queue-message-if-not-connected)
-      
-      (defun quickping (host)
-        (= 0 (call-process "/sbin/ping" nil nil nil "-c1" "-W50" "-q" host)))
-      
-      (defun queue-message-if-not-connected ()
-        (set (make-local-variable 'gnus-agent-queue-mail)
-             (if (quickping "smtp.gmail.com") t 'always)))
-      ;;
-      ;;
-      
-      ;; I like citations in email to be set off from the rest of the text
-      ;; by a slightly different background color.  This helps immeasurably
-      ;; when people forget to leave a blank line after citations.  see
-      ;; gnus-settings.el and wl-settings.el, where I inherit this face.
-      (defface dwa/mail-citation '((((class color)
-                               (background dark))
-                              (:background "#383838"))
-                             (((class color)
-                               (background light))
-                              (:background "#efefef")))
-        "Mail citation base face.")))
-      
+
+I can't get gnus to defer, so I've wrapped the use-package call in a function.
+
+#+begin_src emacs-lisp
+  (defun my-gnus-load ()
+    (interactive)
+    (use-package gnus
+      :config
+      (progn
+(setq gnus-agent-go-online t)         
+(use-package bbdb)
+         (use-package bbdb-gnus)
+         (use-package bbdb-message)
+     
+         (use-package gnus-harvest
+           init: (gnus-harvest-install 'message-x))
+         (use-package starttls)
+         (gnus-registry-initialize)
+         (autoload 'gnus-dired-mode "gnus-dired" nil t)
+         (add-hook 'dired-mode-hook 'gnus-dired-mode)
+     
+         (defun my-process-running-p (name)
+           (catch 'proc-running
+             (dolist (proc (process-list))
+               (if (and (string-match name (process-name proc))
+                        (eq 'run (process-status proc)))
+                   (throw 'process-running-child-p proc)))))
+     
+         (defun start-offlineimap-regular()
+           (interactive)
+           (shell-command "offlineimap&" "*offlineimap*" nil))
+     
+         (defun start-offlineimap ()
+           (interactive)
+           (shell-command
+            "launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.offline-imap.plist")
+           (message "Offlineimap started"))
+     
+         (defun shutdown-offlineimap ()
+           (interactive)
+           (message "Stopping offlineimap...")
+           (set-process-sentinel
+            (start-process-shell-command
+             "*offlineimap*" "*offlineimap*"
+             "launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.offline-imap.plist")
+            (lambda (process event)
+              (when (string= event "finished\n")
+                (message "Stopping offlineimap...done")))))
+     
+     
+         (defun gnus-query (query)
+           (interactive "sMail Query: ")
+           (let ((nnir-imap-default-search-key "imap"))
+             (gnus-group-make-nnir-group
+              nil
+              `((query    . ,query)
+                (criteria . "")
+                (server   . "nnimap:Mail") ))))
+         
+         (bind-key "s-M-f" 'gnus-query)
+     
+         (defun gnus-goto-article (message-id)
+           (with-temp-buffer
+             (erase-buffer)
+             ;; Insert dummy article
+             (insert (format "From nobody Tue Sep 13 22:05:34 2011\n\n"))
+             (gnus-group-read-ephemeral-group
+              message-id
+              `(nndoc ,message-id
+                      (nndoc-address ,(current-buffer))
+                      (nndoc-article-type mbox))
+              :activate
+              (cons (current-buffer) gnus-current-window-configuration)
+              (not :request-only)
+              '(-1)                          ; :select-articles
+              (not :parameters)
+              0                              ; :number
+              )
+             (gnus-summary-refer-article message-id)
+                                             ;           (and (bound-and-true-p gnus-registry-enabled)
+                                             ;            (gnus-try-warping-via-registry))
+             ))
+     
+         (defun gnus-current-message-id ()
+           (with-current-buffer gnus-original-article-buffer
+             (nnheader-narrow-to-headers)
+             (message-fetch-field "message-id")))
+     
+         (defun gnus-open-article-in-apple-mail ()
+           (interactive)
+           (let ((message-id (gnus-current-message-id)))
+             (start-process (concat "open message:" message-id) nil
+                            "open" (concat "message://<"
+                                           (substring message-id 1 -1) ">"))))
+     
+         (defun gmail-report-spam ()
+           "Report the current or marked mails as spam.
+     This moves them into the Spam folder."
+           (interactive)
+           (gnus-summary-move-article nil "[Gmail].Spam"))
+     
+     
+         (use-package gnus-sum
+           :init
+           (progn
+             (bind-key "$" 'gmail-report-spam gnus-summary-mode-map)
+             (bind-key "<C-backspace>" 'gnus-summary-mark-as-expirable gnus-summary-mode-map)
+             (bind-key  "<S-backspace>" 'gnus-summary-expire-thread gnus-summary-mode-map)
+             (bind-key "O O" 'gnus-open-article-in-apple-mail gnus-summary-mode-map)
+             (bind-key "C-c C-o" 'gnus-article-browse-urls gnus-summary-mode-map)))
+     
+         (defadvice message-goto-from (after insert-boostpro-address activate)
+           (if (looking-back ": ")
+               (insert "Tony Day <tonyday567@gmail.com>"))
+           (goto-char (line-end-position))
+           (re-search-backward ": ")
+           (goto-char (match-end 0)))
+     
+         (setq my-smtpmailer-alist
+               '((".*"
+                  ("tonyday567@gmail.com" . "smtp.gmail.com")
+                  ("tony.day@scarcecapital.com" . "smtp.gmail.com"))
+                 ))
+     
+         (defun my-set-smtp-server ()
+           (when (message-field-value "to")
+             (let* ((to-field (cadr (mail-extract-address-components
+                                     (message-field-value "to"))))
+                    (from (let ((field (message-field-value "from")))
+                            (and field (cadr (mail-extract-address-components field)))))
+                    (result
+                     (car (assoc-default (or from to-field)
+                                         my-smtpmailer-alist
+                                         'string-match
+                                         (cons user-mail-address
+                                               (if (boundp 'smtpmail-default-smtp-server)
+                                                   smtpmail-default-smtp-server
+                                                 ""))))))
+               (if from
+                   (setq smtpmail-mail-address from
+                         mail-envelope-from from
+                         smtpmail-smtp-server (cdr result)
+                         smtpmail-smtp-service 587)
+                 ;; set mailer address and port
+                 (setq smtpmail-mail-address (car result)
+                       mail-envelope-from (car result)
+                       smtpmail-smtp-server (cdr result)
+                       smtpmail-smtp-service 587)
+                 (message-remove-header "From")
+                 (message-add-header
+                  (format "From: %s <%s>" user-full-name (car result)))))))
+         
+         (add-hook 'message-send-hook 'my-set-smtp-server)
+         
+     ;;;_ + Determine layout of the summary windows
+         
+         (progn
+           (gnus-add-configuration
+            '(article
+              (horizontal 1.0
+                          (vertical 1.0
+                                    (group 10)
+                                    (summary 1.0 point))
+                          (vertical .5 (article 1.0)))))
+           
+           
+           (gnus-add-configuration
+            '(summary
+              (horizontal 1.0
+                          (vertical 1.0
+                                    (group 10)
+                                    (summary 1.0 point))
+                          (vertical .5 (article 1.0)))))
+           
+           (gnus-add-configuration
+            '(message
+              (horizontal 1.0
+                          (vertical 1.0
+                                    (group 10)
+                                    (summary 1.0))
+                          (vertical .5
+                                    (message 1.0 point)))))
+           
+           (gnus-add-configuration
+            '(reply
+              (horizontal 1.0
+                          (vertical 1.0
+                                    (group 10)
+                                    (summary 1.0))
+                          (vertical .5
+                                    (message 1.0 point)
+                                    (article .25)))))
+           
+           (gnus-add-configuration
+            '(reply-yank
+              (horizontal 1.0
+                          (vertical 1.0
+                                    (group 10)
+                                    (summary 1.0))
+                          (vertical .5
+                                    (message 1.0 point)))))
+           )
+         
+     ;;;_ + Cleanup all Gnus buffers on exit
+         
+         (defun exit-gnus-on-exit ()
+           (if (and (fboundp 'gnus-group-exit)
+                    (gnus-alive-p))
+               (with-current-buffer (get-buffer "*Group*")
+                 (gnus-group-exit))))
+         
+         (add-hook 'kill-emacs-hook 'exit-gnus-on-exit)
+     
+     ;;;_ + Scoring
+     
+         (eval-when-compile
+           (defvar arg))
+         
+         (defun gnus-score-groups ()
+           (interactive)
+           (save-excursion
+             (dolist (info (cdr gnus-newsrc-alist))
+               ;; Only consider this group if it's at or below the current level
+               (when (<= (gnus-info-level info)
+                         (if (numberp arg)
+                             arg
+                           (or (gnus-group-default-level nil t)
+                               (gnus-group-default-list-level)
+                               gnus-level-subscribed)))
+                 (let* ((group (gnus-info-group info))
+                        (unread (gnus-group-unread group)))
+                   (when (and (not (string-match "^\\(\\(nnimap\\+\\)?Mail:\\)?" group))
+                              (numberp unread) (> unread 0))
+                     (ignore-errors
+                       (gnus-summary-read-group group nil t))
+                     (when (and gnus-summary-buffer
+                                (buffer-live-p gnus-summary-buffer)
+                                (eq (current-buffer)
+                                    (get-buffer gnus-summary-buffer)))
+                       (gnus-summary-exit))))))))
+         
+     ;;;_ + Summary line formats
+         
+         (defun gnus-user-format-function-Z (header)
+           (let ((to (cdr (assq 'To (mail-header-extra header))))
+                 (newsgroups (cdr (assq 'Newsgroups (mail-header-extra header))))
+                 (mail-parse-charset gnus-newsgroup-charset)
+                 (mail-parse-ignored-charsets
+                  (with-current-buffer gnus-summary-buffer
+                    gnus-newsgroup-ignored-charsets)))
+             (cond
+              ((and to gnus-ignored-from-addresses
+                    (string-match gnus-ignored-from-addresses
+                                  (mail-header-from header)))
+               (concat "-> "
+                       (or (car (funcall gnus-extract-address-components
+                                         (funcall
+                                          gnus-decode-encoded-word-function to)))
+                           (funcall gnus-decode-encoded-word-function to))))
+              ((and newsgroups gnus-ignored-from-addresses
+                    (string-match gnus-ignored-from-addresses
+                                  (mail-header-from header)))
+               (concat "=> " newsgroups))
+              (t
+               (let* ((from (mail-header-from header))
+                      (data (condition-case nil
+                                (mail-extract-address-components from)
+                              (error nil)))
+                      (name (car data))
+                      (net (car (cdr data))))
+                 (or name net))))))
+         
+         (defsubst dot-gnus-tos (time)
+           "Convert TIME to a floating point number."
+           (+ (* (car time) 65536.0)
+              (cadr time)
+              (/ (or (car (cdr (cdr time))) 0) 1000000.0)))
+         
+         (defun gnus-user-format-function-S (header)
+           "Return how much time it's been since something was sent."
+           (condition-case err
+               (let ((date (mail-header-date header)))
+                 (if (> (length date) 0)
+                     (let* ((then (dot-gnus-tos
+                                   (apply 'encode-time (parse-time-string date))))
+                            (now (dot-gnus-tos (current-time)))
+                            (diff (- now then)))
+                       (cond ((>= diff (* 86400.0 7.0 52.0))
+                              (if (>= diff (* 86400.0 7.0 52.0 10.0))
+                                  (format "%3dY" (floor (/ diff (* 86400.0 7.0 52.0))))
+                                (format "%3.1fY" (/ diff (* 86400.0 7.0 52.0)))))
+                             ((>= diff (* 86400.0 30.0))
+                              (if (>= diff (* 86400.0 30.0 10.0))
+                                  (format "%3dM" (floor (/ diff (* 86400.0 30.0))))
+                                (format "%3.1fM" (/ diff (* 86400.0 30.0)))))
+                             ((>= diff (* 86400.0 7.0))
+                              (if (>= diff (* 86400.0 7.0 10.0))
+                                  (format "%3dw" (floor (/ diff (* 86400.0 7.0))))
+                                (format "%3.1fw" (/ diff (* 86400.0 7.0)))))
+                             ((>= diff 86400.0)
+                              (if (>= diff (* 86400.0 10.0))
+                                  (format "%3dd" (floor (/ diff 86400.0)))
+                                (format "%3.1fd" (/ diff 86400.0))))
+                             ((>= diff 3600.0)
+                              (if (>= diff (* 3600.0 10.0))
+                                  (format "%3dh" (floor (/ diff 3600.0)))
+                                (format "%3.1fh" (/ diff 3600.0))))
+                             ((>= diff 60.0)
+                              (if (>= diff (* 60.0 10.0))
+                                  (format "%3dm" (floor (/ diff 60.0)))
+                                (format "%3.1fm" (/ diff 60.0))))
+                             (t
+                              (format "%3ds" (floor diff)))))))
+             (error "    ")))
+         
+         (eval-when-compile
+           (defvar thread)
+           (defvar gnus-tmp-level))
+         
+         (defun gnus-user-format-function-t-johnw (header)
+           (let ((tcount (gnus-summary-number-of-articles-in-thread
+                          (and (boundp 'thread) (car thread)) gnus-tmp-level)))
+             (if (> tcount 1)
+                 (number-to-string tcount)
+               " ")))
+         
+     ;;;_ + gnus-article-browse-urls
+         
+         (defun gnus-article-browse-urls ()
+           "Visit a URL from the `gnus-article-buffer' by prompting via a
+         poping up a buffer showing the list of URLs found with the
+         `gnus-button-url-regexp'."
+           (interactive)
+           (gnus-configure-windows 'article)
+           (gnus-summary-select-article nil nil 'pseudo)
+           (let ((temp-buffer (generate-new-buffer " *Article URLS*"))
+                 (urls (gnus-article-get-current-urls))
+                 (this-window (selected-window))
+                 (browse-window (get-buffer-window gnus-article-buffer))
+                 (count 0))
+             (save-excursion
+               (save-window-excursion
+                 (set-buffer temp-buffer)
+                 (mapc (lambda (string)
+                         (insert (format "\t%d: %s\n" count string))
+                         (setq count (1+ count))) urls)
+                 (not-modified)
+                 (pop-to-buffer temp-buffer)
+                 (setq count
+                       (string-to-number
+                        (char-to-string (if (fboundp
+                                             'read-char-exclusive)
+                                            (read-char-exclusive)
+                                          (read-char)))))
+                 (kill-buffer temp-buffer))
+               (if browse-window
+                   (progn (select-window browse-window)
+                          (browse-url (nth count urls)))))
+             (select-window this-window)))
+         
+         (defun gnus-article-get-current-urls ()
+           "Return a list of the urls found in the current `gnus-article-buffer'"
+           (let (url-list)
+             (with-current-buffer gnus-article-buffer
+               (setq url-list (gnus-article-get-urls-region (point-min) (point-max))))
+             url-list))
+         
+         (defun gnus-article-get-urls-region (min max)
+           "Return a list of urls found in the region between MIN and MAX"
+           (let (url-list)
+             (save-excursion
+               (save-restriction
+                 (narrow-to-region min max)
+                 (goto-char (point-min))
+                 (while (re-search-forward gnus-button-url-regexp nil t)
+                   (let ((match-string (match-string-no-properties 0)))
+                     (if (and (not (equal (substring match-string 0 4) "file"))
+                              (not (member match-string url-list)))
+                         (setq url-list (cons match-string url-list)))))))
+             url-list))
+         
+         
+     ;;;_* keybindings
+         
+     ;;;_ + gnus-group-score
+         
+         (eval-after-load "gnus-group"
+           '(progn
+              (bind-key "s" 'gnus-score-groups gnus-group-score-map)
+              (bind-key "v o" 'start-offlineimap gnus-group-mode-map)))
+         
+         (eval-after-load "w3m"
+           '(bind-key "\C-m" 'w3m-view-url-with-external-browser w3m-minor-mode-map))
+         
+     ;;;_ + dave's stuff
+         
+         (defun dwa/gnus-summary-ignore-thread ()
+           (interactive)
+           (gnus-summary-top-thread)
+           (let ((message-id (gnus-summary-header "message-id")))
+             (dolist (hdr-type '(("references" . s) ("message-id" . e)))
+               (gnus-summary-score-entry
+                (car hdr-type)                       ; Header
+                (gnus-summary-header "message-id")   ; Match
+                (cdr hdr-type)                       ; Type
+                (- (gnus-score-delta-default nil))   ; Score
+                nil                                  ; Temp
+                nil                                  ; Prompt
+                nil                                  ; not silent
+                nil)))                               ; non-standard overview.
+           (gnus-summary-kill-thread))
+         (bind-key "i" 'dwa/gnus-summary-ignore-thread gnus-summary-mode-map)
+         
+         ;;
+         ;; Support proportional fonts in the summary and group buffers by inserting a forced alignment
+         ;;
+         ;; See http://news.gmane.org/find-root.php?message_id=%3cyoij63rj41q5.fsf%40remote5.student.chalmers.se%3e
+         (defvar my-align-gnus-summary (propertize " " 'display '(space :align-to 5)))
+         (defvar my-align-gnus-subject (propertize " " 'display '(space :align-to 30)))
+         
+         (defvar my-align-gnus-group (propertize " " 'display '(space :align-to 8)))
+         
+         
+         ;; Display word docs inline with antiword installed.  See
+         ;; http://www.emacswiki.org/emacs/MimeTypesWithGnus
+         (when nil
+           (require 'mm-view)
+           (add-to-list 'mm-inline-media-tests
+                        '("application/msword" mm-inline-text identity))
+           (add-to-list 'mm-automatic-external-display "application/msword")
+           (add-to-list 'mm-attachment-override-types "application/msword")
+           (add-to-list 'mm-automatic-display "application/msword"))
+         
+         (defun dwa/gnus-summary-first-unread-or-first-subject ()
+           "Place the point on the subject line of the first unseen article.
+     If all article have been seen, on the subject line of the last article."
+           (interactive)
+           (prog1
+               (unless
+                   (when (gnus-summary-first-subject t nil t)
+                     (gnus-summary-show-thread)
+                     (gnus-summary-first-subject t nil t))
+                 (goto-char (point-min)))))
+         (setq gnus-auto-select-subject 'dwa/gnus-summary-first-unread-or-first-subject)
+         
+                                             ;(require 'gnus-spec)
+                                             ;(eval-when-compile (gnus-compile))
+         
+         (require 'gravatar nil 'noerror)
+         (require 'gnus-gravatar nil 'noerror)
+         (spam-initialize)
+         (bind-key "$" 'gnus-summary-mark-as-spam gnus-summary-mode-map)
+         (bind-key "v o" 'start-offlineimap gnus-summary-mode-map)
+         
+         
+         (defvar my-gnus-group-faces
+           '(
+             gnus-group-news-1
+             gnus-group-news-1-empty
+             gnus-group-news-2
+             gnus-group-news-2-empty
+             gnus-group-news-3
+             gnus-group-news-3-empty
+             gnus-group-news-4
+             gnus-group-news-4-empty
+             gnus-group-news-5
+             gnus-group-news-5-empty
+             gnus-group-news-6
+             gnus-group-news-6-empty
+             gnus-group-news-low
+             gnus-group-news-low-empty
+             gnus-group-mail-1
+             gnus-group-mail-1-empty
+             gnus-group-mail-2
+             gnus-group-mail-2-empty
+             gnus-group-mail-3
+             gnus-group-mail-3-empty
+             gnus-group-mail-low
+             gnus-group-mail-low-empty))
+         
+         (defvar my-gnus-summary-faces
+           '(
+             gnus-summary-selected
+             gnus-summary-cancelled
+             gnus-summary-high-ticked
+             gnus-summary-low-ticked
+             gnus-summary-normal-ticked
+             gnus-summary-high-ancient
+             gnus-summary-low-ancient
+             gnus-summary-normal-ancient
+             gnus-summary-high-undownloaded
+             gnus-summary-low-undownloaded
+             gnus-summary-normal-undownloaded
+             gnus-summary-high-unread
+             gnus-summary-low-unread
+             gnus-summary-normal-unread
+             gnus-summary-high-read
+             gnus-summary-low-read
+             gnus-summary-normal-read
+             gnus-summary-expirable-face))
+         
+                                             ;(defvar my-gnus-group-face-attributes '(:family "DejaVu Sans" :weight normal :width condensed))
+         (defvar my-gnus-summary-face-attributes '(:family "DejaVu Sans" :weight normal :width condensed))
+         
+                                             ;(dolist (facename my-gnus-group-faces)
+                                             ;  (apply 'set-face-attribute facename nil my-gnus-group-face-attributes))
+         (dolist (facename my-gnus-summary-faces)
+           (when (facep facename)
+             (apply 'set-face-attribute facename nil my-gnus-summary-face-attributes)))
+         
+         (defface gnus-summary-expirable-face
+           '((((class color) (background dark))
+              (:foreground "grey50" :italic t :strike-through t))
+             (((class color) (background light))
+              (:foreground "grey55" :italic t :strike-through t)))
+           "Face used to highlight articles marked as expirable."
+           :group 'gnus-summary-visual)
+         
+         ;; prettier summary buffers
+         (when window-system
+           (setq gnus-sum-thread-tree-indent "  ")                            ;; "  "
+           (setq gnus-sum-thread-tree-root "\u229e ")                         ;; "⊞ "
+           (setq gnus-sum-thread-tree-false-root "\u22a1 ")                   ;; "⊡ "
+           (setq gnus-sum-thread-tree-single-indent   " -  ")              ;; " -  "
+           (setq gnus-sum-thread-tree-vertical        " \u2502")              ;; " │"
+           (setq gnus-sum-thread-tree-leaf-with-other " \u251c\u2500 ")  ;; " ├─ "
+           (setq gnus-sum-thread-tree-single-leaf     " \u2570\u2500 ")) ;; " ╰─ "
+         
+         
+         ;; Make sure cited text has a light gray background, in case people
+         ;; forget to add a blank line after their citations.
+         (use-package gnus-cite)
+         
+         ;; Thanks to David Engster
+         ;; [[gnus:nntp%2Bnews.gmane.org:gmane.emacs.gnus.general#87vdnimyxd.fsf@randomsample.de][Posting on ding@gnus.org]]
+         (defun DE-collapse-group-names ()
+           (save-excursion
+             (let (previous-group current-group common-prefix
+                                  common-dot-count prefix suffix)
+               (goto-char (point-min))
+               (while (not (eobp))
+                 (when (setq current-group
+                             (get-text-property (point) 'gnus-group))
+                   (setq current-group (symbol-name current-group))
+                   (when (string-match "\\(.+\\):\\(.+\\)" current-group)
+                     (setq current-group (match-string 2 current-group)))
+                   (setq common-prefix (substring current-group 0
+                                                  (mismatch previous-group current-group))
+                         common-dot-count (count ?. common-prefix)
+                         prefix (mapconcat (lambda (x) x)
+                                           (make-list common-dot-count "  .") "")
+                         suffix (and (string-match
+                                      (format "\\([^.]*[.]\\)\\{%d\\}\\(.+\\)" common-dot-count)
+                                      current-group)
+                                     (match-string 2 current-group))
+                         previous-group current-group)
+                   (unless (zerop (length prefix))
+                     (when (search-forward current-group (point-at-eol) t)
+                       (let ((props (text-properties-at (1- (point)))))
+                         (replace-match (apply 'propertize (concat prefix suffix)
+                                               props))))))
+                 (forward-line 1)))))
+         
+         (add-hook 'gnus-group-prepare-hook 'DE-collapse-group-names)
+         (add-hook 'gnus-group-update-group-hook 'DE-collapse-group-names)
+         
+         ;; Queueing messages in Gnus (instead of Postfix) when
+         ;; disconnected:
+         
+         ;; uncomment to enable
+         ;; (add-hook 'message-send-hook 'queue-message-if-not-connected)
+         
+         (defun quickping (host)
+           (= 0 (call-process "/sbin/ping" nil nil nil "-c1" "-W50" "-q" host)))
+         
+         (defun queue-message-if-not-connected ()
+           (set (make-local-variable 'gnus-agent-queue-mail)
+                (if (quickping "smtp.gmail.com") t 'always)))
+         ;;
+         ;;
+         
+         ;; I like citations in email to be set off from the rest of the text
+         ;; by a slightly different background color.  This helps immeasurably
+         ;; when people forget to leave a blank line after citations.  see
+         ;; gnus-settings.el and wl-settings.el, where I inherit this face.
+         (defface dwa/mail-citation '((((class color)
+                                        (background dark))
+                                       (:background "#383838"))
+                                      (((class color)
+                                        (background light))
+                                       (:background "#efefef")))
+           "Mail citation base face."))
+
+         (bind-key "H-s" 'message-send-and-exit)
+
+))
+       
  #+end_src
-***** Using orgstruct mode for mail
+*** gnus
 :PROPERTIES:
-:tangle:   yes
+:tangle:   no
+:END:
+ #+begin_src emacs-lisp
+   (use-package gnus
+     :bind (("C-. C-. g" . gnus))
+     :config
+     (progn
+       (use-package bbdb)
+       (use-package bbdb-gnus)
+       (use-package bbdb-message)
+   
+       (use-package gnus-harvest
+         init: (gnus-harvest-install 'message-x))
+       (use-package starttls)
+       (gnus-registry-initialize)
+       (autoload 'gnus-dired-mode "gnus-dired" nil t)
+       (add-hook 'dired-mode-hook 'gnus-dired-mode)
+   
+       (defun my-process-running-p (name)
+         (catch 'proc-running
+           (dolist (proc (process-list))
+             (if (and (string-match name (process-name proc))
+                      (eq 'run (process-status proc)))
+                 (throw 'process-running-child-p proc)))))
+   
+       (defun start-offlineimap-regular()
+         (interactive)
+         (shell-command "offlineimap&" "*offlineimap*" nil))
+   
+       (defun start-offlineimap ()
+         (interactive)
+         (shell-command
+          "launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.offline-imap.plist")
+         (message "Offlineimap started"))
+   
+       (defun shutdown-offlineimap ()
+         (interactive)
+         (message "Stopping offlineimap...")
+         (set-process-sentinel
+          (start-process-shell-command
+           "*offlineimap*" "*offlineimap*"
+           "launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.offline-imap.plist")
+          (lambda (process event)
+            (when (string= event "finished\n")
+              (message "Stopping offlineimap...done")))))
+   
+   
+       (defun gnus-query (query)
+         (interactive "sMail Query: ")
+         (let ((nnir-imap-default-search-key "imap"))
+           (gnus-group-make-nnir-group
+            nil
+            `((query    . ,query)
+              (criteria . "")
+              (server   . "nnimap:Mail") ))))
+       
+       (bind-key "s-M-f" 'gnus-query)
+   
+       (defun gnus-goto-article (message-id)
+         (with-temp-buffer
+           (erase-buffer)
+           ;; Insert dummy article
+           (insert (format "From nobody Tue Sep 13 22:05:34 2011\n\n"))
+           (gnus-group-read-ephemeral-group
+            message-id
+            `(nndoc ,message-id
+                    (nndoc-address ,(current-buffer))
+                    (nndoc-article-type mbox))
+            :activate
+            (cons (current-buffer) gnus-current-window-configuration)
+            (not :request-only)
+            '(-1)                          ; :select-articles
+            (not :parameters)
+            0                              ; :number
+            )
+           (gnus-summary-refer-article message-id)
+                                           ;           (and (bound-and-true-p gnus-registry-enabled)
+                                           ;            (gnus-try-warping-via-registry))
+           ))
+   
+       (defun gnus-current-message-id ()
+         (with-current-buffer gnus-original-article-buffer
+           (nnheader-narrow-to-headers)
+           (message-fetch-field "message-id")))
+   
+       (defun gnus-open-article-in-apple-mail ()
+         (interactive)
+         (let ((message-id (gnus-current-message-id)))
+           (start-process (concat "open message:" message-id) nil
+                          "open" (concat "message://<"
+                                         (substring message-id 1 -1) ">"))))
+   
+       (defun gmail-report-spam ()
+         "Report the current or marked mails as spam.
+   This moves them into the Spam folder."
+         (interactive)
+         (gnus-summary-move-article nil "[Gmail].Spam"))
+   
+   
+       (use-package gnus-sum
+         :init
+         (progn
+           (bind-key "$" 'gmail-report-spam gnus-summary-mode-map)
+           (bind-key "<C-backspace>" 'gnus-summary-mark-as-expirable gnus-summary-mode-map)
+           (bind-key  "<S-backspace>" 'gnus-summary-expire-thread gnus-summary-mode-map)
+           (bind-key "O O" 'gnus-open-article-in-apple-mail gnus-summary-mode-map)
+           (bind-key "C-c C-o" 'gnus-article-browse-urls gnus-summary-mode-map)))
+   
+       (defadvice message-goto-from (after insert-boostpro-address activate)
+         (if (looking-back ": ")
+             (insert "Tony Day <tonyday567@gmail.com>"))
+         (goto-char (line-end-position))
+         (re-search-backward ": ")
+         (goto-char (match-end 0)))
+   
+       (setq my-smtpmailer-alist
+             '((".*"
+                ("tonyday567@gmail.com" . "smtp.gmail.com")
+                ("tony.day@scarcecapital.com" . "smtp.gmail.com"))
+               ))
+   
+       (defun my-set-smtp-server ()
+         (when (message-field-value "to")
+           (let* ((to-field (cadr (mail-extract-address-components
+                                   (message-field-value "to"))))
+                  (from (let ((field (message-field-value "from")))
+                          (and field (cadr (mail-extract-address-components field)))))
+                  (result
+                   (car (assoc-default (or from to-field)
+                                       my-smtpmailer-alist
+                                       'string-match
+                                       (cons user-mail-address
+                                             (if (boundp 'smtpmail-default-smtp-server)
+                                                 smtpmail-default-smtp-server
+                                               ""))))))
+             (if from
+                 (setq smtpmail-mail-address from
+                       mail-envelope-from from
+                       smtpmail-smtp-server (cdr result)
+                       smtpmail-smtp-service 587)
+               ;; set mailer address and port
+               (setq smtpmail-mail-address (car result)
+                     mail-envelope-from (car result)
+                     smtpmail-smtp-server (cdr result)
+                     smtpmail-smtp-service 587)
+               (message-remove-header "From")
+               (message-add-header
+                (format "From: %s <%s>" user-full-name (car result)))))))
+       
+       (add-hook 'message-send-hook 'my-set-smtp-server)
+       
+   ;;;_ + Determine layout of the summary windows
+       
+       (progn
+         (gnus-add-configuration
+          '(article
+            (horizontal 1.0
+                        (vertical 1.0
+                                  (group 10)
+                                  (summary 1.0 point))
+                        (vertical .5 (article 1.0)))))
+         
+         
+         (gnus-add-configuration
+          '(summary
+            (horizontal 1.0
+                        (vertical 1.0
+                                  (group 10)
+                                  (summary 1.0 point))
+                        (vertical .5 (article 1.0)))))
+         
+         (gnus-add-configuration
+          '(message
+            (horizontal 1.0
+                        (vertical 1.0
+                                  (group 10)
+                                  (summary 1.0))
+                        (vertical .5
+                                  (message 1.0 point)))))
+         
+         (gnus-add-configuration
+          '(reply
+            (horizontal 1.0
+                        (vertical 1.0
+                                  (group 10)
+                                  (summary 1.0))
+                        (vertical .5
+                                  (message 1.0 point)
+                                  (article .25)))))
+         
+         (gnus-add-configuration
+          '(reply-yank
+            (horizontal 1.0
+                        (vertical 1.0
+                                  (group 10)
+                                  (summary 1.0))
+                        (vertical .5
+                                  (message 1.0 point)))))
+         )
+       
+   ;;;_ + Cleanup all Gnus buffers on exit
+       
+       (defun exit-gnus-on-exit ()
+         (if (and (fboundp 'gnus-group-exit)
+                  (gnus-alive-p))
+             (with-current-buffer (get-buffer "*Group*")
+               (gnus-group-exit))))
+       
+       (add-hook 'kill-emacs-hook 'exit-gnus-on-exit)
+   
+   ;;;_ + Scoring
+   
+       (eval-when-compile
+         (defvar arg))
+       
+       (defun gnus-score-groups ()
+         (interactive)
+         (save-excursion
+           (dolist (info (cdr gnus-newsrc-alist))
+             ;; Only consider this group if it's at or below the current level
+             (when (<= (gnus-info-level info)
+                       (if (numberp arg)
+                           arg
+                         (or (gnus-group-default-level nil t)
+                             (gnus-group-default-list-level)
+                             gnus-level-subscribed)))
+               (let* ((group (gnus-info-group info))
+                      (unread (gnus-group-unread group)))
+                 (when (and (not (string-match "^\\(\\(nnimap\\+\\)?Mail:\\)?" group))
+                            (numberp unread) (> unread 0))
+                   (ignore-errors
+                     (gnus-summary-read-group group nil t))
+                   (when (and gnus-summary-buffer
+                              (buffer-live-p gnus-summary-buffer)
+                              (eq (current-buffer)
+                                  (get-buffer gnus-summary-buffer)))
+                     (gnus-summary-exit))))))))
+       
+   ;;;_ + Summary line formats
+       
+       (defun gnus-user-format-function-Z (header)
+         (let ((to (cdr (assq 'To (mail-header-extra header))))
+               (newsgroups (cdr (assq 'Newsgroups (mail-header-extra header))))
+               (mail-parse-charset gnus-newsgroup-charset)
+               (mail-parse-ignored-charsets
+                (with-current-buffer gnus-summary-buffer
+                  gnus-newsgroup-ignored-charsets)))
+           (cond
+            ((and to gnus-ignored-from-addresses
+                  (string-match gnus-ignored-from-addresses
+                                (mail-header-from header)))
+             (concat "-> "
+                     (or (car (funcall gnus-extract-address-components
+                                       (funcall
+                                        gnus-decode-encoded-word-function to)))
+                         (funcall gnus-decode-encoded-word-function to))))
+            ((and newsgroups gnus-ignored-from-addresses
+                  (string-match gnus-ignored-from-addresses
+                                (mail-header-from header)))
+             (concat "=> " newsgroups))
+            (t
+             (let* ((from (mail-header-from header))
+                    (data (condition-case nil
+                              (mail-extract-address-components from)
+                            (error nil)))
+                    (name (car data))
+                    (net (car (cdr data))))
+               (or name net))))))
+       
+       (defsubst dot-gnus-tos (time)
+         "Convert TIME to a floating point number."
+         (+ (* (car time) 65536.0)
+            (cadr time)
+            (/ (or (car (cdr (cdr time))) 0) 1000000.0)))
+       
+       (defun gnus-user-format-function-S (header)
+         "Return how much time it's been since something was sent."
+         (condition-case err
+             (let ((date (mail-header-date header)))
+               (if (> (length date) 0)
+                   (let* ((then (dot-gnus-tos
+                                 (apply 'encode-time (parse-time-string date))))
+                          (now (dot-gnus-tos (current-time)))
+                          (diff (- now then)))
+                     (cond ((>= diff (* 86400.0 7.0 52.0))
+                            (if (>= diff (* 86400.0 7.0 52.0 10.0))
+                                (format "%3dY" (floor (/ diff (* 86400.0 7.0 52.0))))
+                              (format "%3.1fY" (/ diff (* 86400.0 7.0 52.0)))))
+                           ((>= diff (* 86400.0 30.0))
+                            (if (>= diff (* 86400.0 30.0 10.0))
+                                (format "%3dM" (floor (/ diff (* 86400.0 30.0))))
+                              (format "%3.1fM" (/ diff (* 86400.0 30.0)))))
+                           ((>= diff (* 86400.0 7.0))
+                            (if (>= diff (* 86400.0 7.0 10.0))
+                                (format "%3dw" (floor (/ diff (* 86400.0 7.0))))
+                              (format "%3.1fw" (/ diff (* 86400.0 7.0)))))
+                           ((>= diff 86400.0)
+                            (if (>= diff (* 86400.0 10.0))
+                                (format "%3dd" (floor (/ diff 86400.0)))
+                              (format "%3.1fd" (/ diff 86400.0))))
+                           ((>= diff 3600.0)
+                            (if (>= diff (* 3600.0 10.0))
+                                (format "%3dh" (floor (/ diff 3600.0)))
+                              (format "%3.1fh" (/ diff 3600.0))))
+                           ((>= diff 60.0)
+                            (if (>= diff (* 60.0 10.0))
+                                (format "%3dm" (floor (/ diff 60.0)))
+                              (format "%3.1fm" (/ diff 60.0))))
+                           (t
+                            (format "%3ds" (floor diff)))))))
+           (error "    ")))
+       
+       (eval-when-compile
+         (defvar thread)
+         (defvar gnus-tmp-level))
+       
+       (defun gnus-user-format-function-t-johnw (header)
+         (let ((tcount (gnus-summary-number-of-articles-in-thread
+                        (and (boundp 'thread) (car thread)) gnus-tmp-level)))
+           (if (> tcount 1)
+               (number-to-string tcount)
+             " ")))
+       
+   ;;;_ + gnus-article-browse-urls
+       
+       (defun gnus-article-browse-urls ()
+         "Visit a URL from the `gnus-article-buffer' by prompting via a
+       poping up a buffer showing the list of URLs found with the
+       `gnus-button-url-regexp'."
+         (interactive)
+         (gnus-configure-windows 'article)
+         (gnus-summary-select-article nil nil 'pseudo)
+         (let ((temp-buffer (generate-new-buffer " *Article URLS*"))
+               (urls (gnus-article-get-current-urls))
+               (this-window (selected-window))
+               (browse-window (get-buffer-window gnus-article-buffer))
+               (count 0))
+           (save-excursion
+             (save-window-excursion
+               (set-buffer temp-buffer)
+               (mapc (lambda (string)
+                       (insert (format "\t%d: %s\n" count string))
+                       (setq count (1+ count))) urls)
+               (not-modified)
+               (pop-to-buffer temp-buffer)
+               (setq count
+                     (string-to-number
+                      (char-to-string (if (fboundp
+                                           'read-char-exclusive)
+                                          (read-char-exclusive)
+                                        (read-char)))))
+               (kill-buffer temp-buffer))
+             (if browse-window
+                 (progn (select-window browse-window)
+                        (browse-url (nth count urls)))))
+           (select-window this-window)))
+       
+       (defun gnus-article-get-current-urls ()
+         "Return a list of the urls found in the current `gnus-article-buffer'"
+         (let (url-list)
+           (with-current-buffer gnus-article-buffer
+             (setq url-list (gnus-article-get-urls-region (point-min) (point-max))))
+           url-list))
+       
+       (defun gnus-article-get-urls-region (min max)
+         "Return a list of urls found in the region between MIN and MAX"
+         (let (url-list)
+           (save-excursion
+             (save-restriction
+               (narrow-to-region min max)
+               (goto-char (point-min))
+               (while (re-search-forward gnus-button-url-regexp nil t)
+                 (let ((match-string (match-string-no-properties 0)))
+                   (if (and (not (equal (substring match-string 0 4) "file"))
+                            (not (member match-string url-list)))
+                       (setq url-list (cons match-string url-list)))))))
+           url-list))
+       
+       
+   ;;;_* keybindings
+       
+   ;;;_ + gnus-group-score
+       
+       (eval-after-load "gnus-group"
+         '(progn
+            (bind-key "s" 'gnus-score-groups gnus-group-score-map)
+            (bind-key "v o" 'start-offlineimap gnus-group-mode-map)))
+       
+       (eval-after-load "w3m"
+         '(bind-key "\C-m" 'w3m-view-url-with-external-browser w3m-minor-mode-map))
+       
+   ;;;_ + dave's stuff
+       
+       (defun dwa/gnus-summary-ignore-thread ()
+         (interactive)
+         (gnus-summary-top-thread)
+         (let ((message-id (gnus-summary-header "message-id")))
+           (dolist (hdr-type '(("references" . s) ("message-id" . e)))
+             (gnus-summary-score-entry
+              (car hdr-type)                       ; Header
+              (gnus-summary-header "message-id")   ; Match
+              (cdr hdr-type)                       ; Type
+              (- (gnus-score-delta-default nil))   ; Score
+              nil                                  ; Temp
+              nil                                  ; Prompt
+              nil                                  ; not silent
+              nil)))                               ; non-standard overview.
+         (gnus-summary-kill-thread))
+       (bind-key "i" 'dwa/gnus-summary-ignore-thread gnus-summary-mode-map)
+       
+       ;;
+       ;; Support proportional fonts in the summary and group buffers by inserting a forced alignment
+       ;;
+       ;; See http://news.gmane.org/find-root.php?message_id=%3cyoij63rj41q5.fsf%40remote5.student.chalmers.se%3e
+       (defvar my-align-gnus-summary (propertize " " 'display '(space :align-to 5)))
+       (defvar my-align-gnus-subject (propertize " " 'display '(space :align-to 30)))
+       
+       (defvar my-align-gnus-group (propertize " " 'display '(space :align-to 8)))
+       
+       
+       ;; Display word docs inline with antiword installed.  See
+       ;; http://www.emacswiki.org/emacs/MimeTypesWithGnus
+       (when nil
+         (require 'mm-view)
+         (add-to-list 'mm-inline-media-tests
+                      '("application/msword" mm-inline-text identity))
+         (add-to-list 'mm-automatic-external-display "application/msword")
+         (add-to-list 'mm-attachment-override-types "application/msword")
+         (add-to-list 'mm-automatic-display "application/msword"))
+       
+       (defun dwa/gnus-summary-first-unread-or-first-subject ()
+         "Place the point on the subject line of the first unseen article.
+   If all article have been seen, on the subject line of the last article."
+         (interactive)
+         (prog1
+             (unless
+                 (when (gnus-summary-first-subject t nil t)
+                   (gnus-summary-show-thread)
+                   (gnus-summary-first-subject t nil t))
+               (goto-char (point-min)))))
+       (setq gnus-auto-select-subject 'dwa/gnus-summary-first-unread-or-first-subject)
+       
+                                           ;(require 'gnus-spec)
+                                           ;(eval-when-compile (gnus-compile))
+       
+       (require 'gravatar nil 'noerror)
+       (require 'gnus-gravatar nil 'noerror)
+       (spam-initialize)
+       (bind-key "$" 'gnus-summary-mark-as-spam gnus-summary-mode-map)
+       (bind-key "v o" 'start-offlineimap gnus-summary-mode-map)
+       
+       
+       (defvar my-gnus-group-faces
+         '(
+           gnus-group-news-1
+           gnus-group-news-1-empty
+           gnus-group-news-2
+           gnus-group-news-2-empty
+           gnus-group-news-3
+           gnus-group-news-3-empty
+           gnus-group-news-4
+           gnus-group-news-4-empty
+           gnus-group-news-5
+           gnus-group-news-5-empty
+           gnus-group-news-6
+           gnus-group-news-6-empty
+           gnus-group-news-low
+           gnus-group-news-low-empty
+           gnus-group-mail-1
+           gnus-group-mail-1-empty
+           gnus-group-mail-2
+           gnus-group-mail-2-empty
+           gnus-group-mail-3
+           gnus-group-mail-3-empty
+           gnus-group-mail-low
+           gnus-group-mail-low-empty))
+       
+       (defvar my-gnus-summary-faces
+         '(
+           gnus-summary-selected
+           gnus-summary-cancelled
+           gnus-summary-high-ticked
+           gnus-summary-low-ticked
+           gnus-summary-normal-ticked
+           gnus-summary-high-ancient
+           gnus-summary-low-ancient
+           gnus-summary-normal-ancient
+           gnus-summary-high-undownloaded
+           gnus-summary-low-undownloaded
+           gnus-summary-normal-undownloaded
+           gnus-summary-high-unread
+           gnus-summary-low-unread
+           gnus-summary-normal-unread
+           gnus-summary-high-read
+           gnus-summary-low-read
+           gnus-summary-normal-read
+           gnus-summary-expirable-face))
+       
+                                           ;(defvar my-gnus-group-face-attributes '(:family "DejaVu Sans" :weight normal :width condensed))
+       (defvar my-gnus-summary-face-attributes '(:family "DejaVu Sans" :weight normal :width condensed))
+       
+                                           ;(dolist (facename my-gnus-group-faces)
+                                           ;  (apply 'set-face-attribute facename nil my-gnus-group-face-attributes))
+       (dolist (facename my-gnus-summary-faces)
+         (when (facep facename)
+           (apply 'set-face-attribute facename nil my-gnus-summary-face-attributes)))
+       
+       (defface gnus-summary-expirable-face
+         '((((class color) (background dark))
+            (:foreground "grey50" :italic t :strike-through t))
+           (((class color) (background light))
+            (:foreground "grey55" :italic t :strike-through t)))
+         "Face used to highlight articles marked as expirable."
+         :group 'gnus-summary-visual)
+       
+       ;; prettier summary buffers
+       (when window-system
+         (setq gnus-sum-thread-tree-indent "  ")                            ;; "  "
+         (setq gnus-sum-thread-tree-root "\u229e ")                         ;; "⊞ "
+         (setq gnus-sum-thread-tree-false-root "\u22a1 ")                   ;; "⊡ "
+         (setq gnus-sum-thread-tree-single-indent   " -  ")              ;; " -  "
+         (setq gnus-sum-thread-tree-vertical        " \u2502")              ;; " │"
+         (setq gnus-sum-thread-tree-leaf-with-other " \u251c\u2500 ")  ;; " ├─ "
+         (setq gnus-sum-thread-tree-single-leaf     " \u2570\u2500 ")) ;; " ╰─ "
+       
+       
+       ;; Make sure cited text has a light gray background, in case people
+       ;; forget to add a blank line after their citations.
+       (use-package gnus-cite)
+       
+       ;; Thanks to David Engster
+       ;; [[gnus:nntp%2Bnews.gmane.org:gmane.emacs.gnus.general#87vdnimyxd.fsf@randomsample.de][Posting on ding@gnus.org]]
+       (defun DE-collapse-group-names ()
+         (save-excursion
+           (let (previous-group current-group common-prefix
+                                common-dot-count prefix suffix)
+             (goto-char (point-min))
+             (while (not (eobp))
+               (when (setq current-group
+                           (get-text-property (point) 'gnus-group))
+                 (setq current-group (symbol-name current-group))
+                 (when (string-match "\\(.+\\):\\(.+\\)" current-group)
+                   (setq current-group (match-string 2 current-group)))
+                 (setq common-prefix (substring current-group 0
+                                                (mismatch previous-group current-group))
+                       common-dot-count (count ?. common-prefix)
+                       prefix (mapconcat (lambda (x) x)
+                                         (make-list common-dot-count "  .") "")
+                       suffix (and (string-match
+                                    (format "\\([^.]*[.]\\)\\{%d\\}\\(.+\\)" common-dot-count)
+                                    current-group)
+                                   (match-string 2 current-group))
+                       previous-group current-group)
+                 (unless (zerop (length prefix))
+                   (when (search-forward current-group (point-at-eol) t)
+                     (let ((props (text-properties-at (1- (point)))))
+                       (replace-match (apply 'propertize (concat prefix suffix)
+                                             props))))))
+               (forward-line 1)))))
+       
+       (add-hook 'gnus-group-prepare-hook 'DE-collapse-group-names)
+       (add-hook 'gnus-group-update-group-hook 'DE-collapse-group-names)
+       
+       ;; Queueing messages in Gnus (instead of Postfix) when
+       ;; disconnected:
+       
+       ;; uncomment to enable
+       ;; (add-hook 'message-send-hook 'queue-message-if-not-connected)
+       
+       (defun quickping (host)
+         (= 0 (call-process "/sbin/ping" nil nil nil "-c1" "-W50" "-q" host)))
+       
+       (defun queue-message-if-not-connected ()
+         (set (make-local-variable 'gnus-agent-queue-mail)
+              (if (quickping "smtp.gmail.com") t 'always)))
+       ;;
+       ;;
+       
+       ;; I like citations in email to be set off from the rest of the text
+       ;; by a slightly different background color.  This helps immeasurably
+       ;; when people forget to leave a blank line after citations.  see
+       ;; gnus-settings.el and wl-settings.el, where I inherit this face.
+       (defface dwa/mail-citation '((((class color)
+                                      (background dark))
+                                     (:background "#383838"))
+                                    (((class color)
+                                      (background light))
+                                     (:background "#efefef")))
+         "Mail citation base face.")))
+   
+ #+end_src
+
+*** orgstruct mode for mail
+:PROPERTIES:
+:tangle:   no
 :END:
 
 from org-mode.org
@@ -3873,6 +5054,16 @@ creating structured email messages.
 
 
 
+
+
+
+*** graphviz
+:PROPERTIES:
+:tangle:   no
+:END:
+   #+begin_src emacs-lisp 
+   (use-package graphviz-dot-mode)   
+  #+end_src
 *** grep
     :PROPERTIES:
     :tangle:   yes
@@ -4063,29 +5254,6 @@ creating structured email messages.
   (use-package hl-line+))
 
 #+end_src
-*** html gist
-
-#+begin_src emacs-lisp
-  (add-hook 'html-mode-hook
-          (lambda ()
-            (local-set-key (kbd "C-c v")
-                           (lambda () (interactive)
-                             (save-buffer)
-                             (shell-command (concat "html5check.py " (shell-quote-argument (buffer-file-name))))
-                             ))))
-#+end_src
-
-#+begin_src emacs-lisp
-  (defun check-html5 ()
-    (interactive)
-    (save-buffer)
-    (shell-command (concat "html5check.py " (shell-quote-argument (buffer-file-name)))))
-#+end_src
-
-#+results:
-: check-html5
-
-
 *** ido
     :PROPERTIES:
     :tangle:   yes
@@ -4176,6 +5344,34 @@ creating structured email messages.
 
 #+end_src
 
+
+*** iedit
+#+begin_src emacs-lisp
+  (use-package iedit
+:init (progn
+(defun iedit-dwim (arg)
+  "Starts iedit but uses \\[narrow-to-defun] to limit its scope."
+  (interactive "P")
+  (if arg
+      (iedit-mode)
+    (save-excursion
+      (save-restriction
+        (widen)
+        ;; this function determines the scope of `iedit-start'.
+        (narrow-to-defun)
+        (if iedit-mode
+            (iedit-done)
+          ;; `current-word' can of course be replaced by other
+          ;; functions.
+          (iedit-start (current-word)))))))
+
+(bind-key "H-;" 'iedit-dwim)
+)
+
+
+)
+
+#+end_src
 
 *** ielm
     :PROPERTIES:
@@ -4689,24 +5885,25 @@ creating structured email messages.
     :tangle:   yes
     :END:
 #+begin_src emacs-lisp
-  ;;;_ , magit
-  
-  (use-package magit
-    :bind ("C-x g" . magit-status)
-    :config
-    (progn
-      (setenv "GIT_PAGER" "")
-  
-      (add-hook 'magit-log-edit-mode-hook
-                #'(lambda ()
-                    (set-fill-column 72)
-                    (flyspell-mode)))
-  
-      (use-package magit-topgit)
-      (use-package rebase-mode)
-      (use-package magithub)
-      (use-package org-magit)))
-  
+    ;;;_ , magit
+    
+    (use-package magit
+      :bind ("C-x g" . magit-status)
+      :defer t
+      :config
+      (progn
+        (setenv "GIT_PAGER" "")
+    
+        (add-hook 'magit-log-edit-mode-hook
+                  #'(lambda ()
+                      (set-fill-column 72)
+                      (flyspell-mode)))
+    
+        (use-package magit-topgit)
+        (use-package rebase-mode)
+        (use-package magithub)
+        (use-package org-magit)))
+    
 #+end_src
 
 #+name: git-repos
@@ -5020,38 +6217,94 @@ http://lucindo.com.br/lisp/milki/markdown.html
     :tangle:   yes
     :END:
 #+begin_src emacs-lisp
-;;;_ , o-blog
-
-(use-package o-blog
-  :commands (o-blog-publish
-             o-blog-tangle-publish-and-view)
-  :config
-  (progn
-    (defvar o-blog-local-site "~/Sites/dev")
-    (defvar o-blog-out-dir "out")
-    (defvar o-blog-local-url-index "http://127.0.0.1/~tonyday/dev/index.html")
-
-    (defun o-blog-publish ()
-      (interactive)
-      "publish blog locally"
-      (org-publish-blog buffer-file-name)
-      (if (file-exists-p o-blog-local-site)
-          (delete-directory o-blog-local-site t))
-      (copy-directory 
-       (format "%s%s" default-directory o-blog-out-dir) o-blog-local-site))
-
-    (defun o-blog-tangle-publish-and-view ()
-      (interactive)
-      "tangle template  and style files in current buffer, publish blog locally
-and view local index.html url"
-      (org-babel-tangle-file buffer-file-name)
-      (o-blog-publish)
-      (browse-url o-blog-local-url-index)))
-
-  :bind (("C-c C-v ," . o-blog-publish)
-         ("C-c C-v ." . o-blog-tangle-publish-and-view)))
-
+  ;;;_ , o-blog
+  
+  (use-package o-blog
+    :commands (o-blog-publish
+               o-blog-tangle-publish-and-view)
+    :config
+    (progn
+      (defvar o-blog-local-site "~/Sites/dev")
+      (defvar o-blog-out-dir "out")
+      (defvar o-blog-local-url-index "http://127.0.0.1/~tonyday/dev/index.html")
+      (defvar github-site-dir "~/git/tonyday567.github.com")
+  
+      (defun o-blog-publish ()
+        (interactive)
+        "publish blog locally"
+        (org-publish-blog buffer-file-name)
+        (if (file-exists-p o-blog-local-site)
+            (delete-directory o-blog-local-site t))
+        (if (file-exists-p (format "%s/%s" default-directory "assets/ico/favicon.ico"))
+           (copy-file (format "%s/%s" default-directory "assets/ico/favicon.ico")
+                      (format "%s%s/%s" default-directory o-blog-out-dir "favicon.ico") t))
+        (copy-directory 
+         (format "%s%s" default-directory o-blog-out-dir) o-blog-local-site))
+  
+      (defun o-blog-tangle-publish-and-view ()
+        (interactive)
+        "tangle template  and style files in current buffer, publish blog locally
+  and view local index.html url"
+        (org-babel-tangle-file buffer-file-name)
+        (o-blog-publish)
+        (browse-url o-blog-local-url-index))
+  
+      (defun o-blog-tangle-and-publish ()
+        (interactive)
+        "tangle template  and style files in current buffer, publish blog locally
+  and view local index.html url"
+        (org-babel-tangle-file buffer-file-name)
+        (o-blog-publish))
+    
+      (defun o-blog-tangle-publish-push ()
+        (interactive)
+        "tangle, publish blog locally, then push to github"
+        (org-babel-tangle-file buffer-file-name)
+        (o-blog-publish)
+        (copy-directory 
+         (format "%s%s" default-directory o-blog-out-dir)
+         github-site-dir nil t t)
+        (eshell-command "cd ~/git/tonyday567.github.com")
+        (eshell-command "git commit -a -m \"automated commit\"")
+        (eshell-command "git push origin master"))
+      
+      (defun ob-get-posts-by-property (BLOG PROP VAL)
+        "Returns a list of valid posts with the property PROP equal to VAL"
+        (with-current-buffer (ob:blog-buffer BLOG)
+          
+          (let ((headings nil))
+            (org-map-entries
+             `(if (and
+                   (string= "DONE" (org-entry-get (point) "TODO"))
+                   (string= VAL (org-entry-get (point) PROP)))
+                  (setq headings (cons (org-get-heading t t) headings)))
+             t
+             'file)        
+            (ob:get-posts
+             (lambda (x)
+               (cl-some
+                (lambda (z)
+                  (string= z (ob:post-title x)))
+                headings))
+             4))))
+      
+      (defun ob-get-post-by-title (POSTS TITLE)
+        "Returns a valid post with the title TITLE or null"
+        (let ((POST-LIST POSTS)) 
+          (while (and POSTS
+                      (not (string= (ob:post-title (car POST-LIST)) TITLE)))
+            (setq POST-LIST (cdr POST-LIST)))
+          (car POST-LIST))))
+    
+    
+    :bind (("C-c C-v ," . o-blog-publish)
+           ("C-c C-v ." . o-blog-tangle-publish-and-view)
+           ("C-c C-v /" . o-blog-tangle-and-publish)
+           ("C-c C-v SPC" . o-blog-tangle-publish-push)))
 #+end_src
+
+#+results:
+: t
 
 *** org-mode
 :PROPERTIES:
@@ -5153,8 +6406,7 @@ quickly changing ordering.
 | stuff    | quant     | quaff.org                  |               |
 | stuff    | quant     | moments.org                |               |
 | stuff    | quant     | da.org                     |               |
-| stuff    | site      | site-build.org             |               |
-| stuff    | site      | sitedev.org                |               |
+| stuff    | site      | site-dev.org               |               |
 | stuff    | sys       | sys.org                    |               |
 | projects | fgr       | fgr.org                    |               |
 | projects | opoker    | opoker.org                 |               |
@@ -5178,7 +6430,7 @@ quickly changing ordering.
   #+end_src
 
   #+results:
-  | ~/.emacs.d/README.org | ~/.emacs.d/dotemacs.org | ~/git/acme/acme.org | ~/git/o-blog/example/oblog-min.org | ~/stuff/stuff.org | ~/stuff/biz/scarce.org | ~/stuff/content/allocation_final.org | ~/stuff/content/life.org | ~/stuff/content/writing.org | ~/stuff/content/ideas.org | ~/stuff/content/tail-material.org | ~/stuff/content/grob.org | ~/stuff/dev/alice.org | ~/stuff/dev/webdev.org | ~/stuff/dev/sandpit/sandpit.org | ~/stuff/dev/dot.org | ~/stuff/dev/beamer.org | ~/stuff/emacs/emacs.org | ~/stuff/emacs/bindings.org | ~/stuff/factor/factor.org | ~/stuff/org/refile.org | ~/stuff/org/bugz.org | ~/stuff/org/snipz.org | ~/stuff/org/org.org | ~/stuff/quant/rdev.org | ~/stuff/quant/volatility.org | ~/stuff/quant/strategy_run_annotated.org | ~/stuff/quant/strategy_run_default.org | ~/stuff/quant/momentum.org | ~/stuff/quant/mom-report.org | ~/stuff/quant/jgb.org | ~/stuff/quant/data.org | ~/stuff/quant/quaff.org | ~/stuff/quant/moments.org | ~/stuff/quant/da.org | ~/stuff/site/site-build.org | ~/stuff/site/sitedev.org | ~/stuff/sys/sys.org | ~/projects/fgr/fgr.org | ~/projects/opoker/opoker.org | ~/projects/alice/alice.org | ~/projects/metaalice/metaalice.org |
+  | ~/.emacs.d/README.org | ~/.emacs.d/dotemacs.org | ~/git/acme/acme.org | ~/git/o-blog/example/oblog-min.org | ~/stuff/stuff.org | ~/stuff/biz/scarce.org | ~/stuff/content/allocation_final.org | ~/stuff/content/life.org | ~/stuff/content/writing.org | ~/stuff/content/ideas.org | ~/stuff/content/tail-material.org | ~/stuff/content/grob.org | ~/stuff/dev/alice.org | ~/stuff/dev/webdev.org | ~/stuff/dev/sandpit/sandpit.org | ~/stuff/dev/dot.org | ~/stuff/dev/beamer.org | ~/stuff/emacs/emacs.org | ~/stuff/emacs/bindings.org | ~/stuff/factor/factor.org | ~/stuff/org/refile.org | ~/stuff/org/bugz.org | ~/stuff/org/snipz.org | ~/stuff/org/org.org | ~/stuff/quant/rdev.org | ~/stuff/quant/volatility.org | ~/stuff/quant/strategy_run_annotated.org | ~/stuff/quant/strategy_run_default.org | ~/stuff/quant/momentum.org | ~/stuff/quant/mom-report.org | ~/stuff/quant/jgb.org | ~/stuff/quant/data.org | ~/stuff/quant/quaff.org | ~/stuff/quant/moments.org | ~/stuff/quant/da.org | ~/stuff/site/site-dev.org | ~/stuff/sys/sys.org | ~/projects/fgr/fgr.org | ~/projects/opoker/opoker.org | ~/projects/alice/alice.org | ~/projects/metaalice/metaalice.org |
 
 **** other stuff
 ***** tags
@@ -5218,7 +6470,6 @@ quickly changing ordering.
 ***** packages
 
   #+begin_src emacs-lisp
-  (use-package org-magit)
   (use-package org-habit)
   (use-package org-colview)
   (use-package org-special-blocks)
@@ -5325,10 +6576,13 @@ quickly changing ordering.
     
 #+end_src
 
-***** update diary
+***** update-calender
 #+begin_src emacs-lisp
-  (setq diary-file "~/Documents/diary")
-  (org-mac-iCal)
+  (defun update-calender ()
+    (setq diary-file "~/Documents/diary")
+    (org-mac-iCal))
+  
+  (bind-key "H-c" 'update-calender)  
 #+end_src
 
 #+results:
@@ -5356,10 +6610,8 @@ shoving the binds in binds so I can see where everything is
 | <f7>      | bh/set-truncate-lines                             |
 | <f8>      | org-cycle-agenda-files                            |
 | <f9> <f9> | bh/show-org-agenda                                |
-| <f9> b    | bbdb                                              |
 | <f9> c    | calendar                                          |
 | <f9> f    | boxquote-insert-file                              |
-| <f9> g    | gnus                                              |
 | <f9> h    | bh/hide-other                                     |
 | <f9> n    | org-narrow-to-subtree                             |
 | <f9> w    | widen                                             |
@@ -5621,11 +6873,11 @@ jwiegley org setup
 ;;;_ , quickrun
 
 (use-package quickrun
-  :bind ("C-c C-r" . quickrun))
+  :bind* ("C-c C-r" . quickrun))
 
 #+end_src
 *** recentf
-    :PROPERTIES:
+:PROPERTIES:
     :tangle:   yes
     :END:
 #+begin_src emacs-lisp
@@ -5635,6 +6887,7 @@ jwiegley org setup
   :if (not noninteractive)
   :init
   (progn
+    (setq recentf-save-file  "~/.emacs.d/data/recentf")
     (recentf-mode 1)
 
     (defun recentf-add-dired-directory ()
@@ -6090,8 +7343,29 @@ jwiegley org setup
 :PROPERTIES:
 :tangle:   yes
 :END:
+
+Manually tyype this to get sudo in ido-find-file:
+
+/sudo:root@localhost:/
+
 #+begin_src emacs-lisp
-  (use-package tramp)
+    (use-package tramp
+  :init (progn
+          (defun find-alternative-file-with-sudo ()
+            (interactive)
+            (let ((fname (or buffer-file-name
+                             dired-directory)))
+              (when fname
+                (if (string-match "^/sudo:root@localhost:" fname)
+                    (setq fname (replace-regexp-in-string
+                                 "^/sudo:root@localhost:" ""
+                                 fname))
+                  (setq fname (concat "/sudo:root@localhost:" fname)))
+                (find-alternate-file fname)))))
+  
+  :bind  (("H-t" . find-alternative-file-with-sudo))
+  
+  )
 #+end_src
 
 *** twitter
@@ -6100,7 +7374,8 @@ jwiegley org setup
 :END:
 #+begin_src emacs-lisp
   (use-package twittering-mode
-   :init (setq twittering-use-master-password t))
+:defer t
+   :config (setq twittering-use-master-password t))
 #+end_src
 
 
@@ -6447,82 +7722,73 @@ jwiegley org setup
 #+end_src
 
 *** yasnippet
-    :PROPERTIES:
-    :tangle:   yes
-    :END:
-#+begin_src emacs-lisp
-;;;_ , yasnippet
-
-(use-package yasnippet
-  :if (not noninteractive)
-  :commands (yas/minor-mode yas/expand)
-  :diminish yas/minor-mode
-  :mode ("/\\.emacs\\.d/snippets/" . snippet-mode)
-  :init
-  (hook-into-modes #'(lambda () (yas/minor-mode 1))
-                   '(prog-mode-hook
-                     org-mode-hook
-                     ruby-mode-hook
-                     message-mode-hook
-                     gud-mode-hook
-                     erc-mode-hook))
-  :config
-  (progn
-    (yas/initialize)
-    (yas/load-directory (expand-file-name "snippets/" user-emacs-directory))
-
-    (bind-key "<tab>" 'yas/next-field-or-maybe-expand yas/keymap)
-
-    (defun yas/new-snippet (&optional choose-instead-of-guess)
-      (interactive "P")
-      (let ((guessed-directories (yas/guess-snippet-directories)))
-        (switch-to-buffer "*new snippet*")
-        (erase-buffer)
-        (kill-all-local-variables)
-        (snippet-mode)
-        (set (make-local-variable 'yas/guessed-modes)
-             (mapcar #'(lambda (d)
-                         (intern (yas/table-name (car d))))
-                     guessed-directories))
-        (unless (and choose-instead-of-guess
-                     (not (y-or-n-p "Insert a snippet with useful headers? ")))
-          (yas/expand-snippet "\
-  # -*- mode: snippet -*-
-  # name: $1
-  # --
-  $0"))))
-    (defvar ctl-c-y-map)
-    (define-prefix-command 'ctl-c-y-map)
-    (bind-key "C-c y" 'ctl-c-y-map)
-    (bind-key "C-c y TAB" 'yas/expand)
-    (bind-key "C-c y n" 'yas/new-snippet)
-    (bind-key "C-c y f" 'yas/find-snippets)
-    (bind-key "C-c y r" 'yas/reload-all)
-    (bind-key "C-c y v" 'yas/visit-snippet-file)))
-
-#+end_src
+:PROPERTIES:
+:tangle:  yes
+:END:
 
 #+begin_src emacs-lisp
-  (eval-when-compile
-  (defvar yas/trigger-key)
-  (defvar yas/keymap)
-
-  (autoload 'yas/expand "yasnippet"))
-
-(defun yas/org-very-safe-expand ()
-  (let ((yas/fallback-behavior 'return-nil)) (yas/expand)))
-
-(add-hook 'org-mode-hook
-          (lambda ()
-            (require 'yasnippet)
-            (set (make-local-variable 'yas/trigger-key) [tab])
-            (add-to-list 'org-tab-first-hook 'yas/org-very-safe-expand)
-            (define-key yas/keymap [tab] 'yas/next-field-or-maybe-expand)))
+  ;;;_ , yasnippet
+  
+  (use-package yasnippet
+    :if (not noninteractive)
+    :commands (yas-minor-mode
+               yas-expand
+               yas-trigger-key
+               yas-org-very-safe-expand
+               yas-next-field-or-maybe-expand)
+    :diminish yas-minor-mode
+    :mode ("/\\.emacs\\.d/snippets/" . snippet-mode)
+    :init
+    (progn
+      ;;(yas-global-mode t)
+      (defun yas-org-very-safe-expand ()
+        (let ((yas-fallback-behavior 'return-nil)) (yas-expand)))
+      
+      (hook-into-modes #'(lambda () (yas-minor-mode 1))
+       '(prog-mode-hook
+         org-mode-hook
+         ruby-mode-hook
+         message-mode-hook
+         gud-mode-hook
+         erc-mode-hook))
+      (add-hook 'org-mode-hook
+                (lambda ()
+                  (set (make-local-variable 'yas-trigger-key) [tab])
+                  (add-to-list 'org-tab-first-hook 'yas-org-very-safe-expand))))
+    :config
+    (progn
+      (yas-load-directory (expand-file-name "snippets/" user-emacs-directory))
+  
+      (bind-key "<tab>" 'yas-next-field-or-maybe-expand yas-keymap)
+  
+      (defun yas-new-snippet (&optional choose-instead-of-guess)
+        (interactive "P")
+        (let ((guessed-directories (yas-guess-snippet-directories)))
+          (switch-to-buffer "*new snippet*")
+          (erase-buffer)
+          (kill-all-local-variables)
+          (snippet-mode)
+          (set (make-local-variable 'yas-guessed-modes)
+               (mapcar #'(lambda (d)
+                           (intern (yas-table-name (car d))))
+                       guessed-directories))
+          (unless (and choose-instead-of-guess
+                       (not (y-or-n-p "Insert a snippet with useful headers? ")))
+            (yas-expand-snippet "\
+    # -*- mode: snippet -*-
+    # name: $1
+    # --
+    $0"))))
+      (defvar ctl-c-y-map)
+      (define-prefix-command 'ctl-c-y-map)
+      (bind-key "C-c y" 'ctl-c-y-map)
+      (bind-key "C-c y TAB" 'yas-expand)
+      (bind-key "C-c y n" 'yas-new-snippet)
+      (bind-key "C-c y f" 'yas-find-snippets)
+      (bind-key "C-c y r" 'yas-reload-all)
+      (bind-key "C-c y v" 'yas-visit-snippet-file)))
+  
 #+end_src
-
-
-
-
 
 *** yaoddmuse
 :PROPERTIES:
@@ -6637,6 +7903,7 @@ settings.
 #+begin_src emacs-lisp
 (setq custom-file (expand-file-name "settings.el" user-emacs-directory))
 (load custom-file)
+;(load "raw-settings.el")
 #+end_src
 
 ** Post initialization
@@ -6733,7 +8000,7 @@ Other sites
                :test #'string=))))))
 #+end_src
 
-*** current startup bugz
+*** current startup bugz and readings
 **** flet
 `flet' is an obsolete macro (as of 24.3); use either `cl-flet' or `cl-letf'. [3 times]
 **** babel insisting on messaging tangled
@@ -6748,25 +8015,43 @@ Unsafe call to `eieio-persistent-read'.
 **** org-modifier
 org-modifier-cursor-error: This command is active in special context like tables, headlines or items
 
-** transparency
+**** CTags
+Exuberant CTags not found.  Found ectags that comes with Emacs
+
+**** DONE slow packages
+CLOSED: [2012-12-28 Fri 23:57]
+:LOGBOOK:
+- State "DONE"       from "NEXT"       [2012-12-28 Fri 23:57]
+CLOCK: [2012-12-28 Fri 20:29]--[2012-12-28 Fri 23:50] =>  3:21
+:END:
+Configuring package gnus...done (1.473s)
+Loading package bbdb-gnus...done (0.905s)
+Loading package org-magit...done (0.996s)
+Configuring package erc...done (0.419s)
+Loading package erc-yank...done (0.374s)
+Loading /Users/tonyday/.emacs.d/dotemacs.el...done (10.830s) [after-init]
+
+**** yas load messages
+[yas] Loading compiled snippets from /Users/tonyday/.emacs.d/snippets/org-mode
+[yas] Prepared just-in-time loading for /Users/tonyday/git/jwiegley-dot-emacs/site-lisp/yasnippet/snippets
+[yas] Prepared just-in-time loading for ~/.emacs.d/snippets
+[yas] Reloaded everything (snippets will load just-in-time)....
 
 
+
+
+** development area
+:PROPERTIES:
+:tangle:   no
+:END:
+
+*** html5check hook
 #+begin_src emacs-lisp
- (set-frame-parameter nil 'alpha 100)
+  (add-hook 'html-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-c v")
+                           (lambda () (interactive)
+                             (save-buffer)
+                             (shell-command (concat "html5check.py " (shell-quote-argument (buffer-file-name))))
+                             ))))
 #+end_src
-
-#+results:
-
-#+begin_src emacs-lisp
-   (defun set-transparency (alpha-level)
-      (interactive "p")
-      (message (format "Alpha level passed in: %s" alpha-level))
-      (let ((alpha-level (if (&lt; alpha-level 2)
-				(read-number "Opacity percentage: " 85)
-				alpha-level))
-				(myalpha (frame-parameter nil 'alpha)))
-				(set-frame-parameter nil 'alpha alpha-level))
-				(message (format "Alpha level is %d" (frame-parameter nil 'alpha))))
-
-#+end_src
-

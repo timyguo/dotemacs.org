@@ -4577,7 +4577,6 @@ These are my settings for habit tracking.
 (setq org-modules (quote (org-bbdb
                           org-bibtex
                           org-crypt
-                          org-gnus
                           org-id
                           org-info
                           org-jsinfo
