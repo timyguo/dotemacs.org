@@ -1,12 +1,22 @@
 ## misc
+/site-lisp
 places
 bookmarks
+var
+url
+tmp
+rnc
+eshell
+elpa
+ede-projects.el
+data
+ac-comphist.dat
+abbrev-defs
+.org-id-locations
 #*
 #.*
-.org-id-locations
-abbrev_defs
 org-clock-save.el
-
+*~
 rnc
 rnc/*
 semanticdb
@@ -36,3 +46,5 @@ url/*
 /var/pcache/gh/gh-gist-api/tonyday567
 /dotemacs.org~
 /secret.el.gpg
+/abbrev_defs
+/overides/yasnippet

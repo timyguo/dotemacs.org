@@ -16,3 +16,6 @@ Stuff
 * elisp: (/Users/tonyday/Downloads/elisp.info/elisp).    elisp
 * cedet: (/Users/tonyday/.emacs.d/site-lisp/cedet/doc/info/dir). cedet
 * tramp: (/Users/tonyday/.emacs.d/site-lisp/tramp/info/tramp). tramp
+* auctex: (/Users/tonyday/.emacs.d/site-lisp/auctex/doc/auctex). auctex
+* preview-latex: (/Users/tonyday/.emacs.d/site-lisp/auctex/doc/preview-latex). preview-latex
+

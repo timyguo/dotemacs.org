@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: source block sh 
+# --
+#+begin_src sh
+`yas-selected-text`$0
+#+end_src

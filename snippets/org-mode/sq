@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: sq
+# --
+#+begin_quote
+`yas/selected-text`$0
+#+end_quote
+

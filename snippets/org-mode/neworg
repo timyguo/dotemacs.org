@@ -1,0 +1,30 @@
+# -*- mode: snippet -*-
+# name: new org field
+# --
+#+TITLE: $1
+#+OPTIONS: toc:2 num:nil ^:nil
+
+* incoming
+** New Project Checklist
+
+$0- [ ] C-c C-x C-i
+- [ ] fill in project status 
+- [ ] get on agenda
+  [[file:~/.emacs.d/dotemacs.org::*agenda-files][agenda-files]]
+- [ ] setup git
+  [[file:~/.emacs.d/dotemacs.org::*magit][magit]]
+- [ ] transfers from other org projects
+- [ ] task checklist
+- [ ] transfer innovations to snippet
+- [ ] delete this list
+
+** Tasks
+
+* clipboard
+
+
+
+
+
+
+

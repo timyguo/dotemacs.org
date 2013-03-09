@@ -160,8 +160,9 @@ standard emacs packages to do stuff.
   #+begin_src emacs-lisp
     (load "org-macs")
     (setq debug-on-error t)
-  (locate-library "yasnippet")
+  (locate-library "font-latex")
   (locate-file "yasnippet.el" load-path)
+  (locate-library "auctex-autoloads")
   #+end_src
 
 
@@ -220,7 +221,7 @@ to the load-path. Can be absolute or relative to user-emacs-directory")
 #+end_src
 
 #+results:
-| elpa | site-lisp/cedet | repos/jwiegley/site-lisp/ac | repos/jwiegley/lisp | repos/jwiegley/override | repos/jwiegley/site-lisp | site-lisp |
+| site-lisp/ac | site-lisp/jwiegley-lisp | site-lisp/cedet | site-lisp | elpa/auctex-11.86 | elpa | overides |
 
 *** load path table
 
@@ -265,319 +266,6 @@ variable, or you can just C-c C-c the block in org-mode after the event.
                collect
                (list f)))
 #+end_src
-
-#+results:
-| /Users/tonyday/.emacs.d/site-lisp/cedet/lisp/speedbar                                                                     |
-| /Users/tonyday/.emacs.d/site-lisp/cedet/lisp/eieio                                                                        |
-| /Users/tonyday/.emacs.d/site-lisp/cedet/lisp/cedet                                                                        |
-| /Users/tonyday/.emacs.d/site-lisp/cedet/                                                                                  |
-| ~/.emacs.d/site-lisp/gnus/contrib                                                                                         |
-| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/ac/                                                                      |
-| /Users/tonyday/.emacs.d/repos/jwiegley/site-lisp/ac/auto-complete/                                                        |
-| /repos/jwiegley/site-lisp/auctex/preview/                                                                                 |
-| /Users/tonyday/git/jwiegley/site-lisp/yasnippet                                                                           |
-| /Users/tonyday/.emacs.d                                                                                                   |
-| /Users/tonyday/.emacs.d/elpa/ess-20121027.2218/lisp                                                                       |
-| /Users/tonyday/.emacs.d/site-lisp/org-mode/contrib/lisp                                                                   |
-| /Users/tonyday/.emacs.d/overides                                                                                          |
-| /Users/tonyday/.emacs.d/elpa/anti-zenburn-theme-20121111.21                                                               |
-| /Users/tonyday/.emacs.d/elpa/anything-1.287                                                                               |
-| /Users/tonyday/.emacs.d/elpa/archives                                                                                     |
-| /Users/tonyday/.emacs.d/elpa/auctex-11.86                                                                                 |
-| /Users/tonyday/.emacs.d/elpa/bbdb-20120923.1954                                                                           |
-| /Users/tonyday/.emacs.d/elpa/bitlbee-20080417.2032                                                                        |
-| /Users/tonyday/.emacs.d/elpa/caml-20121015.1250                                                                           |
-| /Users/tonyday/.emacs.d/elpa/clojure-mode-1.11.5                                                                          |
-| /Users/tonyday/.emacs.d/elpa/color-theme-20080305.834                                                                     |
-| /Users/tonyday/.emacs.d/elpa/color-theme-github-0.0.3                                                                     |
-| /Users/tonyday/.emacs.d/elpa/csv-mode-20091203.1911                                                                       |
-| /Users/tonyday/.emacs.d/elpa/csv-nav-20091121.37                                                                          |
-| /Users/tonyday/.emacs.d/elpa/elisp-slime-nav-0.3                                                                          |
-| /Users/tonyday/.emacs.d/elpa/erlang-20120831.1448                                                                         |
-| /Users/tonyday/.emacs.d/elpa/ess-20121027.2218                                                                            |
-| /Users/tonyday/.emacs.d/elpa/expand-region-20121118.1703                                                                  |
-| /Users/tonyday/.emacs.d/elpa/find-file-in-project-3.2                                                                     |
-| /Users/tonyday/.emacs.d/elpa/gh-20120927.1646                                                                             |
-| /Users/tonyday/.emacs.d/elpa/ghc-1.10.2                                                                                   |
-| /Users/tonyday/.emacs.d/elpa/gist-20120916.1845                                                                           |
-| /Users/tonyday/.emacs.d/elpa/github-theme-0.0.3                                                                           |
-| /Users/tonyday/.emacs.d/elpa/graphviz-dot-mode-20120821.1835                                                              |
-| /Users/tonyday/.emacs.d/elpa/haskell-mode-2.8.0                                                                           |
-| /Users/tonyday/.emacs.d/elpa/helm-20121208.1538                                                                           |
-| /Users/tonyday/.emacs.d/elpa/helm-themes-20121020.2316                                                                    |
-| /Users/tonyday/.emacs.d/elpa/htmlize-1.39                                                                                 |
-| /Users/tonyday/.emacs.d/elpa/ido-ubiquitous-1.6                                                                           |
-| /Users/tonyday/.emacs.d/elpa/js-comint-0.0.1                                                                              |
-| /Users/tonyday/.emacs.d/elpa/js2-mode-20090814                                                                            |
-| /Users/tonyday/.emacs.d/elpa/json-1.2                                                                                     |
-| /Users/tonyday/.emacs.d/elpa/keyfreq-20110312.1017                                                                        |
-| /Users/tonyday/.emacs.d/elpa/logito-20120225.2155                                                                         |
-| /Users/tonyday/.emacs.d/elpa/magit-1.2.0                                                                                  |
-| /Users/tonyday/.emacs.d/elpa/magithub-0.2                                                                                 |
-| /Users/tonyday/.emacs.d/elpa/markdown-mode+-20120829.710                                                                  |
-| /Users/tonyday/.emacs.d/elpa/markdown-mode-20121007.2146                                                                  |
-| /Users/tonyday/.emacs.d/elpa/oauth-20120302.922                                                                           |
-| /Users/tonyday/.emacs.d/elpa/offlineimap-0.1                                                                              |
-| /Users/tonyday/.emacs.d/elpa/paredit-22                                                                                   |
-| /Users/tonyday/.emacs.d/elpa/pcache-20120408.1206                                                                         |
-| /Users/tonyday/.emacs.d/elpa/r-autoyas-0.28                                                                               |
-| /Users/tonyday/.emacs.d/elpa/slime-20100404.1                                                                             |
-| /Users/tonyday/.emacs.d/elpa/smex-2.0                                                                                     |
-| /Users/tonyday/.emacs.d/elpa/tidy-20111222.1756                                                                           |
-| /Users/tonyday/.emacs.d/elpa/tuareg-20121015.914                                                                          |
-| /Users/tonyday/.emacs.d/elpa/tumblesocks-20120912.955                                                                     |
-| /Users/tonyday/.emacs.d/elpa/undo-tree-20121124.2207                                                                      |
-| /Users/tonyday/.emacs.d/elpa/w3m-20121018.121                                                                             |
-| /Users/tonyday/.emacs.d/elpa/xml-rpc-1.6.8                                                                                |
-| /Users/tonyday/.emacs.d/elpa/yaml-mode-0.0.7                                                                              |
-| /Users/tonyday/.emacs.d/elpa/yasnippet-0.8.0                                                                              |
-| /Users/tonyday/.emacs.d/elpa/yasnippet-bundle-0.6.1                                                                       |
-| /Users/tonyday/.emacs.d/elpa/zenburn-theme-1.5                                                                            |
-| /Users/tonyday/.emacs.d/elpa                                                                                              |
-| /Users/tonyday/.emacs.d/site-lisp/ac                                                                                      |
-| /Users/tonyday/.emacs.d/site-lisp/ace-jump-mode                                                                           |
-| /Users/tonyday/.emacs.d/site-lisp/agda-mode                                                                               |
-| /Users/tonyday/.emacs.d/site-lisp/allout.el                                                                               |
-| /Users/tonyday/.emacs.d/site-lisp/apl.el                                                                                  |
-| /Users/tonyday/.emacs.d/site-lisp/archive-region.el                                                                       |
-| /Users/tonyday/.emacs.d/site-lisp/artbollocks                                                                             |
-| /Users/tonyday/.emacs.d/site-lisp/ascii.el                                                                                |
-| /Users/tonyday/.emacs.d/site-lisp/asynk                                                                                   |
-| /Users/tonyday/.emacs.d/site-lisp/auctex                                                                                  |
-| /Users/tonyday/.emacs.d/site-lisp/auto-overlays                                                                           |
-| /Users/tonyday/.emacs.d/site-lisp/autopair                                                                                |
-| /Users/tonyday/.emacs.d/site-lisp/backup-each-save.el                                                                     |
-| /Users/tonyday/.emacs.d/site-lisp/bbdb                                                                                    |
-| /Users/tonyday/.emacs.d/site-lisp/bbdb-vcard                                                                              |
-| /Users/tonyday/.emacs.d/site-lisp/bbdb-vcard-export.el                                                                    |
-| /Users/tonyday/.emacs.d/site-lisp/bbdb-vcard-import.el                                                                    |
-| /Users/tonyday/.emacs.d/site-lisp/bm                                                                                      |
-| /Users/tonyday/.emacs.d/site-lisp/bookmark-plus                                                                           |
-| /Users/tonyday/.emacs.d/site-lisp/boxquote                                                                                |
-| /Users/tonyday/.emacs.d/site-lisp/browse-kill-ring+.el                                                                    |
-| /Users/tonyday/.emacs.d/site-lisp/browse-kill-ring.el                                                                     |
-| /Users/tonyday/.emacs.d/site-lisp/bytecomp-simplify.el                                                                    |
-| /Users/tonyday/.emacs.d/site-lisp/cdlatex.el                                                                              |
-| /Users/tonyday/.emacs.d/site-lisp/cedet                                                                                   |
-| /Users/tonyday/.emacs.d/site-lisp/cldoc.el                                                                                |
-| /Users/tonyday/.emacs.d/site-lisp/cmake-mode.el                                                                           |
-| /Users/tonyday/.emacs.d/site-lisp/col-highlight.el                                                                        |
-| /Users/tonyday/.emacs.d/site-lisp/color-moccur.el                                                                         |
-| /Users/tonyday/.emacs.d/site-lisp/command-log-mode                                                                        |
-| /Users/tonyday/.emacs.d/site-lisp/cpputils-cmake                                                                          |
-| /Users/tonyday/.emacs.d/site-lisp/crosshairs.el                                                                           |
-| /Users/tonyday/.emacs.d/site-lisp/css-mode.el                                                                             |
-| /Users/tonyday/.emacs.d/site-lisp/csv-mode.el                                                                             |
-| /Users/tonyday/.emacs.d/site-lisp/cursor-chg.el                                                                           |
-| /Users/tonyday/.emacs.d/site-lisp/debbugs                                                                                 |
-| /Users/tonyday/.emacs.d/site-lisp/dedicated.el                                                                            |
-| /Users/tonyday/.emacs.d/site-lisp/deft                                                                                    |
-| /Users/tonyday/.emacs.d/site-lisp/diff-mode-.el                                                                           |
-| /Users/tonyday/.emacs.d/site-lisp/diminish.el                                                                             |
-| /Users/tonyday/.emacs.d/site-lisp/dircmp.el                                                                               |
-| /Users/tonyday/.emacs.d/site-lisp/dired-details.el                                                                        |
-| /Users/tonyday/.emacs.d/site-lisp/dired-sort-map.el                                                                       |
-| /Users/tonyday/.emacs.d/site-lisp/dired-sync                                                                              |
-| /Users/tonyday/.emacs.d/site-lisp/doxymacs                                                                                |
-| /Users/tonyday/.emacs.d/site-lisp/dvc                                                                                     |
-| /Users/tonyday/.emacs.d/site-lisp/ediff-util.el                                                                           |
-| /Users/tonyday/.emacs.d/site-lisp/edit-env.el                                                                             |
-| /Users/tonyday/.emacs.d/site-lisp/edit-server.el                                                                          |
-| /Users/tonyday/.emacs.d/site-lisp/edit-var.el                                                                             |
-| /Users/tonyday/.emacs.d/site-lisp/el-get                                                                                  |
-| /Users/tonyday/.emacs.d/site-lisp/el-mock                                                                                 |
-| /Users/tonyday/.emacs.d/site-lisp/eldoc-extension.el                                                                      |
-| /Users/tonyday/.emacs.d/site-lisp/elisp-depend                                                                            |
-| /Users/tonyday/.emacs.d/site-lisp/elisp-slime-nav                                                                         |
-| /Users/tonyday/.emacs.d/site-lisp/elnode                                                                                  |
-| /Users/tonyday/.emacs.d/site-lisp/emacs-cmake-project                                                                     |
-| /Users/tonyday/.emacs.d/site-lisp/emacs-edbi                                                                              |
-| /Users/tonyday/.emacs.d/site-lisp/emacs-quickrun                                                                          |
-| /Users/tonyday/.emacs.d/site-lisp/emacs-w3m                                                                               |
-| /Users/tonyday/.emacs.d/site-lisp/emms                                                                                    |
-| /Users/tonyday/.emacs.d/site-lisp/erc-highlight-nicknames.el                                                              |
-| /Users/tonyday/.emacs.d/site-lisp/ess                                                                                     |
-| /Users/tonyday/.emacs.d/site-lisp/eval-expr                                                                               |
-| /Users/tonyday/.emacs.d/site-lisp/fdb.el                                                                                  |
-| /Users/tonyday/.emacs.d/site-lisp/fetchmail-mode.el                                                                       |
-| /Users/tonyday/.emacs.d/site-lisp/flymake-html-validator                                                                  |
-| /Users/tonyday/.emacs.d/site-lisp/flyspell-lazy.el                                                                        |
-| /Users/tonyday/.emacs.d/site-lisp/fold-dwim.el                                                                            |
-| /Users/tonyday/.emacs.d/site-lisp/ghc-mod                                                                                 |
-| /Users/tonyday/.emacs.d/site-lisp/gist                                                                                    |
-| /Users/tonyday/.emacs.d/site-lisp/git-commit-mode                                                                         |
-| /Users/tonyday/.emacs.d/site-lisp/gnus                                                                                    |
-| /Users/tonyday/.emacs.d/site-lisp/gnus-alias.el                                                                           |
-| /Users/tonyday/.emacs.d/site-lisp/gnus-hardsort.el                                                                        |
-| /Users/tonyday/.emacs.d/site-lisp/graphviz-dot-mode.el                                                                    |
-| /Users/tonyday/.emacs.d/site-lisp/grep-ed.el                                                                              |
-| /Users/tonyday/.emacs.d/site-lisp/gtags.el                                                                                |
-| /Users/tonyday/.emacs.d/site-lisp/gud.el                                                                                  |
-| /Users/tonyday/.emacs.d/site-lisp/guess-style.el                                                                          |
-| /Users/tonyday/.emacs.d/site-lisp/haskell-mode                                                                            |
-| /Users/tonyday/.emacs.d/site-lisp/helm                                                                                    |
-| /Users/tonyday/.emacs.d/site-lisp/helm-descbinds                                                                          |
-| /Users/tonyday/.emacs.d/site-lisp/helm-gtags.el                                                                           |
-| /Users/tonyday/.emacs.d/site-lisp/hide-region.el                                                                          |
-| /Users/tonyday/.emacs.d/site-lisp/hide-search.el                                                                          |
-| /Users/tonyday/.emacs.d/site-lisp/highlight-cl.el                                                                         |
-| /Users/tonyday/.emacs.d/site-lisp/highlight-cl.elc                                                                        |
-| /Users/tonyday/.emacs.d/site-lisp/highlight-parentheses.el                                                                |
-| /Users/tonyday/.emacs.d/site-lisp/hl-line+.el                                                                             |
-| /Users/tonyday/.emacs.d/site-lisp/hpaste                                                                                  |
-| /Users/tonyday/.emacs.d/site-lisp/hs-lint.el                                                                              |
-| /Users/tonyday/.emacs.d/site-lisp/html5-el                                                                                |
-| /Users/tonyday/.emacs.d/site-lisp/ido-hacks                                                                               |
-| /Users/tonyday/.emacs.d/site-lisp/ido.el                                                                                  |
-| /Users/tonyday/.emacs.d/site-lisp/iflipb.el                                                                               |
-| /Users/tonyday/.emacs.d/site-lisp/indirect.el                                                                             |
-| /Users/tonyday/.emacs.d/site-lisp/info+.el                                                                                |
-| /Users/tonyday/.emacs.d/site-lisp/info-lookmore                                                                           |
-| /Users/tonyday/.emacs.d/site-lisp/ipa-el                                                                                  |
-| /Users/tonyday/.emacs.d/site-lisp/irfc.el                                                                                 |
-| /Users/tonyday/.emacs.d/site-lisp/js2-mode                                                                                |
-| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp                                                                           |
-| /Users/tonyday/.emacs.d/site-lisp/less-css-mode                                                                           |
-| /Users/tonyday/.emacs.d/site-lisp/linum.el                                                                                |
-| /Users/tonyday/.emacs.d/site-lisp/llvm-mode.el                                                                            |
-| /Users/tonyday/.emacs.d/site-lisp/log4j-mode.el                                                                           |
-| /Users/tonyday/.emacs.d/site-lisp/lua-mode                                                                                |
-| /Users/tonyday/.emacs.d/site-lisp/lusty-emacs                                                                             |
-| /Users/tonyday/.emacs.d/site-lisp/macrostep                                                                               |
-| /Users/tonyday/.emacs.d/site-lisp/magit                                                                                   |
-| /Users/tonyday/.emacs.d/site-lisp/markdown-mode                                                                           |
-| /Users/tonyday/.emacs.d/site-lisp/melpa                                                                                   |
-| /Users/tonyday/.emacs.d/site-lisp/memory-usage.el                                                                         |
-| /Users/tonyday/.emacs.d/site-lisp/message-x.el                                                                            |
-| /Users/tonyday/.emacs.d/site-lisp/mic-paren.el                                                                            |
-| /Users/tonyday/.emacs.d/site-lisp/minimap.el                                                                              |
-| /Users/tonyday/.emacs.d/site-lisp/moccur-edit.el                                                                          |
-| /Users/tonyday/.emacs.d/site-lisp/modeline-posn.el                                                                        |
-| /Users/tonyday/.emacs.d/site-lisp/mudel.el                                                                                |
-| /Users/tonyday/.emacs.d/site-lisp/multi-eshell.el                                                                         |
-| /Users/tonyday/.emacs.d/site-lisp/multi-term.el                                                                           |
-| /Users/tonyday/.emacs.d/site-lisp/narrow-stack.el                                                                         |
-| /Users/tonyday/.emacs.d/site-lisp/nf-procmail-mode.el                                                                     |
-| /Users/tonyday/.emacs.d/site-lisp/nxhtml                                                                                  |
-| /Users/tonyday/.emacs.d/site-lisp/o-blog                                                                                  |
-| /Users/tonyday/.emacs.d/site-lisp/one-key.el                                                                              |
-| /Users/tonyday/.emacs.d/site-lisp/org-magit                                                                               |
-| /Users/tonyday/.emacs.d/site-lisp/org-merge-driver                                                                        |
-| /Users/tonyday/.emacs.d/site-lisp/org-mode                                                                                |
-| /Users/tonyday/.emacs.d/site-lisp/pabbrev.el                                                                              |
-| /Users/tonyday/.emacs.d/site-lisp/pandoc-mode                                                                             |
-| /Users/tonyday/.emacs.d/site-lisp/paredit.el                                                                              |
-| /Users/tonyday/.emacs.d/site-lisp/parenface.el                                                                            |
-| /Users/tonyday/.emacs.d/site-lisp/per-window-point.el                                                                     |
-| /Users/tonyday/.emacs.d/site-lisp/persistent-soft                                                                         |
-| /Users/tonyday/.emacs.d/site-lisp/php-mode-improved.el                                                                    |
-| /Users/tonyday/.emacs.d/site-lisp/po-mode.el                                                                              |
-| /Users/tonyday/.emacs.d/site-lisp/popup-ruler.el                                                                          |
-| /Users/tonyday/.emacs.d/site-lisp/pos-tip.el                                                                              |
-| /Users/tonyday/.emacs.d/site-lisp/pp-c-l.el                                                                               |
-| /Users/tonyday/.emacs.d/site-lisp/proofgeneral                                                                            |
-| /Users/tonyday/.emacs.d/site-lisp/psvn.el                                                                                 |
-| /Users/tonyday/.emacs.d/site-lisp/puppet-mode.el                                                                          |
-| /Users/tonyday/.emacs.d/site-lisp/python-mode                                                                             |
-| /Users/tonyday/.emacs.d/site-lisp/redshank.el                                                                             |
-| /Users/tonyday/.emacs.d/site-lisp/regexp-dsl.el                                                                           |
-| /Users/tonyday/.emacs.d/site-lisp/repeat-insert.el                                                                        |
-| /Users/tonyday/.emacs.d/site-lisp/rs-gnus-summary.el                                                                      |
-| /Users/tonyday/.emacs.d/site-lisp/rs-info.el                                                                              |
-| /Users/tonyday/.emacs.d/site-lisp/ruby-mode                                                                               |
-| /Users/tonyday/.emacs.d/site-lisp/runner.el                                                                               |
-| /Users/tonyday/.emacs.d/site-lisp/selectkey.el                                                                            |
-| /Users/tonyday/.emacs.d/site-lisp/session                                                                                 |
-| /Users/tonyday/.emacs.d/site-lisp/shortlist.el                                                                            |
-| /Users/tonyday/.emacs.d/site-lisp/slime                                                                                   |
-| /Users/tonyday/.emacs.d/site-lisp/smart-compile.el                                                                        |
-| /Users/tonyday/.emacs.d/site-lisp/stopwatch.el                                                                            |
-| /Users/tonyday/.emacs.d/site-lisp/sublime.el                                                                              |
-| /Users/tonyday/.emacs.d/site-lisp/sunrise-commander                                                                       |
-| /Users/tonyday/.emacs.d/site-lisp/supercite.el                                                                            |
-| /Users/tonyday/.emacs.d/site-lisp/swank-js                                                                                |
-| /Users/tonyday/.emacs.d/site-lisp/tablegen-mode.el                                                                        |
-| /Users/tonyday/.emacs.d/site-lisp/tail.el                                                                                 |
-| /Users/tonyday/.emacs.d/site-lisp/tidy.el                                                                                 |
-| /Users/tonyday/.emacs.d/site-lisp/tramp                                                                                   |
-| /Users/tonyday/.emacs.d/site-lisp/transpar.el                                                                             |
-| /Users/tonyday/.emacs.d/site-lisp/twittering-mode                                                                         |
-| /Users/tonyday/.emacs.d/site-lisp/unicode-enbox.el                                                                        |
-| /Users/tonyday/.emacs.d/site-lisp/unicode-helper.el                                                                       |
-| /Users/tonyday/.emacs.d/site-lisp/unicode-whitespace.el                                                                   |
-| /Users/tonyday/.emacs.d/site-lisp/unify-buffer.el                                                                         |
-| /Users/tonyday/.emacs.d/site-lisp/use-package                                                                             |
-| /Users/tonyday/.emacs.d/site-lisp/validators                                                                              |
-| /Users/tonyday/.emacs.d/site-lisp/vkill.el                                                                                |
-| /Users/tonyday/.emacs.d/site-lisp/vline.el                                                                                |
-| /Users/tonyday/.emacs.d/site-lisp/volatile-highlights.el                                                                  |
-| /Users/tonyday/.emacs.d/site-lisp/w3m-type-ahead.el                                                                       |
-| /Users/tonyday/.emacs.d/site-lisp/wcount.el                                                                               |
-| /Users/tonyday/.emacs.d/site-lisp/weblogger.el                                                                            |
-| /Users/tonyday/.emacs.d/site-lisp/workgroups                                                                              |
-| /Users/tonyday/.emacs.d/site-lisp/wrap-region                                                                             |
-| /Users/tonyday/.emacs.d/site-lisp/wtf.el                                                                                  |
-| /Users/tonyday/.emacs.d/site-lisp/xray.el                                                                                 |
-| /Users/tonyday/.emacs.d/site-lisp/yaml-mode                                                                               |
-| /Users/tonyday/.emacs.d/site-lisp/yaoddmuse.el                                                                            |
-| /Users/tonyday/.emacs.d/site-lisp/yari-with-buttons                                                                       |
-| /Users/tonyday/.emacs.d/site-lisp/zencoding-mode                                                                          |
-| /Users/tonyday/.emacs.d/site-lisp                                                                                         |
-| /Users/tonyday/.emacs.d/site-lisp/cedet/.bzr                                                                              |
-| /Users/tonyday/.emacs.d/site-lisp/cedet/contrib                                                                           |
-| /Users/tonyday/.emacs.d/site-lisp/cedet/doc                                                                               |
-| /Users/tonyday/.emacs.d/site-lisp/cedet/etc                                                                               |
-| /Users/tonyday/.emacs.d/site-lisp/cedet/lisp                                                                              |
-| /Users/tonyday/.emacs.d/site-lisp/cedet/obsolete                                                                          |
-| /Users/tonyday/.emacs.d/site-lisp/cedet/testprojects                                                                      |
-| /Users/tonyday/.emacs.d/site-lisp/cedet/tests                                                                             |
-| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/alert                                                                     |
-| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/bind-key                                                                  |
-| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/chess                                                                     |
-| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/emacs-async                                                               |
-| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/emacs-edg                                                                 |
-| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/erc-yank                                                                  |
-| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/git-annex-el                                                              |
-| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/gnus-harvest                                                              |
-| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/haskell-config                                                            |
-| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/initsplit                                                                 |
-| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/muse                                                                      |
-| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/planner                                                                   |
-| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/regex-tool                                                                |
-| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/springboard                                                               |
-| /Users/tonyday/.emacs.d/site-lisp/jwiegley-lisp/use-package                                                               |
-| /Users/tonyday/.emacs.d/site-lisp/ac/ac-source-elisp                                                                      |
-| /Users/tonyday/.emacs.d/site-lisp/ac/ac-source-semantic                                                                   |
-| /Users/tonyday/.emacs.d/site-lisp/ac/ac-yasnippet                                                                         |
-| /Users/tonyday/.emacs.d/site-lisp/ac/auto-complete                                                                        |
-| /Users/tonyday/.emacs.d/site-lisp/ac/fuzzy-el                                                                             |
-| /Users/tonyday/.emacs.d/site-lisp/ac/popup-el                                                                             |
-| /Users/tonyday/.emacs.d/site-lisp/org-mode/lisp                                                                           |
-| /Users/david/src/emacs-dev/emacs-bzr/build-2012-10-24/nextstep/Emacs.app/Contents/Resources/share/emacs/24.2.50/site-lisp |
-| /Users/david/src/emacs-dev/emacs-bzr/build-2012-10-24/nextstep/Emacs.app/Contents/Resources/share/emacs/site-lisp         |
-| /Applications/Emacs241012.app/Contents/Resources/site-lisp                                                                |
-| /Applications/Emacs241012.app/Contents/Resources/lisp                                                                     |
-| /Applications/Emacs241012.app/Contents/Resources/lisp/vc                                                                  |
-| /Applications/Emacs241012.app/Contents/Resources/lisp/url                                                                 |
-| /Applications/Emacs241012.app/Contents/Resources/lisp/textmodes                                                           |
-| /Applications/Emacs241012.app/Contents/Resources/lisp/progmodes                                                           |
-| /Applications/Emacs241012.app/Contents/Resources/lisp/play                                                                |
-| /Applications/Emacs241012.app/Contents/Resources/lisp/org                                                                 |
-| /Applications/Emacs241012.app/Contents/Resources/lisp/nxml                                                                |
-| /Applications/Emacs241012.app/Contents/Resources/lisp/net                                                                 |
-| /Applications/Emacs241012.app/Contents/Resources/lisp/mh-e                                                                |
-| /Applications/Emacs241012.app/Contents/Resources/lisp/mail                                                                |
-| /Applications/Emacs241012.app/Contents/Resources/lisp/language                                                            |
-| /Applications/Emacs241012.app/Contents/Resources/lisp/international                                                       |
-| /Applications/Emacs241012.app/Contents/Resources/lisp/gnus                                                                |
-| /Applications/Emacs241012.app/Contents/Resources/lisp/eshell                                                              |
-| /Applications/Emacs241012.app/Contents/Resources/lisp/erc                                                                 |
-| /Applications/Emacs241012.app/Contents/Resources/lisp/emulation                                                           |
-| /Applications/Emacs241012.app/Contents/Resources/lisp/emacs-lisp                                                          |
-| /Applications/Emacs241012.app/Contents/Resources/lisp/calendar                                                            |
-| /Applications/Emacs241012.app/Contents/Resources/lisp/calc                                                                |
-| /Applications/Emacs241012.app/Contents/Resources/lisp/obsolete                                                            |
-| /Applications/Emacs241012.app/Contents/Resources/leim                                                                     |
 
 #+begin_src emacs-lisp
   (list-load-path-shadows "helm")
@@ -1626,7 +1314,6 @@ I set this in customization
 #+end_src
 
 
-
 * packages
 :PROPERTIES:
 :tangle:   no
@@ -1770,52 +1457,164 @@ I set this in customization
 :tangle:   yes
 :END:
 #+begin_src emacs-lisp
-;;;_ , auctex
+  ;;;_ , auctex
+  
+  (use-package tex-site
+    :load-path "/Users/tonyday/.emacs.d/site-lisp/auctex/"
+    :defines (latex-help-cmd-alist
+              latex-help-file)
+    ;; jww (2012-06-15): Do I want to use AucTeX for texinfo-mode?
+    :mode ("\\.tex\\'" . latex-mode)
+    :config
+    (progn
+      (defun latex-help-get-cmd-alist () ;corrected version:
+        "Scoop up the commands in the index of the latex info manual.
+     The values are saved in `latex-help-cmd-alist' for speed."
+        ;; mm, does it contain any cached entries
+        (if (not (assoc "\\begin" latex-help-cmd-alist))
+            (save-window-excursion
+              (setq latex-help-cmd-alist nil)
+              (Info-goto-node (concat latex-help-file "Command Index"))
+              (goto-char (point-max))
+              (while (re-search-backward "^\\* \\(.+\\): *\\(.+\\)\\." nil t)
+                (let ((key (buffer-substring (match-beginning 1) (match-end 1)))
+                      (value (buffer-substring (match-beginning 2)
+                                               (match-end 2))))
+                  (add-to-list 'latex-help-cmd-alist (cons key value))))))
+        latex-help-cmd-alist)
+  
+      (use-package latex-mode
+        :config
+        (info-lookup-add-help :mode 'latex-mode
+                              :regexp ".*"
+                              :parse-rule "\\\\?[a-zA-Z]+\\|\\\\[^a-zA-Z]"
+                              :doc-spec '(("(latex2e)Concept Index" )
+                                          ("(latex2e)Command Index"))))
+  
+  
+    (use-package org-latex)
+  (add-to-list 
+   'org-export-latex-classes
+   '("scarce-org-article"
+     "\\documentclass[12pt]{article}
+      % miscellaneous and unknown uses
+      \\usepackage{amssymb}
+      \\usepackage{graphicx}
+      \\usepackage{hyperref} 
+      \\usepackage[parfill]{parskip}
+      \\usepackage{paralist}
+  
+      % font specifications
+      \\usepackage[T1]{fontenc}
+      \\usepackage{fontspec,xunicode}
+      \\defaultfontfeatures{Mapping=tex-text} 
+      \\setromanfont[Mapping=tex-text]{Droid Sans} 
+      \\setsansfont[Scale=MatchLowercase,Mapping=tex-text]{Droid Serif} 
+      \\setmonofont[Scale=MatchLowercase]{Droid Sans Mono}
+  
+      % geometry
+      \\usepackage{geometry}
+      \\geometry{a4paper, textwidth=6.5in, textheight=10in,
+      marginparsep=7pt, marginparwidth=.6in}
+      \\pagestyle{empty}
+      \\title{}
+  
+      % color
+      \\usepackage{color}
+      %\\definecolor{greytext}{rgb}{0.6,0.6,0.6}
+      %\\definecolor{greyline}{rgb}{0.8,0.8,0.8}
+      \\definecolor{greytext}{gray}{0.3}
+      \\definecolor{greyline}{gray}{0.8}
+      
+      \\renewcommand{\\labelitemi}{
+      \\color{greytext}\\scalebox{1}{$-$}}
 
-(use-package tex-site
-  :load-path "/repos/jwiegley/site-lisp/auctex/preview/"
-  :defines (latex-help-cmd-alist
-            latex-help-file)
-  ;; jww (2012-06-15): Do I want to use AucTeX for texinfo-mode?
-  :mode ("\\.tex\\'" . latex-mode)
-  :config
-  (progn
-    (defun latex-help-get-cmd-alist () ;corrected version:
-      "Scoop up the commands in the index of the latex info manual.
-   The values are saved in `latex-help-cmd-alist' for speed."
-      ;; mm, does it contain any cached entries
-      (if (not (assoc "\\begin" latex-help-cmd-alist))
-          (save-window-excursion
-            (setq latex-help-cmd-alist nil)
-            (Info-goto-node (concat latex-help-file "Command Index"))
-            (goto-char (point-max))
-            (while (re-search-backward "^\\* \\(.+\\): *\\(.+\\)\\." nil t)
-              (let ((key (buffer-substring (match-beginning 1) (match-end 1)))
-                    (value (buffer-substring (match-beginning 2)
-                                             (match-end 2))))
-                (add-to-list 'latex-help-cmd-alist (cons key value))))))
-      latex-help-cmd-alist)
+      % custom maketitle
+      \\makeatletter
+      \\renewcommand{\\@maketitle}{
+      \\null
+      \\vskip 0em%
+      \\begin{flushleft}%
+      {\\fontfamily{\\sfdefault}\\selectfont 
+      {\\LARGE \\@title \\par}%
+      \\vskip 1em
+      {\\@date \\par}
+      }
+      \\end{flushleft}%
+      \\par} 
+      \\makeatother
 
-    (use-package latex-mode
-      :config
-      (info-lookup-add-help :mode 'latex-mode
-                            :regexp ".*"
-                            :parse-rule "\\\\?[a-zA-Z]+\\|\\\\[^a-zA-Z]"
-                            :doc-spec '(("(latex2e)Concept Index" )
-                                        ("(latex2e)Command Index"))))))
+      % style
+      \\usepackage{enumitem}
+      \\setitemize[0]{leftmargin=*}
+      % \\usepackage[none]{hyphenat}%%%%
+      % \\usepackage[document]{ragged2e}
 
+      \\usepackage{transparent}
+      
+      % a fancy header
+      \\usepackage{fancyhdr}
+      %\\renewcommand{\\headheight}{0.6in}
+      \\setlength{\\headheight}{1.6cm}
+      \\setlength{\\headwidth}{\\textwidth}
+      \\renewcommand{\\headrulewidth}{2pt}
+      \\renewcommand{\\headrule}{\\hbox to\\headwidth{%
+      \\color{greyline}\\leaders\\hrule height \\headrulewidth\\hfill}}
+
+      \\fancypagestyle{plain}{
+      \\fancyhead[R]{}% empty left
+      \\fancyhead[L]{ % right
+      \\includegraphics[height=1cm]{logo-grey.pdf}
+      }
+      \\fancyfoot[C]{}
+      %\\fancyhf{}
+      }
+
+      % end spec lines.  The rest is org generated
+  
+      [NO-DEFAULT-PACKAGES]
+      [NO-PACKAGES]"
+     (" \\section{%s}" . "\\section*{%s}")
+     (" \\subsection{%s}" . "\\subsection*{%s}")
+     (" \\subsubsection{%s}" . "\\subsubsection*{%s}")
+     (" \\paragraph{%s}" . "\\paragraph*{%s}")
+     (" \\subparagraph{%s}" . "\\subparagraph*{%s}")))
+(add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)))
+  
 #+end_src
 
-**** random notes
+#+results:
+: t
+
+**** NEXT tex development
+:LOGBOOK:
+CLOCK: [2013-02-24 Sun 21:13]--[2013-02-25 Mon 16:57] => 19:44
+:END:
 :PROPERTIES:
 :tangle:   no
 :END:
 Some random old-school instructions
 
+- best config
+  - auctex-autoloads???
+  - tex-site???
+  - fix bug
+  - reload helm
+
+
 #+begin_src emacs-lisp
   (load "auctex.el" nil t t)
   (load "preview-latex.el" nil t t)
 #+end_src
+
+This gives you latex-mode
+#+begin_src emacs-lisp
+ (use-package latex)
+  (use-package preview)
+(use-package auctex-autoloads)
+(use-package url)
+#+end_src
+
 
 
 *** auto-complete
@@ -2264,7 +2063,16 @@ Based on dwa version which is mostly ott.
                   :include-path '("/include"
                                   "../../gtest-1.5.0/include/gtest"
                                  )
-                  :system-include-path '("/usr/include/c++/4.2.1"))))))
+                  :system-include-path '("/usr/include/c++/4.2.1"))))
+(when (file-exists-p "~/projects/opoker/CMakeLists.txt")
+  (setq iqtest-project
+  (ede-cpp-root-project "iqtest"
+                  :name "iqfeed initial test"
+                  :file "~/projects/iqfeed/CMakeLists.txt"
+                  :include-path '("/include"
+                                 )
+                  :system-include-path '("/usr/include/c++/4.2.1"))))
+))
   
   
   
@@ -2996,7 +2804,6 @@ CLOCK: [2012-12-21 Fri 14:10]--[2012-12-22 Sat 14:07] => 23:57
 #+end_src
 
 
-**** [[http://rachid.koucha.free.fr/tech_corner/cmake_manual.html][How to use cmake]]
 *** cmake-mode
 :PROPERTIES:
 :tangle:   yes
@@ -5184,9 +4991,9 @@ creating structured email messages.
 
 #+end_src
 *** helm
-    :PROPERTIES:
-    :tangle:   yes
-    :END:
+:PROPERTIES:
+:tangle:   yes
+:END:
 #+begin_src emacs-lisp
 ;;;_ , helm
 
@@ -5217,6 +5024,10 @@ creating structured email messages.
   (helm-match-plugin-mode t))
 
 #+end_src
+
+#+results:
+: t
+
 *** hi-lock
     :PROPERTIES:
     :tangle:   yes
@@ -5445,8 +5256,9 @@ creating structured email messages.
 
 **** getting info directories right
 #+TBLNAME: info-dirs
-| /Users/tonyday/.emacs.d/info                   |
-| /usr/share/info/                               |
+| /Users/tonyday/.emacs.d/info |
+| /usr/share/info/             |
+| ~/.emacs.d/site-lisp/auctex/doc      |
 
   #+begin_src emacs-lisp :var table=info-dirs
      (setq clean-table
@@ -5457,6 +5269,9 @@ creating structured email messages.
     (setq Info-default-directory-list (apply #'append clean-table))
     (setq Info-directory-list Info-default-directory-list)
   #+end_src
+
+  #+results:
+  | /Users/tonyday/.emacs.d/info | /usr/share/info/ | ~/.emacs.d/site-lisp/auctex/doc |
 
 **** checks
 #+begin_src emacs-lisp :tangle no
@@ -6263,30 +6078,27 @@ http://lucindo.com.br/lisp/milki/markdown.html
         (o-blog-publish)
         (copy-directory 
          (format "%s%s" default-directory o-blog-out-dir)
-         github-site-dir nil t t)
-        (eshell-command "cd ~/git/tonyday567.github.com")
-        (eshell-command "git commit -a -m \"automated commit\"")
-        (eshell-command "git push origin master"))
+         github-site-dir nil t t))
       
-      (defun ob-get-posts-by-property (BLOG PROP VAL)
-        "Returns a list of valid posts with the property PROP equal to VAL"
-        (with-current-buffer (ob:blog-buffer BLOG)
-          
-          (let ((headings nil))
-            (org-map-entries
-             `(if (and
-                   (string= "DONE" (org-entry-get (point) "TODO"))
-                   (string= VAL (org-entry-get (point) PROP)))
-                  (setq headings (cons (org-get-heading t t) headings)))
-             t
-             'file)        
-            (ob:get-posts
-             (lambda (x)
-               (cl-some
-                (lambda (z)
-                  (string= z (ob:post-title x)))
-                headings))
-             4))))
+          (defun ob-get-posts-by-property (BLOG PROP VAL)
+          "Returns a list of valid posts with the property PROP equal to VAL"
+          (with-current-buffer (ob:blog-buffer BLOG)
+            
+            (let ((headings nil))
+              (org-map-entries
+               `(if (string= VAL (org-entry-get (point) PROP))
+                    (setq headings (cons (org-get-heading t t) headings)))
+               t
+               'file)
+              (setq headings (delq nil headings))
+              (ob:get-posts
+               (lambda (x)
+                 (cl-some
+                  (lambda (z)
+                    (string= z (ob:post-title x)))
+                  headings))
+               4))))
+
       
       (defun ob-get-post-by-title (POSTS TITLE)
         "Returns a valid post with the title TITLE or null"
@@ -6366,6 +6178,11 @@ I organise org-capture parameters by using org tables:
 #+end_src
 
 **** agenda-files
+:PROPERTIES:
+:tangle:   no
+:END:
+
+Moved to the default agenda files control via custom.
 
 Using tables as well for agenda files is very useful, especially for
 quickly changing ordering.
@@ -7903,7 +7720,6 @@ settings.
 #+begin_src emacs-lisp
 (setq custom-file (expand-file-name "settings.el" user-emacs-directory))
 (load custom-file)
-;(load "raw-settings.el")
 #+end_src
 
 ** Post initialization
@@ -8054,4 +7870,17 @@ Loading /Users/tonyday/.emacs.d/dotemacs.el...done (10.830s) [after-init]
                              (save-buffer)
                              (shell-command (concat "html5check.py " (shell-quote-argument (buffer-file-name))))
                              ))))
+#+end_src
+** automated git
+
+#+begin_src sh
+#!/bin/sh
+REPO="tonyday567.github.com"
+
+echo "Repository: $REPO"
+cd ~/git/$REPO
+# Remove deleted files
+git ls-files --deleted -z
+git add .
+git commit -m "automatic commit"
 #+end_src

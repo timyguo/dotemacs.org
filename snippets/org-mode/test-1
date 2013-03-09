@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: sbet
+# key: sbet
+# expand-env: ((yas/indent-line 'fixed) (yas/wrap-around-region t))
+# --
+#+begin_src emacs-lisp :tangle no
+  $0
+#+end_src

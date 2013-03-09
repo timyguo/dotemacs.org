@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: sc
+# --
+#+begin_src css
+`yas-selected-text`$0
+#+end_src

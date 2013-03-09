@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: remove-result
+# --
+#\+results:\(.\|
+\)*?\(
+\(\s-*?
+\)\|\(^\*\)\)

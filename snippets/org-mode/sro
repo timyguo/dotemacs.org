@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: sro
+# --
+#+begin_src R :results output
+`yas-selected-text`$0
+#+end_src
