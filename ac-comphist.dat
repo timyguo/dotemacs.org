@@ -1,1 +1,104 @@
-(nil)
+((("logon" .
+   [2 0 0 0 0])
+  ("conLogin" .
+   [1 0 0 0 0 0 0 0])
+  ("val" .
+   [1 0 0])
+  ("Handle" .
+   [1 0 0 0 0 0])
+  ("try" .
+   [1 0 0])
+  ("++" .
+   [1 0])
+  ("SomeException" .
+   [2 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("handler" .
+   [2 0 0 0 0 0 0])
+  ("Control.Exception" .
+   [0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0])
+  ("Handler" .
+   [0 0 0 0 0 0 1])
+  ("conWrapped" .
+   [1 0 0 0 0 0 0 0 0 0])
+  ("hPutStr" .
+   [1 0 0 0 0 0 0])
+  (">>=" .
+   [3 0 0])
+  ("conFileTime" .
+   [2 0 0 0 0 0 0 0 0 0 0])
+  ("getCurrentTimeString" .
+   [1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("<-" .
+   [4 0])
+  ("hGetContents" .
+   [1 0 0 0 0 0 0 0 0 0 0 0])
+  ("stdout" .
+   [1 0 0 0 0 0])
+  ("hPutStrLn" .
+   [2 0 0 0 0 0 0 0 0])
+  ("forever" .
+   [2 0 0 0 0 0 0])
+  ("hGetLine" .
+   [1 0 0 0 0 0 0 0])
+  ("Show" .
+   [1 0 0 0])
+  ("graphNodes" .
+   [3 0 0 0 0 0 0 0 0 0])
+  ("dotToGraph" .
+   [1 0 0 0 0 0 0 0 1 0])
+  ("dotGraph" .
+   [3 0 0 0 0 1 0 0])
+  ("::" .
+   [21 0])
+  ("G.DotGraph" .
+   [7 0 0 0 0 1 0 0 0 0])
+  ("--" .
+   [2 0])
+  ("Data.Graph.Inductive.Basic" .
+   [1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("Data.Graph.Inductive.Tree" .
+   [1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("Attributes" .
+   [9 0 0 0 0 0 0 0 0 0])
+  ("Text" .
+   [1 0 0 0])
+  ("Node" .
+   [6 0 0 0])
+  ("Data.GraphViz.Attributes.Complete" .
+   [1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("importDotNode" .
+   [4 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("dot" .
+   [2 0 0])
+  ("->" .
+   [9 0])
+  ("Gr" .
+   [1 0])
+  ("makeGraph" .
+   [1 0 0 0 0 0 0 0 0])
+  ("importDotStatic" .
+   [1 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("printGraph" .
+   [1 0 0 0 0 0 0 0 0 0])
+  ("L.unpack" .
+   [2 0 0 0 0 0 0 0])
+  ("printDotGraph" .
+   [1 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("printGraphNode" .
+   [1 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("printNodes" .
+   [1 0 0 0 0 0 0 0 0 0])
+  ("printEdges" .
+   [1 0 0 0 0 0 0 0 0 0])
+  ("graphEdges" .
+   [1 0 0 0 0 0 0 0 0 0])
+  ("nodes" .
+   [2 0 0 0 0])
+  ("nodeID" .
+   [1 0 0 0 0 0])
+  ("nodeList" .
+   [1 0 0 0 0 0 0 0])
+  ("importDotFile" .
+   [1 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("L.Text" .
+   [1 0 0 0 0 0])))

@@ -89,6 +89,7 @@ It does exactly 3 things.
      (debug-message "user-emacs-directory init.el entry" user-emacs-directory)
   #+end_src
  
+
 ** init.el
 
   
@@ -156,16 +157,6 @@ standard emacs packages to do stuff.
   :PROPERTIES:
   :tangle: 
   :END:
-*** library tools
-  #+begin_src emacs-lisp
-    (load "org-macs")
-    (setq debug-on-error t)
-  (locate-library "font-latex")
-  (locate-file "yasnippet.el" load-path)
-  (locate-library "auctex-autoloads")
-  #+end_src
-
-
 *** path load defuns
 #+begin_src emacs-lisp
 (defun add-to-load-path (path &optional dir)
@@ -186,11 +177,7 @@ load-path)))
                           (expand-file-name path user-emacs-directory)))))
 #+end_src
 
-*** TODO group load path table
-
-- [ ] removing repo hooks
-- [ ] work out why helm isn't working
-
+*** group load path table
 
 These directory groups (directory and sub-directories) are added to the path.
 
@@ -249,29 +236,6 @@ Any other directories needed on the path go here:
 
 #+results:
 : cus-load
-
-*** load-path check
-    :PROPERTIES:
-    :tangle:   no
-    :END:
-
-checking on the result ...
-
-The nice thing here is the startup process can store results in
-variable, or you can just C-c C-c the block in org-mode after the event.
-
-#+begin_src emacs-lisp
-(setq load-path-check 
-(loop for f in load-path
-               collect
-               (list f)))
-#+end_src
-
-#+begin_src emacs-lisp
-  (list-load-path-shadows "helm")
-#+end_src
-
-
 
 ** elpa
    :PROPERTIES:
@@ -677,7 +641,9 @@ $\\|P.+\\\\\n\\)" nil t)
   
   (bind-key "M-s n" 'find-name-dired)
   (bind-key "M-s o" 'occur)
-  
+
+  (bind-key "M-x" 'smex)
+  (bind-key "C-x x" 'smex)  
 #+end_src
 
 **** M-C-?
@@ -1311,6 +1277,8 @@ I set this in customization
 
 (bind-key "H-i" 'my-indent-region)
 
+(bind-key "H-n" 'new-frame)
+
 #+end_src
 
 
@@ -1492,7 +1460,7 @@ I set this in customization
                                           ("(latex2e)Command Index"))))
   
   
-    (use-package org-latex)
+  (use-package org-latex)
   (add-to-list 
    'org-export-latex-classes
    '("scarce-org-article"
@@ -1516,7 +1484,7 @@ I set this in customization
       \\usepackage{geometry}
       \\geometry{a4paper, textwidth=6.5in, textheight=10in,
       marginparsep=7pt, marginparwidth=.6in}
-      \\pagestyle{empty}
+      \\pagestyle{plain}
       \\title{}
   
       % color
@@ -1537,6 +1505,8 @@ I set this in customization
       \\begin{flushleft}%
       {\\fontfamily{\\sfdefault}\\selectfont 
       {\\LARGE \\@title \\par}%
+      \\vskip 1em
+      {\\Large \\@author \\par}
       \\vskip 1em
       {\\@date \\par}
       }
@@ -1564,7 +1534,7 @@ I set this in customization
       \\fancypagestyle{plain}{
       \\fancyhead[R]{}% empty left
       \\fancyhead[L]{ % right
-      \\includegraphics[height=1cm]{logo-grey.pdf}
+      \\includegraphics[height=1cm]{/Users/tonyday/stuff/site/assets/logo-grey.pdf}
       }
       \\fancyfoot[C]{}
       %\\fancyhf{}
@@ -1581,41 +1551,9 @@ I set this in customization
      (" \\subparagraph{%s}" . "\\subparagraph*{%s}")))
 (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)))
   
+
+
 #+end_src
-
-#+results:
-: t
-
-**** NEXT tex development
-:LOGBOOK:
-CLOCK: [2013-02-24 Sun 21:13]--[2013-02-25 Mon 16:57] => 19:44
-:END:
-:PROPERTIES:
-:tangle:   no
-:END:
-Some random old-school instructions
-
-- best config
-  - auctex-autoloads???
-  - tex-site???
-  - fix bug
-  - reload helm
-
-
-#+begin_src emacs-lisp
-  (load "auctex.el" nil t t)
-  (load "preview-latex.el" nil t t)
-#+end_src
-
-This gives you latex-mode
-#+begin_src emacs-lisp
- (use-package latex)
-  (use-package preview)
-(use-package auctex-autoloads)
-(use-package url)
-#+end_src
-
-
 
 *** auto-complete
 :PROPERTIES:
@@ -1857,7 +1795,6 @@ This gives you latex-mode
 ;;;_ , bookmark
 
 (use-package bookmark
-  :disabled t
   :defer t
   :config
   (progn
@@ -1873,6 +1810,9 @@ This gives you latex-mode
     (bind-key "C-x r m" 'my-bookmark-set)))
 
 #+end_src
+
+
+
 *** browse-kill-ring+
     :PROPERTIES:
     :tangle:   yes
@@ -1888,14 +1828,13 @@ This gives you latex-mode
 
 #+end_src
 
-*** cc-mode dev
+*** cedet-devel
 :PROPERTIES:
 :tangle:   yes
 :END:
 
 Based on dwa version which is mostly ott.
 - [ ] modify to use-package etc
-
 
 #+begin_src emacs-lisp
   (use-package cedet-devel-load
@@ -2081,327 +2020,7 @@ Based on dwa version which is mostly ott.
 #+results:
 : t
 
-*** cc-mode
-:PROPERTIES:
-:tangle:   no
-:END:
-
-Based on dwa version which is mostly ott.
-
-#+begin_src emacs-lisp
-  (load-file "~/.emacs.d/site-lisp/cedet/cedet-devel-load.el")
-
-  (require 'find-func)
-(let ((cedet-lisp (file-name-directory (find-library-name "cedet"))))
-  (add-to-list 'load-path (expand-file-name "../../contrib" cedet-lisp))
-;  (add-to-list 'load-path (expand-file-name "srecode" cedet-lisp))
-;  (add-to-list 'load-path (expand-file-name "semantic" cedet-lisp))
-)
-
-;;(add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode)
-(add-to-list 'semantic-default-submodes 'global-semantic-mru-bookmark-mode)
-(add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
-(add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
-;(add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode)
-(add-to-list 'semantic-default-submodes 'global-cedet-m3-minor-mode)
-(add-to-list 'semantic-default-submodes 'global-semantic-highlight-func-mode)
-;;(add-to-list 'semantic-default-submodes 'global-semantic-show-unmatched-syntax-mode)
-;;(add-to-list 'semantic-default-submodes 'global-semantic-highlight-edits-mode)
-;;(add-to-list 'semantic-default-submodes 'global-semantic-show-parser-state-mode)
-;;(add-to-list 'semantic-default-submodes ')
-
-(require 'semantic/bovine/el)
-(require 'semantic/canned-configs)
-(semantic-load-enable-gaudy-code-helpers)
-;; dwa
-; (semantic-load-enable-excessive-code-helpers)
-
-;; Activate semantic
-(semantic-mode 1)
-
-(setq semantic-clang-binary "/usr/local/bin/clang")
-(require 'semantic/bovine/c)
-(require 'semantic/bovine/gcc)
-(require 'semantic/bovine/clang)
-(require 'semantic/ia)
-(require 'semantic/decorate/include)
-(require 'semantic/lex-spp)
-(require 'eassist)
-(require 'auto-complete)
-
-
-;; customisation of modes
-(defun alexott/cedet-hook ()
-  (local-set-key "\C-c?" 'semantic-ia-complete-symbol)
-  ;;
-  (local-set-key "\C-c>" 'semantic-complete-analyze-inline)
-  (local-set-key "\C-c=" 'semantic-decoration-include-visit)
-
-  (local-set-key "\C-cj" 'semantic-ia-fast-jump)
-  (local-set-key "\C-cq" 'semantic-ia-show-doc)
-  (local-set-key "\C-cs" 'semantic-ia-show-summary)
-  (local-set-key "\C-cp" 'semantic-analyze-proto-impl-toggle)
-  (local-set-key (kbd "C-c <left>") 'semantic-tag-folding-fold-block)
-  (local-set-key (kbd "C-c <right>") 'semantic-tag-folding-show-block)
-
-  (add-to-list 'ac-sources 'ac-source-semantic)
-  )
-;; (add-hook 'semantic-init-hooks 'alexott/cedet-hook)
-(add-hook 'c-mode-common-hook 'alexott/cedet-hook)
-(add-hook 'lisp-mode-hook 'alexott/cedet-hook)
-(add-hook 'scheme-mode-hook 'alexott/cedet-hook)
-(add-hook 'emacs-lisp-mode-hook 'alexott/cedet-hook)
-(add-hook 'erlang-mode-hook 'alexott/cedet-hook)
-
-(defun alexott/c-mode-cedet-hook ()
- ;; (local-set-key "." 'semantic-complete-self-insert)
- ;; (local-set-key ">" 'semantic-complete-self-insert)
-  (local-set-key "\C-ct" 'eassist-switch-h-cpp)
-  (local-set-key "\C-xt" 'eassist-switch-h-cpp)
-  (local-set-key "\C-ce" 'eassist-list-methods)
-  (local-set-key "\C-c\C-r" 'semantic-symref)
-
-;;  (add-to-list 'ac-sources 'ac-source-etags)
-  (add-to-list 'ac-sources 'ac-source-gtags)
-  )
-(add-hook 'c-mode-common-hook 'alexott/c-mode-cedet-hook)
-
-(require 'cedet-global)
-(when (cedet-gnu-global-version-check t)
-  (semanticdb-enable-gnu-global-databases 'c-mode)
-  (semanticdb-enable-gnu-global-databases 'c++-mode))
-
-(semanticdb-enable-cscope-databases :noerror)
-
-(ignore-errors 
-  (when (cedet-ectag-version-check t)
-    (semantic-load-enable-primary-ectags-support)))
-
-;; SRecode
-(global-srecode-minor-mode 1)
-
-;; EDE
-(global-ede-mode 1)
-(ede-enable-generic-projects)
-
-;;; Correct the handling of generic cmake projects in  upstream EDE
-;;;
-;;; CMAKE
-;; (defclass ede-generic-cmake-project (ede-generic-project)
-;;   ((buildfile :initform "CMakeLists.txt")
-;;    )
-;;   "Generic Project for cmake.")
-
-;; (defmethod ede-generic-setup-configuration ((proj ede-generic-cmake-project) config)
-;;   "Setup a configuration for CMake."
-;;   (oset config build-command "cmake")
-;;   (oset config debug-command "gdb ")
-;;   )
-
-;; (ede-generic-new-autoloader "generic-cmake" "CMake"
-;;                             "CMakeLists.txt" 'ede-generic-cmake-project)
-;;;
-
-
-(defun recur-list-files (dir re)
-  "Returns list of files in directory matching to given regex"
-  (when (file-accessible-directory-p dir)
-    (let ((files (directory-files dir t))
-          matched)
-      (dolist (file files matched)
-        (let ((fname (file-name-nondirectory file)))
-          (cond
-           ((or (string= fname ".")
-                (string= fname "..")) nil)
-           ((and (file-regular-p file)
-                 (string-match re fname))
-            (setq matched (cons file matched)))
-           ((file-directory-p file)
-            (let ((tfiles (recur-list-files file re)))
-              (when tfiles (setq matched (append matched tfiles)))))))))))
-
-(defun c++-setup-boost (boost-root)
-  (when (file-accessible-directory-p boost-root)
-    (let ((cfiles (recur-list-files boost-root "\\(config\\|user\\)\\.hpp")))
-      (dolist (file cfiles)
-        (add-to-list 'semantic-lex-c-preprocessor-symbol-file file)))))
-
-
-
-;; my functions for EDE
-(defun alexott/ede-get-local-var (fname var)
-  "fetch given variable var from :local-variables of project of file fname"
-  (let* ((current-dir (file-name-directory fname))
-         (prj (ede-current-project current-dir)))
-    (when prj
-      (let* ((ov (oref prj local-variables))
-            (lst (assoc var ov)))
-        (when lst
-          (cdr lst))))))
-
-;; setup compile package
-(require 'compile)
-(setq compilation-disable-input nil)
-(setq compilation-scroll-output t)
-(setq mode-compile-always-save-buffer-p t)
-
-(defun alexott/compile ()
-  "Saves all unsaved buffers, and runs 'compile'."
-  (interactive)
-  (save-some-buffers t)
-  (let* ((r (alexott/ede-get-local-var
-             (or (buffer-file-name (current-buffer)) default-directory)
-             'compile-command))
-         (cmd (if (functionp r) (funcall r) r)))
-    (set (make-local-variable 'compile-command) (or cmd compile-command))
-    (compile compile-command)))
-
-;;(global-set-key [f9] 'alexott/compile)
-
-;;
-(defun alexott/gen-std-compile-string ()
-  "Generates compile string for compiling CMake project in debug mode"
-  (let* ((current-dir (file-name-directory
-                       (or (buffer-file-name (current-buffer)) default-directory)))
-         (prj (ede-current-project current-dir))
-         (root-dir (ede-project-root-directory prj)))
-    (concat "cd " root-dir "; make -j2")))
-
-;;
-(defun alexott/gen-cmake-debug-compile-string ()
-  "Generates compile string for compiling CMake project in debug mode"
-  (let* ((current-dir (file-name-directory
-                       (or (buffer-file-name (current-buffer)) default-directory)))
-         (prj (ede-current-project current-dir))
-         (root-dir (ede-project-root-directory prj))
-         (subdir "")
-         )
-    (when (string-match root-dir current-dir)
-      (setf subdir (substring current-dir (match-end 0))))
-    (concat "cd " root-dir "Debug/" "; make -j3")))
-
-(defun alexott/gen-cmake-debug/release-compile-string ()
-  "Generates compile string for compiling CMake project in debug & release modes"
-  (let* ((current-dir (file-name-directory
-                       (or (buffer-file-name (current-buffer)) default-directory)))
-         (prj (ede-current-project current-dir))
-         (root-dir (ede-project-root-directory prj))
-         (subdir "")
-         )
-    (when (string-match root-dir current-dir)
-      (setf subdir (substring current-dir (match-end 0))))
-    (concat "cd " root-dir "Debug/ && make -j3 && cd " root-dir "Release/ && make -j3" )))
-
-;; Projects
-(when (file-exists-p "~/projects/opoker/CMakeLists.txt")
-(setq opoker-project
-(ede-cpp-root-project "opoker"
-                :name "opoker rescue"
-                :file "~/projects/opoker/CMakeLists.txt"
-                :include-path '("/include"
-                                "../../gtest-1.5.0/include/gtest"
-                               )
-                :system-include-path '("/usr/include/c++/4.2.1")
-                ;;:spp-table '(("isUnix" . "")
-                ;;             ("BOOST_TEST_DYN_LINK" . ""))
-)))
-
-
-
-
-(when (file-exists-p "~/src/LLVM/llvm/CMakeLists.txt")
-  (setq llvm-project
-	(ede-cpp-root-project "llvm"
-			      :file "~/src/LLVM/llvm/CMakeLists.txt"
-                              :include-path 
-                              '(
-                                "/include"
-                                "/tools/clang/include"
-                               )
-			      :local-variables '((compile-command . 'alexott/gen-cmake-debug-compile-string)
-						)
-			      )))
-
-
-(when (file-exists-p "~/src/corp/cree/CMakeLists.txt")
-  (setq cree-project
-	(ede-cpp-root-project "cree"
-			      :file "~/src/corp/cree/CMakeLists.txt"
-                              :include-path 
-                              '("/src"
-                                "/include"
-                                "/lib"
-                                "/lib_src"
-                                "/ext/llvm/include"
-                                "/ext/llvm/tools/clang/include"
-                                "."
-                               )
-                              :spp-table '(("LLVM_DELETED_FUNCTION".""))
-			      :local-variables '((compile-command . "cd ~/Products/cree && PATH=\"$HOME/Products/LLVM/cree/bin:$PATH\" cmake ~/src/corp/cree -G Ninja && ninja")
-						)
-			      ))
-)
-
-(when (file-exists-p "~/src/llvm/abi/CMakeLists.txt")
-  (setq abi-project
-	(ede-cpp-root-project "abi"
-			      :file "~/src/llvm/abi/CMakeLists.txt"
-                              :include-path 
-                              '("/include"
-                                "/tools/clang/include"
-                                "."
-                               )
-                              :spp-table '(("LLVM_DELETED_FUNCTION".""))
-			      :local-variables '((compile-command . "cd ~/Products/abi && cmake -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang ~/src/LLVM/abi -G Ninja && ninja")
-						)
-			      ))
-)
-
-
-;; cpp-tests project definition
-(when (file-exists-p "~/projects/lang-exp/cpp/CMakeLists.txt")
-  (setq cpp-tests-project
-	(ede-cpp-root-project "cpp-tests"
-			      :file "~/projects/lang-exp/cpp/CMakeLists.txt"
-			      :system-include-path '("/home/ott/exp/include"
-						     boost-base-directory)
-			      :local-variables (list
-						(cons 'compile-command 'alexott/gen-cmake-debug-compile-string)
-						)
-			      )))
-
-(when (file-exists-p "~/projects/squid-gsb/README")
-  (setq squid-gsb-project
-	(ede-cpp-root-project "squid-gsb"
-			      :file "~/projects/squid-gsb/README"
-			      :system-include-path '("/home/ott/exp/include"
-						     boost-base-directory)
-			      :local-variables (list
-						(cons 'compile-command 'alexott/gen-cmake-debug-compile-string)
-						)
-			      )))
-
-;; (when (file-exists-p "~/work/emacs-head/README")
-;;   (setq emacs-project
-;; 	(ede-emacs-project "emacs-head"
-;; 			   :file "~/work/emacs-head/README")))
-
-
-;; (setq arabica-project
-;;       (ede-cpp-root-project "arabica"
-;;                             :file "~/projects/arabica-devel/README"
-;;                             :system-include-path '("/home/ott/exp/include"
-;;                                                    boost-base-directory)
-;;                             :local-variables (list
-;;                                               (cons 'compile-command 'alexott/gen-std-compile-string)
-;;                                               )
-;;                             ))
-
-#+end_src
-
-#+results:
-
-*** TODO cedet dev
+**** cedet development
 :LOGBOOK:
 CLOCK: [2012-12-21 Fri 14:10]--[2012-12-22 Sat 14:07] => 23:57
 :END:
@@ -2457,352 +2076,6 @@ CLOCK: [2012-12-21 Fri 14:10]--[2012-12-22 Sat 14:07] => 23:57
   (imenu-add-to-menubar "TAGS"))
   (add-hook 'semantic-init-hooks 'my-semantic-hook)
   #+end_src
-
-**** jwiegley cc-mode
-:PROPERTIES:
-:tangle:   no
-:END:
-
-- [ ] compare with dwa
-
-#+begin_src emacs-lisp
-  (use-package cc-mode
-    :mode (("\\.h\\(h?\\|xx\\|pp\\)\\'" . c++-mode)
-           ("\\.m\\'"                   . c-mode)
-           ("\\.mm\\'"                  . c++-mode))
-    :init
-    (progn
-      (defun llvm-info ()
-        (interactive)
-        (w3m-find-file "/usr/local/opt/clang/docs/llvm/html/doxygen/classllvm_1_1IRBuilder.html"))
-      
-      (defun my-paste-as-check ()
-        (interactive)
-        (save-excursion
-          (insert "/*\n")
-          (let ((beg (point)) end)
-            (yank)
-            (setq end (point-marker))
-            (goto-char beg)
-            (while (< (point) end)
-              (forward-char 2)
-              (insert "CHECK: ")
-              (forward-line 1)))
-          (insert "*/\n")))
-      
-      (defun my-c-indent-or-complete ()
-        (interactive)
-        (let ((class (syntax-class (syntax-after (1- (point))))))
-          (if (or (bolp) (and (/= 2 class)
-                              (/= 3 class)))
-              (call-interactively 'indent-according-to-mode)
-            (call-interactively 'auto-complete))))
-      
-      (defvar printf-index 0)
-      
-      (defun insert-counting-printf (arg)
-        (interactive "P")
-        (if arg
-            (setq printf-index 0))
-        (if t
-            (insert (format "std::cerr << \"step %d..\" << std::endl;\n"
-                            (setq printf-index (1+ printf-index))))
-          (insert (format "printf(\"step %d..\\n\");\n"
-                          (setq printf-index (1+ printf-index)))))
-        (forward-line -1)
-        (indent-according-to-mode)
-        (forward-line))
-      
-      (defun my-c-save-buffer ()
-        (interactive)
-        (if (buffer-modified-p)
-            (call-interactively 'save-buffer))
-        (if flymake-mode
-            (flymake-start-syntax-check)))
-      
-      (defun my-c-mode-common-hook ()
-        (abbrev-mode 1)
-        (gtags-mode 1)
-        (hs-minor-mode 1)
-        (hide-ifdef-mode 1)
-        (whitespace-mode 1)
-        (which-function-mode 1)
-        (auto-complete-mode 1)
-        (yas/minor-mode 1)
-        
-        (diminish 'gtags-mode)
-        (diminish 'hs-minor-mode)
-        (diminish 'hide-ifdef-mode)
-        
-        (add-to-list 'load-path "~/.emacs.d/site-lisp/ghc-mod/elisp")
-        (require 'ghc-flymake)            ; jww (2012-09-19): hack!
-        (bind-key "M-?" 'ghc-flymake-display-errors c-mode-base-map)
-        (bind-key "M-p" 'flymake-goto-prev-error c-mode-base-map)
-        (bind-key "M-n" 'flymake-goto-next-error c-mode-base-map)
-        (bind-key "C-x C-s" 'my-c-save-buffer c-mode-base-map)
-        
-        (bind-key "C-c p" 'insert-counting-printf c-mode-base-map)
-        
-        (auto-complete-mode 1)
-        (setq ac-sources (list (if (and (fboundp 'semantic-active-p)
-                                        (funcall #'semantic-active-p))
-                                   'ac-source-semantic
-                                 'ac-source-gtags)))
-        (bind-key "<A-tab>" 'ac-complete c-mode-base-map)
-        
-        ;;(doxymacs-mode 1)
-        ;;(doxymacs-font-lock)
-        
-        (bind-key "<return>" 'newline-and-indent c-mode-base-map)
-        
-        (set (make-local-variable 'yas/fallback-behavior)
-             '(apply my-c-indent-or-complete . nil))
-        (bind-key "<tab>" 'yas/expand-from-trigger-key c-mode-base-map)
-        
-        (unbind-key "M-j" c-mode-base-map)
-        (bind-key "C-c C-i" 'c-includes-current-file c-mode-base-map)
-        (bind-key "C-c C-y" 'my-paste-as-check c-mode-base-map)
-        
-        (set (make-local-variable 'parens-require-spaces) nil)
-        (setq indicate-empty-lines t)
-        (setq fill-column 72)
-        
-        (bind-key "M-q" 'c-fill-paragraph c-mode-base-map)
-        
-        (let ((bufname (buffer-file-name)))
-          (when bufname
-            (cond
-             ((string-match "/ledger/" bufname)
-              (c-set-style "ledger"))
-             ((string-match "/ansi/" bufname)
-              (c-set-style "ti")
-              (substitute-key-definition 'fill-paragraph 'ti-refill-comment
-                                         c-mode-base-map global-map)
-              (bind-key "M-q" 'ti-refill-comment c-mode-base-map))
-             ((string-match "/edg/" bufname)
-              (c-set-style "edg"))
-             (t
-              (c-set-style "clang")))))
-        
-        (font-lock-add-keywords 'c++-mode '(("\\<\\(assert\\|DEBUG\\)("
-                                             1 font-lock-warning-face t))))
-      
-      (add-hook 'c-mode-common-hook 'my-c-mode-common-hook))
-    
-    :config
-    (progn
-      (setq c-syntactic-indentation nil)
-      
-      (bind-key "#" 'self-insert-command c-mode-base-map)
-      (bind-key "{" 'self-insert-command c-mode-base-map)
-      (bind-key "}" 'self-insert-command c-mode-base-map)
-      (bind-key "/" 'self-insert-command c-mode-base-map)
-      (bind-key "*" 'self-insert-command c-mode-base-map)
-      (bind-key ";" 'self-insert-command c-mode-base-map)
-      (bind-key "," 'self-insert-command c-mode-base-map)
-      (bind-key ":" 'self-insert-command c-mode-base-map)
-      (bind-key "(" 'self-insert-command c-mode-base-map)
-      (bind-key ")" 'self-insert-command c-mode-base-map)
-      (bind-key "<" 'self-insert-command c++-mode-map)
-      (bind-key ">" 'self-insert-command c++-mode-map)
-      
-      (use-package cedet
-        :disabled t
-        :init
-        (progn
-          ;; Add further minor-modes to be enabled by semantic-mode.  See
-          ;; doc-string of `semantic-default-submodes' for other things you can
-          ;; use here.
-          (dolist (submode '(global-semantic-idle-summary-mode
-                             global-semantic-mru-bookmark-mode
-                             global-semantic-idle-local-symbol-highlight-mode
-                             global-semantic-show-unmatched-syntax-mode))
-            (add-to-list 'semantic-default-submodes submode t))
-          
-          ;; Enable Semantic
-          (semantic-mode 1)
-          
-          (when nil              ; jww (2012-06-20): this kills buffers
-            ;; if you want to enable support for gnu global
-            (use-package semanticdb-global)
-            
-            (semanticdb-enable-gnu-global-databases 'c-mode)
-            (semanticdb-enable-gnu-global-databases 'c++-mode))))
-      
-      (add-to-list 'c-style-alist
-                   '("ti"
-                     (indent-tabs-mode . nil)
-                     (c-basic-offset . 3)
-                     (c-comment-only-line-offset . (0 . 0))
-                     (c-hanging-braces-alist
-                      . ((substatement-open before after)
-                         (arglist-cont-nonempty)))
-                     (c-offsets-alist
-                      . ((statement-block-intro . +)
-                         (knr-argdecl-intro . 5)
-                         (substatement-open . 0)
-                         (substatement-label . 0)
-                         (label . 0)
-                         (case-label . +)
-                         (statement-case-open . 0)
-                         (statement-cont . +)
-                         (arglist-intro . c-lineup-arglist-intro-after-paren)
-                         (arglist-close . c-lineup-arglist)
-                         (inline-open . 0)
-                         (brace-list-open . 0)
-                         (topmost-intro-cont
-                          . (first c-lineup-topmost-intro-cont
-                                   c-lineup-gnu-DEFUN-intro-cont))))
-                     (c-special-indent-hook . c-gnu-impose-minimum)
-                     (c-block-comment-prefix . "")))
-      
-      (add-to-list 'c-style-alist
-                   '("edg"
-                     (indent-tabs-mode . nil)
-                     (c-basic-offset . 2)
-                     (c-comment-only-line-offset . (0 . 0))
-                     (c-hanging-braces-alist
-                      . ((substatement-open before after)
-                         (arglist-cont-nonempty)))
-                     (c-offsets-alist
-                      . ((statement-block-intro . +)
-                         (knr-argdecl-intro . 5)
-                         (substatement-open . 0)
-                         (substatement-label . 0)
-                         (label . 0)
-                         (case-label . +)
-                         (statement-case-open . 0)
-                         (statement-cont . +)
-                         (arglist-intro . +)
-                         (arglist-close . +)
-                         (inline-open . 0)
-                         (brace-list-open . 0)
-                         (topmost-intro-cont
-                          . (first c-lineup-topmost-intro-cont
-                                   c-lineup-gnu-DEFUN-intro-cont))))
-                     (c-special-indent-hook . c-gnu-impose-minimum)
-                     (c-block-comment-prefix . "")))
-      
-      (add-to-list 'c-style-alist
-                   '("ledger"
-                     (indent-tabs-mode . nil)
-                     (c-basic-offset . 2)
-                     (c-comment-only-line-offset . (0 . 0))
-                     (c-hanging-braces-alist
-                      . ((substatement-open before after)
-                         (arglist-cont-nonempty)))
-                     (c-offsets-alist
-                      . ((statement-block-intro . +)
-                         (knr-argdecl-intro . 5)
-                         (substatement-open . 0)
-                         (substatement-label . 0)
-                         (label . 0)
-                         (case-label . 0)
-                         (statement-case-open . 0)
-                         (statement-cont . +)
-                         (arglist-intro . +)
-                         (arglist-close . +)
-                         (inline-open . 0)
-                         (brace-list-open . 0)
-                         (topmost-intro-cont
-                          . (first c-lineup-topmost-intro-cont
-                                   c-lineup-gnu-DEFUN-intro-cont))))
-                     (c-special-indent-hook . c-gnu-impose-minimum)
-                     (c-block-comment-prefix . "")))
-      
-      (add-to-list 'c-style-alist
-                   '("clang"
-                     (indent-tabs-mode . nil)
-                     (c-basic-offset . 2)
-                     (c-comment-only-line-offset . (0 . 0))
-                     (c-hanging-braces-alist
-                      . ((substatement-open before after)
-                         (arglist-cont-nonempty)))
-                     (c-offsets-alist
-                      . ((statement-block-intro . +)
-                         (knr-argdecl-intro . 5)
-                         (substatement-open . 0)
-                         (substatement-label . 0)
-                         (label . 0)
-                         (case-label . 0)
-                         (statement-case-open . 0)
-                         (statement-cont . +)
-                         (arglist-intro . +)
-                         (arglist-close . +)
-                         (inline-open . 0)
-                         (brace-list-open . 0)
-                         (topmost-intro-cont
-                          . (first c-lineup-topmost-intro-cont
-                                   c-lineup-gnu-DEFUN-intro-cont))))
-                     (c-special-indent-hook . c-gnu-impose-minimum)
-                     (c-block-comment-prefix . "")))
-            
-      (defun ti-refill-comment ()
-        (interactive)
-        (let ((here (point)))
-          (goto-char (line-beginning-position))
-          (let ((begin (point)) end
-                (marker ?-) (marker-re "\\(-----\\|\\*\\*\\*\\*\\*\\)")
-                (leader-width 0))
-            (unless (looking-at "[ \t]*/\\*[-* ]")
-              (search-backward "/*")
-              (goto-char (line-beginning-position)))
-            (unless (looking-at "[ \t]*/\\*[-* ]")
-              (error "Not in a comment"))
-            (while (and (looking-at "\\([ \t]*\\)/\\* ")
-                        (setq leader-width (length (match-string 1)))
-                        (not (looking-at (concat "[ \t]*/\\*" marker-re))))
-              (forward-line -1)
-              (setq begin (point)))
-            (when (looking-at (concat "[^\n]+?" marker-re "\\*/[ \t]*$"))
-              (setq marker (if (string= (match-string 1) "-----") ?- ?*))
-              (forward-line))
-            (while (and (looking-at "[^\n]+?\\*/[ \t]*$")
-                        (not (looking-at (concat "[^\n]+?" marker-re
-                                                 "\\*/[ \t]*$"))))
-              (forward-line))
-            (when (looking-at (concat "[^\n]+?" marker-re "\\*/[ \t]*$"))
-              (forward-line))
-            (setq end (point))
-            (let ((comment (buffer-substring-no-properties begin end)))
-              (with-temp-buffer
-                (insert comment)
-                (goto-char (point-min))
-                (flush-lines (concat "^[ \t]*/\\*" marker-re "[-*]+\\*/[ \t]*$"))
-                (goto-char (point-min))
-                (while (re-search-forward "^[ \t]*/\\* ?" nil t)
-                  (goto-char (match-beginning 0))
-                  (delete-region (match-beginning 0) (match-end 0)))
-                (goto-char (point-min))
-                (while (re-search-forward "[ \t]*\\*/[ \t]*$" nil t)
-                  (goto-char (match-beginning 0))
-                  (delete-region (match-beginning 0) (match-end 0)))
-                (goto-char (point-min)) (delete-trailing-whitespace)
-                (goto-char (point-min)) (flush-lines "^$")
-                (set-fill-column (- 80    ; width of the text
-                                    6     ; width of "/*  */"
-                                    leader-width))
-                (goto-char (point-min)) (fill-paragraph nil)
-                (goto-char (point-min))
-                (while (not (eobp))
-                  (insert (make-string leader-width ? ) "/* ")
-                  (goto-char (line-end-position))
-                  (insert (make-string (- 80 3 (current-column)) ? ) " */")
-                  (forward-line))
-                (goto-char (point-min))
-                (insert (make-string leader-width ? )
-                        "/*" (make-string (- 80 4 leader-width) marker) "*/\n")
-                (goto-char (point-max))
-                (insert (make-string leader-width ? )
-                        "/*" (make-string (- 80 4 leader-width) marker) "*/\n")
-                (setq comment (buffer-string)))
-              (goto-char begin)
-              (delete-region begin end)
-              (insert comment)))
-          (goto-char here)))))
-  
-#+end_src
-
 
 *** cmake-mode
 :PROPERTIES:
@@ -3541,6 +2814,14 @@ FORM => (eval FORM)."
   :bind ("C-x f" . find-file-in-project))
 #+end_src
 
+*** flymake-cursor
+:PROPERTIES:
+:tangle:   yes
+:END:
+#+begin_src emacs-lisp
+(use-package flymake-cursor)  
+#+end_src
+
 *** flymake-html-validator
 :PROPERTIES:
 :tangle:   yes
@@ -3595,6 +2876,15 @@ FORM => (eval FORM)."
 
 #+results:
 : t
+
+*** TODO flymake-haskell
+:PROPERTIES:
+:tangle:   yes
+:END:
+#+begin_src emacs-lisp
+(use-package flymake-haskell-multi)  
+#+end_src
+
 
 *** flyspell
 :PROPERTIES:
@@ -4986,10 +4276,28 @@ creating structured email messages.
 :END:
 #+begin_src emacs-lisp
 ;;;_ , haskell-mode
-
+(require 'ob-haskell)
+(setq user-site-lisp-directory (expand-file-name "~/.emacs.d/site-lisp"))
 (require 'haskell-config)
 
 #+end_src
+
+*** TODO haskell-org
+
+http://sidhusblog.wordpress.com/2012/11/06/haskell-org/
+
+#+begin_src emacs-lisp :tangle no
+(setq auto-mode-alist (append (rassq-delete-all 'literate-haskell-mode auto-mode-alist) '(("\\.lhs$"  . haskell-org-mode))))
+(autoload 'haskell-org-mode "haskell-org" "Major mode for editing literate Haskell Org scripts." t)
+(setq auto-mode-alist (append auto-mode-alist '(("\\.l[hg]s$" . literate-haskell-mode))))  
+#+end_src
+
+*** TODO haskell-latex
+
+
+
+
+
 *** helm
 :PROPERTIES:
 :tangle:   yes
@@ -6153,10 +5461,6 @@ I organise org-capture parameters by using org tables:
 | tt  | todo todo      | entry      | file          | ~/stuff/org/refile.org     |               | * TODO %?\n                                          |
 | tb  | yank body      | entry      | file          | ~/stuff/org/refile.org     |               | * TODO %?\n%c\n                                      |
 | th  | yank header    | entry      | file          | ~/stuff/org/refile.org     |               | * TODO %c\n%?\n                                      |
-| i   | idea           |            |               |                            |               |                                                      |
-| ii  | idea           | entry      | file+headline | ~/stuff/content/ideas.org  | incoming      | * %? \n                                              |
-| il  | idea link      | entry      | file+headline | ~/stuff/content/ideas.org  | links         | * %a \n %?                                           |
-| iy  | idea yank      | entry      | file+headline | ~/stuff/content/ideas.org  | incoming      | * %?%c \n                                            |
 | z   | bugz           | entry      | file+headline | ~/stuff/org/bugz.org       | incoming      | * TODO %?\n%a                                        |
 | s   | snipz          |            |               |                            |               |                                                      |
 | sr  | snipz request  | entry      | file+headline | ~/stuff/org/snipz.org      | incoming      | * TODO %?\n%a\n                                      |
@@ -6412,102 +5716,145 @@ quickly changing ordering.
   (bind-key "H-l" 'omlg-grab-link)
 #+end_src
 
-**** org bindings
+***** org scratch
+#+begin_src emacs-lisp
+(defun org-scratch ()
+  (interactive)
+  (if (not (bufferp "scratch.org"))
+      (find-file "~/.emacs.d/tmp/scratch.org")
+    (switch-to-buffer "scratch.org")))
+#+end_src
+
+#+results:
+: org-scratch
+
+***** org-latex
+#+begin_src emacs-lisp
+(use-package org-latex
+:config
+  (progn
+  (add-to-list 
+   'org-export-latex-classes
+   '("scarce-org-article"
+     "\\documentclass[12pt]{article}
+      % miscellaneous and unknown uses
+      \\usepackage{amssymb}
+      \\usepackage{graphicx}
+      \\usepackage{hyperref} 
+      \\usepackage[parfill]{parskip}
+      \\usepackage{paralist}
+  
+      % font specifications
+      \\usepackage[T1]{fontenc}
+      \\usepackage{fontspec,xunicode}
+      \\defaultfontfeatures{Mapping=tex-text} 
+      \\setromanfont[Mapping=tex-text]{Droid Sans} 
+      \\setsansfont[Scale=MatchLowercase,Mapping=tex-text]{Droid Serif} 
+      \\setmonofont[Scale=MatchLowercase]{Droid Sans Mono}
+  
+      % geometry
+      \\usepackage{geometry}
+      \\geometry{a4paper, textwidth=6.5in, textheight=10in,
+      marginparsep=7pt, marginparwidth=.6in}
+      \\pagestyle{plain}
+      \\title{}
+  
+      % color
+      \\usepackage{color}
+      %\\definecolor{greytext}{rgb}{0.6,0.6,0.6}
+      %\\definecolor{greyline}{rgb}{0.8,0.8,0.8}
+      \\definecolor{greytext}{gray}{0.3}
+      \\definecolor{greyline}{gray}{0.8}
+      
+      \\renewcommand{\\labelitemi}{
+      \\color{greytext}\\scalebox{1}{$-$}}
+
+      % custom maketitle
+      \\makeatletter
+      \\renewcommand{\\@maketitle}{
+      \\null
+      \\vskip 0em%
+      \\begin{flushleft}%
+      {\\fontfamily{\\sfdefault}\\selectfont 
+      {\\LARGE \\@title \\par}%
+      \\vskip 1em
+      {\\Large \\@author \\par}
+      \\vskip 1em
+      {\\@date \\par}
+      }
+      \\end{flushleft}%
+      \\par} 
+      \\makeatother
+
+      % style
+      \\usepackage{enumitem}
+      \\setitemize[0]{leftmargin=*}
+      % \\usepackage[none]{hyphenat}%%%%
+      % \\usepackage[document]{ragged2e}
+
+      \\usepackage{transparent}
+      
+      % a fancy header
+      \\usepackage{fancyhdr}
+      %\\renewcommand{\\headheight}{0.6in}
+      \\setlength{\\headheight}{1.6cm}
+      \\setlength{\\headwidth}{\\textwidth}
+      \\renewcommand{\\headrulewidth}{2pt}
+      \\renewcommand{\\headrule}{\\hbox to\\headwidth{%
+      \\color{greyline}\\leaders\\hrule height \\headrulewidth\\hfill}}
+
+      \\fancypagestyle{plain}{
+      \\fancyhead[R]{}% empty left
+      \\fancyhead[L]{ % right
+      \\includegraphics[height=1cm]{/Users/tonyday/stuff/site/assets/logo-grey.pdf}
+      }
+      \\fancyfoot[C]{}
+      %\\fancyhf{}
+      }
+
+      % end spec lines.  The rest is org generated
+  
+      [NO-DEFAULT-PACKAGES]
+      [NO-PACKAGES]"
+     (" \\section{%s}" . "\\section*{%s}")
+     (" \\subsection{%s}" . "\\subsection*{%s}")
+     (" \\subsubsection{%s}" . "\\subsubsection*{%s}")
+     (" \\paragraph{%s}" . "\\paragraph*{%s}")
+     (" \\subparagraph{%s}" . "\\subparagraph*{%s}")))))
+  
+#+end_src
+
+**** TODO org bindings
+- [ ] also general keybindings lloking for cool commandsnil (2013-03-19): 
 
 shoving the binds in binds so I can see where everything is
+
 #+name: org-bindings
-| key       | binding                                           |
-|-----------+---------------------------------------------------|
-| C-c l     | org-store-link                                    |
-| C-c a     | org-agenda                                        |
-| C-c b     | org-iswitchb                                      |
-| <f12>     | org-agenda                                        |
-| <f5>      | bh/org-todo                                       |
-| <S-f5>    | bh/widen                                          |
-| <f7>      | bh/set-truncate-lines                             |
-| <f8>      | org-cycle-agenda-files                            |
-| <f9> <f9> | bh/show-org-agenda                                |
-| <f9> c    | calendar                                          |
-| <f9> f    | boxquote-insert-file                              |
-| <f9> h    | bh/hide-other                                     |
-| <f9> n    | org-narrow-to-subtree                             |
-| <f9> w    | widen                                             |
-| <f9> u    | bh/narrow-up-one-level                            |
-| <f9> I    | bh/punch-in                                       |
-| <f9> O    | bh/punch-out                                      |
-| <f9> o    | bh/make-org-scratch                               |
-| <f9> r    | boxquote-region                                   |
-| <f9> s    | bh/switch-to-scratch                              |
-| <f9> t    | bh/insert-inactive-timestamp                      |
-| <f9> T    | tabify                                            |
-| <f9> U    | untabify                                          |
-| <f9> v    | visible-mode                                      |
-| <f9> SPC  | bh/clock-in-last-task                             |
-| C-<f9>    | previous-buffer                                   |
-| M-<f9>    | org-toggle-inline-images                          |
-| C-x n r   | narrow-to-region                                  |
-| C-<f10>   | next-buffer                                       |
-| <f11>     | org-clock-goto                                    |
-| C-<f11>   | org-clock-in                                      |
-| C-s-<f12> | bh/save-then-publish                              |
-| C-M-r     | org-capture                                       |
-| C-c r     | org-capture                                       |
-| C-M-r     | org-capture                                       |
-| C-c r     | org-capture                                       |
-| <f9> p    | bh/phone-call                                     |
-| C-s-<f12> | bh/save-then-publish                              |
-| <f5>      | bh/org-todo                                       |
-| <S-f5>    | bh/widen                                          |
-| <f9> t    | bh/insert-inactive-timestamp                      |
-| M-x       | smex                                              |
-| C-x x     | smex                                              |
-| M-X       | smex-major-mode-commands                          |
-| <C-f6>    | (lambda () (interactive) (bookmark-set "SAVED"))  |
-| <f6>      | (lambda () (interactive) (bookmark-jump "SAVED")) |
-| M-s c     | org-occur-in-agenda-files                         |
+| key   | binding                            |
+|-------+------------------------------------|
+| C-c l | org-store-link                     |
+| C-c a | org-agenda                         |
+| C-c b | org-iswitchb                       |
+| C-c r | org-capture                        |
+| H-o t | bh/org-todo                        |
+| H-o l | bh/set-truncate-lines              |
+| H-o c | org-cycle-agenda-files             |
+| H-o a | bh/show-org-agenda                 |
+| H-o h | bh/hide-other                      |
+| H-o n | org-narrow-to-subtree              |
+| H-o N | bh/org-narrow-to-subtree           |
+| H-o w | widen                              |
+| H-o W | bh/widen                           |
+| H-o s | org-scratch                        |
+| H-o v | visible-mode                       |
+| H-o z | org-agenda-remove-restriction-lock |
+| M-s c | org-occur-in-agenda-files          |
 
 #+begin_src emacs-lisp :var table=org-bindings
   (bind-keys-from-table (org-table-remove-header table))
 #+end_src
 
-**** TODO org R&D
-:PROPERTIES:
-:tangle:   no
-:ID:       F066ACCB-918B-4326-A354-13ECA60A7D57
-:END:
-- [ ] transform to use-package method
-- [ ] extract and deprecate hansen org-mode
-
-jwiegley org setup
-#+begin_src emacs-lisp
-;;;_ , org-mode
-
-(use-package dot-org
-  :commands org-agenda-list
-  :bind (("M-C"   . jump-to-org-agenda)
-         ("M-m"   . org-smart-capture)
-         ("M-M"   . org-inline-note)
-         ("C-c a" . org-agenda)
-         ("C-c S" . org-store-link)
-         ("C-c l" . org-insert-link))
-  :init
-  (progn
-    (unless running-alternate-emacs
-      (run-with-idle-timer 300 t 'jump-to-org-agenda))
-
-    (if (string-match "\\.elc\\'" load-file-name)
-        (add-hook 'after-init-hook
-                  #'(lambda ()
-                      (org-agenda-list)
-                      (org-fit-agenda-window)
-                      (org-resolve-clocks))) t)))
-
-#+end_src
-
-***** diminish
-#+begin_src emacs-lisp
-  ;;(diminish 'org-indent-mode)
-#+end_src
+#+results:
 
 *** paredit
     :PROPERTIES:
@@ -7559,7 +6906,7 @@ Manually tyype this to get sudo in ido-find-file:
     (progn
       ;;(yas-global-mode t)
       (defun yas-org-very-safe-expand ()
-        (let ((yas-fallback-behavior 'return-nil)) (yas-expand)))
+        (let ((yas-fallback-behaviour 'return-nil)) (yas-expand)))
       
       (hook-into-modes #'(lambda () (yas-minor-mode 1))
        '(prog-mode-hook
@@ -7567,11 +6914,11 @@ Manually tyype this to get sudo in ido-find-file:
          ruby-mode-hook
          message-mode-hook
          gud-mode-hook
-         erc-mode-hook))
-      (add-hook 'org-mode-hook
-                (lambda ()
-                  (set (make-local-variable 'yas-trigger-key) [tab])
-                  (add-to-list 'org-tab-first-hook 'yas-org-very-safe-expand))))
+         erc-mode-hook)))
+      ;;(add-hook 'org-mode-hook
+      ;;          (lambda ()
+      ;;            (set (make-local-variable 'yas-trigger-key) [tab])
+      ;;            (add-to-list 'org-tab-first-hook 'yas-expand))))
     :config
     (progn
       (yas-load-directory (expand-file-name "snippets/" user-emacs-directory))
@@ -7580,14 +6927,14 @@ Manually tyype this to get sudo in ido-find-file:
   
       (defun yas-new-snippet (&optional choose-instead-of-guess)
         (interactive "P")
-        (let ((guessed-directories (yas-guess-snippet-directories)))
+        (let ((guessed-directories (yas--guess-snippet-directories)))
           (switch-to-buffer "*new snippet*")
           (erase-buffer)
           (kill-all-local-variables)
           (snippet-mode)
-          (set (make-local-variable 'yas-guessed-modes)
+          (set (make-local-variable 'yas--guessed-modes)
                (mapcar #'(lambda (d)
-                           (intern (yas-table-name (car d))))
+                           (intern (yas--table-name (car d))))
                        guessed-directories))
           (unless (and choose-instead-of-guess
                        (not (y-or-n-p "Insert a snippet with useful headers? ")))
@@ -7606,6 +6953,9 @@ Manually tyype this to get sudo in ido-find-file:
       (bind-key "C-c y v" 'yas-visit-snippet-file)))
   
 #+end_src
+
+#+results:
+: t
 
 *** yaoddmuse
 :PROPERTIES:
@@ -7816,61 +7166,6 @@ Other sites
                :test #'string=))))))
 #+end_src
 
-*** current startup bugz and readings
-**** flet
-`flet' is an obsolete macro (as of 24.3); use either `cl-flet' or `cl-letf'. [3 times]
-**** babel insisting on messaging tangled
-**** diary
-No event to add
-Appointment reminders enabled (no diary file found)
-**** eieio
-Unsafe call to `eieio-persistent-read'.
-
-
-
-**** org-modifier
-org-modifier-cursor-error: This command is active in special context like tables, headlines or items
-
-**** CTags
-Exuberant CTags not found.  Found ectags that comes with Emacs
-
-**** DONE slow packages
-CLOSED: [2012-12-28 Fri 23:57]
-:LOGBOOK:
-- State "DONE"       from "NEXT"       [2012-12-28 Fri 23:57]
-CLOCK: [2012-12-28 Fri 20:29]--[2012-12-28 Fri 23:50] =>  3:21
-:END:
-Configuring package gnus...done (1.473s)
-Loading package bbdb-gnus...done (0.905s)
-Loading package org-magit...done (0.996s)
-Configuring package erc...done (0.419s)
-Loading package erc-yank...done (0.374s)
-Loading /Users/tonyday/.emacs.d/dotemacs.el...done (10.830s) [after-init]
-
-**** yas load messages
-[yas] Loading compiled snippets from /Users/tonyday/.emacs.d/snippets/org-mode
-[yas] Prepared just-in-time loading for /Users/tonyday/git/jwiegley-dot-emacs/site-lisp/yasnippet/snippets
-[yas] Prepared just-in-time loading for ~/.emacs.d/snippets
-[yas] Reloaded everything (snippets will load just-in-time)....
-
-
-
-
-** development area
-:PROPERTIES:
-:tangle:   no
-:END:
-
-*** html5check hook
-#+begin_src emacs-lisp
-  (add-hook 'html-mode-hook
-          (lambda ()
-            (local-set-key (kbd "C-c v")
-                           (lambda () (interactive)
-                             (save-buffer)
-                             (shell-command (concat "html5check.py " (shell-quote-argument (buffer-file-name))))
-                             ))))
-#+end_src
 ** automated git
 
 #+begin_src sh
