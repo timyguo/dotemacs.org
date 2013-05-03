@@ -4,6 +4,24 @@
 #+COLUMNS: %25ITEM %30tangle
 #+PROPERTIES: tangle yes
 
+* TODO incoming
+check new jw files:
+
+flyparse
+haskell-config
+paredit-ext.el
+dash
+projectile
+multiple-cursors
+anaphora
+expand-region
+s.el
+fold-this
+smart-forward
+elpy
+highlight-indentation
+hsenv
+deft
 
 * upfront
 :PROPERTIES:
@@ -106,6 +124,7 @@ It does exactly 3 things.
   "Name of the org file containing the main startup code")
   (if (boundp 'tangled-in)
      (setq dotemacs-org-file tangled-in))
+  (require 'org-loaddefs)
   (org-babel-load-file (expand-file-name dotemacs-org-file user-emacs-directory))
 #+end_src
 
@@ -334,129 +353,33 @@ Any other directories needed on the path go here:
                   (apply 'format "(bind-key %S '%s)" row))))))
 #+end_src
 
-** read system environment
+** set environment
 :PROPERTIES:
-:tangle:   no
+:tangle:   yes
 :END:
+
 #+begin_src emacs-lisp
-;;;_ , Read system environment
-
-(let ((plist (expand-file-name "~/.MacOSX/environment.plist")))
-  (when (file-readable-p plist)
-    (let ((dict (cdr (assq 'dict (cdar (xml-parse-file plist))))))
-      (while dict
-        (if (and (listp (car dict))
-                 (eq 'key (caar dict)))
-            (setenv (car (cddr (car dict)))
-                    (car (cddr (car (cddr dict))))))
-        (setq dict (cdr dict))))
-
-    ;; Configure exec-path based on the new PATH
-    (setq exec-path nil)
-    (mapc (apply-partially #'add-to-list 'exec-path)
-          (nreverse (split-string (getenv "PATH") ":")))))
-
+ (setenv "PATH" (format "%s:%s:" (getenv "PATH") "/usr/local/share/npm/bin"))
 #+end_src
+
+#+results:
+: /usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/texbin:/usr/local/share/npm/bin:/usr/local/share/npm/bin:
 
 ** check emacs version
 #+begin_src emacs-lisp
       (defvar running-alternate-emacs nil)
 #+end_src
+
+** start emacs server
+#+begin_src emacs-lisp
+      (server-start)
+#+end_src
+
    
 * guff
 :PROPERTIES:
 :tangle:   yes
 :END:
-** process settings table
-
-#+name: process-settings-table
-| variable                       | value |
-|--------------------------------+-------|
-
-
-#+name: process-settings-function-table
-| function                   | args   |
-|----------------------------+--------|
-
-
-#+begin_src emacs-lisp
-  (defun set-variables-from-table (data)
-    "Takes a list of key bindings and commands (both in string format) and binds them using bind-key
-  "
-    (dolist (row data)
-      (eval (car (read-from-string 
-                  (apply 'format "(setq %s %s)" row))))))
-
-  (defun set-functions-from-table (data)
-    "Takes a list of key bindings and commands (both in string format) and binds them using bind-key
-  "
-    (dolist (row data)
-      (eval (car (read-from-string 
-                  (apply 'format "(%s %s)" row))))))
-
-#+end_src
-
-  #+begin_src emacs-lisp :var table=process-settings-table
-  (set-variables-from-table (org-table-remove-header table))  
-  #+end_src
-
-  #+begin_src emacs-lisp :var table=process-settings-function-table
-  (set-functions-from-table (org-table-remove-header table))
-  #+end_src
-
-** orphans
-:PROPERTIES:
-:tangle: 
-:END:
-
-Miscellaneous settings and snippets that I haven't org-tabled or categorised.
-
-*** yes-or-no
-#+begin_src emacs-lisp
-  (defalias 'yes-or-no-p 'y-or-n-p)
-#+end_src
-
-*** elc deletion
-#+begin_src emacs-lisp
-  (defun dwa/delete-corresponding-elc-file ()
-  "When the current buffer is an elisp source file, delete
-any corresponding compiled .elc file"
-  (when (and (buffer-file-name) 
-             (string-match "\\`\\(.*\\)[.]el\\(?:[.]gz\\)?\\'" (buffer-file-name)))
-    (let ((elc (concat (match-string 1 (buffer-file-name)) ".elc")))
-      (when (file-exists-p elc)
-        (delete-file elc)))))
-
-;; Be sure not to leave around any outdated .elc files
-(add-hook 'before-save-hook 'dwa/delete-corresponding-elc-file)
-#+end_src
-
-** extra bindings
-   :PROPERTIES:
-   :tangle: 
-   :END:
-
-#+name: tob
-| key       | binding                             |
-|-----------+-------------------------------------|
-| C-+       | text-scale-increase                 |
-| C--       | text-scale-decrease                 |
-| C-c C-v k | org-table-recalculate-buffer-tables |
-
-- unit test one row
-  #+begin_src emacs-lisp :var table=tob[2,] :tangle no
-(setq row '("C-c C-v k" "org-table-recalculate-buffer-tables"))
-(eval (car (read-from-string 
-                     (apply 'format "(bind-key %S '%s)" row))))
-#+end_src
-
-  #+RESULTS:
-  : org-table-recalculate-buffer-tables
-
-#+begin_src emacs-lisp :var table=tob
-  (bind-keys-from-table (org-table-remove-header table))  
-#+end_src
-
 ** utility macros and functions
 #+begin_src emacs-lisp
 ;;;_ , Utility macros and functions
@@ -497,6 +420,103 @@ $\\|P.+\\\\\n\\)" nil t)
                  (cleanup-term-log)))))
 
 #+end_src
+** process settings table
+
+#+name: process-settings-table
+| variable                       | value |
+|--------------------------------+-------|
+
+
+#+name: process-settings-function-table
+| function                   | args   |
+|----------------------------+--------|
+
+
+#+begin_src emacs-lisp
+  (defun set-variables-from-table (data)
+    "Takes a list of key bindings and commands (both in string format) and binds them using bind-key
+  "
+    (dolist (row data)
+      (eval (car (read-from-string 
+                  (apply 'format "(setq %s %s)" row))))))
+
+  (defun set-functions-from-table (data)
+    "Takes a list of key bindings and commands (both in string format) and binds them using bind-key
+  "
+    (dolist (row data)
+      (eval (car (read-from-string 
+                  (apply 'format "(%s %s)" row))))))
+
+#+end_src
+
+  #+begin_src emacs-lisp :var table=process-settings-table
+  (set-variables-from-table (org-table-remove-header table))  
+  #+end_src
+
+  #+begin_src emacs-lisp :var table=process-settings-function-table
+  (set-functions-from-table (org-table-remove-header table))
+  #+end_src
+
+** orphans
+
+Miscellaneous settings and snippets that I haven't org-tabled or categorised.
+
+*** yes-or-no
+#+begin_src emacs-lisp
+  (defalias 'yes-or-no-p 'y-or-n-p)
+#+end_src
+
+*** elc deletion
+#+begin_src emacs-lisp
+  (defun dwa/delete-corresponding-elc-file ()
+  "When the current buffer is an elisp source file, delete
+any corresponding compiled .elc file"
+  (when (and (buffer-file-name) 
+             (string-match "\\`\\(.*\\)[.]el\\(?:[.]gz\\)?\\'" (buffer-file-name)))
+    (let ((elc (concat (match-string 1 (buffer-file-name)) ".elc")))
+      (when (file-exists-p elc)
+        (delete-file elc)))))
+
+;; Be sure not to leave around any outdated .elc files
+(add-hook 'before-save-hook 'dwa/delete-corresponding-elc-file)
+#+end_src
+
+*** autofill
+
+#+begin_src emacs-lisp
+(hook-into-modes 'turn-on-auto-fill
+       '(
+         org-mode-hook
+         erc-mode-hook))  
+#+end_src
+
+
+** extra bindings
+   :PROPERTIES:
+   :tangle: 
+   :END:
+
+#+name: tob
+| key       | binding                             |
+|-----------+-------------------------------------|
+| C-+       | text-scale-increase                 |
+| C--       | text-scale-decrease                 |
+| C-c C-v k | org-table-recalculate-buffer-tables |
+
+- unit test one row
+  #+begin_src emacs-lisp :var table=tob[2,] :tangle no
+(setq row '("C-c C-v k" "org-table-recalculate-buffer-tables"))
+(eval (car (read-from-string 
+                     (apply 'format "(bind-key %S '%s)" row))))
+#+end_src
+
+  #+RESULTS:
+  : org-table-recalculate-buffer-tables
+
+#+begin_src emacs-lisp :var table=tob
+  (bind-keys-from-table (org-table-remove-header table))  
+#+end_src
+
 ** enable disabled commands
 #+begin_src emacs-lisp
 ;;;_ , Enable disabled commands
@@ -1324,7 +1344,7 @@ I set this in customization
 #+end_src
 *** allout
 :PROPERTIES:
-:tangle:   yes
+:tangle:   no
 :END:
 #+begin_src emacs-lisp
 ;;;_ , allout
@@ -1460,96 +1480,7 @@ I set this in customization
                                           ("(latex2e)Command Index"))))
   
   
-  (use-package org-latex)
-  (add-to-list 
-   'org-export-latex-classes
-   '("scarce-org-article"
-     "\\documentclass[12pt]{article}
-      % miscellaneous and unknown uses
-      \\usepackage{amssymb}
-      \\usepackage{graphicx}
-      \\usepackage{hyperref} 
-      \\usepackage[parfill]{parskip}
-      \\usepackage{paralist}
-  
-      % font specifications
-      \\usepackage[T1]{fontenc}
-      \\usepackage{fontspec,xunicode}
-      \\defaultfontfeatures{Mapping=tex-text} 
-      \\setromanfont[Mapping=tex-text]{Droid Sans} 
-      \\setsansfont[Scale=MatchLowercase,Mapping=tex-text]{Droid Serif} 
-      \\setmonofont[Scale=MatchLowercase]{Droid Sans Mono}
-  
-      % geometry
-      \\usepackage{geometry}
-      \\geometry{a4paper, textwidth=6.5in, textheight=10in,
-      marginparsep=7pt, marginparwidth=.6in}
-      \\pagestyle{plain}
-      \\title{}
-  
-      % color
-      \\usepackage{color}
-      %\\definecolor{greytext}{rgb}{0.6,0.6,0.6}
-      %\\definecolor{greyline}{rgb}{0.8,0.8,0.8}
-      \\definecolor{greytext}{gray}{0.3}
-      \\definecolor{greyline}{gray}{0.8}
-      
-      \\renewcommand{\\labelitemi}{
-      \\color{greytext}\\scalebox{1}{$-$}}
-
-      % custom maketitle
-      \\makeatletter
-      \\renewcommand{\\@maketitle}{
-      \\null
-      \\vskip 0em%
-      \\begin{flushleft}%
-      {\\fontfamily{\\sfdefault}\\selectfont 
-      {\\LARGE \\@title \\par}%
-      \\vskip 1em
-      {\\Large \\@author \\par}
-      \\vskip 1em
-      {\\@date \\par}
-      }
-      \\end{flushleft}%
-      \\par} 
-      \\makeatother
-
-      % style
-      \\usepackage{enumitem}
-      \\setitemize[0]{leftmargin=*}
-      % \\usepackage[none]{hyphenat}%%%%
-      % \\usepackage[document]{ragged2e}
-
-      \\usepackage{transparent}
-      
-      % a fancy header
-      \\usepackage{fancyhdr}
-      %\\renewcommand{\\headheight}{0.6in}
-      \\setlength{\\headheight}{1.6cm}
-      \\setlength{\\headwidth}{\\textwidth}
-      \\renewcommand{\\headrulewidth}{2pt}
-      \\renewcommand{\\headrule}{\\hbox to\\headwidth{%
-      \\color{greyline}\\leaders\\hrule height \\headrulewidth\\hfill}}
-
-      \\fancypagestyle{plain}{
-      \\fancyhead[R]{}% empty left
-      \\fancyhead[L]{ % right
-      \\includegraphics[height=1cm]{/Users/tonyday/stuff/site/assets/logo-grey.pdf}
-      }
-      \\fancyfoot[C]{}
-      %\\fancyhf{}
-      }
-
-      % end spec lines.  The rest is org generated
-  
-      [NO-DEFAULT-PACKAGES]
-      [NO-PACKAGES]"
-     (" \\section{%s}" . "\\section*{%s}")
-     (" \\subsection{%s}" . "\\subsection*{%s}")
-     (" \\subsubsection{%s}" . "\\subsubsection*{%s}")
-     (" \\paragraph{%s}" . "\\paragraph*{%s}")
-     (" \\subparagraph{%s}" . "\\subparagraph*{%s}")))
-(add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)))
+  ))
   
 
 
@@ -2741,6 +2672,7 @@ FORM => (eval FORM)."
 
 #+begin_src emacs-lisp
 (use-package ess-site
+  :mode ("\\.[rR]\\'" . R-mode)
   :bind ("C-. C-. r" . R))
 ;;(use-package ess-tracebug)
 #+end_src
@@ -2813,6 +2745,23 @@ FORM => (eval FORM)."
 (use-package find-file-in-project
   :bind ("C-x f" . find-file-in-project))
 #+end_src
+
+*** flymake
+:PROPERTIES:
+:tangle:   yes
+:END:
+
+#+begin_src emacs-lisp
+(defadvice flymake-start-syntax-check-process (after
+                                               cheeso-advice-flymake-start-syntax-check-1
+                                               (cmd args dir)
+                                               activate compile)
+  ;; set flag to allow exit without query on any
+  ;;active flymake processes
+  (set-process-query-on-exit-flag ad-return-value nil))
+  
+#+end_src
+
 
 *** flymake-cursor
 :PROPERTIES:
@@ -4156,10 +4105,11 @@ creating structured email messages.
 
 *** graphviz
 :PROPERTIES:
-:tangle:   no
+:tangle:   yes
 :END:
    #+begin_src emacs-lisp 
-   (use-package graphviz-dot-mode)   
+   (use-package graphviz-dot-mode
+    :mode ("\\.dot\\'" . graphviz-dot-mode))   
   #+end_src
 *** grep
     :PROPERTIES:
@@ -4293,10 +4243,6 @@ http://sidhusblog.wordpress.com/2012/11/06/haskell-org/
 #+end_src
 
 *** TODO haskell-latex
-
-
-
-
 
 *** helm
 :PROPERTIES:
@@ -5343,70 +5289,76 @@ http://lucindo.com.br/lisp/milki/markdown.html
   ;;;_ , o-blog
   
   (use-package o-blog
-    :commands (o-blog-publish
-               o-blog-tangle-publish-and-view)
+    :commands (o-blog-tangle
+               o-blog-publish
+               o-blog-view
+               o-blog-local
+               o-blog-produce)
     :config
     (progn
       (defvar o-blog-local-site "~/Sites/dev")
-      (defvar o-blog-out-dir "out")
+      (devvar o-blog-out-dir "~/git/tonyday567.github.com")
       (defvar o-blog-local-url-index "http://127.0.0.1/~tonyday/dev/index.html")
       (defvar github-site-dir "~/git/tonyday567.github.com")
   
+      (defun o-blog-tangle ()
+        (interactive)
+        "tangle style and template files, and convert less style file to css"
+        (org-babel-tangle nil nil "css")
+        (org-babel-tangle nil nil "html")
+        (eshell-command "lessc style/less/scarce.less style/css/scarce.css"))
+    
       (defun o-blog-publish ()
         (interactive)
-        "publish blog locally"
-        (org-publish-blog buffer-file-name)
+        "convert to site pages"
+        (org-publish-blog buffer-file-name))
+  
+      (defun o-blog-local ()
+        (interactive)
+        "publish pages locally"
         (if (file-exists-p o-blog-local-site)
             (delete-directory o-blog-local-site t))
-        (if (file-exists-p (format "%s/%s" default-directory "assets/ico/favicon.ico"))
-           (copy-file (format "%s/%s" default-directory "assets/ico/favicon.ico")
-                      (format "%s%s/%s" default-directory o-blog-out-dir "favicon.ico") t))
         (copy-directory 
-         (format "%s%s" default-directory o-blog-out-dir) o-blog-local-site))
+         (format "%s" o-blog-out-dir) o-blog-local-site))
   
-      (defun o-blog-tangle-publish-and-view ()
+      (defun o-blog-view ()
         (interactive)
-        "tangle template  and style files in current buffer, publish blog locally
-  and view local index.html url"
-        (org-babel-tangle-file buffer-file-name)
-        (o-blog-publish)
+        "view index.html file in browser"
         (browse-url o-blog-local-url-index))
   
-      (defun o-blog-tangle-and-publish ()
+      (defun o-blog-push ()
         (interactive)
-        "tangle template  and style files in current buffer, publish blog locally
-  and view local index.html url"
-        (org-babel-tangle-file buffer-file-name)
-        (o-blog-publish))
-    
-      (defun o-blog-tangle-publish-push ()
-        (interactive)
-        "tangle, publish blog locally, then push to github"
-        (org-babel-tangle-file buffer-file-name)
-        (o-blog-publish)
+        "copy o-blog out directory to repo"
         (copy-directory 
          (format "%s%s" default-directory o-blog-out-dir)
          github-site-dir nil t t))
+    
+      (defun o-blog-produce ()
+        (interactive)
+        "tangle, publish blog locally, then push to local repo"
+        (o-blog-tangle)
+        (o-blog-publish)
+        (o-blog-push))
       
-          (defun ob-get-posts-by-property (BLOG PROP VAL)
-          "Returns a list of valid posts with the property PROP equal to VAL"
-          (with-current-buffer (ob:blog-buffer BLOG)
-            
-            (let ((headings nil))
-              (org-map-entries
-               `(if (string= VAL (org-entry-get (point) PROP))
-                    (setq headings (cons (org-get-heading t t) headings)))
-               t
-               'file)
-              (setq headings (delq nil headings))
-              (ob:get-posts
-               (lambda (x)
-                 (cl-some
-                  (lambda (z)
-                    (string= z (ob:post-title x)))
-                  headings))
-               4))))
-
+      (defun ob-get-posts-by-property (BLOG PROP VAL)
+        "Returns a list of valid posts with the property PROP equal to VAL"
+        (with-current-buffer (ob:blog-buffer BLOG)
+          
+          (let ((headings nil))
+            (org-map-entries
+             `(if (string= VAL (org-entry-get (point) PROP))
+                  (setq headings (cons (org-get-heading t t) headings)))
+             t
+             'file)
+            (setq headings (delq nil headings))
+            (ob:get-posts
+             (lambda (x)
+               (cl-some
+                (lambda (z)
+                  (string= z (ob:post-title x)))
+                headings))
+             4))))
+  
       
       (defun ob-get-post-by-title (POSTS TITLE)
         "Returns a valid post with the title TITLE or null"
@@ -5417,10 +5369,12 @@ http://lucindo.com.br/lisp/milki/markdown.html
           (car POST-LIST))))
     
     
-    :bind (("C-c C-v ," . o-blog-publish)
-           ("C-c C-v ." . o-blog-tangle-publish-and-view)
-           ("C-c C-v /" . o-blog-tangle-and-publish)
-           ("C-c C-v SPC" . o-blog-tangle-publish-push)))
+    :bind (("C-c c t" . o-blog-tangle)
+           ("C-c c p" . o-blog-publish)
+           ("C-c c l" . o-blog-local)
+           ("C-c c v" . o-blog-view)
+           ("C-c c u" . o-blog-push)
+           ("C-c c ." . o-blog-produce)))
 #+end_src
 
 #+results:
@@ -5730,11 +5684,11 @@ quickly changing ordering.
 
 ***** org-latex
 #+begin_src emacs-lisp
-(use-package org-latex
+(use-package ox-latex
 :config
   (progn
   (add-to-list 
-   'org-export-latex-classes
+   'org-latex-classes
    '("scarce-org-article"
      "\\documentclass[12pt]{article}
       % miscellaneous and unknown uses
@@ -5824,8 +5778,7 @@ quickly changing ordering.
   
 #+end_src
 
-**** TODO org bindings
-- [ ] also general keybindings lloking for cool commandsnil (2013-03-19): 
+**** org bindings
 
 shoving the binds in binds so I can see where everything is
 

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: resg
+# --
+  
+:results graphics :file charts/$0

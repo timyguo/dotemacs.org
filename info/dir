@@ -11,7 +11,7 @@ File: dir,	Node: Top	This is the top of the INFO tree
 * Menu:
 
 Stuff
-* org: (/Users/tonyday/.emacs.d/site-lisp/org-mode/doc/org). Org
+* org: (/Users/tonyday/.emacs.d/site-lisp/org-mode/org). Org
 * magit: (/Users/tonyday/.emacs.d/elpa/magit-1.1.1/magit).    Magit
 * elisp: (/Users/tonyday/Downloads/elisp.info/elisp).    elisp
 * cedet: (/Users/tonyday/.emacs.d/site-lisp/cedet/doc/info/dir). cedet

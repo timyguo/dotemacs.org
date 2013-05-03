@@ -12,5 +12,6 @@
 "Name of the org file containing the main startup code")
 (if (boundp 'tangled-in)
    (setq dotemacs-org-file tangled-in))
+(require 'org-loaddefs)
 (org-babel-load-file (expand-file-name dotemacs-org-file user-emacs-directory))
 )
